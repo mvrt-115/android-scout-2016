@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary_default">#673ab7</color>
+    <color name="primary_dark">#512da8</color>
+    <color name="primary_light">#9575cd</color>
+    <color name="primary_background">#d1c4e9</color>
+    <color name="secondary_background">#F5F5F5</color>
+
+    <color name="accent_default">#ffc400</color>
+    <color name="accent_dark">#ffab00</color>
+    <color name="accent_light">#ffe57f</color>
+
+    <color name="text_primary_dark">#424242</color>
+    <color name="text_secondary_dark">#757575</color>
+    <color name="text_primary_light">#f5f5f5</color>
+</resources>
