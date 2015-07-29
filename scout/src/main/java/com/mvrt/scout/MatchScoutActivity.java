@@ -8,11 +8,11 @@ import android.view.MenuItem;
 
 public class MatchScoutActivity extends ActionBarActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match_scout);
-
         loadIntentData();
     }
 
@@ -37,6 +37,7 @@ public class MatchScoutActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 
     int team;
     String matchKey;
