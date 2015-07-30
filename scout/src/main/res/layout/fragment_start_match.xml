@@ -51,6 +51,7 @@
                 android:layout_weight="1"
                 android:layout_height="60dp"
                 android:id="@+id/startmatch_qrbutton"
+                android:onClick="scanQR"
                 android:text="Scan QR"/>
             <Button
                 android:layout_width="0dp"
