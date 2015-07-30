@@ -1,9 +1,11 @@
 package com.mvrt.scout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
 public class MatchScoutActivity extends ActionBarActivity {
@@ -44,6 +46,8 @@ public class MatchScoutActivity extends ActionBarActivity {
     char alliance;
 
     public void loadIntentData(){
+        String data = getIntent().getStringExtra("SCAN_RESULT");
+        Toast.makeText(this, "Result: " + data, Toast.LENGTH_LONG).show();
         team = getIntent().getIntExtra("com.mvrt.scout.team", 0);
         matchKey = getIntent().getStringExtra("com.mvrt.scout.matchkey");
         alliance = getIntent().getCharExtra("com.mvrt.scout.alliance", 'g');

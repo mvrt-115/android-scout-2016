@@ -51,8 +51,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == 0){
             if(resultCode == RESULT_OK){
-                String result = data.getStringExtra("SCAN_RESULT");
-                Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+                startActivity(data.setClass(this, MatchScoutActivity.class));
             }
         }
     }
