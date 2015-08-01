@@ -1,58 +1,87 @@
 package com.mvrt.scout;
 
 import android.app.Fragment;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.Toast;
+import android.view.MenuItem;
+import android.widget.FrameLayout;
 
-import com.mvrt.mvrtlib.nav.drawer.DrawerFragment;
-import com.mvrt.mvrtlib.nav.drawer.NavDrawer;
+import com.mvrt.mvrtlib.util.MatchInfo;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    DrawerLayout drawerLayout;
+    NavigationView navView;
+    FrameLayout contentView;
 
-    NavDrawer navDrawer;
+    Toolbar toolbar;
+
     StartMatchFragment startMatchFragment;
+    SettingsFragment settingsFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.activity_main);
+
         startMatchFragment = new StartMatchFragment();
+        settingsFragment = new SettingsFragment();
 
-        navDrawer = new NavDrawer(this, startMatchFragment);
-
-        setContentView(navDrawer.getParentView());
-
-        Toolbar toolbar = (Toolbar)findViewById(R.id.app_toolbar);
+        toolbar = (Toolbar)findViewById(R.id.mainactivity_toolbar);
         setSupportActionBar(toolbar);
 
-        navDrawer.setupToggle(toolbar);
+        setupNavDrawer();
     }
 
-    public void scanQR(View view){
-        try {
-            Intent intent = new Intent("com.google.zxing.client.android.SCAN");
-            intent.putExtra("SCAN_MODE", "QR_CODE_MODE"); // "PRODUCT_MODE for bar codes
-            startActivityForResult(intent, 0);
-        } catch (Exception e) {
-            Uri marketUri = Uri.parse("market://details?id=com.google.zxing.client.android");
-            Intent marketIntent = new Intent(Intent.ACTION_VIEW,marketUri);
-            startActivity(marketIntent);
-        }
+    private void setupNavDrawer(){
+        contentView = (FrameLayout)findViewById(R.id.mainactivity_framelayout);
+        drawerLayout = (DrawerLayout)findViewById(R.id.mainactivity_drawerlayout);
+        navView = (NavigationView)findViewById(R.id.mainactivity_navview);
+        navView.setNavigationItemSelectedListener(this);
+
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
+        drawerLayout.setDrawerListener(drawerToggle);
+        drawerToggle.syncState();
+
+        setVisibleFragment(startMatchFragment);
+
+    }
+
+
+    public void startScouting(MatchInfo match){
+        Intent i = new Intent(this, MatchScoutActivity.class);
+
+        //startActivity(data.setClass(this, MatchScoutActivity.class));
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 0){
-            if(resultCode == RESULT_OK){
-                startActivity(data.setClass(this, MatchScoutActivity.class));
-            }
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
+        menuItem.setChecked(true);
+        switch (menuItem.getItemId()){
+            case R.id.draweritem_start_scouting:
+                setVisibleFragment(startMatchFragment);
+                break;
+            case R.id.draweritem_settings:
+                setVisibleFragment(settingsFragment);
+                break;
+            default:
+                setVisibleFragment(startMatchFragment);
         }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
     }
+
+    private void setVisibleFragment(Fragment newFrag){
+        getFragmentManager().beginTransaction().
+                replace(R.id.mainactivity_framelayout, newFrag).commit();
+    }
+
 }

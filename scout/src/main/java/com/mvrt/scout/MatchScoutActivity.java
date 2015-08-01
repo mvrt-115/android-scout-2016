@@ -1,11 +1,11 @@
 package com.mvrt.scout;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.mvrt.mvrtlib.util.Constants;
+import com.mvrt.mvrtlib.util.MatchInfo;
 
 
 public class MatchScoutActivity extends ActionBarActivity {
@@ -18,39 +18,14 @@ public class MatchScoutActivity extends ActionBarActivity {
         loadIntentData();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_match_scout, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
     int team;
     String matchKey;
     char alliance;
 
     public void loadIntentData(){
-        String data = getIntent().getStringExtra("SCAN_RESULT");
-        Toast.makeText(this, "Result: " + data, Toast.LENGTH_LONG).show();
-        team = getIntent().getIntExtra("com.mvrt.scout.team", 0);
-        matchKey = getIntent().getStringExtra("com.mvrt.scout.matchkey");
-        alliance = getIntent().getCharExtra("com.mvrt.scout.alliance", 'g');
+        MatchInfo info = (MatchInfo)getIntent().getSerializableExtra(Constants.INTENT_EXTRA_MATCHINFO);
+        Toast.makeText(this, "Result: " + info, Toast.LENGTH_LONG).show();
+
     }
 
 }

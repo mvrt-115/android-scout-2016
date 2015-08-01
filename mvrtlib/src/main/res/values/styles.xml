@@ -4,8 +4,7 @@
     <style name="AppTheme" parent="AppBase"></style>
 
     <!-- Base application theme. -->
-    <style name="AppBase" parent="Theme.AppCompat.Light">
-        <item name="windowActionBar">false</item>
+    <style name="AppBase" parent="Theme.AppCompat.Light.NoActionBar">
 
         <item name="colorPrimary">@color/primary_default</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
@@ -17,10 +16,16 @@
         <item name="android:textColorSecondary">@color/text_secondary_dark</item>
 
         <item name="colorSwitchThumbNormal">@color/accent_default</item>
+
     </style>
 
     <style name="Toolbar" parent="ThemeOverlay.AppCompat.ActionBar">
         <item name="android:textColorPrimary">@color/text_primary_light</item>
+    </style>
+
+    <style name="MVRTButtonStyle" parent="@android:style/Widget.Button">
+        <item name="colorButtonNormal">@color/primary_default</item>
+        <item name="android:textColor">@color/text_primary_light</item>
     </style>
 
 </resources>

@@ -1,43 +1,82 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="com.mvrt.scout.StartMatchFragment">
-
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.mvrt.scout.StartMatchFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center_horizontal">
 
-        <EditText
-            android:layout_width="fill_parent"
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Match Number"
-            android:id="@+id/startmatch_matchno"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_margin="20dp"
+            android:text="Start Scouting!"
+            android:textSize="10pt"/>
 
-        <EditText
-            android:layout_width="fill_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Team"
-            android:id="@+id/startmatch_team"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
-            android:singleLine="true"
-            android:inputType="number"/>
+            android:orientation="horizontal">
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/startmatch_matchtype"
+                android:layout_weight="1"></Spinner>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="2">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/startmatch_matchno"
+                    android:hint="Match Number"
+                    android:inputType="number"
+                    android:singleLine="true"/>
+            </android.support.design.widget.TextInputLayout>
 
-        <Button
-            android:layout_width="fill_parent"
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Start Scouting"
-            android:id="@+id/startmatch_startbutton"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"/>
+            android:orientation="horizontal">
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/startmatch_alliance"
+                android:layout_weight="1"></Spinner>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/startmatch_team"
+                    android:hint="Team"
+                    android:singleLine="true"
+                    android:inputType="number"/>
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
 
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="- OR - "/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -45,23 +84,35 @@
             android:orientation="horizontal"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
+            android:layout_marginTop="15dp"
             android:gravity="center">
-            <Button
+            <ImageButton
                 android:layout_width="0dp"
+                android:layout_height="80dp"
                 android:layout_weight="1"
-                android:layout_height="60dp"
+                android:theme="@style/MVRTButtonStyle"
                 android:id="@+id/startmatch_qrbutton"
-                android:onClick="scanQR"
-                android:text="Scan QR"/>
-            <Button
+                android:src="@drawable/qrcode"
+                android:elevation="4dp"/>
+            <ImageButton
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="60dp"
+                android:layout_height="80dp"
+                android:theme="@style/MVRTButtonStyle"
                 android:id="@+id/startmatch_btbutton"
-                android:text="Use Bluetooth"/>
+                android:src="@drawable/bluetooth"
+                android:elevation="4dp"/>
         </LinearLayout>
-
 
     </LinearLayout>
 
-</FrameLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:layout_gravity="bottom|end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/startmatch_fab_start"
+        android:layout_margin="16dp"
+        android:src="@drawable/play"
+        app:elevation="8dp"/>
+
+</android.support.design.widget.CoordinatorLayout>
