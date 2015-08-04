@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.MatchInfo;
@@ -64,7 +63,6 @@ public class StartMatchFragment extends Fragment implements View.OnClickListener
     }
 
     public void startManual(){
-
         char alliance = Constants.ALLIANCE_BLUE;
         if(this.alliance.getSelectedItem().equals("Red Alliance"))alliance = Constants.ALLIANCE_RED;
 
@@ -80,8 +78,7 @@ public class StartMatchFragment extends Fragment implements View.OnClickListener
 
         String tourn = getActivity().getPreferences(Activity.MODE_PRIVATE).getString(Constants.PREFS_TOURNAMENT_KEY, Constants.PREFS_TOURNAMENT_DEFAULT);
 
-        MatchInfo info = new MatchInfo(match, tourn, alliance, team);
-        startScouting(info);
+        ((MainActivity)getActivity()).startScouting(new MatchInfo(match, tourn, alliance, team));
     }
 
     public void scanQR(){
@@ -100,27 +97,11 @@ public class StartMatchFragment extends Fragment implements View.OnClickListener
         if(requestCode == Constants.REQUEST_QR_SCAN){
             if(resultCode == Activity.RESULT_OK){
                 String result = data.getStringExtra(Constants.INTENT_QR_SCANRESULT_KEY);
-                MatchInfo info = MatchInfo.parse(result);
-                startScouting(info);
-            } else snackBar("Error getting QR data", Snackbar.LENGTH_LONG);
+                ((MainActivity)getActivity()).startScouting(MatchInfo.parse(result));
+            } else ((MainActivity)getActivity()).snackBar("Error getting QR data", Snackbar.LENGTH_LONG);
         }
     }
 
-    public void startScouting(MatchInfo info){
-        if(info == null){
-            snackBar("QR data not properly formatted", Snackbar.LENGTH_LONG);
-            return;
-        }
-        Intent i = new Intent(getActivity(), MatchScoutActivity.class);
-        i.putExtra(Constants.INTENT_EXTRA_MATCHINFO, info);
-        startActivity(i);
-    }
-
-    private void snackBar(String text, int length){
-        Snackbar b = Snackbar.make(getView(), text, length);
-        ((TextView)b.getView().findViewById(android.support.design.R.id.snackbar_text)).setTextColor(getResources().getColor(R.color.text_primary_light));
-        b.show();
-    }
 
 
 }

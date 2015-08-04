@@ -23,6 +23,11 @@
         <item name="android:textColorPrimary">@color/text_primary_light</item>
     </style>
 
+    <style name="Tabs" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:textColorPrimary">@color/text_primary_light</item>
+        <item name="android:textColorSecondary">@color/text_secondary_light</item>
+    </style>
+
     <style name="MVRTButtonStyle" parent="@android:style/Widget.Button">
         <item name="colorButtonNormal">@color/primary_default</item>
         <item name="android:textColor">@color/text_primary_light</item>

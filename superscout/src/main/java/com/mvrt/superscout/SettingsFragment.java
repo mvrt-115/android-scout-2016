@@ -1,4 +1,4 @@
-package com.mvrt.scout;
+package com.mvrt.superscout;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -18,8 +18,11 @@ import com.mvrt.mvrtlib.util.Constants;
 public class SettingsFragment extends Fragment implements View.OnClickListener {
 
     EditText tournamentText;
-    Spinner scoutID;
+    Spinner alliance;
     SharedPreferences prefs;
+
+    private static final int POS_ALLIANCE_BLUE = 1;
+    private static final int POS_ALLIANCE_RED = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -31,12 +34,15 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
         prefs = getActivity().getPreferences(Activity.MODE_PRIVATE);
 
-        tournamentText = (EditText)getView().findViewById(R.id.settings_tournament);
-        scoutID = (Spinner)getView().findViewById(R.id.settings_scoutid);
+        tournamentText = (EditText)view.findViewById(R.id.settings_tournament);
+        alliance = (Spinner)view.findViewById(R.id.settings_alliance);
 
-        CharSequence[] idArray = {"1", "2",  "3"};
-        ArrayAdapter<CharSequence> ids = new ArrayAdapter<CharSequence>(getActivity(), android.R.layout.simple_spinner_dropdown_item, idArray);
-        scoutID.setAdapter(ids);
+        CharSequence[] allianceArray = new CharSequence[2];
+        allianceArray[POS_ALLIANCE_BLUE] = "Blue Alliance";
+        allianceArray[POS_ALLIANCE_RED] = "Red Alliance";
+
+        ArrayAdapter<CharSequence> alliances = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, allianceArray);
+        alliance.setAdapter(alliances);
 
         FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.settings_save);
         fab.setOnClickListener(this);
@@ -61,8 +67,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         String tournament = prefs.getString(Constants.PREFS_TOURNAMENT_KEY, Constants.PREFS_TOURNAMENT_DEFAULT);
         tournamentText.setText(tournament);
 
-        int scoutid = prefs.getInt(Constants.PREFS_SCOUTID_KEY, 0);
-        scoutID.setSelection(scoutid);
+        char alliance = (char)prefs.getInt(Constants.PREFS_ALLIANCE_KEY, (int)Constants.ALLIANCE_BLUE);
+        int index = (alliance == Constants.ALLIANCE_BLUE)?POS_ALLIANCE_BLUE:POS_ALLIANCE_RED;
+        this.alliance.setSelection(index);
     }
 
     public void saveSettings(){
@@ -71,10 +78,12 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
             tournamentText.setError("Please Enter a Tournament Code");
             return;
         }else tournamentText.setError(null);
-        int scoutid = scoutID.getSelectedItemPosition(); //ID IS 0,1,2
+
+        char al = (alliance.getSelectedItemPosition() == POS_ALLIANCE_BLUE)?Constants.ALLIANCE_BLUE:Constants.ALLIANCE_RED;
+
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(Constants.PREFS_TOURNAMENT_KEY, tournament);
-        editor.putInt(Constants.PREFS_SCOUTID_KEY, scoutid);
+        editor.putInt(Constants.PREFS_ALLIANCE_KEY, al);
         editor.commit();
         ((MainActivity)getActivity()).snackBar("Settings saved", Snackbar.LENGTH_SHORT);
     }
