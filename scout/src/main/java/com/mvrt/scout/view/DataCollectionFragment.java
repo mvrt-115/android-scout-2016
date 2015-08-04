@@ -11,6 +11,7 @@ import org.json.JSONObject;
 public abstract class DataCollectionFragment extends Fragment {
 
     public abstract JSONObject getData();
-    public abstract boolean validate();
+    public abstract void validate();
+    public abstract String getTitle();
 
 }
