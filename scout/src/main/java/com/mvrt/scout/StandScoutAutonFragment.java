@@ -132,13 +132,17 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements C
     }
 
     @Override
-    public void validate() {
+    public boolean validate() {
+
+        // Track value so that errors are still run
+        boolean completed = true;
 
         // Check so that 0 cannot be entered
         if (binsFromStep.isChecked()) {
             String number = numberBinsFromStep.getText().toString();
             if (number.length() == 0) {
                 numberBinsFromStep.setError("Enter a valid number of totes");
+                completed = false;
             }
         }
 
@@ -147,13 +151,17 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements C
             String number = numberYellowTotes.getText().toString();
             if (number.length() == 0) {
                 numberYellowTotes.setError("Enter a valid number of totes");
+                completed = false;
             }
         }
 
         // Might have to rewrite, not sure if this works
         if (startingPos.getCheckedRadioButtonId() == -1) {
             startStaging.setError("Select a Starting Position");
+            completed = false;
         }
+
+        return completed;
 
     }
 
