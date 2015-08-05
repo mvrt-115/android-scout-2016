@@ -40,7 +40,6 @@ public class MatchInfoFragment extends Fragment{
 
         TextView key = (TextView)v.findViewById(R.id.matchinfo_key);
         key.setText(matchInfo.toString());
-
     }
 
 }

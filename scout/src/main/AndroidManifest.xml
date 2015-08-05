@@ -27,6 +27,15 @@
                 android:value="com.mvrt.scout.MainActivity" />
         </activity>
 
+        <activity
+            android:name=".MatchScoutingDataActivity"
+            android:label="@string/title_activity_match_data"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mvrt.scout.MainActivity" />
+        </activity>
+
     </application>
 
 </manifest>

@@ -66,6 +66,7 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         startActivity(i);
     }
 
+
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
         menuItem.setChecked(true);
