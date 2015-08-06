@@ -1,5 +1,6 @@
 package com.mvrt.scout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -24,6 +25,7 @@ public class MatchScoutActivity extends ActionBarActivity {
         loadFragments();
     }
 
+
     public void loadIntentData(){
         matchInfo = (MatchInfo)getIntent().getSerializableExtra(Constants.INTENT_EXTRA_MATCHINFO);
     }
@@ -47,6 +49,12 @@ public class MatchScoutActivity extends ActionBarActivity {
         tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(f, "Match Info"));
 
         tabs.setupWithViewPager(pager);
+    }
+
+    public void stop(){
+        Intent i = new Intent(this, MatchScoutingDataActivity.class);
+        startActivity(i);
+        finish();
     }
 
 }

@@ -58,6 +58,7 @@ public class StartMatchFragment extends Fragment implements View.OnClickListener
                 break;
             case R.id.startmatch_fab_start:
                 startManual();
+
                 break;
         }
     }
