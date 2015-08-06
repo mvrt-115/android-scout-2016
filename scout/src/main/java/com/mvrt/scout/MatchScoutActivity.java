@@ -51,10 +51,10 @@ public class MatchScoutActivity extends ActionBarActivity {
         tabs.setupWithViewPager(pager);
     }
 
-    @Override
-    public void finish() {
-        super.finish();
+    public void stop(){
         Intent i = new Intent(this, MatchScoutingDataActivity.class);
         startActivity(i);
+        finish();
     }
+
 }

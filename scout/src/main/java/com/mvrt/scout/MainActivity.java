@@ -81,10 +81,6 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
             case R.id.draweritem_settings:
                 setVisibleFragment(settingsFragment);
                 break;
-            case R.id.draweritem_viewdata:
-                Intent i = new Intent(this, MatchScoutingDataActivity.class);
-                startActivity(i);
-                break;
             default:
                 setVisibleFragment(startMatchFragment);
         }

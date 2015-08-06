@@ -8,8 +8,5 @@
         <item
             android:id="@+id/draweritem_settings"
             android:title="Settings"/>
-        <item
-            android:id="@+id/draweritem_viewdata"
-            android:title="View Data"/>
     </group>
 </menu>
