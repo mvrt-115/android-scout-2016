@@ -27,7 +27,6 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
     Toolbar toolbar;
 
     StartMatchFragment startMatchFragment;
-    MatchDataFragment dataFragment;
     SettingsFragment settingsFragment;
 
 
