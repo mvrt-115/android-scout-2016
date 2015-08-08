@@ -1,10 +1,18 @@
 package com.mvrt.superscout;
 
+import android.app.PendingIntent;
+import android.content.IntentFilter;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
+import android.nfc.NfcEvent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.FragmentPagerAdapter;
@@ -17,6 +25,8 @@ public class MatchScoutActivity extends ActionBarActivity {
 
     MatchInfo matchInfo;
 
+    NfcAdapter nfcAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +34,7 @@ public class MatchScoutActivity extends ActionBarActivity {
         loadIntentData();
         loadUI();
         loadFragments();
+        initNFC();
     }
 
 
@@ -51,6 +62,24 @@ public class MatchScoutActivity extends ActionBarActivity {
 
         tabs.setupWithViewPager(pager);
     }
+
+    public void initNFC(){
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        if(nfcAdapter == null){
+            Toast.makeText(this, "NFC not available", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        nfcAdapter.setNdefPushMessage(new NdefMessage(
+                NdefRecord.createExternal(
+                        "mvrt.com",          // your domain name
+                        "matchinfo",  // your type name
+                        matchInfo.toString().getBytes()),// payload
+                NdefRecord.createApplicationRecord("com.mvrt.scout")
+            ), this);
+    }
+
 
 
 

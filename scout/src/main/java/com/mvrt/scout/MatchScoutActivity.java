@@ -1,11 +1,15 @@
 package com.mvrt.scout;
 
 import android.content.Intent;
+import android.nfc.NdefMessage;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.FragmentPagerAdapter;
@@ -24,6 +28,7 @@ public class MatchScoutActivity extends ActionBarActivity {
         loadUI();
         loadFragments();
     }
+
 
 
     public void loadIntentData(){
