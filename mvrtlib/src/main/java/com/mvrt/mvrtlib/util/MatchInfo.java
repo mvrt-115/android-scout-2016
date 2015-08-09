@@ -1,5 +1,6 @@
 package com.mvrt.mvrtlib.util;
 
+
 import com.mvrt.mvrtlib.R;
 
 import java.io.Serializable;
@@ -36,7 +37,7 @@ public class MatchInfo implements Serializable {
         //format is MATCH@TOURN:ALLIANCE[TEAM,TEAM,TEAM]
         String[] split = data.toLowerCase().split("@|:|,|\\[|\\]");
 
-        if(split.length < 4)return null;
+        if(split.length < 4) return null;
 
         String matchNo = split[0];
         String tournament = split[1].toUpperCase();

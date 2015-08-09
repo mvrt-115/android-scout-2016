@@ -6,10 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
-import android.nfc.NfcEvent;
-import android.nfc.NfcManager;
-import android.nfc.Tag;
-import android.nfc.tech.NfcF;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.NavigationView;
@@ -24,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.MatchInfo;
@@ -41,7 +36,6 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
     SettingsFragment settingsFragment;
 
     IntentFilter[] intentFilters;
-    String[][] techLists;
     NfcAdapter nfcAdapter;
     PendingIntent pendingIntent;
 
@@ -62,17 +56,22 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onPause() {
+        nfcAdapter.disableForegroundDispatch(this);
+        super.onPause();
+    }
 
+    @Override
+    protected void onResume() {
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
             processIntent(getIntent());
         }
+
+        nfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFilters, null);
+        super.onResume();
     }
 
     public void onNewIntent(Intent intent) {
-
-        Log.d("com.mvrt.scout", "intent from nfc");
         setIntent(intent);
     }
 
@@ -107,8 +106,21 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         }
 
         pendingIntent = PendingIntent.getActivity(this, 0,
-                        new Intent(this, MatchScoutActivity.class)
-                                .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+                        new Intent(this, MainActivity.class)
+                                .addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING), 0);
+
+        IntentFilter ndef = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
+        try {
+            ndef.addDataScheme("vnd.android.nfc");
+            ndef.addDataPath("/mvrt.com:matchinfo", 0);
+            ndef.addDataAuthority("ext", null);
+        } catch (Exception e) {
+            throw new RuntimeException("fail", e);
+        }
+        intentFilters = new IntentFilter[] {
+                ndef,
+        };
+
     }
 
     public void startScouting(MatchInfo match){

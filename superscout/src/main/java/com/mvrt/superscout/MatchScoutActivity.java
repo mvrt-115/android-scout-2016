@@ -73,10 +73,9 @@ public class MatchScoutActivity extends ActionBarActivity {
 
         nfcAdapter.setNdefPushMessage(new NdefMessage(
                 NdefRecord.createExternal(
-                        "mvrt.com",          // your domain name
-                        "matchinfo",  // your type name
-                        matchInfo.toString().getBytes()),// payload
-                NdefRecord.createApplicationRecord("com.mvrt.scout")
+                        "mvrt.com",
+                        "matchinfo",
+                        matchInfo.toString().getBytes())
             ), this);
     }
 

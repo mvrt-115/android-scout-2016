@@ -27,6 +27,7 @@ public class MatchInfoFragment extends Fragment{
     public void loadData(View v){
         matchInfo = (MatchInfo)getArguments().getSerializable(Constants.INTENT_EXTRA_MATCHINFO);
 
+
         TextView alliance = (TextView)v.findViewById(R.id.matchinfo_alliance);
         String allianceString = matchInfo.getAllianceString();
         alliance.setText(matchInfo.getAllianceString());
