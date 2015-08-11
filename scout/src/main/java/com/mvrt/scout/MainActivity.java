@@ -110,13 +110,9 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
                                 .addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING), 0);
 
         IntentFilter ndef = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
-        try {
-            ndef.addDataScheme("vnd.android.nfc");
-            ndef.addDataPath("/mvrt.com:matchinfo", 0);
-            ndef.addDataAuthority("ext", null);
-        } catch (Exception e) {
-            throw new RuntimeException("fail", e);
-        }
+        ndef.addDataScheme("vnd.android.nfc");
+        ndef.addDataPath("/mvrt.com:matchinfo", 0);
+        ndef.addDataAuthority("ext", null);
         intentFilters = new IntentFilter[] {
                 ndef,
         };

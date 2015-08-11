@@ -27,6 +27,7 @@ public class MatchScoutActivity extends ActionBarActivity {
         loadIntentData();
         loadUI();
         loadFragments();
+        stop();
     }
 
 
