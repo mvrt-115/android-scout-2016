@@ -157,7 +157,7 @@
                 android:padding="5dp"
                 android:text="Finish"
                 android:id="@+id/standscout_postgame_finish"
-                style="@style/mvrt_button"/>
+                style="@style/MVRTButtonStyle"/>
 
         </LinearLayout>
     </ScrollView>

@@ -225,7 +225,7 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
             obj.put("Cans Flipped", cansFlipped);
             obj.put("Noodles In Bin", noodlesInBin);
             obj.put("Landfill Noodles", noodlesInLandfil);
-            obj.put("Disables", disabled.isChecked());
+            obj.put("Disabled", disabled.isChecked());
         }catch(Exception e){
             Log.e("MVRT", "JSON Errors");
         }
