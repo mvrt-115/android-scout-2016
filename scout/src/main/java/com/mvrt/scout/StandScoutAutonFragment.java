@@ -93,25 +93,13 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements C
 
         // Get bins from Step including numbers
         int bins_from_step = 0;
-        if (binsFromStep.isChecked()) {
-            String number = numberBinsFromStep.getText().toString();
-            if (number.length() == 0) {
-                numberBinsFromStep.setError("Enter a valid number");
-                return null;
-            }
-            bins_from_step = Integer.parseInt(number);
-        }
+        String numberStep = numberBinsFromStep.getText().toString();
+        bins_from_step = Integer.parseInt(numberStep);
 
         // Get yellow totes including numbers
         int yellow_totes = 0;
-        if (yellowTotes.isChecked()) {
-            String number = numberYellowTotes.getText().toString();
-            if (number.length() == 0) {
-                numberYellowTotes.setError("Enter a valid number");
-                return null;
-            }
-            yellow_totes = Integer.parseInt(number);
-        }
+        String numberYellow = numberYellowTotes.getText().toString();
+        yellow_totes = Integer.parseInt(numberYellow);
 
         // Create JSONObject and send data with try Catch
         JSONObject data = new JSONObject();
