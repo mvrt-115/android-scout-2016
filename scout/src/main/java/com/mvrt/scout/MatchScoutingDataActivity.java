@@ -33,6 +33,11 @@ public class MatchScoutingDataActivity extends ActionBarActivity{
         initNFC();
     }
 
+    /* Don't exit when the back button is pressed */
+    @Override
+    public void onBackPressed() {}
+
+
     public void loadUI(){
         Toolbar t = (Toolbar)findViewById(R.id.matchdata_toolbar);
         setSupportActionBar(t);
@@ -67,10 +72,6 @@ public class MatchScoutingDataActivity extends ActionBarActivity{
                         "matchdata",
                         "Match Data".getBytes())
         ), this);
-
-
-
-
 
     }
 

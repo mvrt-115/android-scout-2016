@@ -1,47 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:gravity="center">
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:textSize="10pt"
-        android:id="@+id/match_data"
-        android:text="Data Here lol."/>
-
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:fitsSystemWindows="true">
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="50dp"
+        android:orientation="vertical"
         android:gravity="center">
 
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_weight="1"
-            android:theme="@style/MVRTButtonStyle"
-            android:id="@+id/start_ble"
-            android:text="BLE"
-            android:elevation="4dp"/>
 
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_weight="1"
-            android:theme="@style/MVRTButtonStyle"
-            android:id="@+id/finish_scouting"
-            android:text="Finish"
-            android:elevation="4dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:textSize="10pt"
+            android:id="@+id/match_data"
+            android:text="Data Here lol."/>
+
+        <ImageView
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="300dp"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:id="@+id/matchdata_qr"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:theme="@style/MVRTButtonStyle"
+                android:id="@+id/start_ble"
+                android:text="BLE"
+                android:elevation="4dp"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:theme="@style/MVRTButtonStyle"
+                android:id="@+id/finish_scouting"
+                android:text="Finish"
+                android:elevation="4dp"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</ScrollView>
