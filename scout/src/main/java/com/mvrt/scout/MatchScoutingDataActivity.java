@@ -62,7 +62,6 @@ public class MatchScoutingDataActivity extends ActionBarActivity{
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if(nfcAdapter == null){
             Toast.makeText(this, "NFC not available", Toast.LENGTH_LONG).show();
-            finish();
             return;
         }
 

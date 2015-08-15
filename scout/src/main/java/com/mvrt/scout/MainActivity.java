@@ -101,7 +101,6 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if(nfcAdapter == null){
             snackBar("NFC not available", Snackbar.LENGTH_SHORT);
-            finish();
             return;
         }
 
