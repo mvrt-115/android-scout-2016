@@ -33,17 +33,19 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="17sp"
                     android:text="Coopertition"/>
-                <RatingBar
+
+                <RatingBar android:id="@+id/postgame_cooprating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:numStars="5"
-                    android:stepSize="1"
-                    android:id="@+id/standscout_postgame_cooprating"/>
+                    android:stepSize="1" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -51,19 +53,21 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:textSize="17sp"
                     android:text="Stacking"
                     android:layout_weight="1" />
-                <RatingBar
+
+                <RatingBar android:id="@+id/postgame_stackrating"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:numStars="5"
                     android:stepSize="1"
-                    android:id="@+id/standscout_postgame_stackrating"
                     android:layout_weight="1" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -71,17 +75,19 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="17sp"
                     android:text="Capping Stacks"/>
-                <RatingBar
+
+                <RatingBar android:id="@+id/postgame_caprating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:numStars="5"
-                    android:stepSize="1"
-                    android:id="@+id/standscout_postgame_caprating"/>
+                    android:stepSize="1" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -89,20 +95,22 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="17sp"
                     android:text="Intake"/>
-                <RatingBar
+
+                <RatingBar android:id="@+id/postgame_intakerating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:numStars="5"
-                    android:stepSize="1"
-                    android:id="@+id/standscout_postgame_intakerating"/>
+                    android:stepSize="1" />
+
             </LinearLayout>
 
-            <LinearLayout
+            <LinearLayout android:id="@+id/postgame_litterrating"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -116,21 +124,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:numStars="5"
-                    android:stepSize="1"
-                    android:id="@+id/standscout_postgame_litterrating"/>
+                    android:stepSize="1" />
             </LinearLayout>
 
-            <CheckBox
+            <CheckBox android:id="@+id/postgame_tippy"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Were they tippy?"
-                android:id="@+id/standscout_postgame_tippy"/>
+                android:text="Were they tippy?" />
 
-            <CheckBox
+            <CheckBox android:id="@+id/postgame_interfere"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Did they interfere with other robots?"
-                android:id="@+id/standscout_postgame_interfere"/>
+                android:text="Did they interfere with other robots?" />
 
             <TextView
                 android:layout_width="fill_parent"
@@ -140,23 +145,21 @@
                 android:textSize="18sp"
                 android:gravity="center"/>
 
-            <EditText
+            <EditText android:id="@+id/postgame_comments"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Additional Comments"
                 android:background="@color/yellowtext_primary_light"
-                android:id="@+id/standscout_postgame_comments"
                 android:padding="5dp"
                 android:inputType="textMultiLine"/>
 
-            <Button
+            <Button android:id="@+id/postgame_finish"
                 android:layout_gravity="bottom|right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:padding="5dp"
                 android:text="Finish"
-                android:id="@+id/standscout_postgame_finish"
                 style="@style/MVRTButtonStyle"/>
 
         </LinearLayout>

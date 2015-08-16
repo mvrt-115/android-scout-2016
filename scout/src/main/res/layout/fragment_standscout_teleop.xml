@@ -15,47 +15,46 @@
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin">
 
-            <TextView
+            <TextView android:id="@+id/teleop_label_tote_count"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Totes: 0"
                 android:layout_marginTop="10dp"
-                android:id="@+id/scout_label_tote_count"
                 android:textSize="18sp"/>
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <Button
+
+                <Button android:id="@+id/teleop_button_tote_feeder"
                     android:layout_width="0dp"
                     android:layout_weight="2"
                     android:layout_height="wrap_content"
                     android:text="+1 (Feeder)"
                     android:layout_margin="5dp"
-                    android:id="@+id/scout_button_tote_feeder"
-                    style="@style/mvrt_button"/>
-                <Button
+                    style="@style/MVRTButtonStyle"/>
+
+                <Button android:id="@+id/teleop_button_tote_landfill"
                     android:layout_width="0dp"
                     android:layout_weight="2"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:text="+1 (Landfill)"
-                    android:id="@+id/scout_button_tote_landfill"
-                    style="@style/mvrt_button"/>
-                <Button
+                    style="@style/MVRTButtonStyle"/>
+
+                <Button android:id="@+id/teleop_button_tote_lost"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:text="-1"
-                    android:id="@+id/scout_button_tote_lost"
-                    style="@style/mvrt_button"/>
+                    style="@style/MVRTButtonStyle"/>
+
             </LinearLayout>
 
-            <TextView
+            <TextView android:id="@+id/teleop_label_stacks"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/scout_label_stacks"
                 android:text="Stacks"
                 android:layout_marginTop="10dp"
                 android:textSize="18sp"/>
@@ -63,96 +62,97 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <Button
+
+                <Button android:id="@+id/teleop_button_stack_new"
                     android:layout_width="0dp"
                     android:layout_weight="2"
                     android:layout_height="wrap_content"
                     android:text="New Stack"
                     android:layout_margin="5dp"
-                    android:id="@+id/scout_button_stack_new"
-                    style="@style/mvrt_button"/>
-                <Button
+                    style="@style/MVRTButtonStyle"/>
+
+                <Button android:id="@+id/teleop_button_stack_attack"
                     android:layout_width="0dp"
                     android:layout_weight="2"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:text="Knocked Over"
-                    android:id="@+id/scout_button_stack_attack"
-                    style="@style/mvrt_button"/>
+                    style="@style/MVRTButtonStyle"/>
+
             </LinearLayout>
 
-            <TextView
+            <TextView android:id="@+id/teleop_label_cans"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Containers"
                 android:layout_marginTop="10dp"
-                android:textSize="18sp"
-                android:id="@+id/scout_label_cans"/>
+                android:textSize="18sp" />
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <Button
+
+                <Button android:id="@+id/teleop_button_stack_cap"
                     android:layout_width="0dp"
                     android:layout_weight="2"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:text="Cap a stack"
-                    android:id="@+id/scout_button_stack_cap"
-                    style="@style/mvrt_button"/>
-                <Button
+                    style="@style/MVRTButtonStyle"/>
+
+                <Button android:id="@+id/teleop_button_can_step"
                     android:layout_width="0dp"
                     android:layout_weight="2"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:text="Get Can From Step"
-                    android:id="@+id/scout_button_can_step"
-                    style="@style/mvrt_button"/>
-                <Button
+                    style="@style/MVRTButtonStyle"/>
+
+                <Button android:id="@+id/teleop_button_can_flip"
                     android:layout_width="0dp"
                     android:layout_weight="2"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:text="Flip a Container"
-                    android:id="@+id/scout_button_can_flip"
-                    style="@style/mvrt_button"/>
+                    style="@style/MVRTButtonStyle"/>
+
             </LinearLayout>
 
-            <TextView
+            <TextView android:id="@+id/teleop_label_noodles"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Noodles"
                 android:layout_marginTop="10dp"
-                android:textSize="18sp"
-                android:id="@+id/scout_label_noodles"/>
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <Button
+
+                <Button android:id="@+id/teleop_button_noodle_bin"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:text="Put noodle in container"
-                    android:id="@+id/scout_button_noodle_bin"
                     style="@style/MVRTButtonStyle"/>
-                <Button
+
+                <Button android:id="@+id/teleop_button_noodle_landfill"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:text="Move noodle to landfill"
-                    android:id="@+id/scout_button_noodle_landfill"
                     style="@style/MVRTButtonStyle"/>
+
             </LinearLayout>
 
-            <CheckBox
+            <CheckBox android:id="@+id/teleop_teleop_disabled"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:id="@+id/scout_teleop_disabled"
                 android:text="Were they disabled during the match?"/>
 
         </LinearLayout>

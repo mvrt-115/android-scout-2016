@@ -37,26 +37,26 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements C
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        return inflater.inflate(R.layout.fragment_stand_scout_auton, container, false);
+        return inflater.inflate(R.layout.fragment_standscout_auton, container, false);
     }
 
     // FindViewById for all items
     @Override
     public void onViewCreated(View v, Bundle savedInstanceState) {
-        startingPos = (RadioGroup) v.findViewById(R.id.scout_auton_start_radio);
-        binsFromStep = (CheckBox) v.findViewById(R.id.scout_auton_bins_checkbox);
+        startingPos = (RadioGroup) v.findViewById(R.id.autonscout_start_radio);
+        binsFromStep = (CheckBox) v.findViewById(R.id.autonscout_bins_checkbox);
         binsFromStep.setOnCheckedChangeListener(this);
-        numberBinsFromStep = (EditText) v.findViewById(R.id.scout_auton_bins_number);
-        yellowTotes = (CheckBox) v.findViewById(R.id.scout_auton_totes_yellow);
+        numberBinsFromStep = (EditText) v.findViewById(R.id.autonscout_bins_number);
+        yellowTotes = (CheckBox) v.findViewById(R.id.autonscout_totes_yellow);
         yellowTotes.setOnCheckedChangeListener(this);
-        numberYellowTotes = (EditText) v.findViewById(R.id.scout_auton_yellow_number);
-        greyTotes = (CheckBox) v.findViewById(R.id.scout_auton_totes_interact);
-        mobility = (CheckBox) v.findViewById(R.id.scout_auton_mobility);
-        interference = (CheckBox) v.findViewById(R.id.scout_auton_interfere);
-        noshow = (CheckBox) v.findViewById(R.id.scout_auton_noshow);
+        numberYellowTotes = (EditText) v.findViewById(R.id.autonscout_yellow_number);
+        greyTotes = (CheckBox) v.findViewById(R.id.autonscout_totes_interact);
+        mobility = (CheckBox) v.findViewById(R.id.autonscout_mobility);
+        interference = (CheckBox) v.findViewById(R.id.autonscout_interfere);
+        noshow = (CheckBox) v.findViewById(R.id.autonscout_noshow);
 
         // ErrorHandling RadioButton
-        startStaging = (RadioButton) v.findViewById(R.id.scout_auton_start_staging);
+        startStaging = (RadioButton) v.findViewById(R.id.autonscout_start_staging);
     }
 
     // Send title of tab
@@ -80,10 +80,10 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements C
         // Get Starting Position
         String starting_pos;
         switch (startingPos.getCheckedRadioButtonId()) {
-            case R.id.scout_auton_start_staging:
+            case R.id.autonscout_start_staging:
                 starting_pos = "Staging Area";
                 break;
-            case R.id.scout_auton_start_landfill:
+            case R.id.autonscout_start_landfill:
                 starting_pos = "Landfill";
                 break;
             default:
@@ -156,9 +156,9 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements C
     // Pop the underside EditText if boxes are checked
     @Override
     public void onCheckedChanged(CompoundButton view, boolean isChecked) {
-        if (view.getId() == R.id.scout_auton_bins_checkbox) {
+        if (view.getId() == R.id.autonscout_bins_checkbox) {
             numberBinsFromStep.setVisibility(isChecked ? View.VISIBLE : View.GONE);
-        } else if (view.getId() == R.id.scout_auton_totes_yellow) {
+        } else if (view.getId() == R.id.autonscout_totes_yellow) {
             numberYellowTotes.setVisibility(isChecked ? View.VISIBLE : View.GONE);
         }
     }

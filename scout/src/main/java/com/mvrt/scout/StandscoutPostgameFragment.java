@@ -37,21 +37,23 @@ public class StandScoutPostgameFragment extends DataCollectionFragment {
 
     @Override
     public void onViewCreated(View v, Bundle savedInstanceState) {
-        coop = (RatingBar)v.findViewById(R.id.standscout_postgame_cooprating);
-        stacking = (RatingBar)v.findViewById(R.id.standscout_postgame_stackrating);
-        capping = (RatingBar)v.findViewById(R.id.standscout_postgame_caprating);
-        intake = (RatingBar)v.findViewById(R.id.standscout_postgame_intakerating);
-        litter = (RatingBar)v.findViewById(R.id.standscout_postgame_litterrating);
-        tippy = (CheckBox)v.findViewById(R.id.standscout_postgame_tippy);
-        interfere = (CheckBox)v.findViewById(R.id.standscout_postgame_interfere);
-        comments = (EditText)v.findViewById(R.id.standscout_postgame_comments);
-        finish = (Button)v.findViewById(R.id.standscout_postgame_finish);
+        coop = (RatingBar)v.findViewById(R.id.postgame_cooprating);
+        stacking = (RatingBar)v.findViewById(R.id.postgame_stackrating);
+        capping = (RatingBar)v.findViewById(R.id.postgame_caprating);
+        intake = (RatingBar)v.findViewById(R.id.postgame_intakerating);
+        litter = (RatingBar)v.findViewById(R.id.postgame_litterrating);
+        tippy = (CheckBox)v.findViewById(R.id.postgame_tippy);
+        interfere = (CheckBox)v.findViewById(R.id.postgame_interfere);
+        comments = (EditText)v.findViewById(R.id.postgame_comments);
+        finish = (Button)v.findViewById(R.id.postgame_finish);
+        /*
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((StandScoutActivity) getActivity()).endMatch();
             }
         });
+        */
     }
 
     @Override

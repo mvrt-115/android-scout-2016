@@ -66,31 +66,31 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
         capped = new ArrayList<>();
         knockedStacks = new ArrayList<>();
 
-        toteFromFeeder = (Button)v.findViewById(R.id.scout_button_tote_feeder);
+        toteFromFeeder = (Button)v.findViewById(R.id.teleop_button_tote_feeder);
         toteFromFeeder.setOnClickListener(this);
-        toteFromLandfill = (Button)v.findViewById(R.id.scout_button_tote_landfill);
+        toteFromLandfill = (Button)v.findViewById(R.id.teleop_button_tote_landfill);
         toteFromLandfill.setOnClickListener(this);
-        loseTote = (Button)v.findViewById(R.id.scout_button_tote_lost);
+        loseTote = (Button)v.findViewById(R.id.teleop_button_tote_lost);
         loseTote.setOnClickListener(this);
-        newStack = (Button)v.findViewById(R.id.scout_button_stack_new);
+        newStack = (Button)v.findViewById(R.id.teleop_button_stack_new);
         newStack.setOnClickListener(this);
-        stackLost = (Button)v.findViewById(R.id.scout_button_stack_attack);
+        stackLost = (Button)v.findViewById(R.id.teleop_button_stack_attack);
         stackLost.setOnClickListener(this);
-        stackCapped = (Button)v.findViewById(R.id.scout_button_stack_cap);
+        stackCapped = (Button)v.findViewById(R.id.teleop_button_stack_cap);
         stackCapped.setOnClickListener(this);
-        canFromStep = (Button)v.findViewById(R.id.scout_button_can_step);
+        canFromStep = (Button)v.findViewById(R.id.teleop_button_can_step);
         canFromStep.setOnClickListener(this);
-        flipCan = (Button)v.findViewById(R.id.scout_button_can_flip);
+        flipCan = (Button)v.findViewById(R.id.teleop_button_can_flip);
         flipCan.setOnClickListener(this);
-        noodleInBin = (Button)v.findViewById(R.id.scout_button_noodle_bin);
+        noodleInBin = (Button)v.findViewById(R.id.teleop_button_noodle_bin);
         noodleInBin.setOnClickListener(this);
-        noodleToLandfill = (Button)v.findViewById(R.id.scout_button_noodle_landfill);
+        noodleToLandfill = (Button)v.findViewById(R.id.teleop_button_noodle_landfill);
         noodleToLandfill.setOnClickListener(this);
-        disabled = (CheckBox)v.findViewById(R.id.scout_teleop_disabled);
-        toteCount = (TextView)v.findViewById(R.id.scout_label_tote_count);
-        stacksLabel = (TextView)v.findViewById(R.id.scout_label_stacks);
-        cansLabel = (TextView)v.findViewById(R.id.scout_label_cans);
-        noodlesLabel = (TextView)v.findViewById(R.id.scout_label_noodles);
+        disabled = (CheckBox)v.findViewById(R.id.teleop_teleop_disabled);
+        toteCount = (TextView)v.findViewById(R.id.teleop_label_tote_count);
+        stacksLabel = (TextView)v.findViewById(R.id.teleop_label_stacks);
+        cansLabel = (TextView)v.findViewById(R.id.teleop_label_cans);
+        noodlesLabel = (TextView)v.findViewById(R.id.teleop_label_noodles);
         refreshUi();
     }
 
@@ -102,37 +102,37 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.scout_button_tote_landfill:
+            case R.id.teleop_button_tote_landfill:
                 currentTotes++;
                 landfillTotes++;
                 break;
-            case R.id.scout_button_tote_feeder:
+            case R.id.teleop_button_tote_feeder:
                 currentTotes++;
                 feederTotes++;
                 break;
-            case R.id.scout_button_tote_lost:
+            case R.id.teleop_button_tote_lost:
                 currentTotes--;
                 lostTotes++;
                 break;
-            case R.id.scout_button_noodle_bin:
+            case R.id.teleop_button_noodle_bin:
                 noodlesInBin++;
                 break;
-            case R.id.scout_button_noodle_landfill:
+            case R.id.teleop_button_noodle_landfill:
                 noodlesInLandfil++;
                 break;
-            case R.id.scout_button_stack_cap:
+            case R.id.teleop_button_stack_cap:
                 cappedStacks++;
                 break;
-            case R.id.scout_button_stack_new:
+            case R.id.teleop_button_stack_new:
                 newStack();
                 break;
-            case R.id.scout_button_stack_attack:
+            case R.id.teleop_button_stack_attack:
                 destroyStack();
                 break;
-            case R.id.scout_button_can_step:
+            case R.id.teleop_button_can_step:
                 cansFromStep++;
                 break;
-            case R.id.scout_button_can_flip:
+            case R.id.teleop_button_can_flip:
                 cansFlipped++;
                 break;
         }
