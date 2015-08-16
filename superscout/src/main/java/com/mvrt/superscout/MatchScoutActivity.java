@@ -63,6 +63,7 @@ public class MatchScoutActivity extends ActionBarActivity {
                 NfcAdapter.EXTRA_NDEF_MESSAGES);
         NdefMessage msg = (NdefMessage) rawMsgs[0];
         String data = new String(msg.getRecords()[0].getPayload());
+        Toast.makeText(this, data, Toast.LENGTH_LONG).show();
     }
 
 
@@ -83,6 +84,7 @@ public class MatchScoutActivity extends ActionBarActivity {
 
     public void loadFragments(){
         MatchInfoFragment f = new MatchInfoFragment();
+        ScannerFragment sf = new ScannerFragment();
         Bundle b = new Bundle();
         b.putSerializable(Constants.INTENT_EXTRA_MATCHINFO, matchInfo);
         f.setArguments(b);
@@ -93,6 +95,7 @@ public class MatchScoutActivity extends ActionBarActivity {
         ViewPager pager = (ViewPager)findViewById(R.id.matchscout_pager);
         pager.setAdapter(tabAdapter);
         tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(f, "Match Info"));
+        tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(sf, "Scan QR"));
 
         tabs.setupWithViewPager(pager);
     }
