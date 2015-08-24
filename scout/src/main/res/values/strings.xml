@@ -1,8 +1,14 @@
 <resources>
     <string name="app_name">MVRT Scout</string>
-
     <string name="action_settings">Settings</string>
-
     <string name="title_activity_match_scout">Match Scouting</string>
     <string name="title_activity_match_data">Match Data</string>
+    <string name="title_activity_bluetooth">BluetoothActivity</string>
+    <string name="rating_description">
+        1 Stars: Not Applicable\n
+        2 Star: Unsuccessful\n
+        3 Stars: Inefficient/Inconsistent\n
+        4 Stars: Decent/Somewhat Consistent\n
+        5 Stars: Powerhouse
+    </string>
 </resources>

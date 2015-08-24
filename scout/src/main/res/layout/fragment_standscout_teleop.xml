@@ -1,0 +1,160 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin">
+
+            <TextView android:id="@+id/teleop_label_tote_count"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Totes: 0"
+                android:layout_marginTop="10dp"
+                android:textSize="18sp"/>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button android:id="@+id/teleop_button_tote_feeder"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:text="+1 (Feeder)"
+                    android:layout_margin="5dp"
+                    style="@style/MVRTButtonStyle"/>
+
+                <Button android:id="@+id/teleop_button_tote_landfill"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="+1 (Landfill)"
+                    style="@style/MVRTButtonStyle"/>
+
+                <Button android:id="@+id/teleop_button_tote_lost"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="-1"
+                    style="@style/MVRTButtonStyle"/>
+
+            </LinearLayout>
+
+            <TextView android:id="@+id/teleop_label_stacks"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Stacks"
+                android:layout_marginTop="10dp"
+                android:textSize="18sp"/>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button android:id="@+id/teleop_button_stack_new"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:text="New Stack"
+                    android:layout_margin="5dp"
+                    style="@style/MVRTButtonStyle"/>
+
+                <Button android:id="@+id/teleop_button_stack_attack"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="Knocked Over"
+                    style="@style/MVRTButtonStyle"/>
+
+            </LinearLayout>
+
+            <TextView android:id="@+id/teleop_label_cans"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Containers"
+                android:layout_marginTop="10dp"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button android:id="@+id/teleop_button_stack_cap"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="Cap a stack"
+                    style="@style/MVRTButtonStyle"/>
+
+                <Button android:id="@+id/teleop_button_can_step"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="Get Can From Step"
+                    style="@style/MVRTButtonStyle"/>
+
+                <Button android:id="@+id/teleop_button_can_flip"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="Flip a Container"
+                    style="@style/MVRTButtonStyle"/>
+
+            </LinearLayout>
+
+            <TextView android:id="@+id/teleop_label_noodles"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Noodles"
+                android:layout_marginTop="10dp"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button android:id="@+id/teleop_button_noodle_bin"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="Put noodle in container"
+                    style="@style/MVRTButtonStyle"/>
+
+                <Button android:id="@+id/teleop_button_noodle_landfill"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="Move noodle to landfill"
+                    style="@style/MVRTButtonStyle"/>
+
+            </LinearLayout>
+
+            <CheckBox android:id="@+id/teleop_teleop_disabled"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Were they disabled during the match?"/>
+
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

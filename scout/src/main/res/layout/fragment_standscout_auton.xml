@@ -1,0 +1,112 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <!-- Starting Position Question -->
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Starting Position"
+                android:textSize="18sp"/>
+
+                <RadioGroup android:id="@+id/autonscout_start_radio"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton android:id="@+id/autonscout_start_staging"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Near Staging Area"/>
+
+                    <RadioButton android:id="@+id/autonscout_start_landfill"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Near Landfill"/>
+
+                </RadioGroup>
+
+            <!-- Bins From Step Question -->
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Bins/Totes"
+                android:textSize="18sp"/>
+
+                <CheckBox android:id="@+id/autonscout_bins_checkbox"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Did they grab bins from the step?"/>
+
+                <EditText android:id="@+id/autonscout_bins_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:hint="How many? (1-4)"
+                    android:inputType="number"
+                    android:visibility="gone" />
+
+            <!-- Yellow Totes Question -->
+            <CheckBox android:id="@+id/autonscout_totes_yellow"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Did they pick up yellow totes?"/>
+
+
+                <EditText android:id="@+id/autonscout_yellow_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="How many? (1-3)"
+                    android:layout_marginStart="50dp"
+                    android:inputType="number"
+                    android:visibility="gone" />
+
+                <CheckBox android:id="@+id/autonscout_totes_interact"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Did they interact with or stack grey totes?"/>
+
+            <!-- Movement Questions -->
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Mobility"
+                android:textSize="18sp"/>
+
+                <CheckBox android:id="@+id/autonscout_mobility"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Did they end in the auton zone?"/>
+
+                <CheckBox android:id="@+id/autonscout_interfere"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Did they interfere with other robots?"/>
+
+            <!-- Misc Questions -->
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Other"
+                android:textSize="18sp"/>
+
+                <CheckBox android:id="@+id/autonscout_noshow"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Were they a no-show?"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>
