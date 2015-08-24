@@ -153,7 +153,7 @@ public final class QRCodeEncoder {
 
                 String url = trim(bundle.getString(Contents.URL_KEY));
                 if (url != null) {
-                    // escapeMECARD(url) -> wrong escape e.g. http\://zxing.google.com
+                    // escapeMECARD(url) -> wrong escape e.g. http\://com.zxing.google.com
                     newContents.append("URL:").append(url).append(';');
                     newDisplayContents.append('\n').append(url);
                 }

@@ -1,8 +1,13 @@
 package com.mvrt.scout;
 
 import android.app.Fragment;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.nfc.NdefMessage;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
@@ -10,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -29,6 +35,9 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
     StartMatchFragment startMatchFragment;
     SettingsFragment settingsFragment;
 
+    IntentFilter[] intentFilters;
+    NfcAdapter nfcAdapter;
+    PendingIntent pendingIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +52,36 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         setSupportActionBar(toolbar);
 
         setupNavDrawer();
+        initNFC();
     }
+
+    @Override
+    protected void onPause() {
+        nfcAdapter.disableForegroundDispatch(this);
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
+            processIntent(getIntent());
+        }
+
+        nfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFilters, null);
+        super.onResume();
+    }
+
+    public void onNewIntent(Intent intent) {
+        setIntent(intent);
+    }
+
+    void processIntent(Intent intent) {
+        Parcelable[] rawMsgs = intent.getParcelableArrayExtra(
+                NfcAdapter.EXTRA_NDEF_MESSAGES);
+        NdefMessage msg = (NdefMessage) rawMsgs[0];
+        startScouting(MatchInfo.parse(new String(msg.getRecords()[0].getPayload())));
+    }
+
 
     private void setupNavDrawer(){
         contentView = (FrameLayout)findViewById(R.id.mainactivity_framelayout);
@@ -59,6 +97,26 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
 
     }
 
+    private void initNFC(){
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        if(nfcAdapter == null){
+            snackBar("NFC not available", Snackbar.LENGTH_SHORT);
+            return;
+        }
+
+        pendingIntent = PendingIntent.getActivity(this, 0,
+                        new Intent(this, MainActivity.class)
+                                .addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING), 0);
+
+        IntentFilter ndef = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
+        ndef.addDataScheme("vnd.android.nfc");
+        ndef.addDataPath("/mvrt.com:matchinfo", 0);
+        ndef.addDataAuthority("ext", null);
+        intentFilters = new IntentFilter[] {
+                ndef,
+        };
+
+    }
 
     public void startScouting(MatchInfo match){
         if(match == null) {
