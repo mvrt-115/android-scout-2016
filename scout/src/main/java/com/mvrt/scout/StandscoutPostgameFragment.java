@@ -10,7 +10,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RatingBar;
 
-import com.mvrt.scout.view.DataCollectionFragment;
+import com.mvrt.mvrtlib.util.DataCollectionFragment;
 
 import org.json.JSONObject;
 
@@ -46,14 +46,12 @@ public class StandScoutPostgameFragment extends DataCollectionFragment {
         interfere = (CheckBox)v.findViewById(R.id.postgame_interfere);
         comments = (EditText)v.findViewById(R.id.postgame_comments);
         finish = (Button)v.findViewById(R.id.postgame_finish);
-        /*
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((StandScoutActivity) getActivity()).endMatch();
+                ((MatchScoutActivity)getActivity()).stop();
             }
         });
-        */
     }
 
     @Override

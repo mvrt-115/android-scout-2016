@@ -3,7 +3,6 @@ package com.mvrt.scout;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,7 @@ import android.widget.CheckBox;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
-import com.mvrt.scout.view.DataCollectionFragment;
+import com.mvrt.mvrtlib.util.DataCollectionFragment;
 
 import org.json.JSONObject;
 

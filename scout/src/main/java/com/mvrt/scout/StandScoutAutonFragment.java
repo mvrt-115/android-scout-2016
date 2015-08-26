@@ -12,7 +12,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.mvrt.scout.view.DataCollectionFragment;
+import com.mvrt.mvrtlib.util.DataCollectionFragment;
 
 import org.json.JSONObject;
 
