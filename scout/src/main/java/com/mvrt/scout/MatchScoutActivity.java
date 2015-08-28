@@ -16,10 +16,16 @@ import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.FragmentPagerAdapter;
 import com.mvrt.mvrtlib.util.MatchInfo;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class MatchScoutActivity extends ActionBarActivity {
 
     MatchInfo matchInfo;
+    StandScoutAutonFragment ssaf;
+    StandScoutTeleopFragment sstf;
+    StandScoutPostgameFragment sspf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +49,9 @@ public class MatchScoutActivity extends ActionBarActivity {
 
     public void loadFragments(){
         MatchInfoFragment f = new MatchInfoFragment();
-        StandScoutAutonFragment ssaf = new StandScoutAutonFragment();
-        StandScoutTeleopFragment sstf = new StandScoutTeleopFragment();
-        StandScoutPostgameFragment sspf = new StandScoutPostgameFragment();
+        ssaf = new StandScoutAutonFragment();
+        sstf = new StandScoutTeleopFragment();
+        sspf = new StandScoutPostgameFragment();
         Bundle b = new Bundle();
         b.putSerializable(Constants.INTENT_EXTRA_MATCHINFO, matchInfo);
         f.setArguments(b);
@@ -64,7 +70,16 @@ public class MatchScoutActivity extends ActionBarActivity {
     }
 
     public void stop(){
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("Auton Data", ssaf.getData());
+            obj.put("Teleop Data", sstf.getData());
+            obj.put("PostGame Data", sspf.getData());
+        }catch(JSONException je){
+            je.printStackTrace();
+        }
         Intent i = new Intent(this, MatchScoutingDataActivity.class);
+        i.putExtra("Match Data", obj.toString());
         startActivity(i);
         finish();
     }

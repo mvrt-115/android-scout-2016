@@ -21,6 +21,19 @@ import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.FragmentPagerAdapter;
 import com.mvrt.mvrtlib.util.MatchInfo;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
+import io.orchestrate.client.Client;
+import io.orchestrate.client.CollectionSearchResource;
+import io.orchestrate.client.EventResource;
+import io.orchestrate.client.KvListResource;
+import io.orchestrate.client.KvMetadata;
+import io.orchestrate.client.KvResource;
+import io.orchestrate.client.OrchestrateClient;
+import io.orchestrate.client.OrchestrateRequest;
+import io.orchestrate.client.RelationResource;
+
 /**
  * @author Bubby
  */
@@ -31,6 +44,12 @@ public class MatchScoutActivity extends ActionBarActivity {
     NfcAdapter nfcAdapter;
     PendingIntent pendingIntent;
     IntentFilter[] intentFilters;
+    ArrayList<String> dataList = new ArrayList<String>();
+
+    Client client = OrchestrateClient.builder("d03798cf-5af6-4382-b3af-d20aa8ab23d2")
+            .host("https://api.aws-eu-west-1.orchestrate.io")
+            .build();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +77,24 @@ public class MatchScoutActivity extends ActionBarActivity {
         super.onResume();
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        client.kv(matchInfo.toString(), "Match Data")
+        .put(dataList);
+    }
+
     public void handleIntent(Intent intent){
         Parcelable[] rawMsgs = intent.getParcelableArrayExtra(
                 NfcAdapter.EXTRA_NDEF_MESSAGES);
         NdefMessage msg = (NdefMessage) rawMsgs[0];
         String data = new String(msg.getRecords()[0].getPayload());
-        Toast.makeText(this, data, Toast.LENGTH_LONG).show();
+        dataList.add(data);
+        //Toast.makeText(this, data, Toast.LENGTH_LONG).show();
+    }
+
+    public void addToDataSet(String data){
+        dataList.add(data);
     }
 
 
@@ -126,9 +157,6 @@ public class MatchScoutActivity extends ActionBarActivity {
                         matchInfo.toString().getBytes())
             ), this);
     }
-
-
-
 
 }
 
