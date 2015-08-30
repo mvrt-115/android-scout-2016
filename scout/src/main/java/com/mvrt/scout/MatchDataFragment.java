@@ -20,6 +20,7 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.MatchInfo;
+import com.mvrt.mvrtlib.util.MatchScoutingData;
 import com.zxing.Contents;
 import com.zxing.QRCodeEncoder;
 
@@ -49,7 +50,7 @@ public class MatchDataFragment extends Fragment implements View.OnClickListener{
 
     public void loadData(View v){
         TextView matchData = (TextView)v.findViewById(R.id.match_data);
-        matchData.setText("Data should be put here..");
+        //matchData.setText(MatchScoutingData.getData());
     }
 
 

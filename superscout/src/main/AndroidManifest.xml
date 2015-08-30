@@ -3,7 +3,7 @@
     package="com.mvrt.superscout" >
 
     <uses-permission android:name="android.permission.NFC" />
-    <uses-permission android:name="android.permission.internet"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"

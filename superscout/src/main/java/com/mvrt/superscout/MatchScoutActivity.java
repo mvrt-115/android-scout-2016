@@ -10,6 +10,7 @@ import android.nfc.NfcEvent;
 import android.nfc.tech.NfcA;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
@@ -17,22 +18,39 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.FragmentPagerAdapter;
 import com.mvrt.mvrtlib.util.MatchInfo;
+import com.mvrt.mvrtlib.util.MatchScoutingData;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import io.orchestrate.client.Client;
 import io.orchestrate.client.CollectionSearchResource;
 import io.orchestrate.client.EventResource;
 import io.orchestrate.client.KvListResource;
 import io.orchestrate.client.KvMetadata;
+import io.orchestrate.client.KvObject;
 import io.orchestrate.client.KvResource;
 import io.orchestrate.client.OrchestrateClient;
 import io.orchestrate.client.OrchestrateRequest;
 import io.orchestrate.client.RelationResource;
+import io.orchestrate.client.ResponseAdapter;
+import io.orchestrate.client.ResponseListener;
 
 /**
  * @author Bubby
@@ -45,20 +63,18 @@ public class MatchScoutActivity extends ActionBarActivity {
     PendingIntent pendingIntent;
     IntentFilter[] intentFilters;
     ArrayList<String> dataList = new ArrayList<String>();
-
-    Client client = OrchestrateClient.builder("d03798cf-5af6-4382-b3af-d20aa8ab23d2")
-            .host("https://api.aws-eu-west-1.orchestrate.io")
-            .build();
-
+    Firebase mainRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match_scout);
+        Firebase.setAndroidContext(this);
         loadIntentData();
         loadUI();
         loadFragments();
         initNFC();
+        mainRef = new Firebase("https://teamdata.firebaseio.com/");
     }
 
     @Override
@@ -77,11 +93,17 @@ public class MatchScoutActivity extends ActionBarActivity {
         super.onResume();
     }
 
+    public void sendData(int counter) {
+        mainRef.child(matchInfo.getTournament())
+                .child(matchInfo.getMatchNo())
+                .child(matchInfo.getAllianceString())
+                .child("Team :" + matchInfo.getTeam(counter))
+                .setValue(dataList.get(counter));
+    }
+
     @Override
     public void finish() {
         super.finish();
-        client.kv(matchInfo.toString(), "Match Data")
-        .put(dataList);
     }
 
     public void handleIntent(Intent intent){
@@ -90,11 +112,9 @@ public class MatchScoutActivity extends ActionBarActivity {
         NdefMessage msg = (NdefMessage) rawMsgs[0];
         String data = new String(msg.getRecords()[0].getPayload());
         dataList.add(data);
+        if(dataList.size() > 3) return;
+        sendData(dataList.size()-1);
         //Toast.makeText(this, data, Toast.LENGTH_LONG).show();
-    }
-
-    public void addToDataSet(String data){
-        dataList.add(data);
     }
 
 
