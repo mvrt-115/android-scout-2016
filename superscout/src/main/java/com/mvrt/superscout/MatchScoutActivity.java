@@ -1,6 +1,7 @@
 package com.mvrt.superscout;
 
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.nfc.NdefMessage;
@@ -18,11 +19,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.FragmentPagerAdapter;
 import com.mvrt.mvrtlib.util.MatchInfo;
-import com.mvrt.mvrtlib.util.MatchScoutingData;
 
 import org.json.JSONObject;
 
@@ -39,23 +43,10 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import io.orchestrate.client.Client;
-import io.orchestrate.client.CollectionSearchResource;
-import io.orchestrate.client.EventResource;
-import io.orchestrate.client.KvListResource;
-import io.orchestrate.client.KvMetadata;
-import io.orchestrate.client.KvObject;
-import io.orchestrate.client.KvResource;
-import io.orchestrate.client.OrchestrateClient;
-import io.orchestrate.client.OrchestrateRequest;
-import io.orchestrate.client.RelationResource;
-import io.orchestrate.client.ResponseAdapter;
-import io.orchestrate.client.ResponseListener;
-
 /**
  * @author Bubby
  */
-public class MatchScoutActivity extends ActionBarActivity {
+public class MatchScoutActivity extends ActionBarActivity implements ChildEventListener {
 
     MatchInfo matchInfo;
 
@@ -64,6 +55,8 @@ public class MatchScoutActivity extends ActionBarActivity {
     IntentFilter[] intentFilters;
     ArrayList<String> dataList = new ArrayList<String>();
     Firebase mainRef;
+
+    MatchScoutFragment msf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +68,7 @@ public class MatchScoutActivity extends ActionBarActivity {
         loadFragments();
         initNFC();
         mainRef = new Firebase("https://teamdata.firebaseio.com/");
+        mainRef.addChildEventListener(this);
     }
 
     @Override
@@ -94,10 +88,9 @@ public class MatchScoutActivity extends ActionBarActivity {
     }
 
     public void sendData(int counter) {
-        mainRef.child(matchInfo.getTournament())
-                .child(matchInfo.getMatchNo())
-                .child(matchInfo.getAllianceString())
-                .child("Team :" + matchInfo.getTeam(counter))
+        mainRef.child("matches")
+                .child(matchInfo.singleTeamString(counter))
+                .child("scout")
                 .setValue(dataList.get(counter));
     }
 
@@ -113,8 +106,53 @@ public class MatchScoutActivity extends ActionBarActivity {
         String data = new String(msg.getRecords()[0].getPayload());
         dataList.add(data);
         if(dataList.size() > 3) return;
-        sendData(dataList.size()-1);
-        //Toast.makeText(this, data, Toast.LENGTH_LONG).show();
+        sendData(dataList.size() - 1);
+    }
+
+    public void sendSuperData(){
+        String team1 = msf.getTeam1(msf.getView());
+        String team2 = msf.getTeam2(msf.getView());
+        String team3 = msf.getTeam3(msf.getView());
+
+        Firebase matchRef = mainRef.child("matches");
+
+        matchRef.child(matchInfo.singleTeamString(0))
+                .child("super")
+                .setValue(team1);
+
+        matchRef.child(matchInfo.singleTeamString(1))
+                .child("super")
+                .setValue(team2);
+
+        matchRef.child(matchInfo.singleTeamString(2))
+                .child("super")
+                .setValue(team3);
+
+        for (int i = 0; i < 3; i++) {
+            sendMatchData(i);
+        }
+    }
+
+    public void sendMatchData(int id){
+        mainRef.child("matches")
+                .child(matchInfo.singleTeamString(id))
+               .child("team").setValue(matchInfo.getTeam(id));
+
+        mainRef.child("matches")
+                .child(matchInfo.singleTeamString(id))
+                .child("alliance").setValue(matchInfo.getAlliance());
+
+        mainRef.child("matches")
+                .child(matchInfo.singleTeamString(id))
+                .child("match").setValue(matchInfo.getMatchNo());
+
+        mainRef.child("matches")
+                .child(matchInfo.singleTeamString(id))
+                .child("tournament").setValue(matchInfo.getTournament());
+    }
+
+    public void addToDataList(String object){
+        dataList.add(object);
     }
 
 
@@ -126,6 +164,7 @@ public class MatchScoutActivity extends ActionBarActivity {
 
     public void loadIntentData(){
         matchInfo = (MatchInfo) getIntent().getSerializableExtra(Constants.INTENT_EXTRA_MATCHINFO);
+
     }
 
     public void loadUI(){
@@ -135,10 +174,12 @@ public class MatchScoutActivity extends ActionBarActivity {
 
     public void loadFragments(){
         MatchInfoFragment f = new MatchInfoFragment();
+        msf = new MatchScoutFragment();
         ScannerFragment sf = new ScannerFragment();
         Bundle b = new Bundle();
         b.putSerializable(Constants.INTENT_EXTRA_MATCHINFO, matchInfo);
         f.setArguments(b);
+        msf.setArguments(b);
 
         TabLayout tabs = (TabLayout)findViewById(R.id.matchscout_tablayout);
 
@@ -146,6 +187,7 @@ public class MatchScoutActivity extends ActionBarActivity {
         ViewPager pager = (ViewPager)findViewById(R.id.matchscout_pager);
         pager.setAdapter(tabAdapter);
         tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(f, "Match Info"));
+        tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(msf, "Scout Match"));
         tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(sf, "Scan QR"));
 
         tabs.setupWithViewPager(pager);
@@ -178,5 +220,18 @@ public class MatchScoutActivity extends ActionBarActivity {
             ), this);
     }
 
+    @Override
+    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        Toast.makeText(this, "Data sent successfully!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onCancelled(FirebaseError firebaseError) {
+        Toast.makeText(this, "Error: " + firebaseError, Toast.LENGTH_LONG).show();
+    }
+
+    public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+    public void onChildRemoved(DataSnapshot dataSnapshot) {}
+    public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
 }
 

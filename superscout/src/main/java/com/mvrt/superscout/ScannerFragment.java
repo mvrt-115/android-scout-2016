@@ -56,7 +56,7 @@ public class ScannerFragment extends Fragment{
         if(requestCode == Constants.REQUEST_QR_SCAN){
             if(resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra(Constants.INTENT_QR_SCANRESULT_KEY);
-                Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
+                ((MatchScoutActivity)getActivity()).addToDataList(result);
             }
         }
     }
