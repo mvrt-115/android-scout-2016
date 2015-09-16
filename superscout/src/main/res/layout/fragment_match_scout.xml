@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/team1"/>
+
+        <EditText android:id="@+id/team1_comments"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="Comments"
+            android:background="@color/yellowtext_primary_light"
+            android:layout_marginTop="10dp"
+            android:padding="5dp"
+            android:inputType="textMultiLine"/>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/team2"/>
+
+        <EditText android:id="@+id/team2_comments"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="Comments"
+            android:background="@color/yellowtext_primary_light"
+            android:padding="5dp"
+            android:inputType="textMultiLine"/>
+
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/team3"/>
+
+        <EditText android:id="@+id/team3_comments"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="Comments"
+            android:background="@color/yellowtext_primary_light"
+            android:padding="5dp"
+            android:inputType="textMultiLine"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:theme="@style/MVRTButtonStyle"
+            android:layout_marginTop="10dp"
+            android:id="@+id/done_scouting"
+            android:text="Done!"/>
+
+    </LinearLayout>
+</ScrollView>

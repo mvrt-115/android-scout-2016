@@ -20,6 +20,7 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.MatchInfo;
+import com.mvrt.mvrtlib.util.MatchScoutingData;
 import com.zxing.Contents;
 import com.zxing.QRCodeEncoder;
 
@@ -38,10 +39,7 @@ public class MatchDataFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
         loadData(view);
-        loadQr("LOLZ this is not real data pls fix meaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
-                "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy" +
-                "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");  //TODO: fix
+        loadQr(((MatchScoutingDataActivity)getActivity()).data);
         Button ble = (Button)view.findViewById(R.id.start_ble);
         ble.setOnClickListener(this);
 
@@ -52,7 +50,7 @@ public class MatchDataFragment extends Fragment implements View.OnClickListener{
 
     public void loadData(View v){
         TextView matchData = (TextView)v.findViewById(R.id.match_data);
-        matchData.setText("Data should be put here..");
+        //matchData.setText(MatchScoutingData.getData());
     }
 
 

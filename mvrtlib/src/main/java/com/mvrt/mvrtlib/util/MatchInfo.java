@@ -58,6 +58,10 @@ public class MatchInfo implements Serializable {
         return matchNo + "@" + tournament + ":" + alliance + "[" + teams[0] + "," + teams[1] + "," + teams[2] + "]";
     }
 
+    public String singleTeamString(int id) {
+        return  matchNo + "@" + tournament + ":" + alliance + teams[id];
+    }
+
     public int getTeam(int scoutId) {
         return teams[scoutId];
     }

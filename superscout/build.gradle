@@ -4,6 +4,12 @@ android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
 
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE-FIREBASE.txt'
+        exclude 'META-INF/NOTICE'
+    }
+
     defaultConfig {
         applicationId "com.mvrt.superscout"
         minSdkVersion 18
@@ -21,6 +27,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.firebase:firebase-client-android:2.3.1+'
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile project(':mvrtlib')
 }

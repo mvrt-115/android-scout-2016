@@ -12,7 +12,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.mvrt.scout.view.DataCollectionFragment;
+import com.mvrt.mvrtlib.util.DataCollectionFragment;
 
 import org.json.JSONObject;
 
@@ -94,7 +94,9 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements C
         // Get bins from Step including numbers
         int bins_from_step = 0;
         String numberStep = numberBinsFromStep.getText().toString();
-        bins_from_step = Integer.parseInt(numberStep);
+        if(numberStep.equals("")) bins_from_step = 0;
+        else
+            bins_from_step = Integer.parseInt(numberStep);
 
         // Get yellow totes including numbers
         int yellow_totes = 0;

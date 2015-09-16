@@ -110,7 +110,7 @@
 
             </LinearLayout>
 
-            <LinearLayout android:id="@+id/postgame_litterrating"
+            <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -121,6 +121,7 @@
                     android:textSize="17sp"
                     android:text="Dealt with Litter"/>
                 <RatingBar
+                    android:id="@+id/postgame_litterrating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:numStars="5"
@@ -160,7 +161,7 @@
                 android:layout_margin="5dp"
                 android:padding="5dp"
                 android:text="Finish"
-                style="@style/MVRTButtonStyle"/>
+                android:theme="@style/MVRTButtonStyle"/>
 
         </LinearLayout>
     </ScrollView>

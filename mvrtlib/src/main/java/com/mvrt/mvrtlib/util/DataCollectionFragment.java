@@ -1,6 +1,6 @@
-package com.mvrt.scout.view;
+package com.mvrt.mvrtlib.util;
 
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 
 import org.json.JSONObject;
 

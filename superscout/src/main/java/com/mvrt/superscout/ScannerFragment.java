@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -25,10 +26,17 @@ public class ScannerFragment extends Fragment{
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         final ImageButton startQr = (ImageButton) view.findViewById(R.id.getdata_qrbutton);
+        final Button finishButton = (Button) view.findViewById(R.id.finish);
         startQr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startQR();
+            }
+        });
+        finishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
             }
         });
     }
@@ -48,7 +56,7 @@ public class ScannerFragment extends Fragment{
         if(requestCode == Constants.REQUEST_QR_SCAN){
             if(resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra(Constants.INTENT_QR_SCANRESULT_KEY);
-                Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
+                ((MatchScoutActivity)getActivity()).addToDataList(result);
             }
         }
     }

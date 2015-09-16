@@ -15,6 +15,8 @@ import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.FragmentPagerAdapter;
 import com.mvrt.mvrtlib.util.MatchInfo;
 
+import org.json.JSONObject;
+
 /**
  * @author Bubby
  * End of match activity to send data to super.
@@ -22,12 +24,13 @@ import com.mvrt.mvrtlib.util.MatchInfo;
 public class MatchScoutingDataActivity extends ActionBarActivity{
 
     NfcAdapter nfcAdapter;
-
+    String data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match_data);
+        data = getIntent().getStringExtra("Match Data");
         loadUI();
         loadFragments();
         initNFC();
@@ -36,7 +39,6 @@ public class MatchScoutingDataActivity extends ActionBarActivity{
     /* Don't exit when the back button is pressed */
     @Override
     public void onBackPressed() {}
-
 
     public void loadUI(){
         Toolbar t = (Toolbar)findViewById(R.id.matchdata_toolbar);
@@ -69,7 +71,7 @@ public class MatchScoutingDataActivity extends ActionBarActivity{
                 NdefRecord.createExternal(
                         "mvrt.com",
                         "matchdata",
-                        "Match Data".getBytes())
+                        data.getBytes())
         ), this);
 
     }

@@ -1,5 +1,6 @@
 package com.mvrt.scout;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
@@ -15,10 +16,16 @@ import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.FragmentPagerAdapter;
 import com.mvrt.mvrtlib.util.MatchInfo;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class MatchScoutActivity extends ActionBarActivity {
 
     MatchInfo matchInfo;
+    StandScoutAutonFragment ssaf;
+    StandScoutTeleopFragment sstf;
+    StandScoutPostgameFragment sspf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +34,6 @@ public class MatchScoutActivity extends ActionBarActivity {
         loadIntentData();
         loadUI();
         loadFragments();
-        stop();
     }
 
 
@@ -43,6 +49,9 @@ public class MatchScoutActivity extends ActionBarActivity {
 
     public void loadFragments(){
         MatchInfoFragment f = new MatchInfoFragment();
+        ssaf = new StandScoutAutonFragment();
+        sstf = new StandScoutTeleopFragment();
+        sspf = new StandScoutPostgameFragment();
         Bundle b = new Bundle();
         b.putSerializable(Constants.INTENT_EXTRA_MATCHINFO, matchInfo);
         f.setArguments(b);
@@ -53,12 +62,24 @@ public class MatchScoutActivity extends ActionBarActivity {
         ViewPager pager = (ViewPager)findViewById(R.id.matchscout_pager);
         pager.setAdapter(tabAdapter);
         tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(f, "Match Info"));
+        tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(ssaf, "Auton"));
+        tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(sstf, "Teleop"));
+        tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(sspf, "Post"));
 
         tabs.setupWithViewPager(pager);
     }
 
     public void stop(){
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("Auton Data", ssaf.getData());
+            obj.put("Teleop Data", sstf.getData());
+            obj.put("PostGame Data", sspf.getData());
+        }catch(JSONException je){
+            je.printStackTrace();
+        }
         Intent i = new Intent(this, MatchScoutingDataActivity.class);
+        i.putExtra("Match Data", obj.toString());
         startActivity(i);
         finish();
     }
