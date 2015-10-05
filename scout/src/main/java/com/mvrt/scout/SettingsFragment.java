@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.mvrt.mvrtlib.util.Constants;
+import com.mvrt.mvrtlib.util.Snacker;
 
 public class SettingsFragment extends Fragment implements View.OnClickListener {
 
@@ -29,7 +31,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
 
-        prefs = getActivity().getPreferences(Activity.MODE_PRIVATE);
+        prefs = getActivity().getSharedPreferences(Constants.SHARED_PREFS_NAME_SCOUT, Activity.MODE_PRIVATE);
 
         tournamentText = (EditText)getView().findViewById(R.id.settings_tournament);
         scoutID = (Spinner)getView().findViewById(R.id.settings_scoutid);
@@ -75,8 +77,12 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(Constants.PREFS_TOURNAMENT_KEY, tournament);
         editor.putInt(Constants.PREFS_SCOUTID_KEY, scoutid);
+        Log.d("MVRT", "Scout id is " + scoutid);
         editor.commit();
-        ((MainActivity)getActivity()).snackBar("Settings saved", Snackbar.LENGTH_SHORT);
+        Snacker.snack("Settings saved", getActivity(), Snackbar.LENGTH_SHORT);
+
+        int a = prefs.getInt(Constants.PREFS_SCOUTID_KEY, 5);
+        Log.d("MVRT", "Scout ID is " + a);
     }
 
 

@@ -1,16 +1,7 @@
 package com.mvrt.superscout;
 
 import android.app.Fragment;
-import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.nfc.NdefMessage;
-import android.nfc.NdefRecord;
-import android.nfc.NfcAdapter;
-import android.nfc.NfcEvent;
-import android.nfc.Tag;
-import android.nfc.tech.Ndef;
-import android.nfc.tech.NfcF;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -19,15 +10,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.MatchInfo;
+import com.mvrt.mvrtlib.util.Snacker;
 
 public class MainActivity extends ActionBarActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -48,13 +38,13 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         startMatchFragment = new StartMatchFragment();
         settingsFragment = new SettingsFragment();
 
+        setupUI();
+    }
+
+    private void setupUI() {
         toolbar = (Toolbar)findViewById(R.id.mainactivity_toolbar);
         setSupportActionBar(toolbar);
 
-        setupNavDrawer();
-    }
-
-    private void setupNavDrawer() {
         contentView = (FrameLayout) findViewById(R.id.mainactivity_framelayout);
         drawerLayout = (DrawerLayout) findViewById(R.id.mainactivity_drawerlayout);
         navView = (NavigationView) findViewById(R.id.mainactivity_navview);
@@ -70,10 +60,10 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
 
     public void startScouting(MatchInfo match){
         if(match == null) {
-            snackBar("Invalid match info", Snackbar.LENGTH_SHORT);
+            Snacker.snack("Invalid match info", this, Snackbar.LENGTH_SHORT);
             return;
         }
-        Intent i = new Intent(this, MatchScoutActivity.class);
+        Intent i = new Intent(this, SuperScoutActivity.class);
         i.putExtra(Constants.INTENT_EXTRA_MATCHINFO, match);
         startActivity(i);
     }
@@ -98,13 +88,5 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         getFragmentManager().beginTransaction().
                 replace(R.id.mainactivity_framelayout, newFrag).commit();
     }
-
-    public void snackBar(String text, int length){
-        View view = contentView.getChildAt(0);
-        Snackbar b = Snackbar.make(view, text, length);
-        ((TextView)b.getView().findViewById(android.support.design.R.id.snackbar_text)).setTextColor(getResources().getColor(R.color.text_primary_light));
-        b.show();
-    }
-
 
 }

@@ -33,4 +33,8 @@
         <item name="android:textColor">@color/text_primary_light</item>
     </style>
 
+    <style name="MVRTSnackbarStyle" parent="Widget.Design.Snackbar">
+        <item name="android:textColor">@color/text_primary_light</item>
+    </style>
+
 </resources>

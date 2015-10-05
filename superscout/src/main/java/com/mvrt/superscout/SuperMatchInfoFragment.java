@@ -16,13 +16,13 @@ import com.mvrt.mvrtlib.util.MatchInfo;
 import com.zxing.Contents;
 import com.zxing.QRCodeEncoder;
 
-public class MatchInfoFragment extends Fragment{
+public class SuperMatchInfoFragment extends Fragment{
 
     MatchInfo matchInfo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_matchinfo, container, false);
+        return inflater.inflate(R.layout.fragment_super_matchinfo, container, false);
     }
 
     @Override

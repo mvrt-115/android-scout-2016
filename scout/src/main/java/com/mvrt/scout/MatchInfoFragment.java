@@ -1,5 +1,6 @@
 package com.mvrt.scout;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -27,8 +28,9 @@ public class MatchInfoFragment extends Fragment{
     public void loadData(View v){
         matchInfo = (MatchInfo)getArguments().getSerializable(Constants.INTENT_EXTRA_MATCHINFO);
 
+        int scoutId = getActivity().getSharedPreferences(Constants.SHARED_PREFS_NAME_SCOUT, Activity.MODE_PRIVATE).getInt(Constants.PREFS_SCOUTID_KEY, 0);
+
         TextView alliance = (TextView)v.findViewById(R.id.matchinfo_alliance);
-        String allianceString = matchInfo.getAllianceString();
         alliance.setText(matchInfo.getAllianceString());
         alliance.setTextColor(getResources().getColor(matchInfo.getAllianceColorId()));
 
@@ -36,7 +38,7 @@ public class MatchInfoFragment extends Fragment{
         matchKey.setText(matchInfo.getMatchNo() + " @ " + matchInfo.getTournament());
 
         TextView teams = (TextView)v.findViewById(R.id.matchinfo_teams);
-        teams.setText("Teams " + matchInfo.getTeam(0) + ", " + matchInfo.getTeam(1) + ", " + matchInfo.getTeam(2));
+        teams.setText("Team " + matchInfo.getTeam(scoutId));
 
         TextView key = (TextView)v.findViewById(R.id.matchinfo_key);
         key.setText(matchInfo.toString());

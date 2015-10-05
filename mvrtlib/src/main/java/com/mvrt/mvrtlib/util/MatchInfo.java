@@ -6,7 +6,7 @@ import com.mvrt.mvrtlib.R;
 import java.io.Serializable;
 
 /**
- * Created by Samster on 7/29/2015.
+ * @author Akhil Palla and Ishan Mitra
  */
 public class MatchInfo implements Serializable {
 
@@ -35,7 +35,8 @@ public class MatchInfo implements Serializable {
 
     public static MatchInfo parse(String data){
         //format is MATCH@TOURN:ALLIANCE[TEAM,TEAM,TEAM]
-        String[] split = data.toLowerCase().split("@|:|,|\\[|\\]");
+        // OR MATCH@TOURN:ALLIANCE*TEAM
+        String[] split = data.toLowerCase().split("@|:|,|\\*|\\[|\\]");
 
         if(split.length < 4) return null;
 
@@ -59,7 +60,12 @@ public class MatchInfo implements Serializable {
     }
 
     public String singleTeamString(int id) {
-        return  matchNo + "@" + tournament + ":" + alliance + teams[id];
+        return  matchNo + "@" + tournament + ":" + alliance + "*" + teams[id];
+    }
+
+    public String userFriendlySingleTeamString(int id){
+        return "Team " + teams[id] + ", " + alliance +  " (" + matchNo +  "@" + tournament + ")";
+        // 115, b (q12@SVR)
     }
 
     public int getTeam(int scoutId) {

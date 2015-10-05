@@ -17,12 +17,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.MatchInfo;
+import com.mvrt.mvrtlib.util.Snacker;
 
 public class MainActivity extends ActionBarActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -79,7 +78,8 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         Parcelable[] rawMsgs = intent.getParcelableArrayExtra(
                 NfcAdapter.EXTRA_NDEF_MESSAGES);
         NdefMessage msg = (NdefMessage) rawMsgs[0];
-        startScouting(MatchInfo.parse(new String(msg.getRecords()[0].getPayload())));
+        MatchInfo mi = MatchInfo.parse(new String(msg.getRecords()[0].getPayload()));
+        if(mi != null)startMatchFragment.startScouting(mi);
     }
 
 
@@ -100,32 +100,19 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
     private void initNFC(){
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if(nfcAdapter == null){
-            snackBar("NFC not available", Snackbar.LENGTH_SHORT);
+            Log.d("MVRT", "NFC Not Available");
             return;
         }
 
         pendingIntent = PendingIntent.getActivity(this, 0,
-                        new Intent(this, MainActivity.class)
-                                .addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING), 0);
+            new Intent(this, MainActivity.class)
+                .addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING), 0);
 
         IntentFilter ndef = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
         ndef.addDataScheme("vnd.android.nfc");
-        ndef.addDataPath("/mvrt.com:matchinfo", 0);
+        ndef.addDataPath(Constants.NDEF_DATA_PATH, 0);
         ndef.addDataAuthority("ext", null);
-        intentFilters = new IntentFilter[] {
-                ndef,
-        };
-
-    }
-
-    public void startScouting(MatchInfo match){
-        if(match == null) {
-            snackBar("Invalid match info", Snackbar.LENGTH_SHORT);
-            return;
-        }
-        Intent i = new Intent(this, MatchScoutActivity.class);
-        i.putExtra(Constants.INTENT_EXTRA_MATCHINFO, match);
-        startActivity(i);
+        intentFilters = new IntentFilter[] { ndef };
     }
 
     @Override
@@ -141,21 +128,13 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
             default:
                 setVisibleFragment(startMatchFragment);
         }
+
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    private void setVisibleFragment(Fragment newFrag){
+    private void setVisibleFragment(Fragment newFrag) {
         getFragmentManager().beginTransaction().
                 replace(R.id.mainactivity_framelayout, newFrag).commit();
     }
-
-    public void snackBar(String text, int length){
-        View view = contentView.getChildAt(0);
-        Snackbar b = Snackbar.make(view, text, length);
-        ((TextView)b.getView().findViewById(android.support.design.R.id.snackbar_text)).setTextColor(getResources().getColor(R.color.text_primary_light));
-        b.show();
-    }
-
-
 }

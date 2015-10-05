@@ -22,8 +22,9 @@
         </activity>
 
         <activity
-            android:name=".MatchScoutActivity"
+            android:name=".SuperScoutActivity"
             android:label="@string/title_activity_match_scout"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

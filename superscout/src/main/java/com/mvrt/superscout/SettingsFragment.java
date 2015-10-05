@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.mvrt.mvrtlib.util.Constants;
+import com.mvrt.mvrtlib.util.Snacker;
 
 public class SettingsFragment extends Fragment implements View.OnClickListener {
 
@@ -32,7 +33,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
 
-        prefs = getActivity().getPreferences(Activity.MODE_PRIVATE);
+        prefs = getActivity().getSharedPreferences(Constants.SHARED_PREFS_NAME_SUPER, Activity.MODE_PRIVATE);
 
         tournamentText = (EditText)view.findViewById(R.id.settings_tournament);
         alliance = (Spinner)view.findViewById(R.id.settings_alliance);
@@ -85,7 +86,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         editor.putString(Constants.PREFS_TOURNAMENT_KEY, tournament);
         editor.putInt(Constants.PREFS_ALLIANCE_KEY, al);
         editor.commit();
-        ((MainActivity)getActivity()).snackBar("Settings saved", Snackbar.LENGTH_SHORT);
+        Snacker.snack("Settings Saved", getActivity(), Snackbar.LENGTH_SHORT);
     }
 
 

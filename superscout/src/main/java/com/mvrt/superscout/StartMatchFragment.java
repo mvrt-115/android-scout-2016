@@ -15,7 +15,7 @@ import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.MatchInfo;
 
 /**
- * Created by Samster on 7/28/2015.
+ * @author Bubby and Akhil
  */
 public class StartMatchFragment extends Fragment implements View.OnClickListener {
 
@@ -61,7 +61,7 @@ public class StartMatchFragment extends Fragment implements View.OnClickListener
     }
 
     public void loadAllianceAndTournament(){
-        SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences prefs = getActivity().getSharedPreferences(Constants.SHARED_PREFS_NAME_SUPER, Context.MODE_PRIVATE);
 
         tournament = prefs.getString(Constants.PREFS_TOURNAMENT_KEY, Constants.PREFS_TOURNAMENT_DEFAULT).toUpperCase();
         alliance = (char)prefs.getInt(Constants.PREFS_ALLIANCE_KEY, (int)Constants.ALLIANCE_BLUE);

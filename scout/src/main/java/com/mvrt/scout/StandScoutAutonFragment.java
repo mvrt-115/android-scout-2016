@@ -1,6 +1,7 @@
 package com.mvrt.scout;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.mvrt.mvrtlib.util.DataCollectionFragment;
+import com.mvrt.mvrtlib.util.Snacker;
 
 import org.json.JSONObject;
 
@@ -67,6 +69,7 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements C
 
     // Clear all errors
     public void clearErrors() {
+        numberYellowTotes.setError(null);
         numberBinsFromStep.setError(null);
     }
 
@@ -78,30 +81,20 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements C
         clearErrors();
 
         // Get Starting Position
-        String starting_pos;
-        switch (startingPos.getCheckedRadioButtonId()) {
-            case R.id.autonscout_start_staging:
-                starting_pos = "Staging Area";
-                break;
-            case R.id.autonscout_start_landfill:
-                starting_pos = "Landfill";
-                break;
-            default:
-                Toast.makeText(getActivity(), "Select a starting position", Toast.LENGTH_LONG).show();
-                return null;
-        }
+        String starting_pos = "Landfill";
+        if(startingPos.getCheckedRadioButtonId() == R.id.autonscout_start_staging)
+            starting_pos = "Staging Area";
 
         // Get bins from Step including numbers
         int bins_from_step = 0;
         String numberStep = numberBinsFromStep.getText().toString();
         if(numberStep.equals("")) bins_from_step = 0;
-        else
-            bins_from_step = Integer.parseInt(numberStep);
+        else bins_from_step = Integer.parseInt(numberStep);
 
         // Get yellow totes including numbers
         int yellow_totes = 0;
         String numberYellow = numberYellowTotes.getText().toString();
-        yellow_totes = Integer.parseInt(numberYellow);
+        if(!numberYellow.equals(""))yellow_totes = Integer.parseInt(numberYellow);
 
         // Create JSONObject and send data with try Catch
         JSONObject data = new JSONObject();
@@ -112,7 +105,7 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements C
             // Send data based on checkbox as boolean
             data.put("Grey Totes", greyTotes.isChecked());
             data.put("Mobility", mobility.isChecked());
-            data.put("Intereference", interference.isChecked());
+            data.put("Interference", interference.isChecked());
             data.put("No Show", noshow.isChecked());
         } catch (Exception e) {
             Log.e("MVRT", "JSON Error");
@@ -147,7 +140,6 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements C
 
         // Might have to rewrite, not sure if this works
         if (startingPos.getCheckedRadioButtonId() == -1) {
-            startStaging.setError("Select a Starting Position");
             completed = false;
         }
 

@@ -49,7 +49,7 @@ public class StandScoutPostgameFragment extends DataCollectionFragment {
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MatchScoutActivity)getActivity()).stop();
+                ((StandScoutActivity)getActivity()).stopScouting();
             }
         });
     }

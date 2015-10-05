@@ -16,6 +16,7 @@ import android.widget.Spinner;
 
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.MatchInfo;
+import com.mvrt.mvrtlib.util.Snacker;
 
 public class StartMatchFragment extends Fragment implements View.OnClickListener {
 
@@ -77,10 +78,23 @@ public class StartMatchFragment extends Fragment implements View.OnClickListener
         }else teamText.setError(null);
         int team = Integer.parseInt(teamText.getText().toString());
 
-        String tourn = getActivity().getPreferences(Activity.MODE_PRIVATE).getString(Constants.PREFS_TOURNAMENT_KEY, Constants.PREFS_TOURNAMENT_DEFAULT);
+        String tourn = getActivity().getSharedPreferences(Constants.SHARED_PREFS_NAME_SCOUT, Activity.MODE_PRIVATE)
+                .getString(Constants.PREFS_TOURNAMENT_KEY, Constants.PREFS_TOURNAMENT_DEFAULT);
 
-        ((MainActivity)getActivity()).startScouting(new MatchInfo(match, tourn, alliance, team));
+        startScouting(new MatchInfo(match, tourn, alliance, team));
     }
+
+
+    public void startScouting(MatchInfo match){
+        if(match == null) {
+            Snacker.snack("Invalid match info", getActivity(), Snackbar.LENGTH_SHORT);
+            return;
+        }
+        Intent i = new Intent(getActivity(), StandScoutActivity.class);
+        i.putExtra(Constants.INTENT_EXTRA_MATCHINFO, match);
+        startActivity(i);
+    }
+
 
     public void scanQR(){
         try {
@@ -92,17 +106,14 @@ public class StartMatchFragment extends Fragment implements View.OnClickListener
         }
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == Constants.REQUEST_QR_SCAN){
             if(resultCode == Activity.RESULT_OK){
                 String result = data.getStringExtra(Constants.INTENT_QR_SCANRESULT_KEY);
-                ((MainActivity)getActivity()).startScouting(MatchInfo.parse(result));
-            } else ((MainActivity)getActivity()).snackBar("Error getting QR data", Snackbar.LENGTH_LONG);
+                startScouting(MatchInfo.parse(result));
+            } else Snacker.snack("Error getting QR data", getActivity(), Snackbar.LENGTH_LONG);
         }
     }
-
-
 
 }

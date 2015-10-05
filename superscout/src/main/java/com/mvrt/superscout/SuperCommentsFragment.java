@@ -2,6 +2,7 @@ package com.mvrt.superscout;
 
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,25 +16,26 @@ import com.mvrt.mvrtlib.util.MatchInfo;
 /**
  * @author Bubby
  */
-public class MatchScoutFragment extends Fragment {
+public class SuperCommentsFragment extends Fragment {
 
     MatchInfo matchInfo;
 
+    EditText t1;
+    EditText t2;
+    EditText t3;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_match_scout, container, false);
+        return inflater.inflate(R.layout.fragment_super_comments, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
         loadData(view);
-        Button end = (Button)view.findViewById(R.id.done_scouting);
-        end.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MatchScoutActivity)getActivity()).sendSuperData();
-            }
-        });
+        t1 = (EditText)view.findViewById(R.id.team1_comments);
+        t2 = (EditText)view.findViewById(R.id.team2_comments);
+        t3 = (EditText)view.findViewById(R.id.team3_comments);
+        Log.d("MVRT", "SuperCommentFragment OnViewCreated");
     }
 
     public void loadData(View v){
@@ -50,19 +52,16 @@ public class MatchScoutFragment extends Fragment {
         team3.setText("Team: " + matchInfo.getTeam(2));
     }
 
-    public String getTeam1(View v){
-        EditText comments = (EditText)v.findViewById(R.id.team1_comments);
-        return comments.getText().toString();
+    public String getTeam1(){
+        return t1.getText().toString();
     }
 
-    public String getTeam2(View v){
-        EditText comments = (EditText)v.findViewById(R.id.team2_comments);
-        return comments.getText().toString();
+    public String getTeam2(){
+        return t2.getText().toString();
     }
 
-    public String getTeam3(View v){
-        EditText comments = (EditText)v.findViewById(R.id.team3_comments);
-        return comments.getText().toString();
+    public String getTeam3(){
+        return t3.getText().toString();
     }
 
 

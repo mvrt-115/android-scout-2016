@@ -53,13 +53,5 @@
             android:padding="5dp"
             android:inputType="textMultiLine"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:theme="@style/MVRTButtonStyle"
-            android:layout_marginTop="10dp"
-            android:id="@+id/done_scouting"
-            android:text="Done!"/>
-
     </LinearLayout>
 </ScrollView>

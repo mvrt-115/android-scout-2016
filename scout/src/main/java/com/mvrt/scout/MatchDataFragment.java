@@ -13,16 +13,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
-import com.mvrt.mvrtlib.util.Constants;
-import com.mvrt.mvrtlib.util.MatchInfo;
-import com.mvrt.mvrtlib.util.MatchScoutingData;
+//kappa
+import com.mvrt.mvrtlib.util.Snacker;
 import com.zxing.Contents;
 import com.zxing.QRCodeEncoder;
+
+import org.json.JSONObject;
 
 /**
  * @author Bubby
@@ -30,6 +32,7 @@ import com.zxing.QRCodeEncoder;
 public class MatchDataFragment extends Fragment implements View.OnClickListener{
 
     private boolean sentData = false;
+    String verificationCode;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,7 +42,7 @@ public class MatchDataFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
         loadData(view);
-        loadQr(((MatchScoutingDataActivity)getActivity()).data);
+
         Button ble = (Button)view.findViewById(R.id.start_ble);
         ble.setOnClickListener(this);
 
@@ -49,8 +52,18 @@ public class MatchDataFragment extends Fragment implements View.OnClickListener{
     }
 
     public void loadData(View v){
-        TextView matchData = (TextView)v.findViewById(R.id.match_data);
-        //matchData.setText(MatchScoutingData.getData());
+        JSONObject obj = ((MatchScoutingDataActivity) getActivity()).getData();
+        JSONObject parent = new JSONObject();
+
+        int code = (int)(Math.random() * 8999 + 1000);
+        verificationCode = "" + code;
+
+        try{
+            parent.put("data", obj);
+            parent.put("verif", code);
+        }catch(Exception e){}
+
+        loadQr(parent.toString());
     }
 
 
@@ -58,14 +71,18 @@ public class MatchDataFragment extends Fragment implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.start_ble:
-                sentData = true;
-                makeSnack(view, "BLE Started", Snackbar.LENGTH_SHORT);
+                Snacker.snack("BLE Unavailable. Use NFC or QR", getActivity(), Snackbar.LENGTH_LONG);
                 break;
             case R.id.finish_scouting:
                 if(sentData)
                     getActivity().finish();
-                else
-                    new VerificationDialog().show(getFragmentManager(), "Code Verification");
+                else {
+                    VerificationDialog d = new VerificationDialog();
+                    Bundle b = new Bundle();
+                    b.putString("verif", verificationCode);
+                    d.setArguments(b);
+                    d.show(getFragmentManager(), "Code Verification");
+                }
                 break;
             default:
                 break;
@@ -102,9 +119,13 @@ public class MatchDataFragment extends Fragment implements View.OnClickListener{
 
     public static class VerificationDialog extends DialogFragment{
 
+        String verification;
+
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+            verification = getArguments().getString("verif");
 
             LayoutInflater inflater = getActivity().getLayoutInflater();
 
@@ -112,7 +133,14 @@ public class MatchDataFragment extends Fragment implements View.OnClickListener{
             builder.setView(inflater.inflate(R.layout.dialog_code_verification, null))
                     .setNeutralButton("Verify", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            //Verify entered code against code created
+                            Dialog d = (Dialog)dialog;
+                            EditText verCode = (EditText) d.findViewById(R.id.verification_enter);
+                            if(verCode.getText().toString().equalsIgnoreCase(verification)){
+                                getActivity().finish();
+                            }else{
+                                Snacker.snack("Incorrect Code", getActivity(), Snackbar.LENGTH_SHORT);
+                                d.cancel();
+                            }
                         }
                     })
                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -120,11 +148,11 @@ public class MatchDataFragment extends Fragment implements View.OnClickListener{
                             dialog.cancel();
                         }
                     }).setPositiveButton("Exit Anyways", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            getActivity().finish();
-                        }
-                    });
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    getActivity().finish();
+                            }
+            });
             return builder.create();
         }
     }

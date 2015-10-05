@@ -4,29 +4,36 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.mvrt.mvrtlib.util.Constants;
+
 /**
  * @author Bubby
  */
-public class ScannerFragment extends Fragment{
+public class SuperDataFragment extends Fragment{
+
+    TextView list;
+    String queue = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_start_scan, container, false);
+        return inflater.inflate(R.layout.fragment_super_data, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         final ImageButton startQr = (ImageButton) view.findViewById(R.id.getdata_qrbutton);
         final Button finishButton = (Button) view.findViewById(R.id.finish);
+        list = (TextView)view.findViewById(R.id.superdata_list);
+        list.setText(queue);
         startQr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -36,9 +43,15 @@ public class ScannerFragment extends Fragment{
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().finish();
+                finishScouting();
             }
         });
+    }
+
+    public void addData(int team, String code){
+        String toAppend = "T " + team + ", verif. code: " + code;
+        if(list != null)list.append(toAppend + System.getProperty("line.separator"));
+        else queue += toAppend;
     }
 
     public void startQR(){
@@ -51,12 +64,23 @@ public class ScannerFragment extends Fragment{
         }
     }
 
+    public void finishScouting(){
+        //((SuperScoutActivity)getActivity()).sendScoutData();
+        ((SuperScoutActivity)getActivity()).sendSuperData();
+        getActivity().finish();
+    }
+
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, final Intent data) {
         if(requestCode == Constants.REQUEST_QR_SCAN){
             if(resultCode == Activity.RESULT_OK) {
-                String result = data.getStringExtra(Constants.INTENT_QR_SCANRESULT_KEY);
-                ((MatchScoutActivity)getActivity()).addToDataList(result);
+                (new Handler()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        String result = data.getStringExtra(Constants.INTENT_QR_SCANRESULT_KEY);
+                        ((SuperScoutActivity) getActivity()).addMatchData(result);
+                    }
+                }, 500);
             }
         }
     }

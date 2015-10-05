@@ -8,7 +8,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
 
         <activity
             android:name=".MainActivity"
@@ -21,8 +21,9 @@
 
         </activity>
         <activity
-            android:name=".MatchScoutActivity"
+            android:name=".StandScoutActivity"
             android:label="@string/title_activity_match_scout"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -32,6 +33,7 @@
         <activity
             android:name=".MatchScoutingDataActivity"
             android:label="@string/title_activity_match_data"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
