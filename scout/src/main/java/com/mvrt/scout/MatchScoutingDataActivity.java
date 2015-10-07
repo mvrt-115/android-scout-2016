@@ -18,6 +18,9 @@ import com.mvrt.mvrtlib.util.MatchInfo;
 
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
+
 /**
  * @author Bubby
  * End of match activity to send data to super.
@@ -32,7 +35,12 @@ public class MatchScoutingDataActivity extends ActionBarActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match_data);
         try{
-            data = new JSONObject(getIntent().getStringExtra(Constants.INTENT_EXTRA_MATCHDATA));
+            FileInputStream fis = openFileInput(getIntent().getStringExtra(Constants.INTENT_EXTRA_FILENAME));
+            int size = fis.available();
+            byte[] buffer = new byte[size];
+            fis.read(buffer);
+            fis.close();
+            data = new JSONObject(new String(buffer));
         }catch(Exception e){ data = null; }
         loadUI();
         loadFragments();

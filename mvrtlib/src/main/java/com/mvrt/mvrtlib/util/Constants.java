@@ -12,6 +12,7 @@ public class Constants {
 
     public static final String INTENT_EXTRA_MATCHINFO = "com.mvrt.scout.intent.MATCHINFO";
     public static final String INTENT_EXTRA_MATCHDATA = "com.mvrt.scout.intent.MATCHDATA";
+    public static final String INTENT_EXTRA_FILENAME = "com.mvrt.scout.intent.FILENAME";
 
     public static final int REQUEST_QR_SCAN = 10;
 

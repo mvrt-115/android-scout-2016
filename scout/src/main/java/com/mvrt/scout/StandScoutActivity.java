@@ -1,6 +1,7 @@
 package com.mvrt.scout;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,6 +20,8 @@ import com.mvrt.mvrtlib.util.Snacker;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileOutputStream;
+
 
 public class StandScoutActivity extends ActionBarActivity {
 
@@ -28,6 +31,8 @@ public class StandScoutActivity extends ActionBarActivity {
     StandScoutAutonFragment standScoutAutonFragment;
     StandScoutTeleopFragment standScoutTeleopFragment;
     StandScoutPostgameFragment standScoutPostgameFragment;
+
+    String filename;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,10 +111,21 @@ public class StandScoutActivity extends ActionBarActivity {
             } catch (JSONException je) {
                 je.printStackTrace();
             }
+            writeToFile(obj);
             Intent i = new Intent(this, MatchScoutingDataActivity.class);
-            i.putExtra(Constants.INTENT_EXTRA_MATCHDATA, obj.toString());
+            i.putExtra(Constants.INTENT_EXTRA_FILENAME, filename);
             startActivity(i);
             finish();
+        }
+    }
+
+    public void writeToFile(JSONObject data){
+        filename = "scout_" + matchInfo.getTeam(scoutId) + "_" + matchInfo.getMatchNo() + "@" + matchInfo.getTournament() + ".json";
+        try {
+            FileOutputStream fos = openFileOutput(filename, Context.MODE_PRIVATE);
+            fos.write(data.toString().getBytes());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
