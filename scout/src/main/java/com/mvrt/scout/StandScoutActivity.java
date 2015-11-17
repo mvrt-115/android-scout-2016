@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.FragmentPagerAdapter;
@@ -124,6 +125,8 @@ public class StandScoutActivity extends ActionBarActivity {
         try {
             FileOutputStream fos = openFileOutput(filename, Context.MODE_PRIVATE);
             fos.write(data.toString().getBytes());
+            ((MainActivity) (getParent())).getFileFrag().updateFiles();
+            Toast.makeText(this, "Written to file: " + filename, Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             e.printStackTrace();
         }
