@@ -125,7 +125,6 @@ public class StandScoutActivity extends ActionBarActivity {
         try {
             FileOutputStream fos = openFileOutput(filename, Context.MODE_PRIVATE);
             fos.write(data.toString().getBytes());
-            ((MainActivity) (getParent())).getFileFrag().updateFiles();
             Toast.makeText(this, "Written to file: " + filename, Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             e.printStackTrace();
