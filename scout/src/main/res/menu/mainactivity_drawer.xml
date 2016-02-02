@@ -6,6 +6,9 @@
             android:checked="true"
             android:title="Start Scouting"/>
         <item
+            android:id="@+id/draweritem_localsave"
+            android:title="Saved Data"/>
+        <item
             android:id="@+id/draweritem_settings"
             android:title="Settings"/>
     </group>

@@ -33,8 +33,6 @@ public class StandScoutActivity extends ActionBarActivity {
     StandScoutTeleopFragment standScoutTeleopFragment;
     StandScoutPostgameFragment standScoutPostgameFragment;
 
-    String filename;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,13 +42,11 @@ public class StandScoutActivity extends ActionBarActivity {
         loadFragments();
     }
 
-
-
     public void loadIntentData(){
         matchInfo = (MatchInfo)getIntent().getSerializableExtra(Constants.INTENT_EXTRA_MATCHINFO);
         scoutId = getSharedPreferences(Constants.SHARED_PREFS_NAME_SCOUT, Activity.MODE_PRIVATE).getInt(Constants.PREFS_SCOUTID_KEY, 0);
         Log.d("MVRT", "Scout ID is " + scoutId);
-        setTitle(matchInfo.userFriendlySingleTeamString(scoutId));
+        setTitle(matchInfo.userFriendlyString(scoutId));
     }
 
     public void loadUI(){
@@ -66,6 +62,7 @@ public class StandScoutActivity extends ActionBarActivity {
 
         Bundle b = new Bundle();
         b.putSerializable(Constants.INTENT_EXTRA_MATCHINFO, matchInfo);
+        b.putInt(Constants.INTENT_EXTRA_SCOUTID, scoutId);
         matchInfoFragment.setArguments(b);
 
         FragmentPagerAdapter tabAdapter = new FragmentPagerAdapter(getFragmentManager());
@@ -105,30 +102,32 @@ public class StandScoutActivity extends ActionBarActivity {
         }
         else {
             try {
-                obj.put("Auton Data", standScoutAutonFragment.getData());
-                obj.put("Teleop Data", standScoutTeleopFragment.getData());
-                obj.put("PostGame Data", standScoutPostgameFragment.getData());
-                obj.put("Match Info", matchInfo.singleTeamString(scoutId));
+                obj.put(Constants.JSON_DATA_AUTON, standScoutAutonFragment.getData());
+                obj.put(Constants.JSON_DATA_TELEOP, standScoutTeleopFragment.getData());
+                obj.put(Constants.JSON_DATA_POSTGAME, standScoutPostgameFragment.getData());
+                obj.put(Constants.JSON_DATA_MATCHINFO, matchInfo.toString());
+                obj.put(Constants.JSON_DATA_SCOUTID, scoutId);
+                String filename = writeToFile(obj, matchInfo, scoutId);
+                Intent i = new Intent(this, MatchScoutingDataActivity.class);
+                i.putExtra(Constants.INTENT_EXTRA_FILENAME, filename);
+                startActivity(i);
             } catch (JSONException je) {
                 je.printStackTrace();
             }
-            writeToFile(obj);
-            Intent i = new Intent(this, MatchScoutingDataActivity.class);
-            i.putExtra(Constants.INTENT_EXTRA_FILENAME, filename);
-            startActivity(i);
             finish();
         }
     }
 
-    public void writeToFile(JSONObject data){
-        filename = "scout_" + matchInfo.getTeam(scoutId) + "_" + matchInfo.getMatchNo() + "@" + matchInfo.getTournament() + ".json";
+    public String writeToFile(JSONObject data, MatchInfo matchInfo, int scoutId) throws JSONException {
+        String filename = matchInfo.getFilename(scoutId);
         try {
             FileOutputStream fos = openFileOutput(filename, Context.MODE_PRIVATE);
             fos.write(data.toString().getBytes());
-            Toast.makeText(this, "Written to file: " + filename, Toast.LENGTH_LONG).show();
+            Snacker.snack("Written to file: " + filename, this, Snackbar.LENGTH_SHORT);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return filename;
     }
 
 }

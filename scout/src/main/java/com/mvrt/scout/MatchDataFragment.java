@@ -111,12 +111,6 @@ public class MatchDataFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-    public void makeSnack(View view, String text, int time){
-        Snackbar b = Snackbar.make(view, text, time);
-        ((TextView)b.getView().findViewById(android.support.design.R.id.snackbar_text)).setTextColor(getResources().getColor(R.color.text_primary_light));
-        b.show();
-    }
-
     public static class VerificationDialog extends DialogFragment{
 
         String verification;
