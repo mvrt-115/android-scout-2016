@@ -11,7 +11,8 @@ public class Constants {
     public static final String INTENT_QR_SCANMODE = "QR_CODE_MODE";
 
     public static final String INTENT_EXTRA_MATCHINFO = "com.mvrt.scout.intent.MATCHINFO";
-    public static final String INTENT_EXTRA_MATCHDATA = "com.mvrt.scout.intent.MATCHDATA";
+    public static final String INTENT_EXTRA_FILENAME = "com.mvrt.scout.intent.FILENAME";
+    public static final String INTENT_EXTRA_SCOUTID = "com.mvrt.scout.intent.SCOUTID";
 
     public static final int REQUEST_QR_SCAN = 10;
 
@@ -29,4 +30,10 @@ public class Constants {
 
     public static final char ALLIANCE_RED = 'r';
     public static final char ALLIANCE_BLUE = 'b';
+
+    public static final String JSON_DATA_AUTON = "auton";
+    public static final String JSON_DATA_TELEOP = "teleop";
+    public static final String JSON_DATA_POSTGAME = "postgame";
+    public static final String JSON_DATA_MATCHINFO = "matchinfo";
+    public static final String JSON_DATA_SCOUTID = "scoutid";
 }

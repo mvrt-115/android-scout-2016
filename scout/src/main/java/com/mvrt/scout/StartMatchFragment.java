@@ -71,7 +71,7 @@ public class StartMatchFragment extends Fragment implements View.OnClickListener
         if(matchText.getText().length() == 0){
             matchText.setError("Please enter a match number"); return;
         }else matchText.setError(null);
-        String match = ((String)matchType.getSelectedItem() + Integer.parseInt(matchText.getText().toString())).toLowerCase();
+        int match = Integer.parseInt(matchText.getText().toString());
 
         if(teamText.getText().length() == 0){
             teamText.setError("Please enter a team number"); return;
@@ -81,7 +81,7 @@ public class StartMatchFragment extends Fragment implements View.OnClickListener
         String tourn = getActivity().getSharedPreferences(Constants.SHARED_PREFS_NAME_SCOUT, Activity.MODE_PRIVATE)
                 .getString(Constants.PREFS_TOURNAMENT_KEY, Constants.PREFS_TOURNAMENT_DEFAULT);
 
-        startScouting(new MatchInfo(match, tourn, alliance, team));
+        startScouting(new MatchInfo(match, tourn, alliance, team, new String[]{"a0", "b0", "c0", "d0"}));
     }
 
 

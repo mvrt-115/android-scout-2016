@@ -1,7 +1,6 @@
 package com.mvrt.scout;
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +10,8 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.mvrt.mvrtlib.util.DataCollectionFragment;
-import com.mvrt.mvrtlib.util.Snacker;
 
 import org.json.JSONObject;
 
