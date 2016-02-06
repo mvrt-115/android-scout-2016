@@ -28,6 +28,7 @@ public class StandScoutActivity extends ActionBarActivity {
     StandScoutAutonFragment standScoutAutonFragment;
     StandScoutTeleopFragment standScoutTeleopFragment;
     StandScoutPostgameFragment standScoutPostgameFragment;
+    ShootingFragment shootingFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class StandScoutActivity extends ActionBarActivity {
         standScoutAutonFragment = new StandScoutAutonFragment();
         standScoutTeleopFragment = new StandScoutTeleopFragment();
         standScoutPostgameFragment = new StandScoutPostgameFragment();
+        shootingFragment = new ShootingFragment();
 
         Bundle b = new Bundle();
         b.putSerializable(Constants.INTENT_EXTRA_MATCHINFO, matchInfo);
@@ -67,6 +69,7 @@ public class StandScoutActivity extends ActionBarActivity {
         tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(standScoutAutonFragment, "Auton"));
         tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(standScoutTeleopFragment, "Teleop"));
         tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(standScoutPostgameFragment, "Post"));
+        tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(shootingFragment, "Shooting"));
 
         ViewPager pager = (ViewPager)findViewById(R.id.matchscout_pager);
         pager.setAdapter(tabAdapter);
