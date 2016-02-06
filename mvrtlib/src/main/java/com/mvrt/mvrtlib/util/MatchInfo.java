@@ -4,76 +4,114 @@ package com.mvrt.mvrtlib.util;
 import com.mvrt.mvrtlib.R;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Akhil Palla and Ishan Mitra
  */
 public class MatchInfo implements Serializable {
 
-    String matchNo;
+    int matchNo;
     String tournament;
     char alliance;
     int[] teams;
+    String[] defenses;
 
-    public MatchInfo(String matchNo, String tournament, char alliance, int[] teams){
-        this.matchNo = matchNo.toLowerCase();
+    public MatchInfo(int matchNo, String tournament, char alliance, int[] teams, String[] defenses){
+        this.matchNo = matchNo;
         this.tournament = tournament.toUpperCase();
         this.alliance = alliance;
         this.teams = teams;
+        this.defenses = defenses;
     }
 
-    /*
-        Constructor for only 1 team
-     */
-    public MatchInfo(String matchNo, String tournament, char alliance, int team){
-        this.matchNo = matchNo.toLowerCase();
+    public MatchInfo(int matchNo, String tournament, char alliance, int team, String[] defenses){
+        this.matchNo = matchNo;
         this.tournament = tournament.toUpperCase();
         this.alliance = alliance;
-        this.teams = new int[3];
-        for(int i=0;i<teams.length;i++)teams[i]=team;
+        this.teams = new int[]{team};
+        this.defenses = defenses;
     }
 
+    /**
+     * FORMAT: 10@SVR:r[115,254,1678](a1,b2,c2,d2)
+     */
     public static MatchInfo parse(String data){
-        //format is MATCH@TOURN:ALLIANCE[TEAM,TEAM,TEAM]
-        // OR MATCH@TOURN:ALLIANCE*TEAM
-        String[] split = data.toLowerCase().split("@|:|,|\\*|\\[|\\]");
+        if(!validate(data))return null;
 
-        if(split.length < 4) return null;
+        Pattern p = Pattern.compile("(\\d+)(?=@)");
+        Matcher m = p.matcher(data);
+        if(!m.find())return null;
+        int matchNo = Integer.parseInt(m.group());
 
-        String matchNo = split[0];
-        String tournament = split[1].toUpperCase();
-        char alliance = split[2].charAt(0);
+        p = Pattern.compile("(\\w+)(?=:)");
+        m = p.matcher(data);
+        if(!m.find())return null;
+        String tourn = m.group();
 
-        int[] teams = new int[3];
+        p = Pattern.compile("\\w(?=\\[)");
+        m = p.matcher(data);
+        if(!m.find())return null;
+        char alliance = m.group().charAt(0);
 
-        for(int i = 0; i < teams.length; i++){
-            teams[i] = Integer.parseInt( //if not all 3 teams are present, set all teams to the first team
-                    (split.length<6)?(split[3]):(split[3 + i]));
-        }
+        p = Pattern.compile("(((\\d+),)+)?((\\d+))(?=])");
+        m = p.matcher(data);
+        if(!m.find())return null;
+        String[] teamString = m.group().split(",");
+        int[] teams = new int[teamString.length];
+        for(int i = 0; i < teamString.length; i++)teams[i] = Integer.parseInt(teamString[i]);
 
-        return new MatchInfo(matchNo, tournament, alliance, teams);
+        p = Pattern.compile("(((\\w\\d),)+)?((\\w\\d+))(?=\\))");
+        m = p.matcher(data);
+        if(!m.find())return null;
+        String[] defenses = m.group().split(",");
+
+        return new MatchInfo(matchNo, tourn, alliance, teams, defenses);
     }
 
     @Override
     public String toString() {
-        return matchNo + "@" + tournament + ":" + alliance + "[" + teams[0] + "," + teams[1] + "," + teams[2] + "]";
+        String str = matchNo + "@" + tournament + ":" + alliance + Arrays.toString(teams);
+        str += "(" + defenses[0] + "," + defenses[1] + "," + defenses[2] + "," + defenses[3] + ")";
+        return str;
     }
 
-    public String singleTeamString(int id) {
-        return  matchNo + "@" + tournament + ":" + alliance + "*" + teams[id];
+    public String toString(int id) {
+        String str = matchNo + "@" + tournament + ":" + alliance + "[" + teams[id] + "]";
+        str += "(" + defenses[0] + "," + defenses[1] + "," + defenses[2] + "," + defenses[3] + ")";
+        return str;
     }
 
-    public String userFriendlySingleTeamString(int id){
+    public String userFriendlyString(){
+        return "Teams " + Arrays.toString(teams) + " - " + alliance +  " (" + matchNo +  "@" + tournament + ")";
+        // [115,254,1678] b (q12@SVR)
+    }
+
+    public String userFriendlyString(int id){
         return "Team " + teams[id] + ", " + alliance +  " (" + matchNo +  "@" + tournament + ")";
         // 115, b (q12@SVR)
     }
 
-    public int getTeam(int scoutId) {
-        return teams[scoutId];
+    public String getFilename(){
+        return matchNo + "@" + tournament + ":" + alliance + Arrays.toString(teams) + ".json";
+    }
+
+    public String getFilename(int id){
+        return matchNo + "@" + tournament + ":" + alliance + "[" + teams[id] + "].json";
     }
 
     public char getAlliance(){
         return alliance;
+    }
+
+    public int[] getTeams(){
+        return teams;
+    }
+
+    public String[] getDefenses(){
+        return defenses;
     }
 
     public static String getAllianceString(char alliance){
@@ -96,8 +134,16 @@ public class MatchInfo implements Serializable {
         return tournament;
     }
 
-    public String getMatchNo(){
+    public int getMatchNo(){
         return matchNo;
+    }
+
+    public static boolean validate(String str){
+        return str.matches("(\\d+)@(\\w+):(r|b)\\[((,?)\\d+)+\\]\\(((,?)\\w\\d)+\\)");
+    }
+
+    public static boolean validateFilename(String str){
+        return str.matches("(\\d+)@(\\w+):(r|b)\\[((,?)\\d+)+\\].json");
     }
 
 }

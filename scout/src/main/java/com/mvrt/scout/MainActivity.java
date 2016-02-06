@@ -30,6 +30,7 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
     Toolbar toolbar;
 
     StartMatchFragment startMatchFragment;
+    LocalDataFragment localDataFragment;
     SettingsFragment settingsFragment;
 
     IntentFilter[] intentFilters;
@@ -43,6 +44,7 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         startMatchFragment = new StartMatchFragment();
+        localDataFragment = new LocalDataFragment();
         settingsFragment = new SettingsFragment();
 
         toolbar = (Toolbar)findViewById(R.id.mainactivity_toolbar);
@@ -73,8 +75,7 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
     }
 
     void processIntent(Intent intent) {
-        Parcelable[] rawMsgs = intent.getParcelableArrayExtra(
-                NfcAdapter.EXTRA_NDEF_MESSAGES);
+        Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
         NdefMessage msg = (NdefMessage) rawMsgs[0];
         MatchInfo mi = MatchInfo.parse(new String(msg.getRecords()[0].getPayload()));
         if(mi != null)startMatchFragment.startScouting(mi);
@@ -119,6 +120,9 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         switch (menuItem.getItemId()){
             case R.id.draweritem_start_scouting:
                 setVisibleFragment(startMatchFragment);
+                break;
+            case R.id.draweritem_localsave:
+                setVisibleFragment(localDataFragment);
                 break;
             case R.id.draweritem_settings:
                 setVisibleFragment(settingsFragment);

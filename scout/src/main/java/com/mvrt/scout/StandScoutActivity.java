@@ -1,6 +1,7 @@
 package com.mvrt.scout;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.FragmentPagerAdapter;
@@ -18,6 +20,8 @@ import com.mvrt.mvrtlib.util.Snacker;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.FileOutputStream;
 
 
 public class StandScoutActivity extends ActionBarActivity {
@@ -39,13 +43,11 @@ public class StandScoutActivity extends ActionBarActivity {
         loadFragments();
     }
 
-
-
     public void loadIntentData(){
         matchInfo = (MatchInfo)getIntent().getSerializableExtra(Constants.INTENT_EXTRA_MATCHINFO);
         scoutId = getSharedPreferences(Constants.SHARED_PREFS_NAME_SCOUT, Activity.MODE_PRIVATE).getInt(Constants.PREFS_SCOUTID_KEY, 0);
         Log.d("MVRT", "Scout ID is " + scoutId);
-        setTitle(matchInfo.userFriendlySingleTeamString(scoutId));
+        setTitle(matchInfo.userFriendlyString(scoutId));
     }
 
     public void loadUI(){
@@ -62,6 +64,7 @@ public class StandScoutActivity extends ActionBarActivity {
 
         Bundle b = new Bundle();
         b.putSerializable(Constants.INTENT_EXTRA_MATCHINFO, matchInfo);
+        b.putInt(Constants.INTENT_EXTRA_SCOUTID, scoutId);
         matchInfoFragment.setArguments(b);
 
         FragmentPagerAdapter tabAdapter = new FragmentPagerAdapter(getFragmentManager());
@@ -102,18 +105,32 @@ public class StandScoutActivity extends ActionBarActivity {
         }
         else {
             try {
-                obj.put("Auton Data", standScoutAutonFragment.getData());
-                obj.put("Teleop Data", standScoutTeleopFragment.getData());
-                obj.put("PostGame Data", standScoutPostgameFragment.getData());
-                obj.put("Match Info", matchInfo.singleTeamString(scoutId));
+                obj.put(Constants.JSON_DATA_AUTON, standScoutAutonFragment.getData());
+                obj.put(Constants.JSON_DATA_TELEOP, standScoutTeleopFragment.getData());
+                obj.put(Constants.JSON_DATA_POSTGAME, standScoutPostgameFragment.getData());
+                obj.put(Constants.JSON_DATA_MATCHINFO, matchInfo.toString());
+                obj.put(Constants.JSON_DATA_SCOUTID, scoutId);
+                String filename = writeToFile(obj, matchInfo, scoutId);
+                Intent i = new Intent(this, MatchScoutingDataActivity.class);
+                i.putExtra(Constants.INTENT_EXTRA_FILENAME, filename);
+                startActivity(i);
             } catch (JSONException je) {
                 je.printStackTrace();
             }
-            Intent i = new Intent(this, MatchScoutingDataActivity.class);
-            i.putExtra(Constants.INTENT_EXTRA_MATCHDATA, obj.toString());
-            startActivity(i);
             finish();
         }
+    }
+
+    public String writeToFile(JSONObject data, MatchInfo matchInfo, int scoutId) throws JSONException {
+        String filename = matchInfo.getFilename(scoutId);
+        try {
+            FileOutputStream fos = openFileOutput(filename, Context.MODE_PRIVATE);
+            fos.write(data.toString().getBytes());
+            Snacker.snack("Written to file: " + filename, this, Snackbar.LENGTH_SHORT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return filename;
     }
 
 }

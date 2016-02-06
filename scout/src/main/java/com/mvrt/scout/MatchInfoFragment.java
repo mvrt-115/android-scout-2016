@@ -27,8 +27,7 @@ public class MatchInfoFragment extends Fragment{
 
     public void loadData(View v){
         matchInfo = (MatchInfo)getArguments().getSerializable(Constants.INTENT_EXTRA_MATCHINFO);
-
-        int scoutId = getActivity().getSharedPreferences(Constants.SHARED_PREFS_NAME_SCOUT, Activity.MODE_PRIVATE).getInt(Constants.PREFS_SCOUTID_KEY, 0);
+        int scoutId = getArguments().getInt(Constants.INTENT_EXTRA_SCOUTID);
 
         TextView alliance = (TextView)v.findViewById(R.id.matchinfo_alliance);
         alliance.setText(matchInfo.getAllianceString());
@@ -38,7 +37,7 @@ public class MatchInfoFragment extends Fragment{
         matchKey.setText(matchInfo.getMatchNo() + " @ " + matchInfo.getTournament());
 
         TextView teams = (TextView)v.findViewById(R.id.matchinfo_teams);
-        teams.setText("Team " + matchInfo.getTeam(scoutId));
+        teams.setText("Team " + matchInfo.getTeams()[scoutId]);
 
         TextView key = (TextView)v.findViewById(R.id.matchinfo_key);
         key.setText(matchInfo.toString());
