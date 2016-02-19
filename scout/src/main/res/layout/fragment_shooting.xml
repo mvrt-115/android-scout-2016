@@ -38,16 +38,32 @@
             android:layout_height="80dp"
             android:layout_weight="1"
             android:theme="@style/MVRTButtonStyle"
-            android:id="@+id/selectlocation_make"
-            android:src="@mipmap/ic_check"
+            android:id="@+id/shoot_high_make"
+            android:src="@mipmap/ic_plusfive"
             android:elevation="4dp"/>
         <ImageButton
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="80dp"
             android:theme="@style/MVRTButtonStyle"
-            android:id="@+id/selectlocation_miss"
-            android:src="@mipmap/ic_x"
+            android:id="@+id/shoot_high_miss"
+            android:src="@mipmap/ic_minusfive"
+            android:elevation="4dp"/>
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:theme="@style/MVRTButtonStyle"
+            android:id="@+id/shoot_low_make"
+            android:src="@mipmap/ic_plustwo"
+            android:elevation="4dp"/>
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="80dp"
+            android:theme="@style/MVRTButtonStyle"
+            android:id="@+id/shoot_low_miss"
+            android:src="@mipmap/ic_minustwo"
             android:elevation="4dp"/>
     </LinearLayout>
 

@@ -20,31 +20,18 @@
             android:text="Start Scouting!"
             android:textSize="10pt"/>
 
-        <LinearLayout
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <Spinner
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:id="@+id/startmatch_matchtype"
-                android:layout_weight="1"></Spinner>
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="0dp"
+            android:layout_margin="10dp">
+            <EditText
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_weight="2">
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/startmatch_matchno"
-                    android:hint="Match Number"
-                    android:inputType="number"
-                    android:singleLine="true"/>
-            </android.support.design.widget.TextInputLayout>
-
-        </LinearLayout>
+                android:id="@+id/startmatch_matchno"
+                android:hint="Match Number"
+                android:inputType="number"
+                android:singleLine="true"/>
+        </android.support.design.widget.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -71,6 +58,50 @@
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:id="@+id/startmatch_defense1"
+                android:src="@mipmap/a1"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:id="@+id/startmatch_defense2"
+                android:src="@mipmap/b1"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:id="@+id/startmatch_defense3"
+                android:src="@mipmap/c1"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:id="@+id/startmatch_defense4"
+                android:src="@mipmap/d1"/>
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="Edit"
+                android:id="@+id/startmatch_editdefenses"
+                android:layout_weight="2"/>
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -78,31 +109,15 @@
             android:layout_marginTop="15dp"
             android:text="- OR - "/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="15dp"
-            android:gravity="center">
-            <ImageButton
-                android:layout_width="0dp"
+
+        <ImageButton
+                android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_margin="10dp"
                 android:theme="@style/MVRTButtonStyle"
                 android:id="@+id/startmatch_qrbutton"
                 android:src="@drawable/qrcode"
                 android:elevation="4dp"/>
-            <ImageButton
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="80dp"
-                android:theme="@style/MVRTButtonStyle"
-                android:id="@+id/startmatch_btbutton"
-                android:src="@drawable/bluetooth"
-                android:elevation="4dp"/>
-        </LinearLayout>
 
     </LinearLayout>
 

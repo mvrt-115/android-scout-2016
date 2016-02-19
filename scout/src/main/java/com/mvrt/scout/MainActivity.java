@@ -23,6 +23,7 @@ import com.mvrt.mvrtlib.util.MatchInfo;
 
 public class MainActivity extends ActionBarActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+
     DrawerLayout drawerLayout;
     NavigationView navView;
     FrameLayout contentView;
@@ -52,6 +53,7 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
 
         setupNavDrawer();
         initNFC();
+
     }
 
     @Override

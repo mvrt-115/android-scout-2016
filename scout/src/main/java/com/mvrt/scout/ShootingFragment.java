@@ -16,7 +16,9 @@ import android.widget.TextView;
 
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.DataCollectionFragment;
+import com.mvrt.mvrtlib.util.MatchInfo;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,47 +33,59 @@ public class ShootingFragment extends DataCollectionFragment implements View.OnT
     ImageView img;
     TextView textView;
     Bitmap crossHatch;
-    Bitmap shotMade;
-    Bitmap shotMissed;
+    Bitmap highMade, highMissed, lowMade, lowMissed;
     Bitmap field;
 
-    float[] coords = null;
+    int[] coords = null;
 
-    ArrayList<float[]> madeShots;
-    ArrayList<float[]> missedShots;
+    ArrayList<int[]> madeHigh;
+    ArrayList<int[]> madeLow;
+    ArrayList<int[]> missHigh;
+    ArrayList<int[]> missLow;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        return inflater.inflate(R.layout.fragment_standscout_postgame, container, false);
+        return inflater.inflate(R.layout.fragment_shooting, container, false);
     }
 
     @Override
     public void onViewCreated(View v, Bundle savedInstanceState) {
-        initImages();
+        loadData();
+        initUI();
     }
 
-    private void initImages(){
+    private void loadData(){
+        MatchInfo matchInfo = (MatchInfo)getArguments().getSerializable(Constants.INTENT_EXTRA_MATCHINFO);
+        if(matchInfo != null)alliance = matchInfo.getAlliance();
+    }
+
+    private void initUI(){
         textView = (TextView)(getView().findViewById(R.id.selectlocation_textview));
 
         field = BitmapFactory.decodeResource(getResources(),
                 (alliance == Constants.ALLIANCE_RED)?R.drawable.red_field:R.drawable.blue_field);
         Bitmap temp = field.copy(Bitmap.Config.ARGB_8888, true);
         crossHatch = BitmapFactory.decodeResource(getResources(), R.mipmap.location_crosshatch);
-        shotMade = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_shotmade);
-        shotMissed = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_shotmissed);
+
+        highMade = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_high_make);
+        highMissed = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_high_miss);
+        lowMade = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_low_make);
+        lowMissed = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_low_miss);
 
         canvas = new Canvas(temp);
         img = (ImageView)(getView().findViewById(R.id.selectlocation_imageview));
         img.setOnTouchListener(this);
         img.setImageBitmap(temp);
-        madeShots = new ArrayList<>();
-        missedShots = new ArrayList<>();
+        madeHigh = new ArrayList<>();
+        madeLow = new ArrayList<>();
+        missHigh = new ArrayList<>();
+        missLow = new ArrayList<>();
 
-        ImageButton make = (ImageButton)(getView().findViewById(R.id.selectlocation_make));
-        make.setOnClickListener(this);
-        ImageButton miss = (ImageButton)(getView().findViewById(R.id.selectlocation_miss));
-        miss.setOnClickListener(this);
+        getView().findViewById(R.id.shoot_high_make).setOnClickListener(this);
+        getView().findViewById(R.id.shoot_high_miss).setOnClickListener(this);
+        getView().findViewById(R.id.shoot_low_make).setOnClickListener(this);
+        getView().findViewById(R.id.shoot_low_miss).setOnClickListener(this);
     }
 
     @Override
@@ -85,22 +99,25 @@ public class ShootingFragment extends DataCollectionFragment implements View.OnT
     }
 
     public void updateTextView(){
-        String stats = "Shots made: " + madeShots.size() + " / " + (madeShots.size() + missedShots.size());
-        textView.setText(stats);
+        String high = "High: " + madeHigh.size() + "/" + (madeHigh.size() + missHigh.size());
+        String low = ", Low: " + madeLow.size() + "/" + (madeLow.size() + missLow.size());
+        textView.setText(high + low);
     }
 
     public void drawCanvas(){
         canvas.drawBitmap(field, 0, 0, new Paint());
 
-        for(float[] shot: madeShots) {
-            float[] imageCoords = globalToImage(shot);
-            canvas.drawBitmap(shotMade, imageCoords[0] - shotMade.getWidth() / 2,
-                    imageCoords[1] - shotMade.getHeight() / 2, new Paint());
+        for(int[] shot: madeHigh){
+            drawIcon(shot, highMade);
         }
-        for(float[] shot: missedShots) {
-            float[] imageCoords = globalToImage(shot);
-            canvas.drawBitmap(shotMissed, imageCoords[0] - shotMissed.getWidth() / 2,
-                    imageCoords[1] - shotMissed.getHeight() / 2, new Paint());
+        for(int[] shot: missHigh){
+            drawIcon(shot, highMissed);
+        }
+        for(int[] shot: madeLow){
+            drawIcon(shot, lowMade);
+        }
+        for(int[] shot: missLow){
+            drawIcon(shot, lowMissed);
         }
 
         if(coords != null) {
@@ -112,19 +129,32 @@ public class ShootingFragment extends DataCollectionFragment implements View.OnT
         img.invalidate();
     }
 
+    private void drawIcon(int[] globalCoords, Bitmap map){
+        float[] imageCoords = globalToImage(globalCoords);
+        canvas.drawBitmap(map, imageCoords[0] - map.getWidth() / 2,
+                imageCoords[1] - map.getHeight() / 2, new Paint());
+    }
+
     @Override
     public void onClick(View view) {
         switch(view.getId()){
-            case R.id.selectlocation_make:
-                if(coords != null)madeShots.add(coords);
+            case R.id.shoot_high_make:
+                if(coords != null)madeHigh.add(coords);
                 break;
-            case R.id.selectlocation_miss:
-                if(coords != null)missedShots.add(coords);
+            case R.id.shoot_high_miss:
+                if(coords != null)missHigh.add(coords);
+                break;
+            case R.id.shoot_low_make:
+                if(coords != null)madeLow.add(coords);
+                break;
+            case R.id.shoot_low_miss:
+                if(coords != null)missLow.add(coords);
                 break;
         }
         coords = null;
         drawCanvas();
         updateTextView();
+        ((StandScoutActivity)getActivity()).setTab(1);
     }
 
     public float[] touchToImage(float touchX, float touchY){
@@ -133,19 +163,19 @@ public class ShootingFragment extends DataCollectionFragment implements View.OnT
         return new float[]{imageX, imageY};
     }
 
-    public float[] imageToGlobal(float[] imageCoords){
-        float globalX = imageCoords[0] * 100f / canvas.getWidth();
-        float globalY = imageCoords[1] * 100f / canvas.getHeight();
+    public int[] imageToGlobal(float[] imageCoords){
+        int globalX = (int)imageCoords[0] * 100 / canvas.getWidth();
+        int globalY = (int)imageCoords[1] * 100 / canvas.getHeight();
         if(alliance == Constants.ALLIANCE_BLUE){
             globalX = 100 - globalX;
             globalY = 100 - globalY;
         }
-        return new float[]{globalX, globalY};
+        return new int[]{globalX, globalY};
     }
 
-    public float[] globalToImage(float[] globalCoords){
-        float globalX = globalCoords[0];
-        float globalY = globalCoords[1];
+    public float[] globalToImage(int[] globalCoords){
+        int globalX = globalCoords[0];
+        int globalY = globalCoords[1];
         if(alliance == Constants.ALLIANCE_BLUE){
             globalX = 100 - globalX;
             globalY = 100 - globalY;
@@ -155,7 +185,7 @@ public class ShootingFragment extends DataCollectionFragment implements View.OnT
         return new float[]{imageX, imageY};
     }
 
-    public float[] touchToGlobal(float touchX, float touchY){
+    public int[] touchToGlobal(float touchX, float touchY){
         return imageToGlobal(touchToImage(touchX, touchY));
     }
 
@@ -163,7 +193,10 @@ public class ShootingFragment extends DataCollectionFragment implements View.OnT
     public JSONObject getData() {
         JSONObject obj = new JSONObject();
         try {
-            obj.put("hello", "wow");
+            obj.put(Constants.JSON_SHOOTING_MADEHIGH, new JSONArray(Arrays.deepToString(madeHigh.toArray())));
+            obj.put(Constants.JSON_SHOOTING_MADELOW, new JSONArray(Arrays.deepToString(madeLow.toArray())));
+            obj.put(Constants.JSON_SHOOTING_MISSEDHIGH, new JSONArray(Arrays.deepToString(missHigh.toArray())));
+            obj.put(Constants.JSON_SHOOTING_MISSEDLOW, new JSONArray(Arrays.deepToString(missLow.toArray())));
         } catch (JSONException e) {}
         return obj;
     }

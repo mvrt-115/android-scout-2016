@@ -29,10 +29,9 @@ public class StandScoutActivity extends ActionBarActivity {
     MatchInfo matchInfo;
     int scoutId;
 
-    StandScoutAutonFragment standScoutAutonFragment;
     StandScoutTeleopFragment standScoutTeleopFragment;
-    StandScoutPostgameFragment standScoutPostgameFragment;
     ShootingFragment shootingFragment;
+    StandScoutPostgameFragment standScoutPostgameFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,22 +56,21 @@ public class StandScoutActivity extends ActionBarActivity {
 
     public void loadFragments(){
         MatchInfoFragment matchInfoFragment = new MatchInfoFragment();
-        standScoutAutonFragment = new StandScoutAutonFragment();
         standScoutTeleopFragment = new StandScoutTeleopFragment();
-        standScoutPostgameFragment = new StandScoutPostgameFragment();
         shootingFragment = new ShootingFragment();
+        standScoutPostgameFragment = new StandScoutPostgameFragment();
 
         Bundle b = new Bundle();
         b.putSerializable(Constants.INTENT_EXTRA_MATCHINFO, matchInfo);
         b.putInt(Constants.INTENT_EXTRA_SCOUTID, scoutId);
         matchInfoFragment.setArguments(b);
+        shootingFragment.setArguments(b);
 
         FragmentPagerAdapter tabAdapter = new FragmentPagerAdapter(getFragmentManager());
-        tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(matchInfoFragment, "Match Info"));
-        tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(standScoutAutonFragment, "Auton"));
-        tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(standScoutTeleopFragment, "Teleop"));
+        tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(matchInfoFragment, "Info"));
+        tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(standScoutTeleopFragment, "Scout"));
+        tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(shootingFragment, "Shots"));
         tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(standScoutPostgameFragment, "Post"));
-        tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(shootingFragment, "Shooting"));
 
         ViewPager pager = (ViewPager)findViewById(R.id.matchscout_pager);
         pager.setAdapter(tabAdapter);
@@ -86,26 +84,23 @@ public class StandScoutActivity extends ActionBarActivity {
         //TODO: PRESS BACK AGAIN TO EXIT
     }
 
+    public void setTab(int tab){
+        ViewPager pager = (ViewPager)findViewById(R.id.matchscout_pager);
+        pager.setCurrentItem(tab);
+    }
+
     public void stopScouting(){
         JSONObject obj = new JSONObject();
 
         ViewPager pager = (ViewPager)findViewById(R.id.matchscout_pager);
 
-        if(!standScoutAutonFragment.validate()){
+        if(!standScoutPostgameFragment.validate()){
             pager.setCurrentItem(1);
-            Snacker.snack("Please make sure you filled in all of the data", this, Snackbar.LENGTH_LONG);
-        }
-        else if(!standScoutTeleopFragment.validate()){
-            pager.setCurrentItem(2);
-            Snacker.snack("Please make sure you filled in all of the data", this, Snackbar.LENGTH_LONG);
-        }
-        else if(!standScoutPostgameFragment.validate()){
-            pager.setCurrentItem(3);
             Snacker.snack("Please make sure you filled in all of the data", this, Snackbar.LENGTH_LONG);
         }
         else {
             try {
-                obj.put(Constants.JSON_DATA_AUTON, standScoutAutonFragment.getData());
+                obj.put(Constants.JSON_DATA_SHOOTING, shootingFragment.getData());
                 obj.put(Constants.JSON_DATA_TELEOP, standScoutTeleopFragment.getData());
                 obj.put(Constants.JSON_DATA_POSTGAME, standScoutPostgameFragment.getData());
                 obj.put(Constants.JSON_DATA_MATCHINFO, matchInfo.toString());
@@ -119,6 +114,10 @@ public class StandScoutActivity extends ActionBarActivity {
             }
             finish();
         }
+    }
+
+    public MatchInfo getMatchInfo(){
+        return matchInfo;
     }
 
     public String writeToFile(JSONObject data, MatchInfo matchInfo, int scoutId) throws JSONException {

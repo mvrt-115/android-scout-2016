@@ -36,32 +36,12 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="17sp"
-                    android:text="Coopertition"/>
-
-                <RatingBar android:id="@+id/postgame_cooprating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:numStars="5"
-                    android:stepSize="1" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:textSize="17sp"
-                    android:text="Stacking"
+                    android:text="Defense"
                     android:layout_weight="1" />
 
-                <RatingBar android:id="@+id/postgame_stackrating"
+                <RatingBar android:id="@+id/postgame_defense"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:numStars="5"
@@ -78,65 +58,29 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:textSize="17sp"
-                    android:text="Capping Stacks"/>
+                    android:text="Ball Intake"
+                    android:layout_weight="1" />
 
-                <RatingBar android:id="@+id/postgame_caprating"
+                <RatingBar android:id="@+id/postgame_intake"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:numStars="5"
-                    android:stepSize="1" />
+                    android:stepSize="1"
+                    android:layout_weight="1" />
 
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="17sp"
-                    android:text="Intake"/>
-
-                <RatingBar android:id="@+id/postgame_intakerating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:numStars="5"
-                    android:stepSize="1" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="17sp"
-                    android:text="Dealt with Litter"/>
-                <RatingBar
-                    android:id="@+id/postgame_litterrating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:numStars="5"
-                    android:stepSize="1" />
-            </LinearLayout>
-
-            <CheckBox android:id="@+id/postgame_tippy"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Were they tippy?" />
 
             <CheckBox android:id="@+id/postgame_interfere"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Did they interfere with other robots?" />
+                android:text="Interfered with other robots?" />
+
+            <CheckBox android:id="@+id/postgame_disabled"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Disabled?" />
 
             <TextView
                 android:layout_width="fill_parent"

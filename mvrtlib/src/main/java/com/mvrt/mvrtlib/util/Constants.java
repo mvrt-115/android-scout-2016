@@ -31,9 +31,42 @@ public class Constants {
     public static final char ALLIANCE_RED = 'r';
     public static final char ALLIANCE_BLUE = 'b';
 
-    public static final String JSON_DATA_AUTON = "auton";
-    public static final String JSON_DATA_TELEOP = "teleop";
-    public static final String JSON_DATA_POSTGAME = "postgame";
-    public static final String JSON_DATA_MATCHINFO = "matchinfo";
-    public static final String JSON_DATA_SCOUTID = "scoutid";
+    public static final String JSON_DATA_AUTON = "atn";
+    public static final String JSON_DATA_TELEOP = "tlp";
+    public static final String JSON_DATA_SHOOTING = "sht";
+    public static final String JSON_DATA_POSTGAME = "pst";
+    public static final String JSON_DATA_MATCHINFO = "minfo";
+    public static final String JSON_DATA_SCOUTID = "sctid";
+
+    public static final String JSON_SHOOTING_MADEHIGH = "hy";
+    public static final String JSON_SHOOTING_MADELOW = "ly";
+    public static final String JSON_SHOOTING_MISSEDHIGH = "hn";
+    public static final String JSON_SHOOTING_MISSEDLOW = "ln";
+
+    public static final String JSON_POSTGAME_DISABLED = "dsbld";
+    public static final String JSON_POSTGAME_INTERFERES = "intrfr";
+    public static final String JSON_POSTGAME_DEFENSE = "dfns";
+    public static final String JSON_POSTGAME_INTAKE = "intk";
+    public static final String JSON_POSTGAME_COMMENTS = "cmnt";
+
+    public static final String JSON_TELEOP_INTAKE = "in";
+    public static final String JSON_TELEOP_CLIMBRESULT = "clbr";
+    public static final String JSON_TELEOP_CLIMBTIME = "clbt";
+    public static final String JSON_TELEOP_CROSSINGS = "crsn";
+
+    public static final char CLIMB_NO = 'n';
+    public static final char CLIMB_PROGRESS = 'c';
+    public static final char CLIMB_SUCCESS = 'y';
+    public static final char CLIMB_FAIL = 'f';
+
+    public static final String DEFENSE_PORTCULLIS = "a1";
+    public static final String DEFENSE_CHEVALDEFRISE = "a2";
+    public static final String DEFENSE_MOAT = "b1";
+    public static final String DEFENSE_RAMPART = "b2";
+    public static final String DEFENSE_DRAWBRIDGE = "c1";
+    public static final String DEFENSE_SALLYPORT = "c2";
+    public static final String DEFENSE_ROCKWALL = "d1";
+    public static final String DEFENSE_ROUGHTERRAIN = "d2";
+    public static final String DEFENSE_LOWBAR = "e1";
+
 }

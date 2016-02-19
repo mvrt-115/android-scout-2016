@@ -1,57 +1,51 @@
 package com.mvrt.scout;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.DataCollectionFragment;
+import com.mvrt.mvrtlib.util.DefenseCrossing;
+import com.mvrt.mvrtlib.util.DefenseCrossingDialogFragment;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
-public class StandScoutTeleopFragment extends DataCollectionFragment implements View.OnClickListener{
+public class StandScoutTeleopFragment extends DataCollectionFragment implements View.OnClickListener, DefenseCrossingDialogFragment.DefenseSelectedListener {
 
-    Button toteFromFeeder;
-    Button toteFromLandfill;
-    Button loseTote;
-    Button newStack;
-    Button stackLost;
-    Button stackCapped;
-    Button canFromStep;
-    Button flipCan;
-    Button noodleInBin;
-    Button noodleToLandfill;
-    CheckBox disabled;
-    TextView toteCount;
-    TextView stacksLabel;
-    TextView cansLabel;
-    TextView noodlesLabel;
+    Button climbStart;
+    Button climbSuccess;
+    Button climbFail;
+    Button climbCancel;
+    TextView climbStatus;
+    boolean cancelConfirm = false;
+    char climbState = Constants.CLIMB_NO;
+    long climbStartTime = 0, climbEndTime = 0;
+    Timer climbTimer;
+    TextView climbTimerTextView;
 
-    int currentTotes = 0;
+    Button crossDefense;
+    long crossStartTime = 0;
+    ArrayList<DefenseCrossing> crossings;
 
-    int feederTotes = 0;
-    int landfillTotes = 0;
-    int lostTotes = 0;
-    int cappedStacks = 0;
-    int cansFromStep = 0;
-    int cansFlipped = 0;
-    int noodlesInBin = 0;
-    int noodlesInLandfil = 0;
+    Button intakeBall;
+    Button removeBall;
+    int intakedBalls = 0;
 
-    ArrayList<String> stacks;
-    ArrayList<Boolean> capped;
-    ArrayList<Integer> knockedStacks;
+    DefenseCrossingDialogFragment crossingDialogFragment;
+
+    Button shootButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,36 +55,163 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
 
     @Override
     public void onViewCreated(View v, Bundle savedInstanceState) {
-        stacks = new ArrayList<>();
-        capped = new ArrayList<>();
-        knockedStacks = new ArrayList<>();
-
-        toteFromFeeder = (Button)v.findViewById(R.id.teleop_button_tote_feeder);
-        toteFromFeeder.setOnClickListener(this);
-        toteFromLandfill = (Button)v.findViewById(R.id.teleop_button_tote_landfill);
-        toteFromLandfill.setOnClickListener(this);
-        loseTote = (Button)v.findViewById(R.id.teleop_button_tote_lost);
-        loseTote.setOnClickListener(this);
-        newStack = (Button)v.findViewById(R.id.teleop_button_stack_new);
-        newStack.setOnClickListener(this);
-        stackLost = (Button)v.findViewById(R.id.teleop_button_stack_attack);
-        stackLost.setOnClickListener(this);
-        stackCapped = (Button)v.findViewById(R.id.teleop_button_stack_cap);
-        stackCapped.setOnClickListener(this);
-        canFromStep = (Button)v.findViewById(R.id.teleop_button_can_step);
-        canFromStep.setOnClickListener(this);
-        flipCan = (Button)v.findViewById(R.id.teleop_button_can_flip);
-        flipCan.setOnClickListener(this);
-        noodleInBin = (Button)v.findViewById(R.id.teleop_button_noodle_bin);
-        noodleInBin.setOnClickListener(this);
-        noodleToLandfill = (Button)v.findViewById(R.id.teleop_button_noodle_landfill);
-        noodleToLandfill.setOnClickListener(this);
-        disabled = (CheckBox)v.findViewById(R.id.teleop_teleop_disabled);
-        toteCount = (TextView)v.findViewById(R.id.teleop_label_tote_count);
-        stacksLabel = (TextView)v.findViewById(R.id.teleop_label_stacks);
-        cansLabel = (TextView)v.findViewById(R.id.teleop_label_cans);
-        noodlesLabel = (TextView)v.findViewById(R.id.teleop_label_noodles);
+        initShootUI(v);
+        initIntakeUI(v);
+        initClimbUI(v);
+        initCrossUI(v);
         refreshUi();
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        climbTimer.cancel();
+        climbTimer.purge();
+        Log.d("MVRT", "Climb Timer canceled and purged");
+    }
+
+    private void initCrossUI(View v){
+        crossings = new ArrayList<>();
+
+        crossingDialogFragment = new DefenseCrossingDialogFragment();
+        crossingDialogFragment.setDefenses(((StandScoutActivity) getActivity()).getMatchInfo());
+        crossingDialogFragment.setListener(this);
+
+        crossDefense = (Button)v.findViewById(R.id.teleop_cross);
+        crossDefense.setOnClickListener(this);
+    }
+
+    private void initIntakeUI(View v){
+        intakeBall = (Button)v.findViewById(R.id.teleop_intake);
+        intakeBall.setOnClickListener(this);
+        removeBall = (Button)v.findViewById(R.id.teleop_intakeremove);
+        removeBall.setOnClickListener(this);
+    }
+
+    private void refreshIntakeUI(){
+        intakeBall.setText("Intake Boulder (" + intakedBalls + ")");
+    }
+
+    private void intakeBall(){
+        intakedBalls++;
+        refreshIntakeUI();
+    }
+
+    private void removeBall(){
+        if(intakedBalls > 0)intakedBalls--;
+        refreshIntakeUI();
+    }
+
+    private void initClimbUI(View v){
+        climbStart = (Button)v.findViewById(R.id.teleop_climb_start);
+        climbStart.setOnClickListener(this);
+        climbSuccess = (Button)v.findViewById(R.id.teleop_climb_success);
+        climbSuccess.setOnClickListener(this);
+        climbFail = (Button)v.findViewById(R.id.teleop_climb_fail);
+        climbFail.setOnClickListener(this);
+        climbCancel = (Button)v.findViewById(R.id.teleop_climb_cancel);
+        climbCancel.setOnClickListener(this);
+        climbStatus = (TextView)v.findViewById(R.id.teleop_climb_status);
+        climbTimerTextView = (TextView)v.findViewById(R.id.teleop_climb_timer);
+        climbTimer = new Timer();
+        climbTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                String text = "";
+                if (climbState == Constants.CLIMB_PROGRESS) {
+                    long timeElapsed = SystemClock.elapsedRealtime() - climbStartTime;
+                    final double seconds = timeElapsed / 1000.0;
+                    text = Double.toString(seconds) + " seconds";
+                } else text = "0.00 seconds";
+                final String timerText = text;
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        climbTimerTextView.setText(timerText);
+                    }
+                });
+            }
+        }, 0, 50);
+    }
+
+    private void refreshClimbUI(){
+        double timeSec = (climbEndTime - climbStartTime)/1000.0;
+        Log.d("MVRT", "Time elapsed: " + timeSec);
+        switch(climbState){
+            case Constants.CLIMB_NO:
+                climbStatus.setText("Climb (timed!)");
+                climbStart.setVisibility(View.VISIBLE);
+                climbSuccess.setVisibility(View.GONE);
+                climbFail.setVisibility(View.GONE);
+                climbCancel.setVisibility(View.GONE);
+                climbCancel.setText("Cancel");
+                break;
+            case Constants.CLIMB_PROGRESS:
+                climbStatus.setText("Climbing");
+                climbStart.setVisibility(View.GONE);
+                climbSuccess.setVisibility(View.VISIBLE);
+                climbFail.setVisibility(View.VISIBLE);
+                climbCancel.setVisibility(View.VISIBLE);
+                break;
+            case Constants.CLIMB_FAIL:
+                climbStatus.setText("Climb Failed in " + timeSec + " seconds");
+                climbStart.setVisibility(View.GONE);
+                climbSuccess.setVisibility(View.GONE);
+                climbFail.setVisibility(View.GONE);
+                climbCancel.setVisibility(View.VISIBLE);
+                break;
+            case Constants.CLIMB_SUCCESS:
+                climbStatus.setText("Climb Successful in " + timeSec + " seconds");
+                climbStart.setVisibility(View.GONE);
+                climbSuccess.setVisibility(View.GONE);
+                climbFail.setVisibility(View.VISIBLE);
+                climbCancel.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
+    private void startClimbing(){
+        climbState = Constants.CLIMB_PROGRESS;
+        climbEndTime = climbStartTime = SystemClock.elapsedRealtime();
+        refreshClimbUI();
+    }
+
+    private void climbSuccess(){
+        if(climbState == Constants.CLIMB_PROGRESS)climbEndTime = SystemClock.elapsedRealtime();
+        climbState = Constants.CLIMB_SUCCESS;
+        refreshClimbUI();
+    }
+
+    private void climbFail(){
+        if(climbState == Constants.CLIMB_PROGRESS)climbEndTime = SystemClock.elapsedRealtime();
+        climbState = Constants.CLIMB_FAIL;
+        refreshClimbUI();
+    }
+
+    private void climbCancel(){
+        if(cancelConfirm) {
+            cancelConfirm = false;
+            climbStartTime = climbEndTime = 0;
+            climbState = Constants.CLIMB_NO;
+            refreshClimbUI();
+        }else{
+            cancelConfirm = true;
+            climbCancel.setText("Confirm Cancel?");
+        }
+    }
+
+    private void initShootUI(View v){
+        shootButton = (Button)v.findViewById(R.id.teleop_shoot);
+        shootButton.setOnClickListener(this);
+    }
+
+    private void shootBall(){
+        ((StandScoutActivity)getActivity()).setTab(2);
+    }
+
+    private void crossDefense(){
+        crossStartTime = SystemClock.elapsedRealtime();
+        crossingDialogFragment.show(getFragmentManager(), "MVRT");
     }
 
     @Override
@@ -101,137 +222,64 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.teleop_button_tote_landfill:
-                currentTotes++;
-                landfillTotes++;
+            case R.id.teleop_climb_start:
+                startClimbing();
                 break;
-            case R.id.teleop_button_tote_feeder:
-                currentTotes++;
-                feederTotes++;
+            case R.id.teleop_climb_success:
+                climbSuccess();
                 break;
-            case R.id.teleop_button_tote_lost:
-                currentTotes--;
-                lostTotes++;
+            case R.id.teleop_climb_fail:
+                climbFail();
                 break;
-            case R.id.teleop_button_noodle_bin:
-                noodlesInBin++;
+            case R.id.teleop_climb_cancel:
+                climbCancel();
                 break;
-            case R.id.teleop_button_noodle_landfill:
-                noodlesInLandfil++;
+            case R.id.teleop_intake:
+                intakeBall();
                 break;
-            case R.id.teleop_button_stack_cap:
-                cappedStacks++;
+            case R.id.teleop_intakeremove:
+                removeBall();
                 break;
-            case R.id.teleop_button_stack_new:
-                newStack();
+            case R.id.teleop_shoot:
+                shootBall();
                 break;
-            case R.id.teleop_button_stack_attack:
-                destroyStack();
-                break;
-            case R.id.teleop_button_can_step:
-                cansFromStep++;
-                break;
-            case R.id.teleop_button_can_flip:
-                cansFlipped++;
+            case R.id.teleop_cross:
+                crossDefense();
                 break;
         }
         refreshUi();
     }
 
     public void refreshUi(){
-        toteCount.setText("Totes: " + currentTotes);
-        stacksLabel.setText("Stacks: " + stacks);
-        cansLabel.setText("Containers:\n" + cappedStacks + " capped, " + cansFromStep + " from step, " + cansFlipped + " flipped");
-        noodlesLabel.setText("Noodles: " + noodlesInBin + " in containers, " + noodlesInLandfil + " in landfill");
-    }
-
-    public void newStack(){
-        AlertDialog.Builder builder =  new AlertDialog.Builder(getActivity());
-        View view = getActivity().getLayoutInflater().inflate(R.layout.numberdialog, null);
-        builder.setView (view);
-
-        final NumberPicker picker = (NumberPicker) view.findViewById(R.id.numberPicker);
-        picker.setMinValue(1);
-        picker.setMaxValue(6);
-
-        builder.setPositiveButton("Capped", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                int height = picker.getValue();
-                stacks.add(height + "c");
-                capped.add(true);
-                currentTotes -= Math.min(currentTotes, height);
-                refreshUi();
-                Log.d("MVRT", "Stacks: " + stacks);
-                dialog.dismiss();
-            } });
-        builder.setNeutralButton("Not capped", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                int height = picker.getValue();
-                stacks.add(height + "nc");
-                capped.add(false);
-                currentTotes -= Math.min(currentTotes, height);
-                refreshUi();
-                Log.d("MVRT", "Stacks: " + stacks);
-                dialog.dismiss();
-            } });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            } });
-        final AlertDialog dialog = builder.create ();
-        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        dialog.setTitle("New Stack");
-        dialog.show();
-    }
-
-    public void destroyStack(){
-        AlertDialog.Builder builder =  new AlertDialog.Builder(getActivity());
-        View view = getActivity().getLayoutInflater().inflate(R.layout.numberdialog, null);
-        builder.setView (view);
-
-        final NumberPicker picker = (NumberPicker) view.findViewById(R.id.numberPicker);
-        picker.setMinValue(1);
-        picker.setMaxValue(6);
-
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                int height = picker.getValue();
-                knockedStacks.add(height);
-                refreshUi();
-                dialog.dismiss();
-            } });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {} });
-
-        final AlertDialog dialog = builder.create ();
-        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        dialog.setTitle("Destroy Stack");
-        dialog.show();
+        refreshIntakeUI();
+        refreshClimbUI();
     }
 
     public JSONObject getData(){
         JSONObject obj = new JSONObject();
         try {
-            obj.put("Feeder Totes Collected", feederTotes);
-            obj.put("Landfill Tots Collected", landfillTotes);
-            obj.put("Total Totes Collected", feederTotes + landfillTotes);
-            obj.put("Totes Dropped", lostTotes);
-            obj.put("Stacks Built", stacks);
-            obj.put("Stacks Destroyed", knockedStacks);
-            obj.put("Stacks Capped", cappedStacks);
-            obj.put("Cans From Step", cansFromStep);
-            obj.put("Cans Flipped", cansFlipped);
-            obj.put("Noodles In Bin", noodlesInBin);
-            obj.put("Landfill Noodles", noodlesInLandfil);
-            obj.put("Disabled", disabled.isChecked());
-        }catch(Exception e){
-            Log.e("MVRT", "JSON Errors");
-        }
+            obj.put(Constants.JSON_TELEOP_CLIMBRESULT, climbState);
+            obj.put(Constants.JSON_TELEOP_CLIMBTIME, climbEndTime - climbStartTime);
+            obj.put(Constants.JSON_TELEOP_CROSSINGS, crossings);
+            obj.put(Constants.JSON_TELEOP_INTAKE, intakedBalls);
+        }catch(Exception e){}
         return obj;
     }
 
     // Unfortunately nothing to do here, as robot may have done nothing
     @Override
     public boolean validate () { return true;}
+
+    @Override
+    public void onDefenseSelected(String defense) {
+        crossings.add(new DefenseCrossing(defense, crossStartTime, SystemClock.elapsedRealtime()));
+        crossStartTime = 0;
+        Log.d("MVRT", "New crossing: " + crossings.toString());
+    }
+
+    @Override
+    public void defenseSelectionCanceled() {
+        Log.d("MVRT", "Selection Canceled");
+        crossStartTime = 0;
+    }
 }

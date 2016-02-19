@@ -10,21 +10,19 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RatingBar;
 
+import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.DataCollectionFragment;
 
 import org.json.JSONObject;
 
 /**
- * @author Aditya Kalari
+ * @author Akhil Palla
  */
 public class StandScoutPostgameFragment extends DataCollectionFragment {
 
-    RatingBar coop;
-    RatingBar stacking;
-    RatingBar capping;
+    RatingBar defense;
     RatingBar intake;
-    RatingBar litter;
-    CheckBox tippy;
+    CheckBox disabled;
     CheckBox interfere;
     EditText comments;
     Button finish;
@@ -37,12 +35,8 @@ public class StandScoutPostgameFragment extends DataCollectionFragment {
 
     @Override
     public void onViewCreated(View v, Bundle savedInstanceState) {
-        coop = (RatingBar)v.findViewById(R.id.postgame_cooprating);
-        stacking = (RatingBar)v.findViewById(R.id.postgame_stackrating);
-        capping = (RatingBar)v.findViewById(R.id.postgame_caprating);
-        intake = (RatingBar)v.findViewById(R.id.postgame_intakerating);
-        litter = (RatingBar)v.findViewById(R.id.postgame_litterrating);
-        tippy = (CheckBox)v.findViewById(R.id.postgame_tippy);
+        defense = (RatingBar)v.findViewById(R.id.postgame_defense);
+        intake = (RatingBar)v.findViewById(R.id.postgame_intake);
         interfere = (CheckBox)v.findViewById(R.id.postgame_interfere);
         comments = (EditText)v.findViewById(R.id.postgame_comments);
         finish = (Button)v.findViewById(R.id.postgame_finish);
@@ -61,11 +55,8 @@ public class StandScoutPostgameFragment extends DataCollectionFragment {
 
     @Override
     public boolean validate() {
-        if (coop.getRating() == 0) { return false; }
-        else if (stacking.getRating() == 0) { return false; }
-        else if (capping.getRating() == 0) { return false; }
-        else if (intake.getRating() == 0) { return false; }
-        else if (litter.getRating() == 0) { return false; }
+        if (intake.getRating() == 0) { return false; }
+        else if (defense.getRating() == 0) { return false; }
         else { return true; }
     }
 
@@ -73,14 +64,11 @@ public class StandScoutPostgameFragment extends DataCollectionFragment {
     public JSONObject getData(){
         JSONObject o = new JSONObject();
         try{
-            o.put("Coop Rating", coop.getRating());
-            o.put("Stacking Rating", stacking.getRating());
-            o.put("Capping Rating", capping.getRating());
-            o.put("Intake Rating", intake.getRating());
-            o.put("Litter Rating", litter.getRating());
-            o.put("Tippy", tippy.isChecked());
-            o.put("Interferes", interfere.isChecked());
-            o.put("Scout Comments", comments.getText().toString());
+            o.put(Constants.JSON_POSTGAME_INTAKE, intake.getRating());
+            o.put(Constants.JSON_POSTGAME_DEFENSE, defense.getRating());
+            o.put(Constants.JSON_POSTGAME_DISABLED, disabled.isChecked());
+            o.put(Constants.JSON_POSTGAME_INTERFERES, interfere.isChecked());
+            o.put(Constants.JSON_POSTGAME_COMMENTS, comments.getText().toString());
         } catch(Exception e){
            Log.e("MVRT", "JSON Error");
         }

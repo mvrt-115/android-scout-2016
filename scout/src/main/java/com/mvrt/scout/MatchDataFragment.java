@@ -43,9 +43,6 @@ public class MatchDataFragment extends Fragment implements View.OnClickListener{
     public void onViewCreated(View view, Bundle savedInstanceState){
         loadData(view);
 
-        Button ble = (Button)view.findViewById(R.id.start_ble);
-        ble.setOnClickListener(this);
-
         Button finish = (Button)view.findViewById(R.id.finish_scouting);
         finish.setOnClickListener(this);
 
@@ -70,9 +67,6 @@ public class MatchDataFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.start_ble:
-                Snacker.snack("BLE Unavailable. Use NFC or QR", getActivity(), Snackbar.LENGTH_LONG);
-                break;
             case R.id.finish_scouting:
                 if(sentData)
                     getActivity().finish();
