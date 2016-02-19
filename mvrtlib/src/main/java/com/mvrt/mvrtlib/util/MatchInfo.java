@@ -86,12 +86,12 @@ public class MatchInfo implements Serializable {
 
     public String userFriendlyString(){
         return "Teams " + Arrays.toString(teams) + " - " + alliance +  " (" + matchNo +  "@" + tournament + ")";
-        // [115,254,1678] b (q12@SVR)
+        // Teams [115,254,1678] - b (q12@SVR)
     }
 
     public String userFriendlyString(int id){
         return "Team " + teams[id] + ", " + alliance +  " (" + matchNo +  "@" + tournament + ")";
-        // 115, b (q12@SVR)
+        // Team 115, b (q12@SVR)
     }
 
     public String getFilename(){

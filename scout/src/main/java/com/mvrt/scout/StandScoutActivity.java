@@ -95,7 +95,7 @@ public class StandScoutActivity extends ActionBarActivity {
         ViewPager pager = (ViewPager)findViewById(R.id.matchscout_pager);
 
         if(!standScoutPostgameFragment.validate()){
-            pager.setCurrentItem(1);
+            pager.setCurrentItem(3);
             Snacker.snack("Please make sure you filled in all of the data", this, Snackbar.LENGTH_LONG);
         }
         else {

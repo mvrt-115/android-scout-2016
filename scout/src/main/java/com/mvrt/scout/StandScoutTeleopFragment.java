@@ -63,8 +63,8 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     }
 
     @Override
-    public void onDestroy(){
-        super.onDestroy();
+    public void onStop(){
+        super.onStop();
         climbTimer.cancel();
         climbTimer.purge();
         Log.d("MVRT", "Climb Timer canceled and purged");
@@ -124,7 +124,7 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
                     text = Double.toString(seconds) + " seconds";
                 } else text = "0.00 seconds";
                 final String timerText = text;
-                getActivity().runOnUiThread(new Runnable() {
+                if(getActivity() != null)getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         climbTimerTextView.setText(timerText);
