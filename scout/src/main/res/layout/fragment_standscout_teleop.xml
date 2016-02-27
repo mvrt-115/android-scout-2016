@@ -96,13 +96,13 @@
                     android:layout_weight="1"
                     android:text="Start Climb"
                     android:layout_margin="5dp"
-                    android:padding="20dp"
+                    android:padding="15dp"
                     android:theme="@style/MVRTButtonStyle"/>
 
                 <Button android:id="@+id/teleop_climb_success"
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
-                    android:padding="20dp"
+                    android:padding="15dp"
                     android:layout_weight="1"
                     android:text="Success"
                     android:layout_margin="5dp"
@@ -113,7 +113,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:text="Failed"
-                    android:padding="20dp"
+                    android:padding="15dp"
                     android:layout_margin="5dp"
                     android:theme="@style/MVRTButtonStyle"/>
 
@@ -122,11 +122,16 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:text="Cancel"
-                    android:padding="20dp"
+                    android:padding="15dp"
                     android:layout_margin="5dp"
                     android:theme="@style/MVRTButtonStyle"/>
 
             </LinearLayout>
+
+            <CheckBox android:id="@+id/teleop_challenge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Challenge Tower" />
 
         </LinearLayout>
     </ScrollView>

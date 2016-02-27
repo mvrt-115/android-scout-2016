@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ public class SuperDataFragment extends Fragment{
     }
 
     public void addData(int team, String code){
+        Log.d("MVRT", "add data");
         String toAppend = "T " + team + ", verif. code: " + code;
         if(list != null)list.append(toAppend + System.getProperty("line.separator"));
         else queue += toAppend;
@@ -65,9 +67,7 @@ public class SuperDataFragment extends Fragment{
     }
 
     public void finishScouting(){
-        //((SuperScoutActivity)getActivity()).sendScoutData();
-        ((SuperScoutActivity)getActivity()).sendSuperData();
-        getActivity().finish();
+        ((SuperScoutActivity)getActivity()).finishScouting();
     }
 
     @Override
@@ -78,7 +78,7 @@ public class SuperDataFragment extends Fragment{
                     @Override
                     public void run() {
                         String result = data.getStringExtra(Constants.INTENT_QR_SCANRESULT_KEY);
-                        ((SuperScoutActivity) getActivity()).addMatchData(result);
+                        ((SuperScoutActivity) getActivity()).addQRMatchData(result);
                     }
                 }, 500);
             }

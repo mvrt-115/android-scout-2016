@@ -42,14 +42,14 @@ public class SuperCommentsFragment extends Fragment {
         matchInfo = (MatchInfo)getArguments().getSerializable(Constants.INTENT_EXTRA_MATCHINFO);
 
         TextView team1 = (TextView)v.findViewById(R.id.team1);
-        team1.setText("Team: " + matchInfo.getTeam(0));
+        team1.setText("Team: " + matchInfo.getTeams()[0]);
         team1.setTextColor(getResources().getColor(matchInfo.getAllianceColorId()));
 
         TextView team2 = (TextView)v.findViewById(R.id.team2);
-        team2.setText("Team: " + matchInfo.getTeam(1));
+        team2.setText("Team: " + matchInfo.getTeams()[1]);
 
         TextView team3 = (TextView)v.findViewById(R.id.team3);
-        team3.setText("Team: " + matchInfo.getTeam(2));
+        team3.setText("Team: " + matchInfo.getTeams()[2]);
     }
 
     public String getTeam1(){

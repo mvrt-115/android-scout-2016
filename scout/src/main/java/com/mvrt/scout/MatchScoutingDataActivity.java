@@ -27,6 +27,7 @@ public class MatchScoutingDataActivity extends AppCompatActivity{
 
     private NfcAdapter nfcAdapter;
     private JSONObject data;
+    private JSONObject scoutData;
     private MatchInfo info;
 
     @Override
@@ -44,17 +45,16 @@ public class MatchScoutingDataActivity extends AppCompatActivity{
             byte[] buffer = new byte[size];
             fis.read(buffer);
             fis.close();
-            data = new JSONObject(new String(buffer));
-            Log.d("MVRT", data.toString());
 
-            String matchInfoString = data.getString(Constants.JSON_DATA_MATCHINFO);
-            Log.d("MVRT", "matchInfoString: " + matchInfoString);
+            data = new JSONObject();
+            scoutData = new JSONObject(new String(buffer));
+            int code = (int)(Math.random() * 8999 + 1000);
 
+            data.put("data", scoutData);
+            data.put("verif", code);
 
+            String matchInfoString = scoutData.getString(Constants.JSON_DATA_MATCHINFO);
             info = MatchInfo.parse(matchInfoString);
-            Log.d("MVRT", "info created");
-
-            Log.d("MVRT", info.userFriendlyString());
 
             loadUI();
             loadFragments();
@@ -62,7 +62,6 @@ public class MatchScoutingDataActivity extends AppCompatActivity{
         }catch(Exception e){
             data = null;
             e.printStackTrace();
-            Log.e("MVRT", "Data is null");
         }
 
         initNFC();
@@ -91,7 +90,7 @@ public class MatchScoutingDataActivity extends AppCompatActivity{
         MatchInfoFragment infoFragment = new MatchInfoFragment();
         Bundle b = new Bundle();
         b.putSerializable(Constants.INTENT_EXTRA_MATCHINFO, info);
-        b.putInt(Constants.INTENT_EXTRA_SCOUTID, data.getInt(Constants.JSON_DATA_SCOUTID));
+        b.putInt(Constants.INTENT_EXTRA_SCOUTID, scoutData.getInt(Constants.JSON_DATA_SCOUTID));
         infoFragment.setArguments(b);
 
         TabLayout tabs = (TabLayout)findViewById(R.id.matchdata_tablayout);
@@ -107,23 +106,15 @@ public class MatchScoutingDataActivity extends AppCompatActivity{
     }
 
     public void initNFC(){
-        if(data == null){
-            Log.d("MVRT", "data not working");
-            return;
-        }
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if(nfcAdapter == null){
             Log.d("MVRT", "NFC not available");
             return;
         }
 
-        nfcAdapter.setNdefPushMessage(new NdefMessage(
-                NdefRecord.createExternal(
-                        "mvrt.com",
-                        "matchdata",
-                        data.toString().getBytes())
-        ), this);
-
+        NdefRecord r = NdefRecord.createMime("application/json", data.toString().getBytes());
+        NdefMessage message = new NdefMessage(r);
+        nfcAdapter.setNdefPushMessage(message, this);
     }
 
 }

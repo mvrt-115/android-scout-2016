@@ -3,7 +3,6 @@ package com.mvrt.scout;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -11,7 +10,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.FragmentPagerAdapter;
@@ -30,7 +28,7 @@ public class StandScoutActivity extends ActionBarActivity {
     int scoutId;
 
     StandScoutTeleopFragment standScoutTeleopFragment;
-    ShootingFragment shootingFragment;
+    StandScoutShootingFragment standScoutShootingFragment;
     StandScoutPostgameFragment standScoutPostgameFragment;
 
     @Override
@@ -43,9 +41,8 @@ public class StandScoutActivity extends ActionBarActivity {
     }
 
     public void loadIntentData(){
-        matchInfo = (MatchInfo)getIntent().getSerializableExtra(Constants.INTENT_EXTRA_MATCHINFO);
         scoutId = getSharedPreferences(Constants.SHARED_PREFS_NAME_SCOUT, Activity.MODE_PRIVATE).getInt(Constants.PREFS_SCOUTID_KEY, 0);
-        Log.d("MVRT", "Scout ID is " + scoutId);
+        matchInfo = (MatchInfo) getIntent().getSerializableExtra(Constants.INTENT_EXTRA_MATCHINFO);
         setTitle(matchInfo.userFriendlyString(scoutId));
     }
 
@@ -57,19 +54,19 @@ public class StandScoutActivity extends ActionBarActivity {
     public void loadFragments(){
         MatchInfoFragment matchInfoFragment = new MatchInfoFragment();
         standScoutTeleopFragment = new StandScoutTeleopFragment();
-        shootingFragment = new ShootingFragment();
+        standScoutShootingFragment = new StandScoutShootingFragment();
         standScoutPostgameFragment = new StandScoutPostgameFragment();
 
         Bundle b = new Bundle();
         b.putSerializable(Constants.INTENT_EXTRA_MATCHINFO, matchInfo);
         b.putInt(Constants.INTENT_EXTRA_SCOUTID, scoutId);
         matchInfoFragment.setArguments(b);
-        shootingFragment.setArguments(b);
+        standScoutShootingFragment.setArguments(b);
 
         FragmentPagerAdapter tabAdapter = new FragmentPagerAdapter(getFragmentManager());
         tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(matchInfoFragment, "Info"));
         tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(standScoutTeleopFragment, "Scout"));
-        tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(shootingFragment, "Shots"));
+        tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(standScoutShootingFragment, "Shots"));
         tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(standScoutPostgameFragment, "Post"));
 
         ViewPager pager = (ViewPager)findViewById(R.id.matchscout_pager);
@@ -100,7 +97,7 @@ public class StandScoutActivity extends ActionBarActivity {
         }
         else {
             try {
-                obj.put(Constants.JSON_DATA_SHOOTING, shootingFragment.getData());
+                obj.put(Constants.JSON_DATA_SHOOTING, standScoutShootingFragment.getData().get(Constants.JSON_SHOOTING_SHOTS));
                 obj.put(Constants.JSON_DATA_TELEOP, standScoutTeleopFragment.getData());
                 obj.put(Constants.JSON_DATA_POSTGAME, standScoutPostgameFragment.getData());
                 obj.put(Constants.JSON_DATA_MATCHINFO, matchInfo.toString());
@@ -112,6 +109,7 @@ public class StandScoutActivity extends ActionBarActivity {
             } catch (JSONException je) {
                 je.printStackTrace();
             }
+            Log.d("MVRT", "FINISH");
             finish();
         }
     }

@@ -1,6 +1,8 @@
 package com.mvrt.mvrtlib.util;
 
 
+import android.util.Log;
+
 import com.mvrt.mvrtlib.R;
 
 import java.io.Serializable;
@@ -39,14 +41,18 @@ public class MatchInfo implements Serializable {
      * FORMAT: 10@SVR:r[115,254,1678](a1,b2,c2,d2)
      */
     public static MatchInfo parse(String data){
-        if(!validate(data))return null;
+        data = data.replaceAll(" ", "");
 
-        Pattern p = Pattern.compile("(\\d+)(?=@)");
+        Log.d("MVRT", "Validating");
+        if(!validate(data))return null;
+        Log.d("MVRT", "Validated");
+
+        Pattern p = Pattern.compile("\\d+(?=@)");
         Matcher m = p.matcher(data);
         if(!m.find())return null;
         int matchNo = Integer.parseInt(m.group());
 
-        p = Pattern.compile("(\\w+)(?=:)");
+        p = Pattern.compile("\\w+(?=:)");
         m = p.matcher(data);
         if(!m.find())return null;
         String tourn = m.group();
@@ -56,14 +62,15 @@ public class MatchInfo implements Serializable {
         if(!m.find())return null;
         char alliance = m.group().charAt(0);
 
-        p = Pattern.compile("(((\\d+),)+)?((\\d+))(?=])");
+        p = Pattern.compile("(\\d+,?)+(?=])");
         m = p.matcher(data);
         if(!m.find())return null;
         String[] teamString = m.group().split(",");
+        Log.d("MVRT", "teamString array: " + Arrays.toString(teamString));
         int[] teams = new int[teamString.length];
         for(int i = 0; i < teamString.length; i++)teams[i] = Integer.parseInt(teamString[i]);
 
-        p = Pattern.compile("(((\\w\\d),)+)?((\\w\\d+))(?=\\))");
+        p = Pattern.compile("(\\w\\d,?)+(?=\\))");
         m = p.matcher(data);
         if(!m.find())return null;
         String[] defenses = m.group().split(",");
@@ -75,12 +82,20 @@ public class MatchInfo implements Serializable {
     public String toString() {
         String str = matchNo + "@" + tournament + ":" + alliance + Arrays.toString(teams);
         str += "(" + defenses[0] + "," + defenses[1] + "," + defenses[2] + "," + defenses[3] + ")";
+        str = str.replaceAll(" ", "");
         return str;
     }
 
     public String toString(int id) {
         String str = matchNo + "@" + tournament + ":" + alliance + "[" + teams[id] + "]";
         str += "(" + defenses[0] + "," + defenses[1] + "," + defenses[2] + "," + defenses[3] + ")";
+        str = str.replaceAll(" ", "");
+        return str;
+    }
+
+    public String toDbKey(int id){
+        String str = matchNo + "@" + tournament + ":" + alliance + "-" + teams[id];
+        str = str.replaceAll(" ", "");
         return str;
     }
 
@@ -95,7 +110,9 @@ public class MatchInfo implements Serializable {
     }
 
     public String getFilename(){
-        return matchNo + "@" + tournament + ":" + alliance + Arrays.toString(teams) + ".json";
+        String str = matchNo + "@" + tournament + ":" + alliance + Arrays.toString(teams) + ".json";
+        str = str.replaceAll(" ", "");
+        return str;
     }
 
     public String getFilename(int id){
@@ -139,11 +156,11 @@ public class MatchInfo implements Serializable {
     }
 
     public static boolean validate(String str){
-        return str.matches("(\\d+)@(\\w+):(r|b)\\[((,?)\\d+)+\\]\\(((,?)\\w\\d)+\\)");
+        return str.matches("\\d+@\\w+:(r|b)\\[(\\d+,?)+\\]\\((,?\\w\\d)+\\)");
     }
 
     public static boolean validateFilename(String str){
-        return str.matches("(\\d+)@(\\w+):(r|b)\\[((,?)\\d+)+\\].json");
+        return str.matches("\\d+@\\w+:(r|b)\\[(,? ?\\d+)+\\].json");
     }
 
 }

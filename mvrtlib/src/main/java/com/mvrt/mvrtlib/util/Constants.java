@@ -14,6 +14,8 @@ public class Constants {
     public static final String INTENT_EXTRA_FILENAME = "com.mvrt.scout.intent.FILENAME";
     public static final String INTENT_EXTRA_SCOUTID = "com.mvrt.scout.intent.SCOUTID";
 
+    public static final String INTENT_ACTION_SCOUT = "com.mvrt.scout.intent.SCOUT";
+
     public static final int REQUEST_QR_SCAN = 10;
 
     public static final String PREFS_TOURNAMENT_KEY = "com.mvrt.scout.prefs.TOURNAMENTKEY";
@@ -38,10 +40,7 @@ public class Constants {
     public static final String JSON_DATA_MATCHINFO = "minfo";
     public static final String JSON_DATA_SCOUTID = "sctid";
 
-    public static final String JSON_SHOOTING_MADEHIGH = "hy";
-    public static final String JSON_SHOOTING_MADELOW = "ly";
-    public static final String JSON_SHOOTING_MISSEDHIGH = "hn";
-    public static final String JSON_SHOOTING_MISSEDLOW = "ln";
+    public static final String JSON_SHOOTING_SHOTS = "sht";
 
     public static final String JSON_POSTGAME_DISABLED = "dsbld";
     public static final String JSON_POSTGAME_INTERFERES = "intrfr";
@@ -54,10 +53,10 @@ public class Constants {
     public static final String JSON_TELEOP_CLIMBTIME = "clbt";
     public static final String JSON_TELEOP_CROSSINGS = "crsn";
 
-    public static final char CLIMB_NO = 'n';
-    public static final char CLIMB_PROGRESS = 'c';
-    public static final char CLIMB_SUCCESS = 'y';
-    public static final char CLIMB_FAIL = 'f';
+    public static final String CLIMB_NO = "n";
+    public static final String CLIMB_PROGRESS = "c";
+    public static final String CLIMB_SUCCESS = "y";
+    public static final String CLIMB_FAIL = "f";
 
     public static final String DEFENSE_PORTCULLIS = "a1";
     public static final String DEFENSE_CHEVALDEFRISE = "a2";

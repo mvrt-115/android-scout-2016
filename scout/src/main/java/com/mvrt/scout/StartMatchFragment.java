@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,6 +116,7 @@ public class StartMatchFragment extends Fragment implements View.OnClickListener
         }
         Intent i = new Intent(getActivity(), StandScoutActivity.class);
         i.putExtra(Constants.INTENT_EXTRA_MATCHINFO, match);
+        i.setAction(Constants.INTENT_ACTION_SCOUT);
         startActivity(i);
     }
 

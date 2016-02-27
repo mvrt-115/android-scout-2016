@@ -58,16 +58,6 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
 
     }
 
-    public void startScouting(MatchInfo match){
-        if(match == null) {
-            Snacker.snack("Invalid match info", this, Snackbar.LENGTH_SHORT);
-            return;
-        }
-        Intent i = new Intent(this, SuperScoutActivity.class);
-        i.putExtra(Constants.INTENT_EXTRA_MATCHINFO, match);
-        startActivity(i);
-    }
-
 
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {

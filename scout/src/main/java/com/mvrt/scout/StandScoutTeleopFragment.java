@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.mvrt.mvrtlib.util.Constants;
@@ -30,10 +31,12 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     Button climbCancel;
     TextView climbStatus;
     boolean cancelConfirm = false;
-    char climbState = Constants.CLIMB_NO;
+    String climbState = Constants.CLIMB_NO;
     long climbStartTime = 0, climbEndTime = 0;
     Timer climbTimer;
     TextView climbTimerTextView;
+
+    CheckBox challengeTower;
 
     Button crossDefense;
     long crossStartTime = 0;
@@ -103,6 +106,8 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     }
 
     private void initClimbUI(View v){
+        challengeTower = (CheckBox)v.findViewById(R.id.teleop_challenge);
+
         climbStart = (Button)v.findViewById(R.id.teleop_climb_start);
         climbStart.setOnClickListener(this);
         climbSuccess = (Button)v.findViewById(R.id.teleop_climb_success);

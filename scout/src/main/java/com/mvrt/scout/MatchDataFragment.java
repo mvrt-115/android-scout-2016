@@ -32,7 +32,7 @@ import org.json.JSONObject;
 public class MatchDataFragment extends Fragment implements View.OnClickListener{
 
     private boolean sentData = false;
-    String verificationCode;
+    private String verificationCode;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,19 +48,20 @@ public class MatchDataFragment extends Fragment implements View.OnClickListener{
 
     }
 
+    public String getVerificationCode(){
+        return verificationCode;
+    }
+
     public void loadData(View v){
         JSONObject obj = ((MatchScoutingDataActivity) getActivity()).getData();
-        JSONObject parent = new JSONObject();
 
-        int code = (int)(Math.random() * 8999 + 1000);
-        verificationCode = "" + code;
+        verificationCode = "";
 
         try{
-            parent.put("data", obj);
-            parent.put("verif", code);
+            verificationCode = "" + obj.getInt("verif");
         }catch(Exception e){}
 
-        loadQr(parent.toString());
+        loadQr(obj.toString());
     }
 
 
@@ -87,7 +88,6 @@ public class MatchDataFragment extends Fragment implements View.OnClickListener{
         Generates a QR code to send back match data
 
         Tested on 8/15, works for "hella long data" - akhil :P
-        http://puu.sh/jBPRS/9480591718.png <- could be scanned relatively easily, so we're good
      */
     public void loadQr(String data) {
         ImageView imageView = (ImageView)getView().findViewById(R.id.matchdata_qr);

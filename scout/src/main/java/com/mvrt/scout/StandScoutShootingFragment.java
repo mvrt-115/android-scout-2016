@@ -10,13 +10,13 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.DataCollectionFragment;
 import com.mvrt.mvrtlib.util.MatchInfo;
+import com.mvrt.mvrtlib.util.TowerShot;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,7 +25,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class ShootingFragment extends DataCollectionFragment implements View.OnTouchListener, View.OnClickListener {
+public class StandScoutShootingFragment extends DataCollectionFragment implements View.OnTouchListener, View.OnClickListener {
 
     char alliance = Constants.ALLIANCE_RED;
 
@@ -36,17 +36,19 @@ public class ShootingFragment extends DataCollectionFragment implements View.OnT
     Bitmap highMade, highMissed, lowMade, lowMissed;
     Bitmap field;
 
+    int noHighMade = 0;
+    int noHighMissed = 0;
+    int noLowMade = 0;
+    int noLowMissed = 0;
+
     int[] coords = null;
 
-    ArrayList<int[]> madeHigh;
-    ArrayList<int[]> madeLow;
-    ArrayList<int[]> missHigh;
-    ArrayList<int[]> missLow;
+    ArrayList<TowerShot> shots;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        return inflater.inflate(R.layout.fragment_shooting, container, false);
+        return inflater.inflate(R.layout.fragment_standscout_shooting, container, false);
     }
 
     @Override
@@ -77,10 +79,7 @@ public class ShootingFragment extends DataCollectionFragment implements View.OnT
         img = (ImageView)(getView().findViewById(R.id.selectlocation_imageview));
         img.setOnTouchListener(this);
         img.setImageBitmap(temp);
-        madeHigh = new ArrayList<>();
-        madeLow = new ArrayList<>();
-        missHigh = new ArrayList<>();
-        missLow = new ArrayList<>();
+        shots = new ArrayList<>();
 
         getView().findViewById(R.id.shoot_high_make).setOnClickListener(this);
         getView().findViewById(R.id.shoot_high_miss).setOnClickListener(this);
@@ -99,25 +98,19 @@ public class ShootingFragment extends DataCollectionFragment implements View.OnT
     }
 
     public void updateTextView(){
-        String high = "High: " + madeHigh.size() + "/" + (madeHigh.size() + missHigh.size());
-        String low = ", Low: " + madeLow.size() + "/" + (madeLow.size() + missLow.size());
+        String high = "High: " + noHighMade + "/" + (noHighMade + noHighMissed);
+        String low = ", Low: " + noLowMade + "/" + (noLowMade + noLowMissed);
         textView.setText(high + low);
     }
 
     public void drawCanvas(){
         canvas.drawBitmap(field, 0, 0, new Paint());
 
-        for(int[] shot: madeHigh){
-            drawIcon(shot, highMade);
-        }
-        for(int[] shot: missHigh){
-            drawIcon(shot, highMissed);
-        }
-        for(int[] shot: madeLow){
-            drawIcon(shot, lowMade);
-        }
-        for(int[] shot: missLow){
-            drawIcon(shot, lowMissed);
+        for(TowerShot shot: shots){
+            if(shot.getHighGoal() && shot.getMade())drawIcon(shot.getCoords(), highMade);
+            else if(!shot.getHighGoal() && shot.getMade())drawIcon(shot.getCoords(), lowMade);
+            else if(shot.getHighGoal())drawIcon(shot.getCoords(), highMissed);
+            else drawIcon(shot.getCoords(), lowMissed);
         }
 
         if(coords != null) {
@@ -139,16 +132,20 @@ public class ShootingFragment extends DataCollectionFragment implements View.OnT
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.shoot_high_make:
-                if(coords != null)madeHigh.add(coords);
+                shots.add(new TowerShot(coords, true, true));
+                noHighMade++;
                 break;
             case R.id.shoot_high_miss:
-                if(coords != null)missHigh.add(coords);
+                shots.add(new TowerShot(coords, false, true));
+                noHighMissed++;
                 break;
             case R.id.shoot_low_make:
-                if(coords != null)madeLow.add(coords);
+                shots.add(new TowerShot(coords, true, false));
+                noLowMade++;
                 break;
             case R.id.shoot_low_miss:
-                if(coords != null)missLow.add(coords);
+                shots.add(new TowerShot(coords, false, false));
+                noLowMissed++;
                 break;
         }
         coords = null;
@@ -191,14 +188,13 @@ public class ShootingFragment extends DataCollectionFragment implements View.OnT
 
     @Override
     public JSONObject getData() {
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put(Constants.JSON_SHOOTING_MADEHIGH, new JSONArray(Arrays.deepToString(madeHigh.toArray())));
-            obj.put(Constants.JSON_SHOOTING_MADELOW, new JSONArray(Arrays.deepToString(madeLow.toArray())));
-            obj.put(Constants.JSON_SHOOTING_MISSEDHIGH, new JSONArray(Arrays.deepToString(missHigh.toArray())));
-            obj.put(Constants.JSON_SHOOTING_MISSEDLOW, new JSONArray(Arrays.deepToString(missLow.toArray())));
-        } catch (JSONException e) {}
-        return obj;
+        JSONObject o = new JSONObject();
+        JSONArray shotArray = new JSONArray();
+        try{
+            for(TowerShot shot:shots)shotArray.put(shot.toString());
+            o.put(Constants.JSON_SHOOTING_SHOTS, shotArray);
+        }catch (JSONException e){ e.printStackTrace(); }
+        return o;
     }
 
     @Override

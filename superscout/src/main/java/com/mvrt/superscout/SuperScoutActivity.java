@@ -8,33 +8,28 @@ import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.FragmentPagerAdapter;
 import com.mvrt.mvrtlib.util.JSONUtils;
 import com.mvrt.mvrtlib.util.MatchInfo;
-import com.mvrt.mvrtlib.util.Snacker;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
- * @author Bubby
+ * @author Bubby and Akhil
  */
-public class SuperScoutActivity extends ActionBarActivity implements ChildEventListener {
+public class SuperScoutActivity extends AppCompatActivity {
 
 
     NfcAdapter nfcAdapter;
@@ -43,29 +38,28 @@ public class SuperScoutActivity extends ActionBarActivity implements ChildEventL
 
     ArrayList<JSONObject> scoutData = new ArrayList<>();
     MatchInfo matchInfo;
-    Firebase mainRef;
 
     SuperCommentsFragment superCommentsFragment;
     SuperMatchInfoFragment superMatchInfoFragment;
     SuperDataFragment superDataFragment;
+
+    Firebase firebase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_super_scout);
 
-        loadFirebase();
         loadIntentData();
+        initFirebase();
         loadUI();
         loadFragments();
         initNFC();
-        sendMatchData();
     }
 
-    public void loadFirebase(){
-        Firebase.setAndroidContext(getApplicationContext());
-        mainRef = new Firebase("https://teamdata.firebaseio.com/");
-        mainRef.addChildEventListener(this);
+    private void initFirebase(){
+        Firebase.setAndroidContext(getApplication());
+        firebase = new Firebase("http://teamdata.firebaseio.com");
     }
 
     public void loadIntentData(){
@@ -111,14 +105,14 @@ public class SuperScoutActivity extends ActionBarActivity implements ChildEventL
                         .addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING), 0);
 
         IntentFilter ndef = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
-        ndef.addDataScheme("vnd.android.nfc");
-        ndef.addDataPath(Constants.NDEF_DATA_PATH, 0);
-        ndef.addDataAuthority("ext", null);
+        try {
+            ndef.addDataType("application/json");
+        } catch (IntentFilter.MalformedMimeTypeException e) { e.printStackTrace(); }
         intentFilters = new IntentFilter[]{ndef};
 
-        nfcAdapter.setNdefPushMessage(new NdefMessage(
-                NdefRecord.createExternal(Constants.NDEF_RECORD_DOMAIN, Constants.NDEF_RECORD_TYPE_MATCHINFO, matchInfo.toString().getBytes())
-        ), this);
+        NdefRecord r = NdefRecord.createMime("text/mvrt", matchInfo.toString().getBytes());
+        NdefMessage message = new NdefMessage(r);
+        nfcAdapter.setNdefPushMessage(message, this);
     }
 
     @Override
@@ -129,63 +123,11 @@ public class SuperScoutActivity extends ActionBarActivity implements ChildEventL
     @Override
     protected void onResume() {
         if(NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())){
-            handleIntent(getIntent());
+            getIntent().setAction(Intent.ACTION_DEFAULT);
+            addNFCMatchData(getIntent());
         }
         nfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFilters, null);
         super.onResume();
-    }
-
-    public void handleIntent(Intent intent){
-        Parcelable[] rawMsgs = intent.getParcelableArrayExtra(
-                NfcAdapter.EXTRA_NDEF_MESSAGES);
-        NdefMessage msg = (NdefMessage) rawMsgs[0];
-        String data = new String(msg.getRecords()[0].getPayload());
-        Log.d("MVRT", "Data recieved NFC");
-        addMatchData(data);
-    }
-
-    public void sendScoutData(JSONObject data) {
-        Log.d("MVRT", "Sending scout data");
-        Log.d("MVRT", data.toString());
-        try{
-            Map<String, Object> map = JSONUtils.jsonToMap(data);
-            mainRef.child("matches")
-                    .child(data.getString("Match Info"))
-                    .child("scout").updateChildren(map);
-        }catch(Exception e){
-            Log.d("MVRT", "Exception");
-            e.printStackTrace();
-        }
-    }
-
-    public void sendSuperData(){
-        String team1 = superCommentsFragment.getTeam1();
-        String team2 = superCommentsFragment.getTeam2();
-        String team3 = superCommentsFragment.getTeam3();
-
-        Firebase matchRef = mainRef.child("matches");
-
-        matchRef.child(matchInfo.singleTeamString(0))
-                .child("super")
-                .setValue(team1);
-
-        matchRef.child(matchInfo.singleTeamString(1))
-                .child("super")
-                .setValue(team2);
-
-        matchRef.child(matchInfo.singleTeamString(2))
-                .child("super")
-                .setValue(team3);
-    }
-
-    public void sendMatchData(){
-        for(int id = 0; id < 3; id++) {
-            Firebase r = mainRef.child("matches").child(matchInfo.singleTeamString(id));
-            r.child("team").setValue(matchInfo.getTeam(id));
-            r.child("alliance").setValue(matchInfo.getAlliance());
-            r.child("match").setValue(matchInfo.getMatchNo());
-            r.child("tournament").setValue(matchInfo.getTournament());
-        }
     }
 
     @Override
@@ -194,47 +136,58 @@ public class SuperScoutActivity extends ActionBarActivity implements ChildEventL
         super.onPause();
     }
 
-    public void addMatchData(String str){
+    public void addNFCMatchData(Intent intent){
+        Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+        NdefMessage msg = (NdefMessage) rawMsgs[0];
+        String data = new String(msg.getRecords()[0].getPayload());
         try{
-            JSONObject o = new JSONObject(str);
-            JSONObject data = o.getJSONObject("data");
-            scoutData.add(data);
+            JSONObject obj = new JSONObject(data);
+            addScoutMatchData(obj.getJSONObject("data"), obj.getString("verif"));
+        }catch(JSONException e){ e.printStackTrace(); }
+    }
 
-            Log.d("MVRT", o.toString());
-
-            String verify = "N/A";
-            if(o.has("verif")) verify = o.getString("verif");
-            Log.d("MVRT", "Match Info: " + data.getString("Match Info"));
-            MatchInfo i = MatchInfo.parse(data.getString("Match Info"));
-            int team = -1;
-            if(i != null)team = i.getTeam(0);
-            superDataFragment.addData(team, verify);
-            Log.d("MVRT", "Add Data from Team: " + team + ", verify: " + verify);
-
-            sendScoutData(data);
-
-        }catch(Exception e){
-            Log.d("MVRT", "Error addding scouting data - not JSON");
-            Log.d("MVRT", "Data: " + str);
-            Log.d("MVRT", e.toString());
+    public void addScoutMatchData(JSONObject object, String verifCode){
+        scoutData.add(object);
+        try{
+            MatchInfo i = MatchInfo.parse(object.getString(Constants.JSON_DATA_MATCHINFO));
+            int scoutId = object.getInt(Constants.JSON_DATA_SCOUTID);
+            superDataFragment.addData(i.getTeams()[scoutId], (verifCode == null)?"N/A":verifCode);
+            Log.d("MVRT", "data: " + object.toString());
+            firebase.child("matches").child(i.toDbKey(scoutId)).updateChildren(JSONUtils.jsonToMap(object));
+        }catch(JSONException e) {
+            e.printStackTrace();
         }
     }
 
-    /** FIREBASE CALLBACKS */
+    public void sendSuperData(){
+        firebase.child("matches").child(matchInfo.toDbKey(0)).child("super")
+                .setValue(superCommentsFragment.getTeam1());
+        firebase.child("matches").child(matchInfo.toDbKey(1)).child("super")
+                .setValue(superCommentsFragment.getTeam2());
+        firebase.child("matches").child(matchInfo.toDbKey(2)).child("super")
+                .setValue(superCommentsFragment.getTeam3());
 
-    @Override
-    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        Log.d("MVRT", "Firebase onChildAdded!");
+        for(int id = 0; id < 3; id++){
+            Firebase r = firebase.child("matches").child(matchInfo.toDbKey(id));
+            r.child("team").setValue(matchInfo.getTeams()[id]);
+            r.child("alliance").setValue(matchInfo.getAlliance());
+            r.child("match").setValue(matchInfo.getMatchNo());
+            r.child("tournament").setValue(matchInfo.getTournament());
+            r.child("matchinfo").setValue(matchInfo.toString());
+        }
     }
 
-    @Override
-    public void onCancelled(FirebaseError firebaseError) {
-        Toast.makeText(this, "Firebase Error: " + firebaseError, Toast.LENGTH_LONG).show();
-        Log.e("MVRT", "Firebase Error: " + firebaseError);
+    public void finishScouting(){
+        sendSuperData();
+        finish();
     }
 
-    public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
-    public void onChildRemoved(DataSnapshot dataSnapshot) {}
-    public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+    public void addQRMatchData(String str){
+        try{
+            JSONObject o = new JSONObject(str);
+            addScoutMatchData(o.getJSONObject("data"), o.getString("verif"));
+        }catch(JSONException e){ e.printStackTrace(); }
+    }
+
 }
 

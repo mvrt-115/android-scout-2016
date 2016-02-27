@@ -3,6 +3,7 @@ package com.mvrt.superscout;
 import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,7 @@ public class SuperMatchInfoFragment extends Fragment{
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
         loadData(view);
-        loadQr();
+        loadQr(view);
     }
 
     public void loadData(View v){
@@ -36,21 +37,21 @@ public class SuperMatchInfoFragment extends Fragment{
 
         TextView alliance = (TextView)v.findViewById(R.id.matchinfo_alliance);
         alliance.setText(matchInfo.getAllianceString());
-        alliance.setTextColor(getResources().getColor(matchInfo.getAllianceColorId()));
+        alliance.setTextColor(ContextCompat.getColor(getActivity(), matchInfo.getAllianceColorId()));
 
         TextView matchKey = (TextView)v.findViewById(R.id.matchinfo_matchkey);
         matchKey.setText(matchInfo.getMatchNo() + " @ " + matchInfo.getTournament());
 
         TextView teams = (TextView)v.findViewById(R.id.matchinfo_teams);
-        teams.setText("Teams " + matchInfo.getTeam(0) + ", " + matchInfo.getTeam(1) + ", " + matchInfo.getTeam(2));
+        teams.setText("Teams " + matchInfo.getTeams()[0] + ", " + matchInfo.getTeams()[1] + ", " + matchInfo.getTeams()[2]);
 
         TextView key = (TextView)v.findViewById(R.id.matchinfo_key);
         key.setText(matchInfo.toString());
 
     }
 
-    public void loadQr() {
-        ImageView imageView = (ImageView)getView().findViewById(R.id.matchinfo_qr);
+    public void loadQr(View v) {
+        ImageView imageView = (ImageView)v.findViewById(R.id.matchinfo_qr);
 
         int qrCodeDimension = 1000;
 
