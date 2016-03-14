@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.DataCollectionFragment;
 import com.mvrt.mvrtlib.util.MatchInfo;
+import com.mvrt.mvrtlib.util.Snacker;
 import com.mvrt.mvrtlib.util.TowerShot;
 
 import org.json.JSONArray;
@@ -130,6 +132,10 @@ public class StandScoutShootingFragment extends DataCollectionFragment implement
 
     @Override
     public void onClick(View view) {
+        if(coords == null){
+            Snacker.snack("Please tap to select coordinates", getActivity(), Snackbar.LENGTH_LONG);
+            return;
+        }
         switch(view.getId()){
             case R.id.shoot_high_make:
                 shots.add(new TowerShot(coords, true, true));
