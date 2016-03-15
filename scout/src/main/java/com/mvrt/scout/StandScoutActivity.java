@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
@@ -22,11 +23,12 @@ import org.json.JSONObject;
 import java.io.FileOutputStream;
 
 
-public class StandScoutActivity extends ActionBarActivity {
+public class StandScoutActivity extends AppCompatActivity {
 
     MatchInfo matchInfo;
     int scoutId;
 
+    StandScoutAutonFragment standScoutAutonFragment;
     StandScoutTeleopFragment standScoutTeleopFragment;
     StandScoutShootingFragment standScoutShootingFragment;
     StandScoutPostgameFragment standScoutPostgameFragment;
@@ -53,6 +55,7 @@ public class StandScoutActivity extends ActionBarActivity {
 
     public void loadFragments(){
         MatchInfoFragment matchInfoFragment = new MatchInfoFragment();
+        standScoutAutonFragment = new StandScoutAutonFragment();
         standScoutTeleopFragment = new StandScoutTeleopFragment();
         standScoutShootingFragment = new StandScoutShootingFragment();
         standScoutPostgameFragment = new StandScoutPostgameFragment();
@@ -65,6 +68,7 @@ public class StandScoutActivity extends ActionBarActivity {
 
         FragmentPagerAdapter tabAdapter = new FragmentPagerAdapter(getFragmentManager());
         tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(matchInfoFragment, "Info"));
+        tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(standScoutAutonFragment, "Auton"));
         tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(standScoutTeleopFragment, "Scout"));
         tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(standScoutShootingFragment, "Shots"));
         tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(standScoutPostgameFragment, "Post"));
@@ -98,6 +102,7 @@ public class StandScoutActivity extends ActionBarActivity {
         else {
             try {
                 obj.put(Constants.JSON_DATA_SHOOTING, standScoutShootingFragment.getData().get(Constants.JSON_SHOOTING_SHOTS));
+                obj.put(Constants.JSON_DATA_AUTON, standScoutAutonFragment.getData());
                 obj.put(Constants.JSON_DATA_TELEOP, standScoutTeleopFragment.getData());
                 obj.put(Constants.JSON_DATA_POSTGAME, standScoutPostgameFragment.getData());
                 obj.put(Constants.JSON_DATA_MATCHINFO, matchInfo.toString());

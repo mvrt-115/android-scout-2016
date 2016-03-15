@@ -68,4 +68,9 @@ public class Constants {
     public static final String DEFENSE_ROUGHTERRAIN = "d2";
     public static final String DEFENSE_LOWBAR = "e1";
 
+    public static final String JSON_AUTON_REACH = "atr";
+    public static final String JSON_AUTON_CROSSINGS = "atc";
+    public static final String JSON_AUTON_INTAKE = "ati";
+    public static final String JSON_AUTON_SHOOT = "ats";
+
 }

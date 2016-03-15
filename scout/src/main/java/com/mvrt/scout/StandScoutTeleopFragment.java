@@ -211,7 +211,7 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     }
 
     private void shootBall(){
-        ((StandScoutActivity)getActivity()).setTab(2);
+        ((StandScoutActivity)getActivity()).setTab(3);
     }
 
     private void crossDefense(){
