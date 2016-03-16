@@ -11,4 +11,5 @@
         4 Stars: Decent/Somewhat Consistent\n
         5 Stars: Powerhouse
     </string>
+    <string name="menuitem_sync">Sync Local Files</string>
 </resources>
