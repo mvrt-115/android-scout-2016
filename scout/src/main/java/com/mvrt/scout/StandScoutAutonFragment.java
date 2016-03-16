@@ -28,6 +28,7 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
     Button crossDefense;
     DefenseCrossing crossing;
     DefenseCrossingDialogFragment crossingDialogFragment;
+    Button cancelCrossDefense;
 
     CheckBox reachBox;
 
@@ -54,6 +55,8 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
         crossingDialogFragment.setDefenses(((StandScoutActivity) getActivity()).getMatchInfo());
         crossingDialogFragment.setListener(this);
         reachBox = (CheckBox)v.findViewById(R.id.auton_reach);
+        cancelCrossDefense = (Button)v.findViewById(R.id.auton_cross_cancel);
+        cancelCrossDefense.setOnClickListener(this);
     }
 
     private void initIntakeUI(View v){
@@ -104,6 +107,12 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
         }
     }
 
+    private void cancelCross() {
+        Snacker.snack("Cross Canceled", getActivity(), Snackbar.LENGTH_SHORT);
+        crossing = null;
+        crossDefense.setText("Cross A Defense");
+    }
+
     @Override
     public String getTitle() {
         return "Auton";
@@ -123,6 +132,9 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
                 break;
             case R.id.auton_cross:
                 crossDefense();
+                break;
+            case R.id.auton_cross_cancel:
+                cancelCross();
                 break;
         }
         refreshUi();
