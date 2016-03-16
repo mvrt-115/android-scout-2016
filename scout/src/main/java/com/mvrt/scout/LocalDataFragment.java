@@ -8,24 +8,47 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
 import com.mvrt.mvrtlib.util.Constants;
+import com.mvrt.mvrtlib.util.JSONUtils;
 import com.mvrt.mvrtlib.util.MatchInfo;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
+import java.io.IOException;
 
 public class LocalDataFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ItemSelectListener {
-
-    //TODO: Add icon showing if file has been synced
 
     RecyclerView fileListRecycler;
     LocalDataAdapter localDataAdapter;
     SwipeRefreshLayout swipeRefreshLayout;
+
+    Firebase firebase;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+        initFirebase();
+    }
+
+    private void initFirebase(){
+        Firebase.setAndroidContext(getActivity().getApplication());
+        firebase = new Firebase("http://teamdata.firebaseio.com");
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,6 +71,52 @@ public class LocalDataFragment extends Fragment implements SwipeRefreshLayout.On
         fileListRecycler.setAdapter(localDataAdapter);
     }
 
+    public void syncData(){
+        String[] filenames = localDataAdapter.getFilenames();
+        for(String file:filenames){
+            readFile(file);
+        }
+    }
+
+
+    private void readFile(String filename){
+        try {
+            FileInputStream fis = getActivity().openFileInput(filename);
+
+            int size = fis.available();
+            byte[] buffer = new byte[size];
+            fis.read(buffer);
+            fis.close();
+
+            JSONObject scoutData = new JSONObject(new String(buffer));
+
+            MatchInfo matchInfo = MatchInfo.parse(scoutData.getString(Constants.JSON_DATA_MATCHINFO));
+            int scoutId = scoutData.getInt(Constants.JSON_DATA_SCOUTID);
+            uploadData(matchInfo, scoutId, scoutData, filename);
+
+        }catch(FileNotFoundException e){
+            Toast.makeText(getActivity(), "File " + filename + " not found", Toast.LENGTH_SHORT).show();
+            Log.e("MVRT", "File " + filename + " not found");
+        }catch(IOException e){
+            Toast.makeText(getActivity(), "File Read IOException", Toast.LENGTH_SHORT).show();
+            Log.e("MVRT", "File Read IOException");
+        }catch(JSONException e){
+            Toast.makeText(getActivity(), "File Read JSONException", Toast.LENGTH_SHORT).show();
+            Log.e("MVRT", "File Read JSONException");
+        }
+    }
+
+    private void uploadData(MatchInfo info, int scoutId, JSONObject scoutData, String filename){
+        try{
+            firebase.child("matches").child(info.toDbKey(scoutId)).updateChildren(JSONUtils.jsonToMap(scoutData));
+            getActivity().deleteFile(filename);
+            Log.d("MVRT", "Deleted file " + filename);
+        }catch(JSONException e){
+            Toast.makeText(getActivity(), "Upload JSONException", Toast.LENGTH_SHORT).show();
+            Log.e("MVRT", "Upload JSONException");
+        }
+    }
+
     @Override
     public void onRefresh() {
         String[] filenames = getActivity().getFilesDir().list(new JSONFilter());
@@ -62,6 +131,23 @@ public class LocalDataFragment extends Fragment implements SwipeRefreshLayout.On
         startActivity(i);
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+        inflater.inflate(R.menu.menu_localdata, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.action_syncdata:
+                syncData();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     static class JSONFilter implements FilenameFilter{
 
         @Override
@@ -71,7 +157,6 @@ public class LocalDataFragment extends Fragment implements SwipeRefreshLayout.On
         }
     }
 
-
     static class LocalDataAdapter extends RecyclerView.Adapter<LocalDataAdapter.ViewHolder>{
 
         String[] filenames;
@@ -79,6 +164,10 @@ public class LocalDataFragment extends Fragment implements SwipeRefreshLayout.On
 
         public LocalDataAdapter(String[] files){
             filenames = files;
+        }
+
+        public String[] getFilenames(){
+            return filenames;
         }
 
         public void setSelectListener(ItemSelectListener listener){
@@ -149,6 +238,6 @@ public class LocalDataFragment extends Fragment implements SwipeRefreshLayout.On
 
 }
 
-interface ItemSelectListener{
+interface ItemSelectListener {
     void itemSelected(String filename);
 }
