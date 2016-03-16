@@ -1,19 +1,18 @@
 package com.mvrt.scout;
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.Toast;
 
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.DataCollectionFragment;
 import com.mvrt.mvrtlib.util.DefenseCrossing;
 import com.mvrt.mvrtlib.util.DefenseCrossingDialogFragment;
 import com.mvrt.mvrtlib.util.DefenseManager;
-import com.mvrt.mvrtlib.util.Snacker;
 
 import org.json.JSONObject;
 
@@ -101,14 +100,20 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
 
     private void crossDefense(){
         if(crossing != null){
-            Snacker.snack("Can only score one crossing in auton", getActivity(), Snackbar.LENGTH_SHORT);
+            Toast oneScore = Toast.makeText(getActivity(),
+                    "Can only score one crossing in auton",
+                    Toast.LENGTH_SHORT);
+            oneScore.show();
         }else{
             crossingDialogFragment.show(getFragmentManager(), "MVRT");
         }
     }
 
     private void cancelCross() {
-        Snacker.snack("Cross Canceled", getActivity(), Snackbar.LENGTH_SHORT);
+        Toast cancel = Toast.makeText(getActivity(),
+                "Cross Canceled",
+                Toast.LENGTH_SHORT);
+        cancel.show();
         crossing = null;
         crossDefense.setText("Cross A Defense");
     }

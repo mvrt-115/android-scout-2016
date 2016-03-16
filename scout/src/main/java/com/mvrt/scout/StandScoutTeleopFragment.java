@@ -1,9 +1,7 @@
 package com.mvrt.scout;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.SystemClock;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +16,6 @@ import com.mvrt.mvrtlib.util.DataCollectionFragment;
 import com.mvrt.mvrtlib.util.DefenseCrossing;
 import com.mvrt.mvrtlib.util.DefenseCrossingDialogFragment;
 import com.mvrt.mvrtlib.util.DefenseManager;
-import com.mvrt.mvrtlib.util.Snacker;
 
 import org.json.JSONObject;
 
