@@ -3,6 +3,7 @@ package com.mvrt.scout;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +11,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.DataCollectionFragment;
 import com.mvrt.mvrtlib.util.DefenseCrossing;
 import com.mvrt.mvrtlib.util.DefenseCrossingDialogFragment;
+import com.mvrt.mvrtlib.util.DefenseManager;
+import com.mvrt.mvrtlib.util.Snacker;
 
 import org.json.JSONObject;
 
@@ -84,6 +88,7 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
 
         crossDefense = (Button)v.findViewById(R.id.teleop_cross);
         crossDefense.setOnClickListener(this);
+
     }
 
     private void initIntakeUI(View v){
@@ -288,6 +293,12 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
         crossings.add(new DefenseCrossing(defense, crossStartTime, SystemClock.elapsedRealtime()));
         crossStartTime = 0;
         Log.d("MVRT", "New crossing: " + crossings.toString());
+        if (crossings.size() > 0) {
+            Toast feed = Toast.makeText(getActivity(),
+                    "Crossed " + DefenseManager.getString(crossings.get(crossings.size()-1).getDefense()),
+                    Toast.LENGTH_SHORT);
+            feed.show();
+        }
     }
 
     @Override
