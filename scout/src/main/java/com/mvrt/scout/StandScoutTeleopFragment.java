@@ -3,6 +3,7 @@ package com.mvrt.scout;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +11,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.DataCollectionFragment;
 import com.mvrt.mvrtlib.util.DefenseCrossing;
 import com.mvrt.mvrtlib.util.DefenseCrossingDialogFragment;
+import com.mvrt.mvrtlib.util.DefenseManager;
+import com.mvrt.mvrtlib.util.Snacker;
 
 import org.json.JSONObject;
 
@@ -41,14 +45,18 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     Button crossDefense;
     long crossStartTime = 0;
     ArrayList<DefenseCrossing> crossings;
+    DefenseCrossingDialogFragment crossingDialogFragment;
 
     Button intakeBall;
     Button removeBall;
     int intakedBalls = 0;
 
-    DefenseCrossingDialogFragment crossingDialogFragment;
 
     Button shootButton;
+
+    public StandScoutTeleopFragment(){
+        crossings = new ArrayList<>();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -74,14 +82,13 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     }
 
     private void initCrossUI(View v){
-        crossings = new ArrayList<>();
-
         crossingDialogFragment = new DefenseCrossingDialogFragment();
         crossingDialogFragment.setDefenses(((StandScoutActivity) getActivity()).getMatchInfo());
         crossingDialogFragment.setListener(this);
 
         crossDefense = (Button)v.findViewById(R.id.teleop_cross);
         crossDefense.setOnClickListener(this);
+
     }
 
     private void initIntakeUI(View v){
@@ -150,6 +157,7 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
                 climbFail.setVisibility(View.GONE);
                 climbCancel.setVisibility(View.GONE);
                 climbCancel.setText("Cancel");
+                challengeTower.setEnabled(true);
                 break;
             case Constants.CLIMB_PROGRESS:
                 climbStatus.setText("Climbing");
@@ -157,6 +165,8 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
                 climbSuccess.setVisibility(View.VISIBLE);
                 climbFail.setVisibility(View.VISIBLE);
                 climbCancel.setVisibility(View.VISIBLE);
+                challengeTower.setEnabled(false);
+                challengeTower.setChecked(false);
                 break;
             case Constants.CLIMB_FAIL:
                 climbStatus.setText("Climb Failed in " + timeSec + " seconds");
@@ -164,6 +174,7 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
                 climbSuccess.setVisibility(View.GONE);
                 climbFail.setVisibility(View.GONE);
                 climbCancel.setVisibility(View.VISIBLE);
+                challengeTower.setEnabled(true);
                 break;
             case Constants.CLIMB_SUCCESS:
                 climbStatus.setText("Climb Successful in " + timeSec + " seconds");
@@ -171,6 +182,8 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
                 climbSuccess.setVisibility(View.GONE);
                 climbFail.setVisibility(View.VISIBLE);
                 climbCancel.setVisibility(View.VISIBLE);
+                challengeTower.setEnabled(false);
+                challengeTower.setChecked(false);
                 break;
         }
     }
@@ -211,7 +224,7 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     }
 
     private void shootBall(){
-        ((StandScoutActivity)getActivity()).setTab(2);
+        ((StandScoutActivity)getActivity()).shoot(false);
     }
 
     private void crossDefense(){
@@ -280,6 +293,12 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
         crossings.add(new DefenseCrossing(defense, crossStartTime, SystemClock.elapsedRealtime()));
         crossStartTime = 0;
         Log.d("MVRT", "New crossing: " + crossings.toString());
+        if (crossings.size() > 0) {
+            Toast feed = Toast.makeText(getActivity(),
+                    "Crossed " + DefenseManager.getString(crossings.get(crossings.size()-1).getDefense()),
+                    Toast.LENGTH_SHORT);
+            feed.show();
+        }
     }
 
     @Override
