@@ -67,15 +67,16 @@ public class StandScoutActivity extends AppCompatActivity {
         standScoutShootingFragment.setArguments(b);
 
         FragmentPagerAdapter tabAdapter = new FragmentPagerAdapter(getFragmentManager());
-        tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(matchInfoFragment, "Info"));
+        tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(matchInfoFragment, "Match Info"));
         tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(standScoutAutonFragment, "Auton"));
-        tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(standScoutTeleopFragment, "Scout"));
-        tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(standScoutShootingFragment, "Shots"));
-        tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(standScoutPostgameFragment, "Post"));
+        tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(standScoutTeleopFragment, "Teleop"));
+        tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(standScoutShootingFragment, "Shooting"));
+        tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(standScoutPostgameFragment, "Postgame"));
 
         ViewPager pager = (ViewPager)findViewById(R.id.matchscout_pager);
         pager.setAdapter(tabAdapter);
         TabLayout tabs = (TabLayout)findViewById(R.id.matchscout_tablayout);
+        tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabs.setupWithViewPager(pager);
     }
 
@@ -90,18 +91,27 @@ public class StandScoutActivity extends AppCompatActivity {
         pager.setCurrentItem(tab);
     }
 
+    public void shoot(boolean auton){
+        setTab(3);
+        standScoutShootingFragment.setAuton(auton);
+    }
+
     public void stopScouting(){
         JSONObject obj = new JSONObject();
 
         ViewPager pager = (ViewPager)findViewById(R.id.matchscout_pager);
 
-        if(!standScoutPostgameFragment.validate()){
-            pager.setCurrentItem(3);
+        if(!standScoutAutonFragment.validate()){
+            pager.setCurrentItem(1);
+            Snacker.snack("Robots can either reach or cross, not both", this, Snackbar.LENGTH_LONG);
+        }
+        else if(!standScoutPostgameFragment.validate()){
+            pager.setCurrentItem(4);
             Snacker.snack("Please make sure you filled in all of the data", this, Snackbar.LENGTH_LONG);
         }
         else {
             try {
-                obj.put(Constants.JSON_DATA_SHOOTING, standScoutShootingFragment.getData().get(Constants.JSON_SHOOTING_SHOTS));
+                obj.put(Constants.JSON_DATA_SHOOTING, standScoutShootingFragment.getData());
                 obj.put(Constants.JSON_DATA_AUTON, standScoutAutonFragment.getData());
                 obj.put(Constants.JSON_DATA_TELEOP, standScoutTeleopFragment.getData());
                 obj.put(Constants.JSON_DATA_POSTGAME, standScoutPostgameFragment.getData());

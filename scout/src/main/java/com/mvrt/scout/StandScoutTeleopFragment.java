@@ -41,14 +41,18 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     Button crossDefense;
     long crossStartTime = 0;
     ArrayList<DefenseCrossing> crossings;
+    DefenseCrossingDialogFragment crossingDialogFragment;
 
     Button intakeBall;
     Button removeBall;
     int intakedBalls = 0;
 
-    DefenseCrossingDialogFragment crossingDialogFragment;
 
     Button shootButton;
+
+    public StandScoutTeleopFragment(){
+        crossings = new ArrayList<>();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -74,8 +78,6 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     }
 
     private void initCrossUI(View v){
-        crossings = new ArrayList<>();
-
         crossingDialogFragment = new DefenseCrossingDialogFragment();
         crossingDialogFragment.setDefenses(((StandScoutActivity) getActivity()).getMatchInfo());
         crossingDialogFragment.setListener(this);
@@ -150,6 +152,7 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
                 climbFail.setVisibility(View.GONE);
                 climbCancel.setVisibility(View.GONE);
                 climbCancel.setText("Cancel");
+                challengeTower.setEnabled(true);
                 break;
             case Constants.CLIMB_PROGRESS:
                 climbStatus.setText("Climbing");
@@ -157,6 +160,8 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
                 climbSuccess.setVisibility(View.VISIBLE);
                 climbFail.setVisibility(View.VISIBLE);
                 climbCancel.setVisibility(View.VISIBLE);
+                challengeTower.setEnabled(false);
+                challengeTower.setChecked(false);
                 break;
             case Constants.CLIMB_FAIL:
                 climbStatus.setText("Climb Failed in " + timeSec + " seconds");
@@ -164,6 +169,7 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
                 climbSuccess.setVisibility(View.GONE);
                 climbFail.setVisibility(View.GONE);
                 climbCancel.setVisibility(View.VISIBLE);
+                challengeTower.setEnabled(true);
                 break;
             case Constants.CLIMB_SUCCESS:
                 climbStatus.setText("Climb Successful in " + timeSec + " seconds");
@@ -171,6 +177,8 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
                 climbSuccess.setVisibility(View.GONE);
                 climbFail.setVisibility(View.VISIBLE);
                 climbCancel.setVisibility(View.VISIBLE);
+                challengeTower.setEnabled(false);
+                challengeTower.setChecked(false);
                 break;
         }
     }
@@ -211,7 +219,7 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     }
 
     private void shootBall(){
-        ((StandScoutActivity)getActivity()).setTab(3);
+        ((StandScoutActivity)getActivity()).shoot(false);
     }
 
     private void crossDefense(){

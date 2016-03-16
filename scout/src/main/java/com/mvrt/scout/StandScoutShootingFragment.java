@@ -45,7 +45,15 @@ public class StandScoutShootingFragment extends DataCollectionFragment implement
 
     int[] coords = null;
 
-    ArrayList<TowerShot> shots;
+    boolean auton = false;
+
+    ArrayList<TowerShot> teleopShots;
+    ArrayList<TowerShot> autonShots;
+
+    public StandScoutShootingFragment(){
+        teleopShots = new ArrayList<>();
+        autonShots = new ArrayList<>();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,7 +64,7 @@ public class StandScoutShootingFragment extends DataCollectionFragment implement
     @Override
     public void onViewCreated(View v, Bundle savedInstanceState) {
         loadData();
-        initUI();
+        initUI(v);
     }
 
     private void loadData(){
@@ -64,8 +72,8 @@ public class StandScoutShootingFragment extends DataCollectionFragment implement
         if(matchInfo != null)alliance = matchInfo.getAlliance();
     }
 
-    private void initUI(){
-        textView = (TextView)(getView().findViewById(R.id.selectlocation_textview));
+    private void initUI(View v){
+        textView = (TextView)(v.findViewById(R.id.selectlocation_textview));
 
         field = BitmapFactory.decodeResource(getResources(),
                 (alliance == Constants.ALLIANCE_RED)?R.drawable.red_field:R.drawable.blue_field);
@@ -78,15 +86,21 @@ public class StandScoutShootingFragment extends DataCollectionFragment implement
         lowMissed = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_low_miss);
 
         canvas = new Canvas(temp);
-        img = (ImageView)(getView().findViewById(R.id.selectlocation_imageview));
+        img = (ImageView)(v.findViewById(R.id.selectlocation_imageview));
         img.setOnTouchListener(this);
         img.setImageBitmap(temp);
-        shots = new ArrayList<>();
 
-        getView().findViewById(R.id.shoot_high_make).setOnClickListener(this);
-        getView().findViewById(R.id.shoot_high_miss).setOnClickListener(this);
-        getView().findViewById(R.id.shoot_low_make).setOnClickListener(this);
-        getView().findViewById(R.id.shoot_low_miss).setOnClickListener(this);
+        v.findViewById(R.id.shoot_high_make).setOnClickListener(this);
+        v.findViewById(R.id.shoot_high_miss).setOnClickListener(this);
+        v.findViewById(R.id.shoot_low_make).setOnClickListener(this);
+        v.findViewById(R.id.shoot_low_miss).setOnClickListener(this);
+
+        refreshUI();
+    }
+
+    public void refreshUI(){
+        drawCanvas();
+        updateTextView();
     }
 
     @Override
@@ -95,24 +109,33 @@ public class StandScoutShootingFragment extends DataCollectionFragment implement
 
         Log.d("MVRT", Arrays.toString(coords));
 
-        drawCanvas();
+        refreshUI();
         return false;
     }
 
+    public void setAuton(boolean auton){
+        this.auton = auton;
+
+        refreshUI();
+    }
+
+
     public void updateTextView(){
+        String auto = auton?"Autonomous Shooting | ":"Teleop Shooting | ";
         String high = "High: " + noHighMade + "/" + (noHighMade + noHighMissed);
         String low = ", Low: " + noLowMade + "/" + (noLowMade + noLowMissed);
-        textView.setText(high + low);
+        textView.setText(auto + high + low);
     }
 
     public void drawCanvas(){
         canvas.drawBitmap(field, 0, 0, new Paint());
 
-        for(TowerShot shot: shots){
-            if(shot.getHighGoal() && shot.getMade())drawIcon(shot.getCoords(), highMade);
-            else if(!shot.getHighGoal() && shot.getMade())drawIcon(shot.getCoords(), lowMade);
-            else if(shot.getHighGoal())drawIcon(shot.getCoords(), highMissed);
-            else drawIcon(shot.getCoords(), lowMissed);
+        for(TowerShot shot: teleopShots){
+            drawShot(shot);
+        }
+
+        for(TowerShot shot: autonShots){
+            drawShot(shot);
         }
 
         if(coords != null) {
@@ -122,6 +145,13 @@ public class StandScoutShootingFragment extends DataCollectionFragment implement
         }
 
         img.invalidate();
+    }
+
+    private void drawShot(TowerShot shot){
+        if(shot.getHighGoal() && shot.getMade())drawIcon(shot.getCoords(), highMade);
+        else if(!shot.getHighGoal() && shot.getMade())drawIcon(shot.getCoords(), lowMade);
+        else if(shot.getHighGoal())drawIcon(shot.getCoords(), highMissed);
+        else drawIcon(shot.getCoords(), lowMissed);
     }
 
     private void drawIcon(int[] globalCoords, Bitmap map){
@@ -138,26 +168,34 @@ public class StandScoutShootingFragment extends DataCollectionFragment implement
         }
         switch(view.getId()){
             case R.id.shoot_high_make:
-                shots.add(new TowerShot(coords, true, true));
+                addShot(new TowerShot(coords, true, true));
                 noHighMade++;
                 break;
             case R.id.shoot_high_miss:
-                shots.add(new TowerShot(coords, false, true));
+                addShot(new TowerShot(coords, false, true));
                 noHighMissed++;
                 break;
             case R.id.shoot_low_make:
-                shots.add(new TowerShot(coords, true, false));
+                addShot(new TowerShot(coords, true, false));
                 noLowMade++;
                 break;
             case R.id.shoot_low_miss:
-                shots.add(new TowerShot(coords, false, false));
+                addShot(new TowerShot(coords, false, false));
                 noLowMissed++;
                 break;
         }
         coords = null;
-        drawCanvas();
-        updateTextView();
-        ((StandScoutActivity)getActivity()).setTab(1);
+        refreshUI();
+        ((StandScoutActivity)getActivity()).setTab(auton?1:2);
+    }
+
+    private void addShot(TowerShot shot){
+        Log.d("BEFORE MVRT", "auton shots: " + autonShots.toString());
+        Log.d("BEFORE MVRT", "teleop shots: " + teleopShots.toString());
+        if(auton)autonShots.add(shot);
+        else teleopShots.add(shot);
+        Log.d("AFTER MVRT", "auton shots: " + autonShots.toString());
+        Log.d("AFTER MVRT", "teleop shots: " + teleopShots.toString());
     }
 
     public float[] touchToImage(float touchX, float touchY){
@@ -195,10 +233,13 @@ public class StandScoutShootingFragment extends DataCollectionFragment implement
     @Override
     public JSONObject getData() {
         JSONObject o = new JSONObject();
-        JSONArray shotArray = new JSONArray();
+        JSONArray autonShotArray = new JSONArray();
+        JSONArray teleopShotArray = new JSONArray();
         try{
-            for(TowerShot shot:shots)shotArray.put(shot.toString());
-            o.put(Constants.JSON_SHOOTING_SHOTS, shotArray);
+            for(TowerShot shot:autonShots)autonShotArray.put(shot.toString());
+            for(TowerShot shot:teleopShots)teleopShotArray.put(shot.toString());
+            o.put(Constants.JSON_SHOOTING_SHOTS_AUTON, autonShotArray);
+            o.put(Constants.JSON_SHOOTING_SHOTS_TELEOP, teleopShotArray);
         }catch (JSONException e){ e.printStackTrace(); }
         return o;
     }

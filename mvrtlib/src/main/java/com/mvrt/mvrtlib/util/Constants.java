@@ -40,7 +40,8 @@ public class Constants {
     public static final String JSON_DATA_MATCHINFO = "minfo";
     public static final String JSON_DATA_SCOUTID = "sctid";
 
-    public static final String JSON_SHOOTING_SHOTS = "sht";
+    public static final String JSON_SHOOTING_SHOTS_TELEOP = "shtt";
+    public static final String JSON_SHOOTING_SHOTS_AUTON = "shta";
 
     public static final String JSON_POSTGAME_DISABLED = "dsbld";
     public static final String JSON_POSTGAME_INTERFERES = "intrfr";
@@ -69,7 +70,7 @@ public class Constants {
     public static final String DEFENSE_LOWBAR = "e1";
 
     public static final String JSON_AUTON_REACH = "atr";
-    public static final String JSON_AUTON_CROSSINGS = "atc";
+    public static final String JSON_AUTON_CROSSING = "atc";
     public static final String JSON_AUTON_INTAKE = "ati";
     public static final String JSON_AUTON_SHOOT = "ats";
 

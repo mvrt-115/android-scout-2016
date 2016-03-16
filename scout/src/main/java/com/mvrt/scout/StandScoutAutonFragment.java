@@ -1,40 +1,35 @@
 package com.mvrt.scout;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
-import android.util.Log;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.TextView;
 
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.DataCollectionFragment;
 import com.mvrt.mvrtlib.util.DefenseCrossing;
 import com.mvrt.mvrtlib.util.DefenseCrossingDialogFragment;
+import com.mvrt.mvrtlib.util.DefenseManager;
+import com.mvrt.mvrtlib.util.Snacker;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
+public class StandScoutAutonFragment extends DataCollectionFragment implements View.OnClickListener, DefenseCrossingDialogFragment.DefenseSelectedListener {
 
-public class StandScoutAutonFragment extends DataCollectionFragment implements View.OnClickListener {
-
-
-    Button crossDefense;
-    boolean crosses = false;
-
-    Button reachDefense;
-    boolean reaches = false;
 
     Button intakeBall;
     Button removeBall;
     int intakedBalls = 0;
+
+    Button crossDefense;
+    DefenseCrossing crossing;
+    DefenseCrossingDialogFragment crossingDialogFragment;
+
+    CheckBox reachBox;
 
     Button shootButton;
 
@@ -49,13 +44,16 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
         initShootUI(v);
         initIntakeUI(v);
         initCrossUI(v);
-        initReachUI(v);
         refreshUi();
     }
 
-    @Override
-    public void onStop(){
-        super.onStop();
+    private void initCrossUI(View v){
+        crossDefense = (Button)v.findViewById(R.id.auton_cross);
+        crossDefense.setOnClickListener(this);
+        crossingDialogFragment = new DefenseCrossingDialogFragment();
+        crossingDialogFragment.setDefenses(((StandScoutActivity) getActivity()).getMatchInfo());
+        crossingDialogFragment.setListener(this);
+        reachBox = (CheckBox)v.findViewById(R.id.auton_reach);
     }
 
     private void initIntakeUI(View v){
@@ -65,13 +63,23 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
         removeBall.setOnClickListener(this);
     }
 
+    private void initShootUI(View v){
+        shootButton = (Button)v.findViewById(R.id.auton_shoot);
+        shootButton.setOnClickListener(this);
+    }
+
     private void refreshIntakeUI(){
         intakeBall.setText("Intake Boulder (" + intakedBalls + ")");
     }
 
-    private void initReachUI(View v) {
-        reachDefense = (Button)v.findViewById(R.id.auton_reach);
-        reachDefense.setOnClickListener(this);
+    private void refreshCrossingUI(){
+        if(crossing != null){
+            crossDefense.setText("Crossed " + DefenseManager.getString(crossing.getDefense()));
+            reachBox.setEnabled(false);
+            reachBox.setChecked(false);
+        }else{
+            reachBox.setEnabled(true);
+        }
     }
 
     private void intakeBall(){
@@ -84,34 +92,16 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
         refreshIntakeUI();
     }
 
-    private void initShootUI(View v){
-        shootButton = (Button)v.findViewById(R.id.auton_shoot);
-        shootButton.setOnClickListener(this);
-    }
-
-    private void initCrossUI(View v){
-        crossDefense = (Button)v.findViewById(R.id.auton_cross);
-        crossDefense.setOnClickListener(this);
-    }
-
     private void shootBall(){
-        ((StandScoutActivity)getActivity()).setTab(3);
+        ((StandScoutActivity)getActivity()).shoot(true);
     }
 
     private void crossDefense(){
-        crosses = !crosses;
-        if (crosses)
-            crossDefense.setText("Crossed!");
-        else
-            crossDefense.setText("Did Not Cross!");
-    }
-
-    private void reachDefense() {
-        reaches = !reaches;
-        if (reaches)
-            reachDefense.setText("Reached!");
-        else
-            reachDefense.setText("Did Not Reach!");
+        if(crossing != null){
+            Snacker.snack("Can only score one crossing in auton", getActivity(), Snackbar.LENGTH_SHORT);
+        }else{
+            crossingDialogFragment.show(getFragmentManager(), "MVRT");
+        }
     }
 
     @Override
@@ -134,32 +124,37 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
             case R.id.auton_cross:
                 crossDefense();
                 break;
-            case R.id.auton_reach:
-                reachDefense();
-                break;
         }
         refreshUi();
     }
 
     public void refreshUi(){
         refreshIntakeUI();
+        refreshCrossingUI();
     }
 
     public JSONObject getData(){
         JSONObject obj = new JSONObject();
         try {
-            obj.put(Constants.JSON_AUTON_CROSSINGS, crosses);
             obj.put(Constants.JSON_AUTON_INTAKE, intakedBalls);
-            obj.put(Constants.JSON_AUTON_REACH, reaches);
-            obj.put(Constants.JSON_AUTON_SHOOT, shots);
+            obj.put(Constants.JSON_AUTON_REACH, reachBox.isChecked());
+            obj.put(Constants.JSON_AUTON_CROSSING, crossing.getDefense());
         }catch(Exception e){}
         return obj;
     }
 
-    // Unfortunately nothing to do here, as robot may have done nothing
     @Override
     public boolean validate () {
-        return !(reaches && crosses);
+        return true;
     }
+
+    @Override
+    public void onDefenseSelected(String defense) {
+        crossing = new DefenseCrossing(defense, 0);
+        refreshCrossingUI();
+    }
+
+    @Override
+    public void defenseSelectionCanceled() {}
 
 }

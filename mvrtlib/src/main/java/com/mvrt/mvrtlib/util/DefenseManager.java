@@ -15,6 +15,40 @@ import java.util.List;
  */
 public class DefenseManager {
 
+    public static String getString(String code){
+        String str = "";
+        switch(code){
+            case Constants.DEFENSE_PORTCULLIS:
+                str = "Portcullis";
+                break;
+            case Constants.DEFENSE_CHEVALDEFRISE:
+                str = "Cheval De Frise";
+                break;
+            case Constants.DEFENSE_MOAT:
+                str = "Moat";
+                break;
+            case Constants.DEFENSE_RAMPART:
+                str = "Rampart";
+                break;
+            case Constants.DEFENSE_DRAWBRIDGE:
+                str = "Drawbridge";
+                break;
+            case Constants.DEFENSE_SALLYPORT:
+                str = "Sally Port";
+                break;
+            case Constants.DEFENSE_ROCKWALL:
+                str = "Rock Wall";
+                break;
+            case Constants.DEFENSE_ROUGHTERRAIN:
+                str = "Rough Terrain";
+                break;
+            case Constants.DEFENSE_LOWBAR:
+                str = "Low Bar";
+                break;
+        }
+        return str;
+    }
+
     public static Drawable getDrawable(Context ctx, String code){
         int id = -1;
         switch(code){
