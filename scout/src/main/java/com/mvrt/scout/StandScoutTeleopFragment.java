@@ -280,6 +280,7 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
             obj.put(Constants.JSON_TELEOP_CLIMBTIME, climbEndTime - climbStartTime);
             obj.put(Constants.JSON_TELEOP_CROSSINGS, crossings);
             obj.put(Constants.JSON_TELEOP_INTAKE, intakedBalls);
+            obj.put(Constants.JSON_TELEOP_CHALLENGE, challengeTower.isChecked());
         }catch(Exception e){}
         return obj;
     }

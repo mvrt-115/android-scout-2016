@@ -53,6 +53,7 @@ public class Constants {
     public static final String JSON_TELEOP_CLIMBRESULT = "clbr";
     public static final String JSON_TELEOP_CLIMBTIME = "clbt";
     public static final String JSON_TELEOP_CROSSINGS = "crsn";
+    public static final String JSON_TELEOP_CHALLENGE = "chl";
 
     public static final String CLIMB_NO = "n";
     public static final String CLIMB_PROGRESS = "c";
