@@ -1,1 +1,1 @@
-include ':superscout', ':scout', ':mvrtlib'
+include ':superscout', ':scout', ':mvrtlib', ':pit'
