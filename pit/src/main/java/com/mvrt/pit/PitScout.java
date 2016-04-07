@@ -1,6 +1,9 @@
 package com.mvrt.pit;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -15,9 +18,13 @@ import android.widget.Toast;
 import com.firebase.client.Firebase;
 
 import com.mvrt.mvrtlib.util.JSONUtils;
+import com.mvrt.mvrtlib.util.MatchInfo;
+import com.mvrt.mvrtlib.util.Snacker;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.FileOutputStream;
 
 public class PitScout extends AppCompatActivity implements View.OnClickListener {
 
@@ -59,6 +66,9 @@ public class PitScout extends AppCompatActivity implements View.OnClickListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Firebase.setAndroidContext(getApplication());
+
         setContentView(R.layout.activity_pit_scout);
         initUI();
     }
@@ -139,8 +149,9 @@ public class PitScout extends AppCompatActivity implements View.OnClickListener 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_localdata) {
+            Intent i = new Intent(this, LocalDataActivity.class);
+            startActivity(i);
         }
 
         return super.onOptionsItemSelected(item);
@@ -159,13 +170,11 @@ public class PitScout extends AppCompatActivity implements View.OnClickListener 
     }
 
     private void pushData(){
-        Firebase.setAndroidContext(getApplication());
-        Firebase firebase = new Firebase("http://teamdata.firebaseio.com/pit");
-        Log.d("MVRT", "Pushing Data");
-        firebase.child("test").setValue("Hello!");
+        int teamNo = Integer.parseInt(team.getText().toString());
+
         JSONObject obj = new JSONObject();
         try{
-            obj.put("Team", team.getText().toString());
+            obj.put("Team",teamNo);
 
             obj.put("Low Bar", lowBar.isChecked());
             obj.put("Rock Wall", rockWall.isChecked());
@@ -184,8 +193,8 @@ public class PitScout extends AppCompatActivity implements View.OnClickListener 
             obj.put("High Goal", highGoal.isChecked());
             obj.put("Low Goal", lowGoal.isChecked());
 
-            obj.put("Number of Motors", numMotors.getText().toString());
-            obj.put("Number of Wheels", numWheels.getText().toString());
+            obj.put("Number of Motors", Integer.parseInt(numMotors.getText().toString()));
+            obj.put("Number of Wheels", Integer.parseInt(numWheels.getText().toString()));
             obj.put("Type of Wheels", typeWheels.getText().toString());
 
             obj.put("Auton Reach", autonReach.isChecked());
@@ -193,15 +202,15 @@ public class PitScout extends AppCompatActivity implements View.OnClickListener 
             obj.put("Auton Low", autonLowShot.isChecked());
             obj.put("Auton High", autonHighShot.isChecked());
 
-            obj.put("Driver Regionals", driverExp.getText().toString());
-            obj.put("Weight", weight.getText().toString());
+            obj.put("Driver Regionals", Integer.parseInt(driverExp.getText().toString()));
+            obj.put("Weight", Integer.parseInt(weight.getText().toString()));
             obj.put("Strategy", strategy.getText().toString());
 
         } catch(Exception e){
             Log.e("MVRT", "JSON Error");
         }
         try {
-            firebase.push().setValue(JSONUtils.jsonToMap(obj));
+            writeToFile(obj, teamNo);
 
         } catch (JSONException e) {
             Log.e("MVRT", "JSON Error");
@@ -221,4 +230,17 @@ public class PitScout extends AppCompatActivity implements View.OnClickListener 
         sallyport.setChecked(false);
 
     }
+
+    public String writeToFile(JSONObject data, int team) throws JSONException {
+        String filename = "pitscout-" + team + ".json";
+        try {
+            FileOutputStream fos = openFileOutput(filename, Context.MODE_PRIVATE);
+            fos.write(data.toString().getBytes());
+            Snacker.snack("Written to file: " + filename, this, Snackbar.LENGTH_SHORT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return filename;
+    }
+
 }

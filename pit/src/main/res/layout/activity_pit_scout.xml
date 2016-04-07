@@ -27,23 +27,19 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
+
+                <EditText android:id="@+id/team"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <EditText android:id="@+id/team"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:hint="Team Number"/>
-
-                </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:inputType="number"
+                    android:hint="Team Number"/>
 
                 <!-- Defenses -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_margin="20dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -107,6 +103,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_margin="20dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -130,6 +127,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_margin="20dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -158,6 +156,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_margin="20dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -188,6 +187,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_margin="20dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -221,6 +221,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_margin="20dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -250,21 +251,23 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
                     <Button
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:text="Finish!"
-                        android:gravity="left"
+                        android:padding="20dp"
                         android:id="@+id/pit_finish"
                         android:theme="@style/MVRTButtonStyle"/>
 
                     <Button
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:text="Clear Data"
-                        android:gravity="right"
+                        android:padding="20dp"
                         android:id="@+id/pit_clear"
                         android:theme="@style/MVRTButtonStyle"/>
 

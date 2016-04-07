@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+tools:context="com.mvrt.scout.StandScoutActivity">
+
+    <item android:id="@+id/action_syncdata" android:title="@string/menuitem_sync"
+        android:orderInCategory="100" android:icon="@drawable/ic_menu_upload" />
+
+</menu>
