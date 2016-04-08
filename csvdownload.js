@@ -1,5 +1,15 @@
 var firebase = new Firebase("https://teamdata.firebaseio.com");
 
+function loadPitData(){
+    firebase.child('pit').once('value', function(snapshot){
+        var pitData = [];
+        snapshot.forEach(function(childSnapshot){
+            pitData.push(getPit(childSnapshot));      
+        });
+        saveCSV(getPitHeaders(), pitData, 'pitDownloadLink', 'pitscout.csv');
+    });
+}
+
 function loadFirebaseData(){
     firebase.child('matches').once('value', function(snapshot){
         var scoutData = [];
@@ -113,6 +123,61 @@ function getShot(shot, snapshot, auton){
         team, tournament, match, alliance, matchInfo];
 }
 
+function getPitHeaders(){
+    return ['Team',
+        'Auton Break', 'Auton High', 'Auton Low', 'Auton Reach',
+        'High Goal', 'Low Goal', 'Intake', 'Strategy',
+        'Challenge', 'Scale',
+        'Low Bar', 'Cheval de Frise', 'Portcullis',
+        'Drawbridge', 'Sallyport', 'Moat', 'Ramparts',
+        'Rock Wall', 'Rough Terrain',
+        'DT # Motors', 'DT # Wheels', 'DT Wheel Type', 'Weight', 'Driver Regionals'];
+}
+
+function getPit(snapshot){
+    var val = snapshot.val();
+    
+    var team = val['Team'];
+    
+    var autonBreak = val['Auton Break'];
+    var autonHigh = val['Auton High'];
+    var autonLow = val['Auton Low'];
+    var autonReach = val['Auton Reach'];
+    
+    var highGoal = val['High Goal'];
+    var lowGoal = val['Low Goal'];
+    var intake = val['Intake'];
+    var strategy = val['Strategy'];
+    
+    var challenge = val['Challenge'];
+    var climber = val['Climber'];
+    
+    var lowBar = val['Low Bar'];
+    var cheval = val['Cheval'];
+    var portcullis = val['Portcullis'];
+    var drawbridge = val['Drawbridge'];
+    var sallyport = val['Sally Port'];
+    var moat = val['Moat'];
+    var ramparts = val['Ramparts'];
+    var rockWall = val['Rock Wall'];
+    var roughTerrain = val['Rough Terrain'];
+    
+    var dtMotors = val['Number of Motors'];
+    var dtWheels = val['Number of Wheels'];
+    var wheelType = val['Type of Wheels'];
+    var weight = val['Weight'];
+    
+    var driverRegionals = val['Driver Regionals'];
+    
+
+    return [team, 
+        autonBreak, autonHigh, autonLow, autonReach,
+        highGoal, lowGoal, intake, strategy,
+        challenge, climber,
+        lowBar, cheval, portcullis, drawbridge, sallyport, moat, ramparts, rockWall, roughTerrain,
+        dtMotors, dtWheels, wheelType, weight, driverRegionals];
+}
+
 function saveCSV(csvHeaders, csvData, linkId, filename){
     var csvString = getCSVString(csvHeaders, csvData);
     var blob = new Blob([csvString], {type: 'text/csv;charset=utf-8;'});
@@ -131,7 +196,7 @@ function getCSVString(csvHeaders, csvData){
     csvFile += csvHeaders.join(',') + '\n';
     var csvContent = [];
     for(data in csvData){
-        csvContent.push(csvData[data].join(','));
+        csvContent.push(csvData[data].join(',').replace(/(\r\n|\n|\r)/gm,""));
     }
     csvFile += csvContent.join('\n');
     return csvFile;
@@ -142,3 +207,4 @@ document.addEventListener("DOMContentLoaded", function(event) {
 });
 
 loadFirebaseData();
+loadPitData();
