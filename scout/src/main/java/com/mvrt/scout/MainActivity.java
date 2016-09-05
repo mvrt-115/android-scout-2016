@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getIntent().setAction(Intent.ACTION_DEFAULT);
             startScoutingNFC();
         }
-        nfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFilters, null);
+        if(nfcAdapter != null) nfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFilters, null);
         super.onResume();
     }
 
