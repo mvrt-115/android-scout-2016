@@ -35,7 +35,20 @@ public class MainActivity extends ActionBarActivity implements NavigationView.On
         startMatchFragment = new StartMatchFragment();
         settingsFragment = new SettingsFragment();
 
+        initFirebaseRemoteConfig();
         setupUI();
+    }
+
+    private void initFirebaseRemoteConfig() {
+        final FirebaseRemoteConfig mRemoteConfig = FirebaseRemoteConfig.getInstance();
+
+        mRemoteConfig.setDefaults(R.xml.remote_config_defaults);
+        mRemoteConfig.fetch().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                mRemoteConfig.activateFetched();
+            }
+        });
     }
 
     private void setupUI() {

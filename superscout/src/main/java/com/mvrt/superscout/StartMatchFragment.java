@@ -9,12 +9,11 @@ import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.DefenseManager;
 import com.mvrt.mvrtlib.util.DefenseSelectorDialogFragment;
@@ -82,8 +81,10 @@ public class StartMatchFragment extends Fragment implements View.OnClickListener
 
     public void loadAllianceAndTournament(){
         SharedPreferences prefs = getActivity().getSharedPreferences(Constants.SHARED_PREFS_NAME_SUPER, Context.MODE_PRIVATE);
+        FirebaseRemoteConfig mRemoteConfig = FirebaseRemoteConfig.getInstance();
 
-        tournament = prefs.getString(Constants.PREFS_TOURNAMENT_KEY, Constants.PREFS_TOURNAMENT_DEFAULT).toUpperCase();
+        tournament = mRemoteConfig.getString(Constants.FBCONFIG_TOURN_KEY);
+
         alliance = (char)prefs.getInt(Constants.PREFS_ALLIANCE_KEY, (int)Constants.ALLIANCE_BLUE);
         settingsView.setText(MatchInfo.getAllianceString(alliance) + " @ " + tournament);
         settingsView.setTextColor(getResources().getColor(MatchInfo.getAllianceColorId(alliance)));

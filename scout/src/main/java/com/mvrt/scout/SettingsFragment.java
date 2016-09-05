@@ -19,7 +19,6 @@ import com.mvrt.mvrtlib.util.Snacker;
 
 public class SettingsFragment extends Fragment implements View.OnClickListener {
 
-    EditText tournamentText;
     Spinner scoutID;
     SharedPreferences prefs;
 
@@ -33,7 +32,6 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
         prefs = getActivity().getSharedPreferences(Constants.SHARED_PREFS_NAME_SCOUT, Activity.MODE_PRIVATE);
 
-        tournamentText = (EditText)getView().findViewById(R.id.settings_tournament);
         scoutID = (Spinner)getView().findViewById(R.id.settings_scoutid);
 
         CharSequence[] idArray = {"1", "2",  "3"};
@@ -60,22 +58,13 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     }
 
     public void loadSettings(){
-        String tournament = prefs.getString(Constants.PREFS_TOURNAMENT_KEY, Constants.PREFS_TOURNAMENT_DEFAULT);
-        tournamentText.setText(tournament);
-
         int scoutid = prefs.getInt(Constants.PREFS_SCOUTID_KEY, 0);
         scoutID.setSelection(scoutid);
     }
 
     public void saveSettings(){
-        String tournament = tournamentText.getText().toString().toUpperCase();
-        if(tournament.length() == 0){
-            tournamentText.setError("Please Enter a Tournament Code");
-            return;
-        }else tournamentText.setError(null);
         int scoutid = scoutID.getSelectedItemPosition(); //ID IS 0,1,2
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(Constants.PREFS_TOURNAMENT_KEY, tournament);
         editor.putInt(Constants.PREFS_SCOUTID_KEY, scoutid);
         Log.d("MVRT", "Scout id is " + scoutid);
         editor.commit();

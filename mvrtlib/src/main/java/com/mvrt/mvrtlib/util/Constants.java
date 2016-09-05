@@ -18,17 +18,13 @@ public class Constants {
 
     public static final int REQUEST_QR_SCAN = 10;
 
-    public static final String PREFS_TOURNAMENT_KEY = "com.mvrt.scout.prefs.TOURNAMENTKEY";
-    public static final String PREFS_TOURNAMENT_DEFAULT = "SAMP";
+    public static final String FBCONFIG_TOURN_KEY = "TOURNAMENT_KEY";
+
     public static final String PREFS_SCOUTID_KEY = "com.mvrt.scout.prefs.SCOUTID";
     public static final String PREFS_ALLIANCE_KEY = "com.mvrt.scout.prefs.ALLIANCE";
 
     public static final String SHARED_PREFS_NAME_SCOUT = "com.mvrt.scout.prefs";
     public static final String SHARED_PREFS_NAME_SUPER = "com.mvrt.super.prefs";
-
-    public static final String NDEF_RECORD_DOMAIN = "mvrt.com";
-    public static final String NDEF_RECORD_TYPE_MATCHINFO = "MATCHINFO";
-    public static final String NDEF_DATA_PATH = "/mvrt.com:MATCHINFO";
 
     public static final char ALLIANCE_RED = 'r';
     public static final char ALLIANCE_BLUE = 'b';
@@ -73,6 +69,5 @@ public class Constants {
     public static final String JSON_AUTON_REACH = "atr";
     public static final String JSON_AUTON_CROSSING = "atc";
     public static final String JSON_AUTON_INTAKE = "ati";
-    public static final String JSON_AUTON_SHOOT = "ats";
 
 }

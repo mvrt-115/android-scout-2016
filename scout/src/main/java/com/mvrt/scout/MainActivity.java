@@ -9,6 +9,7 @@ import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -19,11 +20,13 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.MatchInfo;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
 
     DrawerLayout drawerLayout;
     NavigationView navView;
@@ -53,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         setupNavDrawer();
 
+        initFirebaseRemoteConfig();
         initNFC();
     }
 
@@ -112,6 +116,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ndef.addDataType("text/mvrt");
         } catch (IntentFilter.MalformedMimeTypeException e) { e.printStackTrace(); }
         intentFilters = new IntentFilter[]{ndef};
+    }
+
+    private void initFirebaseRemoteConfig() {
+        final FirebaseRemoteConfig mRemoteConfig = FirebaseRemoteConfig.getInstance();
+
+        mRemoteConfig.setDefaults(R.xml.remote_config_defaults);
+        mRemoteConfig.fetch().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                mRemoteConfig.activateFetched();
+            }
+        });
     }
 
     @Override

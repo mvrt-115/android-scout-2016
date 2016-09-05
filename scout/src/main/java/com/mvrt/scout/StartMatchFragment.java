@@ -19,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.DefenseManager;
 import com.mvrt.mvrtlib.util.DefenseSelectorDialogFragment;
@@ -102,8 +103,8 @@ public class StartMatchFragment extends Fragment implements View.OnClickListener
         }else teamText.setError(null);
         int team = Integer.parseInt(teamText.getText().toString());
 
-        String tourn = getActivity().getSharedPreferences(Constants.SHARED_PREFS_NAME_SCOUT, Activity.MODE_PRIVATE)
-                .getString(Constants.PREFS_TOURNAMENT_KEY, Constants.PREFS_TOURNAMENT_DEFAULT);
+        FirebaseRemoteConfig mRemoteConfig = FirebaseRemoteConfig.getInstance();
+        String tourn = mRemoteConfig.getString(Constants.FBCONFIG_TOURN_KEY);
 
         MatchInfo mInfo = new MatchInfo(match, tourn, alliance, team, defenseSelectorDialogFragment.getSelectedDefenses());
         startScouting(mInfo);
