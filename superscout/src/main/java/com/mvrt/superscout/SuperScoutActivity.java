@@ -32,7 +32,6 @@ import java.util.ArrayList;
  */
 public class SuperScoutActivity extends AppCompatActivity {
 
-
     NfcAdapter nfcAdapter;
     PendingIntent pendingIntent;
     IntentFilter[] intentFilters;
