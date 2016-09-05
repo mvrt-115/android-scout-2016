@@ -15,7 +15,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.firebase.client.Firebase;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.FragmentPagerAdapter;
 import com.mvrt.mvrtlib.util.JSONUtils;
@@ -43,7 +44,7 @@ public class SuperScoutActivity extends AppCompatActivity {
     SuperMatchInfoFragment superMatchInfoFragment;
     SuperDataFragment superDataFragment;
 
-    Firebase firebase;
+    DatabaseReference matchDataRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +59,9 @@ public class SuperScoutActivity extends AppCompatActivity {
     }
 
     private void initFirebase(){
-        Firebase.setAndroidContext(getApplication());
-        firebase = new Firebase("http://teamdata.firebaseio.com");
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        database.setPersistenceEnabled(true);
+        matchDataRef = database.getReference("matches");
     }
 
     public void loadIntentData(){
@@ -153,22 +155,23 @@ public class SuperScoutActivity extends AppCompatActivity {
             int scoutId = object.getInt(Constants.JSON_DATA_SCOUTID);
             superDataFragment.addData(i.getTeams()[scoutId], (verifCode == null)?"N/A":verifCode);
             Log.d("MVRT", "data: " + object.toString());
-            firebase.child("matches").child(i.toDbKey(scoutId)).updateChildren(JSONUtils.jsonToMap(object));
+
+            matchDataRef.child(i.toDbKey(scoutId)).updateChildren(JSONUtils.jsonToMap(object));
         }catch(JSONException e) {
             e.printStackTrace();
         }
     }
 
     public void sendSuperData(){
-        firebase.child("matches").child(matchInfo.toDbKey(0)).child("super")
+        matchDataRef.child(matchInfo.toDbKey(0)).child("super")
                 .setValue(superCommentsFragment.getTeam1());
-        firebase.child("matches").child(matchInfo.toDbKey(1)).child("super")
+        matchDataRef.child(matchInfo.toDbKey(1)).child("super")
                 .setValue(superCommentsFragment.getTeam2());
-        firebase.child("matches").child(matchInfo.toDbKey(2)).child("super")
+        matchDataRef.child(matchInfo.toDbKey(2)).child("super")
                 .setValue(superCommentsFragment.getTeam3());
 
         for(int id = 0; id < 3; id++){
-            Firebase r = firebase.child("matches").child(matchInfo.toDbKey(id));
+            DatabaseReference r = matchDataRef.child(matchInfo.toDbKey(id));
             r.child("team").setValue(matchInfo.getTeams()[id]);
             r.child("alliance").setValue(matchInfo.getAlliance());
             r.child("match").setValue(matchInfo.getMatchNo());
