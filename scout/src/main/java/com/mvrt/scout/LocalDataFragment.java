@@ -16,7 +16,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.client.Firebase;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.JSONUtils;
 import com.mvrt.mvrtlib.util.MatchInfo;
@@ -36,7 +37,7 @@ public class LocalDataFragment extends Fragment implements SwipeRefreshLayout.On
     LocalDataAdapter localDataAdapter;
     SwipeRefreshLayout swipeRefreshLayout;
 
-    Firebase firebase;
+    DatabaseReference matchReference;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -46,8 +47,8 @@ public class LocalDataFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     private void initFirebase(){
-        Firebase.setAndroidContext(getActivity().getApplication());
-        firebase = new Firebase("http://teamdata.firebaseio.com");
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        matchReference = firebaseDatabase.getReference("matches");
     }
 
     @Override
@@ -108,7 +109,7 @@ public class LocalDataFragment extends Fragment implements SwipeRefreshLayout.On
 
     private void uploadData(MatchInfo info, int scoutId, JSONObject scoutData, String filename){
         try{
-            firebase.child("matches").child(info.toDbKey(scoutId)).updateChildren(JSONUtils.jsonToMap(scoutData));
+            matchReference.child(info.toDbKey(scoutId)).updateChildren(JSONUtils.jsonToMap(scoutData));
             getActivity().deleteFile(filename);
             Log.d("MVRT", "Deleted file " + filename);
         }catch(JSONException e){
