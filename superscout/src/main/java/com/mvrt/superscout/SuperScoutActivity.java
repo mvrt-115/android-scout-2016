@@ -172,7 +172,7 @@ public class SuperScoutActivity extends AppCompatActivity {
         for(int id = 0; id < 3; id++){
             DatabaseReference r = matchDataRef.child(matchInfo.toDbKey(id));
             r.child("team").setValue(matchInfo.getTeams()[id]);
-            r.child("alliance").setValue(matchInfo.getAlliance());
+            r.child("alliance").setValue(matchInfo.getAlliance() + "");
             r.child("match").setValue(matchInfo.getMatchNo());
             r.child("tournament").setValue(matchInfo.getTournament());
             r.child("matchinfo").setValue(matchInfo.toString());
