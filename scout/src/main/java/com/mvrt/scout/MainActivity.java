@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.mvrt.mvrtlib.util.MatchInfo;
 
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         setupNavDrawer();
 
-        initFirebaseRemoteConfig();
+        initFirebase();
         initNFC();
     }
 
@@ -116,7 +117,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         intentFilters = new IntentFilter[]{ndef};
     }
 
-    private void initFirebaseRemoteConfig() {
+    private void initFirebase() {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseDatabase.setPersistenceEnabled(true);
+
         final FirebaseRemoteConfig mRemoteConfig = FirebaseRemoteConfig.getInstance();
 
         mRemoteConfig.setDefaults(R.xml.remote_config_defaults);
