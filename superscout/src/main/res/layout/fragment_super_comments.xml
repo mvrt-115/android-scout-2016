@@ -2,6 +2,7 @@
 <ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
+    android:padding="5dp"
     android:fitsSystemWindows="true">
 
     <LinearLayout
@@ -20,8 +21,8 @@
             android:layout_height="wrap_content"
             android:hint="Comments"
             android:background="@color/yellowtext_primary_light"
-            android:layout_marginTop="10dp"
-            android:padding="5dp"
+            android:padding="15dp"
+            android:layout_margin="10dp"
             android:inputType="textMultiLine"/>
 
         <TextView
@@ -32,10 +33,10 @@
         <EditText android:id="@+id/team2_comments"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:hint="Comments"
             android:background="@color/yellowtext_primary_light"
-            android:padding="5dp"
+            android:layout_margin="10dp"
+            android:padding="15dp"
             android:inputType="textMultiLine"/>
 
 
@@ -47,10 +48,10 @@
         <EditText android:id="@+id/team3_comments"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:hint="Comments"
+            android:layout_margin="10dp"
             android:background="@color/yellowtext_primary_light"
-            android:padding="5dp"
+            android:padding="15dp"
             android:inputType="textMultiLine"/>
 
     </LinearLayout>
