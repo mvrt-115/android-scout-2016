@@ -1,17 +1,18 @@
-var firebase = new Firebase("https://teamdata.firebaseio.com");
+var database = firebase.database();
+var ref = database.ref();
 
 function loadPitData(){
-    firebase.child('pit').once('value', function(snapshot){
+    ref.child('pit').once('value', function(snapshot){
         var pitData = [];
         snapshot.forEach(function(childSnapshot){
-            pitData.push(getPit(childSnapshot));      
+            pitData.push(getPit(childSnapshot));
         });
         saveCSV(getPitHeaders(), pitData, 'pitDownloadLink', 'pitscout.csv');
     });
 }
 
 function loadFirebaseData(){
-    firebase.child('matches').once('value', function(snapshot){
+    ref.child('matches').once('value', function(snapshot){
         var scoutData = [];
         var shotData = [];
         var crossData = [];
@@ -136,22 +137,22 @@ function getPitHeaders(){
 
 function getPit(snapshot){
     var val = snapshot.val();
-    
+
     var team = val['Team'];
-    
+
     var autonBreak = val['Auton Break'];
     var autonHigh = val['Auton High'];
     var autonLow = val['Auton Low'];
     var autonReach = val['Auton Reach'];
-    
+
     var highGoal = val['High Goal'];
     var lowGoal = val['Low Goal'];
     var intake = val['Intake'];
     var strategy = val['Strategy'];
-    
+
     var challenge = val['Challenge'];
     var climber = val['Climber'];
-    
+
     var lowBar = val['Low Bar'];
     var cheval = val['Cheval'];
     var portcullis = val['Portcullis'];
@@ -161,16 +162,16 @@ function getPit(snapshot){
     var ramparts = val['Ramparts'];
     var rockWall = val['Rock Wall'];
     var roughTerrain = val['Rough Terrain'];
-    
+
     var dtMotors = val['Number of Motors'];
     var dtWheels = val['Number of Wheels'];
     var wheelType = val['Type of Wheels'];
     var weight = val['Weight'];
-    
-    var driverRegionals = val['Driver Regionals'];
-    
 
-    return [team, 
+    var driverRegionals = val['Driver Regionals'];
+
+
+    return [team,
         autonBreak, autonHigh, autonLow, autonReach,
         highGoal, lowGoal, intake, strategy,
         challenge, climber,
