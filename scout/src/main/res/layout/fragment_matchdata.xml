@@ -14,9 +14,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:textSize="10pt"
             android:id="@+id/match_data"
-            android:text="Data Here lol."/>
+            android:gravity="center"
+            android:text="Have super scout scan QR code or tap (NFC) to send data, unless data was already sent via WiFI/Mobile Data"/>
 
         <ImageView
             android:layout_marginLeft="40dp"

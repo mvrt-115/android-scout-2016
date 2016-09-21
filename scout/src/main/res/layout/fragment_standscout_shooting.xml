@@ -1,84 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".StandScoutShootingFragment">
 
-
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/blue_field"
+            android:layout_margin="0dp"
+            android:id="@+id/selectlocation_imageview"
+            android:adjustViewBounds="true"
+            android:padding="0dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
-                android:text="Shots Made: 0/0"
-                android:gravity="center_horizontal"
-                android:id="@+id/selectlocation_textview"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:scaleType="fitCenter"
-                android:src="@drawable/blue_field"
-                android:layout_margin="0dp"
-                android:id="@+id/selectlocation_imageview"
-                android:adjustViewBounds="true"
-                android:padding="0dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_alignParentBottom="true"
-                android:gravity="center">
-                <ImageButton
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_weight="1"
-                    android:theme="@style/MVRTButtonStyle"
-                    android:id="@+id/shoot_high_make"
-                    android:src="@mipmap/ic_plusfive"
-                    android:elevation="4dp"/>
-                <ImageButton
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="80dp"
-                    android:theme="@style/MVRTButtonStyle"
-                    android:id="@+id/shoot_high_miss"
-                    android:src="@mipmap/ic_minusfive"
-                    android:elevation="4dp"/>
-                <ImageButton
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_weight="1"
-                    android:theme="@style/MVRTButtonStyle"
-                    android:id="@+id/shoot_low_make"
-                    android:src="@mipmap/ic_plustwo"
-                    android:elevation="4dp"/>
-                <ImageButton
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="80dp"
-                    android:theme="@style/MVRTButtonStyle"
-                    android:id="@+id/shoot_low_miss"
-                    android:src="@mipmap/ic_minustwo"
-                    android:elevation="4dp"/>
-            </LinearLayout>
-
+            android:orientation="horizontal"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:gravity="center">
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:theme="@style/MVRTButtonStyle"
+                android:id="@+id/shoot_high_make"
+                android:src="@mipmap/ic_plusfive"
+                android:elevation="4dp"/>
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="80dp"
+                android:theme="@style/MVRTButtonStyle"
+                android:id="@+id/shoot_high_miss"
+                android:src="@mipmap/ic_minusfive"
+                android:elevation="4dp"/>
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:theme="@style/MVRTButtonStyle"
+                android:id="@+id/shoot_low_make"
+                android:src="@mipmap/ic_plustwo"
+                android:elevation="4dp"/>
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="80dp"
+                android:theme="@style/MVRTButtonStyle"
+                android:id="@+id/shoot_low_miss"
+                android:src="@mipmap/ic_minustwo"
+                android:elevation="4dp"/>
         </LinearLayout>
 
-    </ScrollView>
+    </LinearLayout>
 
-</LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_marginTop="25dp"
+        android:layout_alignParentStart="true"
+        android:text="Shots Made: 0/0"
+        android:textColor="@color/text_primary_light"
+        android:gravity="center_horizontal"
+        android:id="@+id/selectlocation_textview"/>
+
+</RelativeLayout>
