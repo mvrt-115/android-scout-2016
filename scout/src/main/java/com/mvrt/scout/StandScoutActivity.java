@@ -12,8 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.FragmentPagerAdapter;
 import com.mvrt.mvrtlib.util.JSONUtils;
@@ -49,8 +49,7 @@ public class StandScoutActivity extends AppCompatActivity {
     }
 
     private void initFirebase(){
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        matchReference = firebaseDatabase.getReference("matches");
+        matchReference = FirebaseUtils.getDatabase().getReference("matches");
     }
 
     public void loadIntentData(){
@@ -132,6 +131,7 @@ public class StandScoutActivity extends AppCompatActivity {
                 uploadData(matchInfo, scoutId, obj);
 
                 String filename = writeToFile(obj, matchInfo, scoutId);
+
                 Intent i = new Intent(this, MatchScoutingDataActivity.class);
                 i.putExtra(Constants.INTENT_EXTRA_FILENAME, filename);
                 startActivity(i);
@@ -162,12 +162,20 @@ public class StandScoutActivity extends AppCompatActivity {
 
     private void uploadData(MatchInfo info, int scoutId, JSONObject scoutData){
         try{
-            matchReference.child(info.toDbKey(scoutId)).updateChildren(JSONUtils.jsonToMap(new JSONObject(scoutData.toString())));
+            matchReference.child(info.toDbKey(scoutId)).updateChildren(JSONUtils.jsonToMap(new JSONObject(scoutData.toString()))).addOnSuccessListener(syncCompleteListener);
         }catch(JSONException e){
             Toast.makeText(this, "Upload JSONException", Toast.LENGTH_SHORT).show();
             Log.e("MVRT", "Upload JSONException");
         }
     }
 
+    OnSuccessListener<Void> syncCompleteListener = new OnSuccessListener<Void>() {
+
+        @Override
+        public void onSuccess(Void aVoid) {
+            Toast.makeText(getApplicationContext(), "Synced Online!", Toast.LENGTH_LONG).show();
+        }
+
+    };
 
 }

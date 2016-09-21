@@ -50,10 +50,11 @@ public class SuperDataFragment extends Fragment{
     }
 
     public void addData(int team, String code){
-        Log.d("MVRT", "add data");
         String toAppend = "T " + team + ", verif. code: " + code;
-        if(list != null)list.append(toAppend + System.getProperty("line.separator"));
-        else queue += toAppend;
+        queue += toAppend + System.getProperty("line.separator");
+        if(list != null){
+            list.setText(queue);
+        }
     }
 
     public void startQR(){

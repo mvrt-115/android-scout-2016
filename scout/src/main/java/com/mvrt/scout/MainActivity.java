@@ -118,9 +118,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void initFirebase() {
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        firebaseDatabase.setPersistenceEnabled(true);
-
         final FirebaseRemoteConfig mRemoteConfig = FirebaseRemoteConfig.getInstance();
 
         mRemoteConfig.setDefaults(R.xml.remote_config_defaults);

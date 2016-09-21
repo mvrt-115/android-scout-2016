@@ -15,8 +15,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.FragmentPagerAdapter;
 import com.mvrt.mvrtlib.util.JSONUtils;
@@ -30,7 +33,7 @@ import java.util.ArrayList;
 /**
  * @author Bubby and Akhil
  */
-public class SuperScoutActivity extends AppCompatActivity {
+public class SuperScoutActivity extends AppCompatActivity implements ChildEventListener {
 
     NfcAdapter nfcAdapter;
     PendingIntent pendingIntent;
@@ -44,6 +47,7 @@ public class SuperScoutActivity extends AppCompatActivity {
     SuperDataFragment superDataFragment;
 
     DatabaseReference matchDataRef;
+    Query fbQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +62,9 @@ public class SuperScoutActivity extends AppCompatActivity {
     }
 
     private void initFirebase(){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        database.setPersistenceEnabled(true);
-        matchDataRef = database.getReference("matches");
+        matchDataRef = FirebaseUtils.getDatabase().getReference("matches");
+        fbQuery = matchDataRef.orderByChild(Constants.JSON_DATA_MATCHINFO).equalTo(matchInfo.toString());
+        fbQuery.addChildEventListener(this);
     }
 
     public void loadIntentData(){
@@ -181,6 +185,7 @@ public class SuperScoutActivity extends AppCompatActivity {
 
     public void finishScouting(){
         sendSuperData();
+        if(fbQuery != null) fbQuery.removeEventListener(this);
         finish();
     }
 
@@ -191,5 +196,33 @@ public class SuperScoutActivity extends AppCompatActivity {
         }catch(JSONException e){ e.printStackTrace(); }
     }
 
+    @Override
+    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        String matchInfo = (String)dataSnapshot.child(Constants.JSON_DATA_MATCHINFO).getValue();
+        MatchInfo i = MatchInfo.parse(matchInfo);
+        int scoutId = ((Long)dataSnapshot.child(Constants.JSON_DATA_SCOUTID).getValue()).intValue();
+        superDataFragment.addData(i.getTeams()[scoutId], "N/A, Synced Online");
+        Log.d("MVRT", "DB Child Added: " + i.toString());
+    }
+
+    @Override
+    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+    }
+
+    @Override
+    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+    }
+
+    @Override
+    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+    }
+
+    @Override
+    public void onCancelled(DatabaseError databaseError) {
+
+    }
 }
 
