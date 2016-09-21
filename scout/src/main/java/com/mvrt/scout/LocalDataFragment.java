@@ -47,8 +47,7 @@ public class LocalDataFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     private void initFirebase(){
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        matchReference = firebaseDatabase.getReference("matches");
+        matchReference = FirebaseUtils.getDatabase().getReference("matches");
     }
 
     @Override
