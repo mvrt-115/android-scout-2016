@@ -15,66 +15,113 @@
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin">
 
-            <Button android:id="@+id/teleop_shoot"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:text="Shoot!"
-                android:padding="20dp"
-                android:layout_margin="5dp"
-                android:theme="@style/MVRTButtonStyle"/>
+            <!--FUEL-->
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="15sp"
+                android:text="Fuel (Cycles)"
+                android:layout_weight="1" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <Button android:id="@+id/teleop_intake"
+                <Button android:id="@+id/bt_teleop_hopper"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:text="Hopper"
+                    android:layout_margin="5dp"
+                    android:theme="@style/MVRTButtonStyle"/>
+
+                <Button android:id="@+id/bt_teleop_high"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:text="High"
+                    android:layout_margin="5dp"
+                    android:theme="@style/MVRTButtonStyle"/>
+
+                <Button android:id="@+id/bt_teleop_low"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:text="Low"
+                    android:layout_margin="5dp"
+                    android:theme="@style/MVRTButtonStyle"/>
+
+            </LinearLayout>
+
+            <!--GEARS-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="15sp"
+                android:text="Gears"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button android:id="@+id/bt_teleop_getgear"
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:padding="20dp"
-                    android:text="Intake Boulder (0)"
+                    android:text="Get"
                     android:layout_margin="5dp"
                     android:theme="@style/MVRTButtonStyle"/>
 
-                <Button android:id="@+id/teleop_intakeremove"
+                <Button android:id="@+id/bt_teleop_gear_minus"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:padding="20dp"
                     android:text=" -1 "
+                    android:visibility="gone"
+                    android:layout_margin="5dp"
+                    android:theme="@style/MVRTButtonStyle"/>
+
+                <Button android:id="@+id/bt_teleop_putgear"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:padding="20dp"
+                    android:text="Place"
                     android:layout_margin="5dp"
                     android:theme="@style/MVRTButtonStyle"/>
 
             </LinearLayout>
 
+
+
+            <!--CLIMB-->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button android:id="@+id/teleop_cross"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_weight="5"
-                    android:padding="20dp"
-                    android:text="Cross!"
-                    android:layout_margin="5dp"
-                    android:theme="@style/MVRTButtonStyle"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_marginTop="10dp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="Climb"
+                    android:textSize="15sp"
                     android:id="@+id/teleop_climb_status"/>
+
 
                 <TextView
                     android:layout_width="0dp"
@@ -97,13 +144,15 @@
                     android:layout_weight="1"
                     android:text="Start Climb"
                     android:layout_margin="5dp"
-                    android:padding="15dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
                     android:theme="@style/MVRTButtonStyle"/>
 
                 <Button android:id="@+id/teleop_climb_success"
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
-                    android:padding="15dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
                     android:layout_weight="1"
                     android:text="Success"
                     android:layout_margin="5dp"
@@ -114,7 +163,8 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:text="Failed"
-                    android:padding="15dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
                     android:layout_margin="5dp"
                     android:theme="@style/MVRTButtonStyle"/>
 
@@ -123,16 +173,27 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:text="Cancel"
-                    android:padding="15dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
                     android:layout_margin="5dp"
                     android:theme="@style/MVRTButtonStyle"/>
 
             </LinearLayout>
 
-            <CheckBox android:id="@+id/teleop_challenge"
+            <CheckBox
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Challenge Tower" />
+                android:text="Touchpad Lit?"
+                android:id="@+id/ch_teleop_climb"/>
+
+            <Button android:id="@+id/bt_teleop_finish"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:padding="25dp"
+                android:text="Finish Teleop"
+                android:layout_margin="10dp"
+                android:theme="@style/MVRTButtonStyle"/>
+
 
         </LinearLayout>
     </ScrollView>

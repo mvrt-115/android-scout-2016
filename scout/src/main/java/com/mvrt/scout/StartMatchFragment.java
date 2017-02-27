@@ -10,29 +10,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.mvrt.mvrtlib.util.Constants;
-import com.mvrt.mvrtlib.util.DefenseManager;
-import com.mvrt.mvrtlib.util.DefenseSelectorDialogFragment;
 import com.mvrt.mvrtlib.util.MatchInfo;
 import com.mvrt.mvrtlib.util.Snacker;
 
-public class StartMatchFragment extends Fragment implements View.OnClickListener, DefenseSelectorDialogFragment.DefenseSelectedListener{
+public class StartMatchFragment extends Fragment implements View.OnClickListener{
 
     EditText matchText;
     EditText teamText;
     Spinner alliance;
 
-    DefenseSelectorDialogFragment defenseSelectorDialogFragment;
-
-    ImageView[] defenseViews;
-    Button editDefenses;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,40 +43,22 @@ public class StartMatchFragment extends Fragment implements View.OnClickListener
         ArrayAdapter<CharSequence> alliances = new ArrayAdapter<CharSequence>(getActivity(), android.R.layout.simple_spinner_dropdown_item, allianceArray);
         alliance.setAdapter(alliances);
 
-        defenseSelectorDialogFragment = new DefenseSelectorDialogFragment();
-        defenseSelectorDialogFragment.setListener(this);
-
-        editDefenses = (Button)view.findViewById(R.id.startmatch_editdefenses);
-        editDefenses.setOnClickListener(this);
-        defenseViews = new ImageView[4];
-        defenseViews[0] = (ImageView)view.findViewById(R.id.startmatch_defense1);
-        defenseViews[1] = (ImageView)view.findViewById(R.id.startmatch_defense2);
-        defenseViews[2] = (ImageView)view.findViewById(R.id.startmatch_defense3);
-        defenseViews[3] = (ImageView)view.findViewById(R.id.startmatch_defense4);
-        refreshDefenseViews();
-
         FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.startmatch_fab_start);
         fab.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.startmatch_qrbutton:
                 scanQR();
                 break;
             case R.id.startmatch_fab_start:
                 startManual();
                 break;
-            case R.id.startmatch_editdefenses:
-                selectDefenses();
-                break;
         }
     }
 
-    public void selectDefenses(){
-        defenseSelectorDialogFragment.show(getFragmentManager(), "MVRT");
-    }
 
     public void startManual(){
         char alliance = Constants.ALLIANCE_BLUE;
@@ -103,7 +77,7 @@ public class StartMatchFragment extends Fragment implements View.OnClickListener
         FirebaseRemoteConfig mRemoteConfig = FirebaseRemoteConfig.getInstance();
         String tourn = mRemoteConfig.getString(Constants.FBCONFIG_TOURN_KEY);
 
-        MatchInfo mInfo = new MatchInfo(match, tourn, alliance, team, defenseSelectorDialogFragment.getSelectedDefenses());
+        MatchInfo mInfo = new MatchInfo(match, tourn, alliance, team);
         startScouting(mInfo);
     }
 
@@ -135,18 +109,6 @@ public class StartMatchFragment extends Fragment implements View.OnClickListener
                 String result = data.getStringExtra(Constants.INTENT_QR_SCANRESULT_KEY);
                 startScouting(MatchInfo.parse(result));
             } else Snacker.snack("Error getting QR data", getActivity(), Snackbar.LENGTH_LONG);
-        }
-    }
-
-    @Override
-    public void onDefenseSelected() {
-        refreshDefenseViews();
-    }
-
-    private void refreshDefenseViews(){
-        String[] defenses = defenseSelectorDialogFragment.getSelectedDefenses();
-        for(int i = 0; i < defenses.length; i++){
-            defenseViews[i].setImageDrawable(DefenseManager.getDrawable(getActivity(), defenses[i]));
         }
     }
 

@@ -30,6 +30,8 @@ public class MatchScoutingDataActivity extends AppCompatActivity{
     private JSONObject scoutData;
     private MatchInfo info;
 
+    private MatchDataFragment dataFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +79,9 @@ public class MatchScoutingDataActivity extends AppCompatActivity{
 
     /* Don't exit when the back button is pressed */
     @Override
-    public void onBackPressed() {}
+    public void onBackPressed() {
+        if(dataFragment != null)dataFragment.verify();
+    }
 
     public void loadUI(){
         Toolbar t = (Toolbar)findViewById(R.id.matchdata_toolbar);
@@ -85,13 +89,14 @@ public class MatchScoutingDataActivity extends AppCompatActivity{
     }
 
     public void loadFragments() throws JSONException{
-        MatchDataFragment dataFragment = new MatchDataFragment();
+        dataFragment = new MatchDataFragment();
 
         MatchInfoFragment infoFragment = new MatchInfoFragment();
         Bundle b = new Bundle();
         b.putSerializable(Constants.INTENT_EXTRA_MATCHINFO, info);
         b.putInt(Constants.INTENT_EXTRA_SCOUTID, scoutData.getInt(Constants.JSON_DATA_SCOUTID));
         infoFragment.setArguments(b);
+        Log.d("MVRT", "Fragments Arguments Passed");
 
         TabLayout tabs = (TabLayout)findViewById(R.id.matchdata_tablayout);
 

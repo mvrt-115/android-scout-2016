@@ -1,7 +1,6 @@
 package com.mvrt.scout;
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,29 +9,28 @@ import android.widget.CheckBox;
 
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.DataCollectionFragment;
-import com.mvrt.mvrtlib.util.DefenseCrossing;
-import com.mvrt.mvrtlib.util.DefenseCrossingDialogFragment;
-import com.mvrt.mvrtlib.util.DefenseManager;
-import com.mvrt.mvrtlib.util.Snacker;
 
 import org.json.JSONObject;
 
 
-public class StandScoutAutonFragment extends DataCollectionFragment implements View.OnClickListener, DefenseCrossingDialogFragment.DefenseSelectedListener {
+public class StandScoutAutonFragment extends DataCollectionFragment implements View.OnClickListener {
 
 
-    Button intakeBall;
-    Button removeBall;
-    int intakedBalls = 0;
+    CheckBox startWithGear;
+    CheckBox startWithBalls;
+    CheckBox mobility;
+    CheckBox hopper;
+    CheckBox groundIntake;
 
-    Button crossDefense;
-    DefenseCrossing crossing;
-    DefenseCrossingDialogFragment crossingDialogFragment;
-    Button cancelCrossDefense;
+    Button highGoal;
+    Button lowGoal;
+    Button placeGear;
+    Button minusGear;
+    Button finishAuton;
 
-    CheckBox reachBox;
-
-    Button shootButton;
+    int gearsPlaced = 0;
+    int highGoals = 0;
+    int lowGoals = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,75 +40,49 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
 
     @Override
     public void onViewCreated(View v, Bundle savedInstanceState) {
-        initShootUI(v);
-        initIntakeUI(v);
-        initCrossUI(v);
-        refreshUi();
+        startWithBalls = (CheckBox)v.findViewById(R.id.ch_auton_balls);
+        startWithGear = (CheckBox)v.findViewById(R.id.ch_auton_gear);
+        mobility = (CheckBox)v.findViewById(R.id.ch_auton_mobility);
+        hopper = (CheckBox)v.findViewById(R.id.ch_auton_hopper);
+        groundIntake = (CheckBox)v.findViewById(R.id.ch_auton_groundintake);
+
+        highGoal = (Button)v.findViewById(R.id.bt_auton_high);
+        highGoal.setOnClickListener(this);
+        lowGoal = (Button)v.findViewById(R.id.bt_auton_low);
+        lowGoal.setOnClickListener(this);
+
+        placeGear = (Button)v.findViewById(R.id.bt_auton_gear);
+        placeGear.setOnClickListener(this);
+        minusGear = (Button)v.findViewById(R.id.bt_auton_gear_minus);
+        minusGear.setOnClickListener(this);
+
+        finishAuton = (Button)v.findViewById(R.id.bt_auton_finish);
+        finishAuton.setOnClickListener(this);
     }
 
-    private void initCrossUI(View v){
-        crossDefense = (Button)v.findViewById(R.id.auton_cross);
-        crossDefense.setOnClickListener(this);
-        crossingDialogFragment = new DefenseCrossingDialogFragment();
-        crossingDialogFragment.setDefenses(((StandScoutActivity) getActivity()).getMatchInfo());
-        crossingDialogFragment.setListener(this);
-        reachBox = (CheckBox)v.findViewById(R.id.auton_reach);
-        cancelCrossDefense = (Button)v.findViewById(R.id.auton_cross_cancel);
-        cancelCrossDefense.setOnClickListener(this);
+    private void refreshGearUI(){
+        placeGear.setText("Place Gear (" + gearsPlaced + ")");
     }
 
-    private void initIntakeUI(View v){
-        intakeBall = (Button)v.findViewById(R.id.auton_intake);
-        intakeBall.setOnClickListener(this);
-        removeBall = (Button)v.findViewById(R.id.auton_intakeremove);
-        removeBall.setOnClickListener(this);
+    private void placeGear(){
+        if(gearsPlaced < 3) gearsPlaced++;
+        refreshGearUI();
+        startWithGear.setChecked(true);
     }
 
-    private void initShootUI(View v){
-        shootButton = (Button)v.findViewById(R.id.auton_shoot);
-        shootButton.setOnClickListener(this);
+    private void removeGear(){
+        if(gearsPlaced > 0) gearsPlaced--;
+        refreshGearUI();
     }
 
-    private void refreshIntakeUI(){
-        intakeBall.setText("Intake Boulder (" + intakedBalls + ")");
+    private void highGoal(){
+        highGoals++;
+        highGoal.setText("High (" + highGoals + ")");
     }
 
-    private void refreshCrossingUI(){
-        if(crossing != null){
-            crossDefense.setText("Crossed " + DefenseManager.getString(crossing.getDefense()));
-            reachBox.setEnabled(false);
-            reachBox.setChecked(false);
-        }else{
-            reachBox.setEnabled(true);
-        }
-    }
-
-    private void intakeBall(){
-        intakedBalls++;
-        refreshIntakeUI();
-    }
-
-    private void removeBall(){
-        if(intakedBalls > 0)intakedBalls--;
-        refreshIntakeUI();
-    }
-
-    private void shootBall(){
-        ((StandScoutActivity)getActivity()).shoot(true);
-    }
-
-    private void crossDefense(){
-        if(crossing != null){
-            Snacker.snack("Can only score one crossing in auton", getActivity(), Snackbar.LENGTH_SHORT);
-        }else{
-            crossingDialogFragment.show(getFragmentManager(), "MVRT");
-        }
-    }
-
-    private void cancelCross() {
-        Snacker.snack("Cross Canceled", getActivity(), Snackbar.LENGTH_SHORT);
-        crossing = null;
-        crossDefense.setText("Cross A Defense");
+    private void lowGoal(){
+        lowGoals++;
+        lowGoal.setText("Low (" + lowGoals + ")");
     }
 
     @Override
@@ -121,37 +93,39 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.auton_intake:
-                intakeBall();
+            case R.id.bt_auton_gear:
+                placeGear();
                 break;
-            case R.id.auton_intakeremove:
-                removeBall();
+            case R.id.bt_auton_gear_minus:
+                removeGear();
                 break;
-            case R.id.auton_shoot:
-                shootBall();
+            case R.id.bt_auton_high:
+                highGoal();
                 break;
-            case R.id.auton_cross:
-                crossDefense();
+            case R.id.bt_auton_low:
+                lowGoal();
                 break;
-            case R.id.auton_cross_cancel:
-                cancelCross();
+            case R.id.bt_auton_finish:
+                ((StandScoutActivity)getActivity()).nextTab();
                 break;
         }
-        refreshUi();
     }
 
-    public void refreshUi(){
-        refreshIntakeUI();
-        refreshCrossingUI();
-    }
 
     public JSONObject getData(){
         JSONObject obj = new JSONObject();
         try {
-            obj.put(Constants.JSON_AUTON_INTAKE, intakedBalls);
-            obj.put(Constants.JSON_AUTON_REACH, reachBox.isChecked());
-            obj.put(Constants.JSON_AUTON_CROSSING, crossing.getDefense());
-        }catch(Exception e){}
+            obj.put(Constants.JSON_AUTON_GEARS, gearsPlaced);
+            obj.put(Constants.JSON_AUTON_HIGH, highGoals);
+            obj.put(Constants.JSON_AUTON_LOW, lowGoals);
+            obj.put(Constants.JSON_AUTON_MOBILITY, mobility.isChecked());
+            obj.put(Constants.JSON_AUTON_STARTBALLS, startWithBalls.isChecked());
+            obj.put(Constants.JSON_AUTON_STARTGEARS, startWithGear.isChecked());
+            obj.put(Constants.JSON_AUTON_HOPPER, hopper.isChecked());
+            obj.put(Constants.JSON_AUTON_GROUNDINTAKE, groundIntake.isChecked());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         return obj;
     }
 
@@ -160,13 +134,5 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
         return true;
     }
 
-    @Override
-    public void onDefenseSelected(String defense) {
-        crossing = new DefenseCrossing(defense, 0);
-        refreshCrossingUI();
-    }
-
-    @Override
-    public void defenseSelectionCanceled() {}
 
 }

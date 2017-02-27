@@ -38,6 +38,94 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:textSize="17sp"
+                    android:text="High Goal Accuracy"
+                    android:layout_weight="1" />
+
+                <RatingBar android:id="@+id/postgame_highaccuracy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:numStars="5"
+                    android:stepSize="1"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:textSize="17sp"
+                    android:text="Gear Placement Accuracy"
+                    android:layout_weight="1" />
+
+                <RatingBar android:id="@+id/postgame_gearaccuracy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:numStars="5"
+                    android:stepSize="1"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:textSize="17sp"
+                    android:text="Pilot (HP)"
+                    android:layout_weight="1" />
+
+                <RatingBar android:id="@+id/postgame_pilot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:numStars="5"
+                    android:stepSize="1"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:textSize="17sp"
+                    android:text="Driving"
+                    android:layout_weight="1" />
+
+                <RatingBar android:id="@+id/postgame_driving"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:numStars="5"
+                    android:stepSize="1"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:textSize="17sp"
                     android:text="Defense"
                     android:layout_weight="1" />
 
@@ -60,13 +148,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:textSize="17sp"
-                    android:text="Ball Intake"
+                    android:text="Spinning Rotors (0-4)"
                     android:layout_weight="1" />
 
-                <RatingBar android:id="@+id/postgame_intake"
+                <RatingBar android:id="@+id/postgame_rotors"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
-                    android:numStars="5"
+                    android:numStars="4"
                     android:stepSize="1"
                     android:layout_weight="1" />
 
@@ -94,7 +182,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Additional Comments"
-                android:background="@color/yellowtext_primary_light"
+                android:background="@color/purpletext_primary_light"
                 android:padding="5dp"
                 android:inputType="textMultiLine"/>
 

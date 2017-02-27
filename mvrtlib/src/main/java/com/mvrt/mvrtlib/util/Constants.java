@@ -29,45 +29,45 @@ public class Constants {
     public static final char ALLIANCE_RED = 'r';
     public static final char ALLIANCE_BLUE = 'b';
 
-    public static final String JSON_DATA_AUTON = "atn";
-    public static final String JSON_DATA_TELEOP = "tlp";
-    public static final String JSON_DATA_SHOOTING = "sht";
-    public static final String JSON_DATA_POSTGAME = "pst";
+    public static final String JSON_DATA_AUTON = "A";
+    public static final String JSON_DATA_TELEOP = "T";
+    public static final String JSON_DATA_POSTGAME = "P";
     public static final String JSON_DATA_MATCHINFO = "minfo";
     public static final String JSON_DATA_SCOUTID = "sctid";
 
-    public static final String JSON_SHOOTING_SHOTS_TELEOP = "shtt";
-    public static final String JSON_SHOOTING_SHOTS_AUTON = "shta";
 
     public static final String JSON_POSTGAME_DISABLED = "dsbld";
-    public static final String JSON_POSTGAME_INTERFERES = "intrfr";
-    public static final String JSON_POSTGAME_DEFENSE = "dfns";
-    public static final String JSON_POSTGAME_INTAKE = "intk";
+    public static final String JSON_POSTGAME_INTERFERES = "intr";
+    public static final String JSON_POSTGAME_HIGHACCURACY = "Rha";
+    public static final String JSON_POSTGAME_GEARACCURACY = "Rga";
+    public static final String JSON_POSTGAME_PILOT = "Rp";
+    public static final String JSON_POSTGAME_DRIVING = "Rdr";
+    public static final String JSON_POSTGAME_DEFENSE = "Rdf";
+    public static final String JSON_POSTGAME_ROTORS = "Rr";
     public static final String JSON_POSTGAME_COMMENTS = "cmnt";
 
-    public static final String JSON_TELEOP_INTAKE = "in";
-    public static final String JSON_TELEOP_CLIMBRESULT = "clbr";
-    public static final String JSON_TELEOP_CLIMBTIME = "clbt";
-    public static final String JSON_TELEOP_CROSSINGS = "crsn";
-    public static final String JSON_TELEOP_CHALLENGE = "chl";
+    public static final String JSON_TELEOP_CLIMBRESULT = "Tcr";
+    public static final String JSON_TELEOP_CLIMBTIME = "Tct";
+    public static final String JSON_TELEOP_TOUCHPADTRIGGERED = "Tt";
+    public static final String JSON_TELEOP_GEARSTAKEN = "Tgt";
+    public static final String JSON_TELEOP_GEARSPLACED = "Tgp";
+    public static final String JSON_TELEOP_HIGHCYCLES = "Th";
+    public static final String JSON_TELEOP_LOWCYCLES = "Tl";
+    public static final String JSON_TELEOP_HOPPERCYCLES = "Thp";
 
     public static final String CLIMB_NO = "n";
     public static final String CLIMB_PROGRESS = "c";
     public static final String CLIMB_SUCCESS = "y";
     public static final String CLIMB_FAIL = "f";
 
-    public static final String DEFENSE_PORTCULLIS = "a1";
-    public static final String DEFENSE_CHEVALDEFRISE = "a2";
-    public static final String DEFENSE_MOAT = "b1";
-    public static final String DEFENSE_RAMPART = "b2";
-    public static final String DEFENSE_DRAWBRIDGE = "c1";
-    public static final String DEFENSE_SALLYPORT = "c2";
-    public static final String DEFENSE_ROCKWALL = "d1";
-    public static final String DEFENSE_ROUGHTERRAIN = "d2";
-    public static final String DEFENSE_LOWBAR = "e1";
 
-    public static final String JSON_AUTON_REACH = "atr";
-    public static final String JSON_AUTON_CROSSING = "atc";
-    public static final String JSON_AUTON_INTAKE = "ati";
+    public static final String JSON_AUTON_HIGH = "Ah";
+    public static final String JSON_AUTON_LOW = "Al";
+    public static final String JSON_AUTON_MOBILITY = "Am";
+    public static final String JSON_AUTON_STARTGEARS = "Asg";
+    public static final String JSON_AUTON_STARTBALLS = "Asb";
+    public static final String JSON_AUTON_GEARS = "Ag";
+    public static final String JSON_AUTON_HOPPER = "Ah";
+    public static final String JSON_AUTON_GROUNDINTAKE = "Agi";
 
 }

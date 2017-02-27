@@ -15,13 +15,13 @@
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin">
 
-            <Button android:id="@+id/auton_shoot"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:text="Shoot!"
-                android:padding="20dp"
-                android:layout_margin="5dp"
-                android:theme="@style/MVRTButtonStyle"/>
+                android:layout_marginTop="10dp"
+                android:textSize="15sp"
+                android:text="Starting Configuration"
+                android:layout_weight="1" />
 
 
             <LinearLayout
@@ -29,55 +29,131 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <Button android:id="@+id/auton_intake"
+                <CheckBox
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Starts with gear"
+                    android:id="@+id/ch_auton_gear"/>
+
+                <CheckBox
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Starts with balls"
+                    android:id="@+id/ch_auton_balls"/>
+
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="15sp"
+                android:text="Fuel"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button android:id="@+id/bt_auton_high"
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:padding="20dp"
-                    android:text="Intake Boulder (0)"
+                    android:padding="25dp"
+                    android:text="High"
                     android:layout_margin="5dp"
                     android:theme="@style/MVRTButtonStyle"/>
 
-                <Button android:id="@+id/auton_intakeremove"
+                <Button android:id="@+id/bt_auton_low"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:padding="25dp"
+                    android:text="Low"
+                    android:layout_margin="5dp"
+                    android:theme="@style/MVRTButtonStyle"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Uses Hopper"
+                    android:id="@+id/ch_auton_hopper"/>
+
+                <CheckBox
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Ground Intake"
+                    android:id="@+id/ch_auton_groundintake"/>
+
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="15sp"
+                android:text="Gears"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button android:id="@+id/bt_auton_gear"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:padding="25dp"
+                    android:text="Place Gear"
+                    android:layout_margin="5dp"
+                    android:theme="@style/MVRTButtonStyle"/>
+
+                <Button android:id="@+id/bt_auton_gear_minus"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:padding="20dp"
-                    android:text=" -1 "
+                    android:padding="25dp"
+                    android:text="-1"
                     android:layout_margin="5dp"
                     android:theme="@style/MVRTButtonStyle"/>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button android:id="@+id/auton_cross"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:padding="20dp"
-                    android:text="Cross A Defense"
-                    android:layout_margin="5dp"
-                    android:theme="@style/MVRTButtonStyle"/>
-
-                <Button android:id="@+id/auton_cross_cancel"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:padding="20dp"
-                    android:text="Cancel Crossing"
-                    android:layout_margin="5dp"
-                    android:theme="@style/MVRTButtonStyle"/>
-
-            </LinearLayout>
+                android:layout_marginTop="10dp"
+                android:textSize="15sp"
+                android:text="Other"
+                android:layout_weight="1" />
 
             <CheckBox
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Reach Defense"
-                android:id="@+id/auton_reach"/>
+                android:text="Mobility (crosses baseline)"
+                android:id="@+id/ch_auton_mobility"/>
+
+            <Button android:id="@+id/bt_auton_finish"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:padding="25dp"
+                android:text="Finish Auton"
+                android:layout_margin="10dp"
+                android:theme="@style/MVRTButtonStyle"/>
 
         </LinearLayout>
     </ScrollView>

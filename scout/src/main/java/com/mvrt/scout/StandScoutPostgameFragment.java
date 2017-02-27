@@ -20,8 +20,12 @@ import org.json.JSONObject;
  */
 public class StandScoutPostgameFragment extends DataCollectionFragment {
 
-    RatingBar defense;
-    RatingBar intake;
+    RatingBar highAccuracy;
+    RatingBar gearAccuracy;
+    RatingBar pilotRating;
+    RatingBar driverRating;
+    RatingBar defenseRating;
+    RatingBar spinningRotors;
     CheckBox disabled;
     CheckBox interfere;
     EditText comments;
@@ -35,9 +39,14 @@ public class StandScoutPostgameFragment extends DataCollectionFragment {
 
     @Override
     public void onViewCreated(View v, Bundle savedInstanceState) {
-        defense = (RatingBar)v.findViewById(R.id.postgame_defense);
-        intake = (RatingBar)v.findViewById(R.id.postgame_intake);
+        highAccuracy = (RatingBar)v.findViewById(R.id.postgame_highaccuracy);
+        gearAccuracy = (RatingBar)v.findViewById(R.id.postgame_gearaccuracy);
+        pilotRating = (RatingBar)v.findViewById(R.id.postgame_pilot);
+        driverRating = (RatingBar)v.findViewById(R.id.postgame_driving);
+        defenseRating = (RatingBar)v.findViewById(R.id.postgame_defense);
+        spinningRotors = (RatingBar)v.findViewById(R.id.postgame_rotors);
         interfere = (CheckBox)v.findViewById(R.id.postgame_interfere);
+        disabled = (CheckBox) v.findViewById(R.id.postgame_disabled);
         comments = (EditText)v.findViewById(R.id.postgame_comments);
         finish = (Button)v.findViewById(R.id.postgame_finish);
         finish.setOnClickListener(new View.OnClickListener() {
@@ -55,8 +64,11 @@ public class StandScoutPostgameFragment extends DataCollectionFragment {
 
     @Override
     public boolean validate() {
-        if (intake.getRating() == 0) { return false; }
-        else if (defense.getRating() == 0) { return false; }
+        if (highAccuracy.getRating() == 0) { return false; }
+        else if (gearAccuracy.getRating() == 0) { return false; }
+        else if (driverRating.getRating() == 0) { return false; }
+        else if (pilotRating.getRating() == 0) { return false; }
+        else if (defenseRating.getRating() == 0) { return false; }
         else { return true; }
     }
 
@@ -64,13 +76,17 @@ public class StandScoutPostgameFragment extends DataCollectionFragment {
     public JSONObject getData(){
         JSONObject o = new JSONObject();
         try{
-            o.put(Constants.JSON_POSTGAME_INTAKE, intake.getRating());
-            o.put(Constants.JSON_POSTGAME_DEFENSE, defense.getRating());
+            o.put(Constants.JSON_POSTGAME_HIGHACCURACY, highAccuracy.getRating());
+            o.put(Constants.JSON_POSTGAME_GEARACCURACY, gearAccuracy.getRating());
+            o.put(Constants.JSON_POSTGAME_DRIVING, driverRating.getRating());
+            o.put(Constants.JSON_POSTGAME_DEFENSE, defenseRating.getRating());
+            o.put(Constants.JSON_POSTGAME_PILOT, pilotRating.getRating());
+            o.put(Constants.JSON_POSTGAME_ROTORS, spinningRotors.getRating());
             o.put(Constants.JSON_POSTGAME_DISABLED, disabled.isChecked());
             o.put(Constants.JSON_POSTGAME_INTERFERES, interfere.isChecked());
             o.put(Constants.JSON_POSTGAME_COMMENTS, comments.getText().toString());
         } catch(Exception e){
-           Log.e("MVRT", "JSON Error");
+           e.printStackTrace();
         }
         return o;
     }
