@@ -40,6 +40,7 @@ public class Constants {
     public static final String JSON_POSTGAME_INTERFERES = "intr";
     public static final String JSON_POSTGAME_HIGHACCURACY = "Rha";
     public static final String JSON_POSTGAME_GEARACCURACY = "Rga";
+    public static final String JSON_POSTGAME_GEARCYCLETIME = "Rgt";
     public static final String JSON_POSTGAME_PILOT = "Rp";
     public static final String JSON_POSTGAME_DRIVING = "Rdr";
     public static final String JSON_POSTGAME_DEFENSE = "Rdf";
@@ -51,15 +52,15 @@ public class Constants {
     public static final String JSON_TELEOP_TOUCHPADTRIGGERED = "Tt";
     public static final String JSON_TELEOP_GEARSTAKEN = "Tgt";
     public static final String JSON_TELEOP_GEARSPLACED = "Tgp";
-    public static final String JSON_TELEOP_HIGHCYCLES = "Th";
-    public static final String JSON_TELEOP_LOWCYCLES = "Tl";
+    public static final String JSON_TELEOP_GEARSDROPPED = "Tgd";
+    public static final String JSON_TELEOP_HIGHBALLS = "Th";
+    public static final String JSON_TELEOP_LOWBALLS = "Tl";
     public static final String JSON_TELEOP_HOPPERCYCLES = "Thp";
 
     public static final String CLIMB_NO = "n";
     public static final String CLIMB_PROGRESS = "c";
     public static final String CLIMB_SUCCESS = "y";
     public static final String CLIMB_FAIL = "f";
-
 
     public static final String JSON_AUTON_HIGH = "Ah";
     public static final String JSON_AUTON_LOW = "Al";

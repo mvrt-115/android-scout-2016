@@ -17,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.JSONUtils;
 import com.mvrt.mvrtlib.util.MatchInfo;
@@ -31,7 +30,7 @@ import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import java.io.IOException;
 
-public class LocalDataFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ItemSelectListener {
+public class LocalDataFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ItemSelectListener, ConfirmSyncListener {
 
     RecyclerView fileListRecycler;
     LocalDataAdapter localDataAdapter;
@@ -71,13 +70,20 @@ public class LocalDataFragment extends Fragment implements SwipeRefreshLayout.On
         fileListRecycler.setAdapter(localDataAdapter);
     }
 
-    public void syncData(){
+    public void syncData() {
+        ConfirmSyncDialog csd = new ConfirmSyncDialog();
+        csd.setConfirmSyncListener(this);
+        csd.show(getFragmentManager(), "");
+    }
+
+    @Override
+    public void confirmSync() {
         String[] filenames = localDataAdapter.getFilenames();
         for(String file:filenames){
             readFile(file);
         }
+        localDataAdapter.notifyDataSetChanged();
     }
-
 
     private void readFile(String filename){
         try {
@@ -235,9 +241,13 @@ public class LocalDataFragment extends Fragment implements SwipeRefreshLayout.On
         }
 
     }
-
 }
 
 interface ItemSelectListener {
     void itemSelected(String filename);
 }
+
+interface ConfirmSyncListener {
+    void confirmSync();
+}
+

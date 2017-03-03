@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textSize="15sp"
-                android:text="Fuel (Balls)"
+                android:text="Fuel (+5 Balls)"
                 android:layout_weight="1" />
 
             <LinearLayout

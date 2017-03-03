@@ -37,14 +37,16 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     CheckBox touchpad;
 
     Button getGear;
-    Button loseGear;
     Button placeGear;
-    int gearsTaken = 0, gearsPlaced = 0;
+    Button dropGear;
+    int gearsTaken = 0, gearsPlaced = 0, gearsDropped = 0;
 
-    Button highCycle;
-    Button lowCycle;
+    Button highBoiler;
+    Button lowBoiler;
+    Button minusHigh;
+    Button minusLow;
     Button hopper;
-    int highCycles = 0, lowCycles = 0, hopperCycles = 0;
+    int highBalls = 0, lowBalls = 0, hopperCycles = 0;
 
     Button teleopFinish;
 
@@ -63,20 +65,26 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
 
         getGear = (Button)v.findViewById(R.id.bt_teleop_getgear);
         getGear.setOnClickListener(this);
-        loseGear = (Button)v.findViewById(R.id.bt_teleop_gear_minus);
-        loseGear.setOnClickListener(this);
         placeGear = (Button)v.findViewById(R.id.bt_teleop_putgear);
         placeGear.setOnClickListener(this);
+        dropGear = (Button)v.findViewById(R.id.bt_teleop_dropgear);
+        dropGear.setOnClickListener(this);
 
-        highCycle = (Button)v.findViewById(R.id.bt_teleop_high);
-        highCycle.setOnClickListener(this);
-        lowCycle = (Button)v.findViewById(R.id.bt_teleop_low);
-        lowCycle.setOnClickListener(this);
+        highBoiler = (Button)v.findViewById(R.id.bt_teleop_high);
+        highBoiler.setOnClickListener(this);
+        minusHigh = (Button)v.findViewById(R.id.bt_teleop_high_minus);
+        minusHigh.setOnClickListener(this);
+        lowBoiler = (Button)v.findViewById(R.id.bt_teleop_low);
+        lowBoiler.setOnClickListener(this);
+        minusLow = (Button)v.findViewById(R.id.bt_teleop_low_minus);
+        minusLow.setOnClickListener(this);
         hopper = (Button)v.findViewById(R.id.bt_teleop_hopper);
         hopper.setOnClickListener(this);
 
         teleopFinish = (Button)v.findViewById(R.id.bt_teleop_finish);
         teleopFinish.setOnClickListener(this);
+
+        refreshUI();
     }
 
     @Override
@@ -116,8 +124,6 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
                 });
             }
         }, 0, 50);
-
-        refreshClimbUI();
     }
 
     private void refreshClimbUI(){
@@ -125,7 +131,7 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
         Log.d("MVRT", "Time elapsed: " + timeSec);
         switch(climbState){
             case Constants.CLIMB_NO:
-                climbStatus.setText("Climb (timed!)");
+                climbStatus.setText("Climb (timed, incl. align)");
                 climbStart.setVisibility(View.VISIBLE);
                 climbSuccess.setVisibility(View.GONE);
                 climbFail.setVisibility(View.GONE);
@@ -159,19 +165,16 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     private void startClimbing(){
         climbState = Constants.CLIMB_PROGRESS;
         climbEndTime = climbStartTime = SystemClock.elapsedRealtime();
-        refreshClimbUI();
     }
 
     private void climbSuccess(){
         if(climbState == Constants.CLIMB_PROGRESS)climbEndTime = SystemClock.elapsedRealtime();
         climbState = Constants.CLIMB_SUCCESS;
-        refreshClimbUI();
     }
 
     private void climbFail(){
         if(climbState == Constants.CLIMB_PROGRESS)climbEndTime = SystemClock.elapsedRealtime();
         climbState = Constants.CLIMB_FAIL;
-        refreshClimbUI();
     }
 
     private void climbCancel(){
@@ -209,44 +212,60 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
             case R.id.bt_teleop_putgear:
                 if(gearsPlaced < 12)gearsPlaced++;
                 else Snacker.snack("There are only 12 needed gears!", getActivity(), Snackbar.LENGTH_SHORT);
-                placeGear.setText("Place (" + gearsPlaced + ")");
                 break;
             case R.id.bt_teleop_getgear:
                 gearsTaken++;
-                getGear.setText("Get (" + gearsTaken + ")");
                 break;
-            case R.id.bt_teleop_gear_minus:
-                if(gearsTaken > 0) gearsTaken--;
-                getGear.setText("Get (" + gearsTaken + ")");
+            case R.id.bt_teleop_dropgear:
+                gearsDropped++;
                 break;
             case R.id.bt_teleop_high:
-                highCycles++;
-                highCycle.setText("High (" + highCycles + ")");
+                highBalls += 5;
+                break;
+            case R.id.bt_teleop_high_minus:
+                if(highBalls > 0) highBalls -= 5;
                 break;
             case R.id.bt_teleop_low:
-                lowCycles++;
-                lowCycle.setText("Low (" + lowCycles + ")");
+                lowBalls += 5;
+                break;
+            case R.id.bt_teleop_low_minus:
+                if(lowBalls > 0) lowBalls -= 5;
                 break;
             case R.id.bt_teleop_hopper:
-                if(hopperCycles < 4)hopperCycles++;
-                else Snacker.snack("There are only 4 hoppers!", getActivity(), Snackbar.LENGTH_SHORT);
-                hopper.setText("Hopper (" + hopperCycles + ")");
+                if(hopperCycles < 5)hopperCycles++;
+                else Snacker.snack("There are only 5 hoppers!", getActivity(), Snackbar.LENGTH_SHORT);
                 break;
             case R.id.bt_teleop_finish:
                 ((StandScoutActivity)getActivity()).nextTab();
         }
+        refreshUI();
     }
 
+    public void refreshUI() {
+        placeGear.setText("Place" + ((gearsPlaced == 0)?"":" (" + gearsPlaced + ")"));
+        getGear.setText("Get" + ((gearsTaken == 0)?"":" (" + gearsTaken + ")"));
+        dropGear.setText("Drop" + ((gearsDropped == 0)?"":" (" + gearsDropped + ")"));
+
+        highBoiler.setText("High" + ((highBalls == 0)?"":" (" + highBalls + ")"));
+        lowBoiler.setText("Low" + ((lowBalls == 0)?"":" (" + lowBalls + ")"));
+        hopper.setText("Hopper" + ((hopperCycles == 0)?"":" (" + hopperCycles + ")"));
+
+        refreshClimbUI();
+    }
 
     public JSONObject getData(){
         JSONObject obj = new JSONObject();
         try {
             obj.put(Constants.JSON_TELEOP_CLIMBRESULT, climbState);
             obj.put(Constants.JSON_TELEOP_CLIMBTIME, climbEndTime - climbStartTime);
+            obj.put(Constants.JSON_TELEOP_TOUCHPADTRIGGERED, touchpad.isChecked());
+
             obj.put(Constants.JSON_TELEOP_GEARSPLACED, gearsPlaced);
             obj.put(Constants.JSON_TELEOP_GEARSTAKEN, gearsTaken);
-            obj.put(Constants.JSON_TELEOP_HIGHCYCLES, highCycles);
-            obj.put(Constants.JSON_TELEOP_LOWCYCLES, lowCycles);
+            obj.put(Constants.JSON_TELEOP_GEARSDROPPED, gearsDropped);
+
+            obj.put(Constants.JSON_TELEOP_HIGHBALLS, highBalls);
+            obj.put(Constants.JSON_TELEOP_LOWBALLS, lowBalls);
             obj.put(Constants.JSON_TELEOP_HOPPERCYCLES, hopperCycles);
 
         }catch(Exception e){

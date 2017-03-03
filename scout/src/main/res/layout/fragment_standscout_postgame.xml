@@ -82,6 +82,29 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:textSize="17sp"
+                    android:text="Gear Cycle Time"
+                    android:layout_weight="1" />
+
+                <RatingBar android:id="@+id/postgame_gearcycletime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:numStars="5"
+                    android:stepSize="1"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:textSize="17sp"
                     android:text="Pilot (HP)"
                     android:layout_weight="1" />
 
