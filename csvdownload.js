@@ -28,10 +28,12 @@ function getScoutHeaders(){
     "Climb Result", "Climb Time", "Touchpad Triggered", "Gears Retrieved", "Gears Placed", "Gears Dropped",
      "High Goal Fuel", "Low Goal Fuel", "Hoppers Triggered",
     "Disabled", "Interfere with others", "High Accuracy Rating", "Gear Accuracy Rating",
-     "Gear Cycle Time Rating", "Pilot Rating", "Driver Rating", "Defense Rating", "Rotors Spinning", "Comments"];
+     "Gear Cycle Time Rating", "Pilot Rating", "Driver Rating", "Defense Rating", "Rotors Spinning", "comments"];
 }
 
 function getScoutData(snapshot){
+    console.log(snapshot.val());
+
     var team = snapshot.child('team').val();
     var tournament = snapshot.child('tournament').val();
     var match = snapshot.child('match').val();
