@@ -68,7 +68,7 @@ public class Constants {
     public static final String JSON_AUTON_STARTGEARS = "Asg";
     public static final String JSON_AUTON_STARTBALLS = "Asb";
     public static final String JSON_AUTON_GEARS = "Ag";
-    public static final String JSON_AUTON_HOPPER = "Ah";
+    public static final String JSON_AUTON_HOPPER = "Ahp";
     public static final String JSON_AUTON_GROUNDINTAKE = "Agi";
 
 }
