@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textSize="15sp"
-                android:text="Fuel"
+                android:text="Fuel (Balls)"
                 android:layout_weight="1" />
 
             <LinearLayout
@@ -64,16 +64,40 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:padding="25dp"
-                    android:text="High"
+                    android:text="High (+5)"
                     android:layout_margin="5dp"
                     android:theme="@style/MVRTButtonStyle"/>
+
+                <Button android:id="@+id/bt_auton_high_minus"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:padding="25dp"
+                    android:text="-5"
+                    android:layout_margin="5dp"
+                    android:theme="@style/MVRTButtonStyle"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <Button android:id="@+id/bt_auton_low"
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:padding="25dp"
-                    android:text="Low"
+                    android:text="Low (+5)"
+                    android:layout_margin="5dp"
+                    android:theme="@style/MVRTButtonStyle"/>
+
+                <Button android:id="@+id/bt_auton_low_minus"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:padding="25dp"
+                    android:text="-5"
                     android:layout_margin="5dp"
                     android:theme="@style/MVRTButtonStyle"/>
 
@@ -95,7 +119,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="Ground Intake"
+                    android:text="Ground Ball Intake"
                     android:id="@+id/ch_auton_groundintake"/>
 
 

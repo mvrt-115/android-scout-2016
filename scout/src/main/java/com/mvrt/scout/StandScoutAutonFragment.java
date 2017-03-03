@@ -28,6 +28,9 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
     Button minusGear;
     Button finishAuton;
 
+    Button minusHigh;
+    Button minusLow;
+
     int gearsPlaced = 0;
     int highGoals = 0;
     int lowGoals = 0;
@@ -56,6 +59,12 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
         minusGear = (Button)v.findViewById(R.id.bt_auton_gear_minus);
         minusGear.setOnClickListener(this);
 
+        minusHigh = (Button)v.findViewById(R.id.bt_auton_high_minus);
+        minusHigh.setOnClickListener(this);
+
+        minusLow = (Button)v.findViewById(R.id.bt_auton_low_minus);
+        minusLow.setOnClickListener(this);
+
         finishAuton = (Button)v.findViewById(R.id.bt_auton_finish);
         finishAuton.setOnClickListener(this);
     }
@@ -75,16 +84,6 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
         refreshGearUI();
     }
 
-    private void highGoal(){
-        highGoals++;
-        highGoal.setText("High (" + highGoals + ")");
-    }
-
-    private void lowGoal(){
-        lowGoals++;
-        lowGoal.setText("Low (" + lowGoals + ")");
-    }
-
     @Override
     public String getTitle() {
         return "Auton";
@@ -100,14 +99,23 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
                 removeGear();
                 break;
             case R.id.bt_auton_high:
-                highGoal();
+                highGoals+= 5;
+                highGoal.setText("High (" + highGoals + ")");
                 break;
             case R.id.bt_auton_low:
-                lowGoal();
+                lowGoals+= 5;
+                lowGoal.setText("Low (" + lowGoals + ")");
                 break;
             case R.id.bt_auton_finish:
                 ((StandScoutActivity)getActivity()).nextTab();
                 break;
+            case R.id.bt_auton_high_minus:
+                if(highGoals > 0) highGoals -= 5;
+                highGoal.setText("High (" + highGoals + ")");
+                break;
+            case R.id.bt_auton_low_minus:
+                if(lowGoals > 0) lowGoals -= 5;
+                lowGoal.setText("Low (" + lowGoals + ")");
         }
     }
 
