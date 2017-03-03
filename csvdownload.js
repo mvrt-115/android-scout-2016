@@ -14,114 +14,68 @@ function loadPitData(){
 function loadFirebaseData(){
     ref.child('matches').once('value', function(snapshot){
         var scoutData = [];
-        var shotData = [];
-        var crossData = [];
         snapshot.forEach(function(childSnapshot){
-            var shots = childSnapshot.child('sht').val();
-            if(shots){
-                console.log('shots: ' + JSON.stringify(shots));
-                shots.shta.forEach(function(shot){
-                    shotData.push(getShot(shot,childSnapshot,true));
-                });
-                shots.shtt.forEach(function(shot){
-                    shotData.push(getShot(shot,childSnapshot,false));
-                });
-            }
-            var crossing = childSnapshot.child('tlp/crsn').val()
-            if(crossing){
-                crossing = crossing.replace(/\[|\]| /g, '');
-                var crossings = crossing.split(',');
-                crossings.forEach(function(cross){
-                    console.log(cross);
-                    var defense = cross.split(':')[0];
-                    var time = parseInt(cross.split(':')[1]);
-                    crossData.push(getCrossing(defense,time,childSnapshot,false));
-                });
-                var cross = childSnapshot.child('atn/atc').val();
-                if(cross){
-                    crossData.push(getCrossing(cross,10000,childSnapshot,true));
-                }
-            }
-            if(childSnapshot.child('tlp').val()){
-                scoutData.push(getScoutData(childSnapshot));
-            }
+            scoutData.push(getScoutData(childSnapshot));
         });
         saveCSV(getScoutHeaders(), scoutData, 'scoutDownloadLink', 'scout.csv');
-        saveCSV(getCrossingHeaders(), crossData, 'crossDownloadLink', 'crossing.csv');
-        saveCSV(getShotHeaders(), shotData, 'shotDownloadLink', 'shots.csv');
     });
-}
-
-function getCrossingHeaders(){
-    return ['Team', 'Tournament', 'Match', 'Alliance',
-        'Defense', 'Time', 'Auton'];
-}
-
-function getCrossing(defense, time, snapshot, auton){
-    var team = snapshot.child('team').val();
-    var tournament = snapshot.child('tournament').val();
-    var match = snapshot.child('match').val();
-    var alliance = snapshot.child('alliance').val();
-
-    return [team, tournament, match, alliance,
-        defense, time, auton];
 }
 
 function getScoutHeaders(){
     return ['Team','Tournament','Match','Alliance',
-        'Climb','Climb Time','Intake','Challenge',
-        'Defense Rating','Intake Rating',
-        'Auton Intake', 'Auton Crossing', 'Auton Reach'];
+    "Auton High", "Auton Low", "Mobility", "Auton Start Gear",
+    "Auton Start Balls", "Auton Gears", "Auton Hopper", "Auton Ground Intake",
+    "Climb Result", "Climb Time", "Touchpad Triggered", "Gears Retrieved", "Gears Placed", "Gears Dropped",
+     "High Goal Fuel", "Low Goal Fuel", "Hoppers Triggered",
+    "Disabled", "Interfere with others", "High Accuracy Rating", "Gear Accuracy Rating",
+     "Gear Cycle Time Rating", "Pilot Rating", "Driver Rating", "Defense Rating", "Rotors Spinning", "Comments"];
 }
 
 function getScoutData(snapshot){
-    var climb = snapshot.child('tlp/clbr').val();
-    var climbTime = snapshot.child('tlp/clbt').val();
-    var intake = snapshot.child('tlp/in').val();
-    var challenge = snapshot.child('tlp/chl').val();
-
-    var defenseRating = snapshot.child('pst/dfns').val();
-    var intakeRating = snapshot.child('pst/intk').val();
-
-    var autonIntake = snapshot.child('atn/ati').val();
-    var autonCrossing = snapshot.child('atn/atc').val();
-    var autonReach = snapshot.child('atn/atr').val();
-
     var team = snapshot.child('team').val();
     var tournament = snapshot.child('tournament').val();
     var match = snapshot.child('match').val();
     var alliance = snapshot.child('alliance').val();
+
+    var a = snapshot.child('A');
+    var autonHigh = a.child('Ah').val();
+    var autonLow = a.child('Al').val();
+    var autonMobility = a.child('Am').val();
+    var autonStartGears = a.child('Asg').val();
+    var autonStartBalls = a.child('Asb').val();
+    var autonGears = a.child('Ag').val();
+    var autonHopper = a.child('Ahp').val();
+    var autonGroundIntake = a.child('Agi').val();
+
+    var t = snapshot.child('T');
+    var climbResult = t.child('Tcr').val();
+    var climbTime = t.child('Tct').val();
+    var touchpad = t.child('Tt').val();
+
+    var gearsTaken = t.child('Tgt').val();
+    var gearsPlaced = t.child('Tgp').val();
+    var gearsDropped = t.child('Tgd').val();
+
+    var highBalls = t.child('Th').val();
+    var lowBalls = t.child('Tl').val();
+    var hopperCycles = t.child('Thp').val();
+
+    var p = snapshot.child('P');
+    var disabled = p.child('dsbld').val();
+    var interferes = p.child('intr').val();
+    var highAccuracy = p.child('Rha').val();
+    var gearAccuracy = p.child('Rga').val();
+    var gearCycleTime = p.child('Rgt').val();
+    var pilotRating = p.child('Rp').val();
+    var driverRating = p.child('Rdr').val();
+    var defenseRating = p.child('Rdf').val();
+    var rotors = p.child('Rr').val();
+    var comments = p.child('cmnt');
 
     return [team, tournament, match, alliance,
-        climb, climbTime, intake, challenge,
-        defenseRating, intakeRating,
-        autonIntake, autonCrossing, autonReach];
-}
-
-function getShotHeaders(){
-    return ['Made', 'X', 'Y', 'High', 'Auton',
-    'Team', 'Tournament', 'Match', 'Alliance', 'MatchInfo'];
-}
-
-function getShot(shot, snapshot, auton){
-    var make = /y\(/.test(shot);
-    var high = /\)h/.test(shot);
-    var coordString = shot.match(/\d+,\d+/)[0];
-    console.log(coordString);
-    var coords = coordString.split(/,/);
-    var x = parseInt(coords[0]);
-    var y = parseInt(coords[1]);
-
-    var team = snapshot.child('team').val();
-    var tournament = snapshot.child('tournament').val();
-    var match = snapshot.child('match').val();
-    var alliance = snapshot.child('alliance').val();
-    var matchInfo = snapshot.child('minfo').val();
-
-    matchInfo = matchInfo.substring(0, matchInfo.indexOf('('));
-
-    return [make, x, y, high, auton,
-        team, tournament, match, alliance, matchInfo];
+    autonHigh, autonLow, autonMobility, autonStartGears, autonStartBalls, autonGears, autonHopper, autonGroundIntake,
+    climbResult, climbTime, touchpad, gearsTaken, gearsPlaced, gearsDropped, highBalls, lowBalls, hopperCycles,
+    disabled, interferes, highAccuracy, gearAccuracy, gearCycleTime, pilotRating, driverRating, defenseRating, rotors, comments];
 }
 
 function getPitHeaders(){
