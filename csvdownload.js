@@ -4,11 +4,35 @@ var ref = database.ref();
 function loadFirebaseData(){
     ref.child('matches').once('value', function(snapshot){
         var scoutData = [];
+        var tableData = [];
         snapshot.forEach(function(childSnapshot){
             scoutData.push(getScoutData(childSnapshot));
+            tableData.push(getTableData(childSnapshot));
         });
+        populateTable(tableData);
         saveCSV(getScoutHeaders(), scoutData, 'scoutDownloadLink', 'scout.csv');
     });
+}
+
+function getTableDataHeaders(){
+  return ['Match', 'Team', 'Super Uploaded', 'Scout Data', 'Match Info', 'Scout ID'];
+}
+
+function getTableData(snapshot){
+  var data = snapshot.val();
+
+  if(data.match == undefined){
+    data.match = data.minfo.match(/\d+(?=@)/g);
+  }
+
+  if(data.team == undefined){
+    var teams = '' + data.minfo.match(/(\d+,?)+(?=])/g);
+    teams = teams.split(',');
+    if(teams.length == 1)data.team = teams[0];
+    else data.team = teams[data.sctid];
+  }
+
+  return [data.match, data.team, data.tournament != undefined, data['T'] != undefined, data.minfo, data.sctid];
 }
 
 function getScoutHeaders(){
@@ -33,6 +57,7 @@ function getScoutData(snapshot){
     var alliance = data.alliance;
 
     var a = data['A'];
+    if(a == undefined)return [];
     var autonHigh = a['Ah'];
     var autonLow = a['Al'];
     var autonMobility = a['Am'];
@@ -77,6 +102,20 @@ function getScoutData(snapshot){
     comments, matchInfo, scoutID];
 }
 
+function populateTable(data){
+  var table = document.getElementById('dataTableBody');
+  if(table == undefined)return;
+
+  for(row in data){
+      var rowElement = table.insertRow();
+      for(item in data[row]){
+        var cell = rowElement.insertCell();
+        cell.innerText = data[row][item];
+      }
+  }
+
+}
+
 function saveCSV(csvHeaders, csvData, linkId, filename){
     var csvString = getCSVString(csvHeaders, csvData);
     var blob = new Blob([csvString], {type: 'text/csv;charset=utf-8;'});
@@ -87,6 +126,7 @@ function saveCSV(csvHeaders, csvData, linkId, filename){
         var url = URL.createObjectURL(blob);
         link.setAttribute('href', url);
         link.setAttribute('download', filename);
+        link.classList.remove('disabled');
     }
 }
 

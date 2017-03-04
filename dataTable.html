@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="index.css" rel="stylesheet">
+  <link href="dataTable.css" rel="stylesheet">
 
   <title>MVRT Scouting Web</title>
 </head>
@@ -27,35 +27,38 @@
   </script>
   <script type="text/javascript" src="csvdownload.js"></script>
 
-
-  <div class="site-wrapper">
-
-    <div class="site-wrapper-inner">
-
-      <div class="cover-container">
-
-        <div class="inner cover">
-          <img src="bullhead.png" style="padding: 30px" width="300" class="img-fluid" alt="Responsive image">
-          <h1 class="cover-heading">MVRT Scout</h1>
-          <h4>Scouting Data. On The Go.</h4>
-          </br>
-          <p class="lead">
-            <a id="scoutDownloadLink" class="btn disabled btn-lg btn-default">Download CSV</a>
-            <a href="dataTable.html" class="btn btn-lg btn-warning">Dashboard</a>
-          </p>
-        </div>
-
-        <div class="mastfoot">
-          <div class="inner">
-            <p>Written for <a href="http://www.mvrt.com">MVRT</a></p>
-          </div>
-        </div>
-
-      </div>
-
+  <div class="jumbotron">
+    <div class="container">
+        <h1 class="display-3">MVRT Scouting Data</h1>
+        <p class="lead">
+            <a href="index.html" class="btn btn-lg btn-default">Home</a>
+            <a id="scoutDownloadLink" class="btn disabled btn-lg btn-warning">Download CSV</a>
+        </p>
     </div>
-
   </div>
+
+      <div class="container">
+
+        <h2>Data Entries</h2>
+        <div class="table-responsive">
+          <table class="table table-hover table-striped">
+            <thead>
+              <tr>
+                <th>Match</th>
+                <th>Team</th>
+                <th>Super Data Present</th>
+                <th>Scout Data Present</th>
+                <th>Match Info</th>
+                <th>Scout ID</th>
+              </tr>
+            </thead>
+            <tbody id="dataTableBody"></tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+  </div>
+
 
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
