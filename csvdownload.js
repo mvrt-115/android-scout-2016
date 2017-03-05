@@ -56,6 +56,17 @@ function getScoutData(snapshot){
     var match = data.match;
     var alliance = data.alliance;
 
+    if(match == undefined){
+      match = data.minfo.match(/\d+(?=@)/g);
+    }
+
+    if(team == undefined){
+      var teams = '' + data.minfo.match(/(\d+,?)+(?=])/g);
+      teams = teams.split(',');
+      if(teams.length == 1)team = teams[0];
+      else team = teams[data.sctid];
+    }
+
     var a = data['A'];
     if(a == undefined)return [];
     var autonHigh = a['Ah'];
@@ -92,7 +103,7 @@ function getScoutData(snapshot){
     var rotors = p['Rr'];
     var comments = p['cmnt'].replace(',', '');
 
-    var matchInfo = data.minfo;
+    var matchInfo = data.minfo.replace(/,/g, '|');
     var scoutID = data.sctid;
 
     return [team, tournament, match, alliance,
