@@ -75,8 +75,7 @@ public class StartMatchFragment extends Fragment implements View.OnClickListener
         }else teamText.setError(null);
         int team = Integer.parseInt(teamText.getText().toString());
 
-        FirebaseRemoteConfig mRemoteConfig = FirebaseRemoteConfig.getInstance();
-        String tourn = mRemoteConfig.getString(Constants.FBCONFIG_TOURN_KEY);
+        String tourn = Constants.TOURNAMENT_KEY;
 
         MatchInfo mInfo = new MatchInfo(match, tourn, alliance, team);
         startScouting(mInfo);
