@@ -170,11 +170,13 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     private void climbSuccess(){
         if(climbState == Constants.CLIMB_PROGRESS)climbEndTime = SystemClock.elapsedRealtime();
         climbState = Constants.CLIMB_SUCCESS;
+        touchpad.setChecked(true);
     }
 
     private void climbFail(){
         if(climbState == Constants.CLIMB_PROGRESS)climbEndTime = SystemClock.elapsedRealtime();
         climbState = Constants.CLIMB_FAIL;
+        touchpad.setChecked(false);
     }
 
     private void climbCancel(){
