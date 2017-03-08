@@ -35,7 +35,6 @@ public class StandScoutActivity extends AppCompatActivity {
 
     StandScoutAutonFragment standScoutAutonFragment;
     StandScoutTeleopFragment standScoutTeleopFragment;
-    StandScoutShootingFragment standScoutShootingFragment;
     StandScoutPostgameFragment standScoutPostgameFragment;
 
     @Override
@@ -67,20 +66,17 @@ public class StandScoutActivity extends AppCompatActivity {
         MatchInfoFragment matchInfoFragment = new MatchInfoFragment();
         standScoutAutonFragment = new StandScoutAutonFragment();
         standScoutTeleopFragment = new StandScoutTeleopFragment();
-        standScoutShootingFragment = new StandScoutShootingFragment();
         standScoutPostgameFragment = new StandScoutPostgameFragment();
 
         Bundle b = new Bundle();
         b.putSerializable(Constants.INTENT_EXTRA_MATCHINFO, matchInfo);
         b.putInt(Constants.INTENT_EXTRA_SCOUTID, scoutId);
         matchInfoFragment.setArguments(b);
-        standScoutShootingFragment.setArguments(b);
 
         FragmentPagerAdapter tabAdapter = new FragmentPagerAdapter(getFragmentManager());
         tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(matchInfoFragment, "Match Info"));
         tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(standScoutAutonFragment, "Auton"));
         tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(standScoutTeleopFragment, "Teleop"));
-        tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(standScoutShootingFragment, "Shooting"));
         tabAdapter.addFragment(new FragmentPagerAdapter.TabFragment(standScoutPostgameFragment, "Postgame"));
 
         ViewPager pager = (ViewPager)findViewById(R.id.matchscout_pager);
@@ -96,14 +92,14 @@ public class StandScoutActivity extends AppCompatActivity {
         //TODO: PRESS BACK AGAIN TO EXIT
     }
 
+    public void nextTab(){
+        ViewPager pager = (ViewPager)findViewById(R.id.matchscout_pager);
+        pager.setCurrentItem(pager.getCurrentItem() + 1);
+    }
+
     public void setTab(int tab){
         ViewPager pager = (ViewPager)findViewById(R.id.matchscout_pager);
         pager.setCurrentItem(tab);
-    }
-
-    public void shoot(boolean auton){
-        setTab(3);
-        standScoutShootingFragment.setAuton(auton);
     }
 
     public void stopScouting(){
@@ -121,7 +117,6 @@ public class StandScoutActivity extends AppCompatActivity {
         }
         else {
             try {
-                obj.put(Constants.JSON_DATA_SHOOTING, standScoutShootingFragment.getData());
                 obj.put(Constants.JSON_DATA_AUTON, standScoutAutonFragment.getData());
                 obj.put(Constants.JSON_DATA_TELEOP, standScoutTeleopFragment.getData());
                 obj.put(Constants.JSON_DATA_POSTGAME, standScoutPostgameFragment.getData());

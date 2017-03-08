@@ -69,16 +69,20 @@ public class MatchDataFragment extends Fragment implements View.OnClickListener{
                 if(sentData)
                     getActivity().finish();
                 else {
-                    VerificationDialog d = new VerificationDialog();
-                    Bundle b = new Bundle();
-                    b.putString("verif", verificationCode);
-                    d.setArguments(b);
-                    d.show(getFragmentManager(), "Code Verification");
+                   verify();
                 }
                 break;
             default:
                 break;
         }
+    }
+
+    public void verify() {
+        VerificationDialog d = new VerificationDialog();
+        Bundle b = new Bundle();
+        b.putString("verif", verificationCode);
+        d.setArguments(b);
+        d.show(getFragmentManager(), "Code Verification");
     }
 
     /*

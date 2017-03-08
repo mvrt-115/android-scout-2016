@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onPause() {
-        nfcAdapter.disableForegroundDispatch(this);
+        if(nfcAdapter != null) nfcAdapter.disableForegroundDispatch(this);
         super.onPause();
     }
 

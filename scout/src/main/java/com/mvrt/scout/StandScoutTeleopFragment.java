@@ -2,6 +2,7 @@ package com.mvrt.scout;
 
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,22 +10,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.DataCollectionFragment;
-import com.mvrt.mvrtlib.util.DefenseCrossing;
-import com.mvrt.mvrtlib.util.DefenseCrossingDialogFragment;
-import com.mvrt.mvrtlib.util.DefenseManager;
+import com.mvrt.mvrtlib.util.Snacker;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class StandScoutTeleopFragment extends DataCollectionFragment implements View.OnClickListener, DefenseCrossingDialogFragment.DefenseSelectedListener {
+public class StandScoutTeleopFragment extends DataCollectionFragment implements View.OnClickListener{
 
     Button climbStart;
     Button climbSuccess;
@@ -37,23 +34,22 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     Timer climbTimer;
     TextView climbTimerTextView;
 
-    CheckBox challengeTower;
+    CheckBox touchpad;
 
-    Button crossDefense;
-    long crossStartTime = 0;
-    ArrayList<DefenseCrossing> crossings;
-    DefenseCrossingDialogFragment crossingDialogFragment;
+    Button getGear;
+    Button placeGear;
+    Button dropGear;
+    int gearsTaken = 0, gearsPlaced = 0, gearsDropped = 0;
 
-    Button intakeBall;
-    Button removeBall;
-    int intakedBalls = 0;
+    Button highBoiler;
+    Button lowBoiler;
+    Button minusHigh;
+    Button minusLow;
+    Button hopper;
+    int highBalls = 0, lowBalls = 0, hopperCycles = 0;
 
+    Button teleopFinish;
 
-    Button shootButton;
-
-    public StandScoutTeleopFragment(){
-        crossings = new ArrayList<>();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,11 +59,32 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
 
     @Override
     public void onViewCreated(View v, Bundle savedInstanceState) {
-        initShootUI(v);
-        initIntakeUI(v);
         initClimbUI(v);
-        initCrossUI(v);
-        refreshUi();
+
+        touchpad = (CheckBox)v.findViewById(R.id.ch_teleop_climb);
+
+        getGear = (Button)v.findViewById(R.id.bt_teleop_getgear);
+        getGear.setOnClickListener(this);
+        placeGear = (Button)v.findViewById(R.id.bt_teleop_putgear);
+        placeGear.setOnClickListener(this);
+        dropGear = (Button)v.findViewById(R.id.bt_teleop_dropgear);
+        dropGear.setOnClickListener(this);
+
+        highBoiler = (Button)v.findViewById(R.id.bt_teleop_high);
+        highBoiler.setOnClickListener(this);
+        minusHigh = (Button)v.findViewById(R.id.bt_teleop_high_minus);
+        minusHigh.setOnClickListener(this);
+        lowBoiler = (Button)v.findViewById(R.id.bt_teleop_low);
+        lowBoiler.setOnClickListener(this);
+        minusLow = (Button)v.findViewById(R.id.bt_teleop_low_minus);
+        minusLow.setOnClickListener(this);
+        hopper = (Button)v.findViewById(R.id.bt_teleop_hopper);
+        hopper.setOnClickListener(this);
+
+        teleopFinish = (Button)v.findViewById(R.id.bt_teleop_finish);
+        teleopFinish.setOnClickListener(this);
+
+        refreshUI();
     }
 
     @Override
@@ -75,43 +92,9 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
         super.onStop();
         climbTimer.cancel();
         climbTimer.purge();
-        Log.d("MVRT", "Climb Timer canceled and purged");
-    }
-
-    private void initCrossUI(View v){
-        crossingDialogFragment = new DefenseCrossingDialogFragment();
-        crossingDialogFragment.setDefenses(((StandScoutActivity) getActivity()).getMatchInfo());
-        crossingDialogFragment.setListener(this);
-
-        crossDefense = (Button)v.findViewById(R.id.teleop_cross);
-        crossDefense.setOnClickListener(this);
-
-    }
-
-    private void initIntakeUI(View v){
-        intakeBall = (Button)v.findViewById(R.id.teleop_intake);
-        intakeBall.setOnClickListener(this);
-        removeBall = (Button)v.findViewById(R.id.teleop_intakeremove);
-        removeBall.setOnClickListener(this);
-    }
-
-    private void refreshIntakeUI(){
-        intakeBall.setText("Intake Boulder (" + intakedBalls + ")");
-    }
-
-    private void intakeBall(){
-        intakedBalls++;
-        refreshIntakeUI();
-    }
-
-    private void removeBall(){
-        if(intakedBalls > 0)intakedBalls--;
-        refreshIntakeUI();
     }
 
     private void initClimbUI(View v){
-        challengeTower = (CheckBox)v.findViewById(R.id.teleop_challenge);
-
         climbStart = (Button)v.findViewById(R.id.teleop_climb_start);
         climbStart.setOnClickListener(this);
         climbSuccess = (Button)v.findViewById(R.id.teleop_climb_success);
@@ -148,13 +131,12 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
         Log.d("MVRT", "Time elapsed: " + timeSec);
         switch(climbState){
             case Constants.CLIMB_NO:
-                climbStatus.setText("Climb (timed!)");
+                climbStatus.setText("Climb (timed, incl. align)");
                 climbStart.setVisibility(View.VISIBLE);
                 climbSuccess.setVisibility(View.GONE);
                 climbFail.setVisibility(View.GONE);
                 climbCancel.setVisibility(View.GONE);
                 climbCancel.setText("Cancel");
-                challengeTower.setEnabled(true);
                 break;
             case Constants.CLIMB_PROGRESS:
                 climbStatus.setText("Climbing");
@@ -162,8 +144,6 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
                 climbSuccess.setVisibility(View.VISIBLE);
                 climbFail.setVisibility(View.VISIBLE);
                 climbCancel.setVisibility(View.VISIBLE);
-                challengeTower.setEnabled(false);
-                challengeTower.setChecked(false);
                 break;
             case Constants.CLIMB_FAIL:
                 climbStatus.setText("Climb Failed in " + timeSec + " seconds");
@@ -171,7 +151,6 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
                 climbSuccess.setVisibility(View.GONE);
                 climbFail.setVisibility(View.GONE);
                 climbCancel.setVisibility(View.VISIBLE);
-                challengeTower.setEnabled(true);
                 break;
             case Constants.CLIMB_SUCCESS:
                 climbStatus.setText("Climb Successful in " + timeSec + " seconds");
@@ -179,8 +158,6 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
                 climbSuccess.setVisibility(View.GONE);
                 climbFail.setVisibility(View.VISIBLE);
                 climbCancel.setVisibility(View.VISIBLE);
-                challengeTower.setEnabled(false);
-                challengeTower.setChecked(false);
                 break;
         }
     }
@@ -188,19 +165,16 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     private void startClimbing(){
         climbState = Constants.CLIMB_PROGRESS;
         climbEndTime = climbStartTime = SystemClock.elapsedRealtime();
-        refreshClimbUI();
     }
 
     private void climbSuccess(){
         if(climbState == Constants.CLIMB_PROGRESS)climbEndTime = SystemClock.elapsedRealtime();
         climbState = Constants.CLIMB_SUCCESS;
-        refreshClimbUI();
     }
 
     private void climbFail(){
         if(climbState == Constants.CLIMB_PROGRESS)climbEndTime = SystemClock.elapsedRealtime();
         climbState = Constants.CLIMB_FAIL;
-        refreshClimbUI();
     }
 
     private void climbCancel(){
@@ -213,20 +187,6 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
             cancelConfirm = true;
             climbCancel.setText("Confirm Cancel?");
         }
-    }
-
-    private void initShootUI(View v){
-        shootButton = (Button)v.findViewById(R.id.teleop_shoot);
-        shootButton.setOnClickListener(this);
-    }
-
-    private void shootBall(){
-        ((StandScoutActivity)getActivity()).shoot(false);
-    }
-
-    private void crossDefense(){
-        crossStartTime = SystemClock.elapsedRealtime();
-        crossingDialogFragment.show(getFragmentManager(), "MVRT");
     }
 
     @Override
@@ -249,24 +209,47 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
             case R.id.teleop_climb_cancel:
                 climbCancel();
                 break;
-            case R.id.teleop_intake:
-                intakeBall();
+            case R.id.bt_teleop_putgear:
+                if(gearsPlaced < 12)gearsPlaced++;
+                else Snacker.snack("There are only 12 needed gears!", getActivity(), Snackbar.LENGTH_SHORT);
                 break;
-            case R.id.teleop_intakeremove:
-                removeBall();
+            case R.id.bt_teleop_getgear:
+                gearsTaken++;
                 break;
-            case R.id.teleop_shoot:
-                shootBall();
+            case R.id.bt_teleop_dropgear:
+                gearsDropped++;
                 break;
-            case R.id.teleop_cross:
-                crossDefense();
+            case R.id.bt_teleop_high:
+                highBalls += 5;
                 break;
+            case R.id.bt_teleop_high_minus:
+                if(highBalls > 0) highBalls -= 5;
+                break;
+            case R.id.bt_teleop_low:
+                lowBalls += 5;
+                break;
+            case R.id.bt_teleop_low_minus:
+                if(lowBalls > 0) lowBalls -= 5;
+                break;
+            case R.id.bt_teleop_hopper:
+                if(hopperCycles < 5)hopperCycles++;
+                else Snacker.snack("There are only 5 hoppers!", getActivity(), Snackbar.LENGTH_SHORT);
+                break;
+            case R.id.bt_teleop_finish:
+                ((StandScoutActivity)getActivity()).nextTab();
         }
-        refreshUi();
+        refreshUI();
     }
 
-    public void refreshUi(){
-        refreshIntakeUI();
+    public void refreshUI() {
+        placeGear.setText("Place" + ((gearsPlaced == 0)?"":" (" + gearsPlaced + ")"));
+        getGear.setText("Get" + ((gearsTaken == 0)?"":" (" + gearsTaken + ")"));
+        dropGear.setText("Drop" + ((gearsDropped == 0)?"":" (" + gearsDropped + ")"));
+
+        highBoiler.setText("High" + ((highBalls == 0)?"":" (" + highBalls + ")"));
+        lowBoiler.setText("Low" + ((lowBalls == 0)?"":" (" + lowBalls + ")"));
+        hopper.setText("Hopper" + ((hopperCycles == 0)?"":" (" + hopperCycles + ")"));
+
         refreshClimbUI();
     }
 
@@ -275,10 +258,19 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
         try {
             obj.put(Constants.JSON_TELEOP_CLIMBRESULT, climbState);
             obj.put(Constants.JSON_TELEOP_CLIMBTIME, climbEndTime - climbStartTime);
-            obj.put(Constants.JSON_TELEOP_CROSSINGS, crossings);
-            obj.put(Constants.JSON_TELEOP_INTAKE, intakedBalls);
-            obj.put(Constants.JSON_TELEOP_CHALLENGE, challengeTower.isChecked());
-        }catch(Exception e){}
+            obj.put(Constants.JSON_TELEOP_TOUCHPADTRIGGERED, touchpad.isChecked());
+
+            obj.put(Constants.JSON_TELEOP_GEARSPLACED, gearsPlaced);
+            obj.put(Constants.JSON_TELEOP_GEARSTAKEN, gearsTaken);
+            obj.put(Constants.JSON_TELEOP_GEARSDROPPED, gearsDropped);
+
+            obj.put(Constants.JSON_TELEOP_HIGHBALLS, highBalls);
+            obj.put(Constants.JSON_TELEOP_LOWBALLS, lowBalls);
+            obj.put(Constants.JSON_TELEOP_HOPPERCYCLES, hopperCycles);
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         return obj;
     }
 
@@ -286,22 +278,4 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     @Override
     public boolean validate () { return true;}
 
-    @Override
-    public void onDefenseSelected(String defense) {
-        crossings.add(new DefenseCrossing(defense, crossStartTime, SystemClock.elapsedRealtime()));
-        crossStartTime = 0;
-        Log.d("MVRT", "New crossing: " + crossings.toString());
-        if (crossings.size() > 0) {
-            Toast feed = Toast.makeText(getActivity(),
-                    "Crossed " + DefenseManager.getString(crossings.get(crossings.size()-1).getDefense()),
-                    Toast.LENGTH_SHORT);
-            feed.show();
-        }
-    }
-
-    @Override
-    public void defenseSelectionCanceled() {
-        Log.d("MVRT", "Selection Canceled");
-        crossStartTime = 0;
-    }
 }

@@ -19,26 +19,23 @@ public class MatchInfo implements Serializable {
     String tournament;
     char alliance;
     int[] teams;
-    String[] defenses;
 
-    public MatchInfo(int matchNo, String tournament, char alliance, int[] teams, String[] defenses){
+    public MatchInfo(int matchNo, String tournament, char alliance, int[] teams){
         this.matchNo = matchNo;
         this.tournament = tournament.toUpperCase();
         this.alliance = alliance;
         this.teams = teams;
-        this.defenses = defenses;
     }
 
-    public MatchInfo(int matchNo, String tournament, char alliance, int team, String[] defenses){
+    public MatchInfo(int matchNo, String tournament, char alliance, int team){
         this.matchNo = matchNo;
         this.tournament = tournament.toUpperCase();
         this.alliance = alliance;
         this.teams = new int[]{team};
-        this.defenses = defenses;
     }
 
     /**
-     * FORMAT: 10@SVR:r[115,254,1678](a1,b2,c2,d2)
+     * FORMAT: 10@SVR:r[115,254,1678]
      */
     public static MatchInfo parse(String data){
         data = data.replaceAll(" ", "");
@@ -70,25 +67,18 @@ public class MatchInfo implements Serializable {
         int[] teams = new int[teamString.length];
         for(int i = 0; i < teamString.length; i++)teams[i] = Integer.parseInt(teamString[i]);
 
-        p = Pattern.compile("(\\w\\d,?)+(?=\\))");
-        m = p.matcher(data);
-        if(!m.find())return null;
-        String[] defenses = m.group().split(",");
-
-        return new MatchInfo(matchNo, tourn, alliance, teams, defenses);
+        return new MatchInfo(matchNo, tourn, alliance, teams);
     }
 
     @Override
     public String toString() {
         String str = matchNo + "@" + tournament + ":" + alliance + Arrays.toString(teams);
-        str += "(" + defenses[0] + "," + defenses[1] + "," + defenses[2] + "," + defenses[3] + ")";
         str = str.replaceAll(" ", "");
         return str;
     }
 
     public String toString(int id) {
         String str = matchNo + "@" + tournament + ":" + alliance + "[" + teams[id] + "]";
-        str += "(" + defenses[0] + "," + defenses[1] + "," + defenses[2] + "," + defenses[3] + ")";
         str = str.replaceAll(" ", "");
         return str;
     }
@@ -127,10 +117,6 @@ public class MatchInfo implements Serializable {
         return teams;
     }
 
-    public String[] getDefenses(){
-        return defenses;
-    }
-
     public static String getAllianceString(char alliance){
         return (alliance == Constants.ALLIANCE_BLUE)?"Blue Alliance":"Red Alliance";
     }
@@ -156,7 +142,7 @@ public class MatchInfo implements Serializable {
     }
 
     public static boolean validate(String str){
-        return str.matches("\\d+@\\w+:(r|b)\\[(\\d+,?)+\\]\\((,?\\w\\d)+\\)");
+        return str.matches("\\d+@\\w+:(r|b)\\[(\\d+,?)+\\]");
     }
 
     public static boolean validateFilename(String str){
