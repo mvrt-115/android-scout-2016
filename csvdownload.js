@@ -2,6 +2,7 @@ var database = firebase.database();
 var ref = database.ref();
 
 function loadFirebaseData(){
+
     ref.child('matches').once('value', function(snapshot){
         var scoutData = [];
         var tableData = [];
@@ -12,6 +13,38 @@ function loadFirebaseData(){
         populateTable(tableData);
         saveCSV(getScoutHeaders(), scoutData, 'scoutDownloadLink', 'scout.csv');
     });
+
+
+}
+
+function fixDB(){
+  ref.child('matches').once('value', function(snapshot){
+    snapshot.forEach(function(childSnapshot){
+        const oldMI = childSnapshot.val().matchinfo;
+        const newMI = oldMI.replace('AZFL', 'CASJ');
+        childSnapshot.ref.child('matchinfo').set(newMI);
+        childSnapshot.ref.child('minfo').set(newMI);
+    });
+  });
+}
+
+function getData(team){
+  var gearsPlaced = [];
+  var superComments = [];
+
+  ref.child('matches').orderByChild('team').equalTo(115).once('value', function(snapshot){
+      var data = snapshot.val();
+      for(key in data) {
+        var entry = data[key];
+        if(entry['T']) {
+          gearsPlaced.push(entry['T']['Tgp']);
+          if(entry['super']) superComments.push(entry['super']);
+          if(entry['P']['cmnt']) superComments.push(entry['P']['cmnt']);
+        }
+      }
+      console.log(gearsPlaced);
+      console.log(superComments);
+  });
 }
 
 function getTableDataHeaders(){

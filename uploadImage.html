@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="index.css" rel="stylesheet">
+
+  <title>MVRT Scouting Web</title>
+</head>
+<body>
+
+  <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyCh7bLGBOIILTEjv1Cm_P4zmYBl7xL1JsQ",
+      authDomain: "mvrt-scout.firebaseapp.com",
+      databaseURL: "https://mvrt-scout.firebaseio.com",
+      storageBucket: "mvrt-scout.appspot.com",
+      messagingSenderId: "467897465307"
+    };
+    firebase.initializeApp(config);
+  </script>
+
+  <div class="site-wrapper">
+
+    <div class="site-wrapper-inner">
+
+      <div class="cover-container">
+
+        <div class="masthead">
+          <div class="inner">
+              <p><a href="index.html">MVRT Scout Home</a> | <a href="dataTable.html">Dashboard</a>
+              </p>
+          </div>
+        </div>
+
+        <div class="inner cover">
+          <img id="bullhead" src="bullhead.png" style="padding: 30px" width="300" class="img-fluid" alt="Responsive image">
+
+          <div class="form-group">
+            <label for="teamNumber">Team Number</label>
+            <input type="number" class="form-control" id="teamNumber" placeholder="Team Number">
+          </div>
+
+          <p class="lead">
+            <label class="btn btn-lg btn-warning">Upload
+              <input type="file" style="display:none;" accept="image/*" onchange="handleFiles(this.files)" capture>
+            </label>
+          </p>
+        </div>
+
+        <div class="mastfoot">
+          <div class="inner">
+            <p>App <a href="https://github.com/mvrt-115/android-scout/releases">Source</a> | Written for <a href="http://www.mvrt.com">MVRT</a></p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="bootstrap/js/bootstrap.min.js"></script>
+  <script src="uploadImage.js"></script>
+</body>
+</html>
