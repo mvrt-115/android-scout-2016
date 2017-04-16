@@ -25,6 +25,7 @@
     };
     firebase.initializeApp(config);
   </script>
+  <script src="teamInfo.js"></script>
 
   <div class="jumbotron">
     <div class="container">
@@ -37,23 +38,26 @@
     <ul class="nav nav-pills">
       <li role="presentation"><a href="index.html">Home</a></li>
       <li role="presentation"><a href="dataTable.html">Data Entries</a></li>
-      <li role="presentation"><a href="teamInfo.html">Team Info</a></li>
-      <li role="presentation" class="active"><a href="uploadImage.html">Robot Image Upload</a></li>
+      <li role="presentation" class="active"><a href="teamInfo.html">Team Info</a></li>
+      <li role="presentation"><a href="uploadImage.html">Robot Image Upload</a></li>
     </ul>
 
     <div class="panel panel-default">
       <div class="panel-body">
 
-        <h2>Image Upload</h2>
-
-        <div class="form-group">
-            <label for="teamNumber">Team Number</label>
-            <input type="number" class="form-control" id="teamNumber" placeholder="Team Number">
+        <h2>Team Info</h2>
+        <div class="input-group input-group-lg">
+          <input id="searchTeam" type="number" class="form-control" placeholder="Team Number (115)">
+          <span class="input-group-btn">
+            <button class="btn btn-default" id="searchBtn" type="button">Search</button>
+          </span>
         </div>
 
-        <label id="dragFile" class="btn btn-lg btn-warning">Upload
-            <input type="file" style="display:none;" accept="image/*" onchange="handleFiles(this.files)" capture>
-        </label>
+        </br>
+
+        <div class="row" id="images">
+            <!--<div class="col-xs-6 col-md-3"></div> -->
+        </div>
 
       </div>
     </div>
@@ -62,6 +66,5 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="bootstrap/js/bootstrap.min.js"></script>
-  <script src="uploadImage.js"></script>
 </body>
 </html>

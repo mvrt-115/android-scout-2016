@@ -55,7 +55,7 @@ function handleDragOver(evt) {
     evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
 }
 
-var dropZone = document.getElementById('bullhead');
+var dropZone = document.getElementById('dragFile');
 var teamNumber = document.getElementById('teamNumber');
 dropZone.addEventListener('dragover', handleDragOver, false);
 dropZone.addEventListener('drop', handleFileSelect, false);
