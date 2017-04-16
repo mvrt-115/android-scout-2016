@@ -1,6 +1,9 @@
 var storage = firebase.storage();
 var ref = storage.ref();
 
+var database = firebase.database();
+var dataref = database.ref();
+
 function handleFileSelect(evt) {
     evt.stopPropagation();
     evt.preventDefault();
@@ -22,13 +25,28 @@ function handleFiles(files) {
       return;
     }
 
-    var uploadTask = ref.child('team' + teamNumber.value).put(f);
+    var fileName = generateUUID();
+
+    var uploadTask = ref.child(fileName).put(f);
     uploadTask.on('state_changed', null, null, function() {
     // When the image has successfully uploaded, we get its download URL
     var downloadUrl = uploadTask.snapshot.downloadURL;
+    dataref.child('teams/' + teamNumber.value).push(downloadUrl);
     console.log(downloadUrl);
   });
   }
+}
+
+function generateUUID () { // Public Domain/MIT
+    var d = new Date().getTime();
+    if (typeof performance !== 'undefined' && typeof performance.now === 'function'){
+        d += performance.now(); //use high-precision timer if available
+    }
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
 }
 
 function handleDragOver(evt) {
