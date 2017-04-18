@@ -94,6 +94,15 @@ function newCommentElement(comment){
 }
 
 document.addEventListener('DOMContentLoaded', function(event) {
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      console.log('logged in');
+    } else {
+      console.log('logged out');
+      window.location.replace('login.html');
+    }
+  });
+
   imageTable = document.getElementById('images');
   gearsPlacedList = document.getElementById('gearsPlacedList');
   commentsList = document.getElementById('commentsList');

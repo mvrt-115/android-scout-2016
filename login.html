@@ -25,7 +25,6 @@
     };
     firebase.initializeApp(config);
   </script>
-  <script type="text/javascript" src="csvdownload.js"></script>
 
 
   <div class="site-wrapper">
@@ -33,31 +32,34 @@
     <div class="site-wrapper-inner">
 
       <div class="cover-container">
-
         <div class="inner cover">
           <img src="bullhead.png" style="padding: 30px" width="300" class="img-fluid" alt="Responsive image">
-          <h1 class="cover-heading">MVRT Scout</h1>
-          <h4>Scouting Data. On The Go.</h4>
-          </br>
-          <p class="lead">
-            <a id="scoutDownloadLink" class="btn disabled btn-lg btn-default">Download CSV</a>
-            <a href="dataTable.html" class="btn btn-lg btn-warning">Dashboard</a>
-          </p>
         </div>
+      </div>
 
-        <div class="mastfoot">
-          <div class="inner">
-            <p>App <a href="https://github.com/mvrt-115/android-scout/releases">Source</a> | Written for <a href="http://www.mvrt.com">MVRT</a> | <a href="#" onclick="firebase.auth().signOut()">Sign Out</a></p>
-          </div>
+      <form class="form-inline">
+        <div class="form-group">
+          <label class="sr-only" for="email">Email address</label>
+          <input type="email" class="form-control" id="email" placeholder="Email">
         </div>
+        <div class="form-group">
+          <label class="sr-only" for="pass">Password</label>
+          <input type="password" class="form-control" id="pass" placeholder="Password">
+        </div>
+        <button class="btn btn-default" id="signIn" type="button">Sign In</button>
+      </form>
 
+      <div class="mastfoot">
+        <div class="inner">
+          <p>App <a href="https://github.com/mvrt-115/android-scout/releases">Source</a> | Written for <a href="http://www.mvrt.com">MVRT</a></p>
+        </div>
       </div>
 
     </div>
 
   </div>
 
-
+  <script src="login.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="bootstrap/js/bootstrap.min.js"></script>
 </body>

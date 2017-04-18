@@ -55,6 +55,19 @@ function handleDragOver(evt) {
     evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
 }
 
+document.addEventListener('DOMContentLoaded', function(event) {
+
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      console.log('logged in');
+    } else {
+      console.log('logged out');
+      window.location.replace('login.html');
+    }
+  });
+
+});
+
 var dropZone = document.getElementById('dragFile');
 var teamNumber = document.getElementById('teamNumber');
 dropZone.addEventListener('dragover', handleDragOver, false);
