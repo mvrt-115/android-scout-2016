@@ -3,7 +3,7 @@ var ref = database.ref();
 
 function loadFirebaseData(){
 
-    ref.child('matches').once('value', function(snapshot){
+    ref.child('matches').orderByChild('match').once('value', function(snapshot){
         var scoutData = [];
         var tableData = [];
         snapshot.forEach(function(childSnapshot){
@@ -81,8 +81,6 @@ function getScoutHeaders(){
 
 function getScoutData(snapshot){
     var data = snapshot.val();
-
-    console.log(data);
 
     var team = data.team;
     var tournament = data.tournament;
