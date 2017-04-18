@@ -10,6 +10,7 @@ function login(){
   var errorCode = error.code;
   var errorMessage = error.message;
   console.log(errorMessage);
+  alert(errorMessage);
 });
 }
 

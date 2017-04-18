@@ -34,6 +34,14 @@
 
       <div class="cover-container">
 
+        <div class="masthead">
+          <div class="inner">
+            <div class="masthead-nav darkmast">
+              <p>Welcome<span id="name"></span>!  <a href="#" onclick="firebase.auth().signOut()">Sign Out</a></p>
+            </div>
+          </div>
+        </div>
+
         <div class="inner cover">
           <img src="bullhead.png" style="padding: 30px" width="300" class="img-fluid" alt="Responsive image">
           <h1 class="cover-heading">MVRT Scout</h1>
@@ -47,7 +55,7 @@
 
         <div class="mastfoot">
           <div class="inner">
-            <p>App <a href="https://github.com/mvrt-115/android-scout/releases">Source</a> | Written for <a href="http://www.mvrt.com">MVRT</a> | <a href="#" onclick="firebase.auth().signOut()">Sign Out</a></p>
+            <p>App <a href="https://github.com/mvrt-115/android-scout/releases">Source</a> | Written for <a href="http://www.mvrt.com">MVRT</a></p>
           </div>
         </div>
 
@@ -60,5 +68,21 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="bootstrap/js/bootstrap.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          console.log('logged in');
+          var name = document.getElementById('name');
+          if(name)name.innerText = " " + user.email;
+        } else {
+          console.log('logged out');
+          window.location.replace('login.html');
+        }
+      });
+
+    });
+  </script>
 </body>
 </html>

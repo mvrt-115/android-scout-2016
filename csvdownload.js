@@ -183,17 +183,4 @@ function getCSVString(csvHeaders, csvData){
     return csvFile;
 }
 
-document.addEventListener('DOMContentLoaded', function(event) {
-
-  firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-      console.log('logged in');
-    } else {
-      console.log('logged out');
-      window.location.replace('login.html');
-    }
-  });
-
-});
-
 loadFirebaseData();
