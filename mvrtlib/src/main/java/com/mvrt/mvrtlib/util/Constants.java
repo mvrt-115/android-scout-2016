@@ -19,7 +19,7 @@ public class Constants {
     public static final int REQUEST_QR_SCAN = 10;
 
     public static final String FBCONFIG_TOURN_KEY = "TOURNAMENT_KEY";
-    public static final String TOURNAMENT_KEY = "AZFL";
+    public static final String TOURNAMENT_KEY = "ROE";
 
     public static final String PREFS_SCOUTID_KEY = "com.mvrt.scout.prefs.SCOUTID";
     public static final String PREFS_ALLIANCE_KEY = "com.mvrt.scout.prefs.ALLIANCE";

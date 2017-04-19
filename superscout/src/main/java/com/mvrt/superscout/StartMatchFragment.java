@@ -52,9 +52,8 @@ public class StartMatchFragment extends Fragment implements View.OnClickListener
 
     public void loadAllianceAndTournament(){
         SharedPreferences prefs = getActivity().getSharedPreferences(Constants.SHARED_PREFS_NAME_SUPER, Context.MODE_PRIVATE);
-        FirebaseRemoteConfig mRemoteConfig = FirebaseRemoteConfig.getInstance();
 
-        tournament = mRemoteConfig.getString(Constants.FBCONFIG_TOURN_KEY);
+        tournament = Constants.TOURNAMENT_KEY;
 
         alliance = (char)prefs.getInt(Constants.PREFS_ALLIANCE_KEY, (int)Constants.ALLIANCE_BLUE);
         settingsView.setText(MatchInfo.getAllianceString(alliance) + " @ " + tournament);
