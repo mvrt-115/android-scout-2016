@@ -4,6 +4,17 @@ var ref = storage.ref();
 var database = firebase.database();
 var dataref = database.ref();
 
+function loadFirebaseData(){
+
+    dataref.child('teams').orderByChild('team').once('value', function(snapshot){
+        var list = document.getElementById('uploadedList');
+        snapshot.forEach(function(childSnapshot){
+            list.append(newTeamElement(childSnapshot.key));
+        });
+    });
+
+}
+
 function handleFileSelect(evt) {
     evt.stopPropagation();
     evt.preventDefault();
@@ -33,6 +44,7 @@ function handleFiles(files) {
     var downloadUrl = uploadTask.snapshot.downloadURL;
     dataref.child('teams/' + teamNumber.value).push(downloadUrl);
     console.log(downloadUrl);
+    alert('uploaded!');
   });
   }
 }
@@ -68,7 +80,16 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
 });
 
+function newTeamElement(team){
+  var element = document.createElement('li');
+  element.classList = 'list-group-item';
+  element.innerText = team;
+  return element;
+}
+
 var dropZone = document.getElementById('dragFile');
 var teamNumber = document.getElementById('teamNumber');
 dropZone.addEventListener('dragover', handleDragOver, false);
 dropZone.addEventListener('drop', handleFileSelect, false);
+
+loadFirebaseData();

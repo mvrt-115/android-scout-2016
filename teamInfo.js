@@ -1,22 +1,7 @@
 var database = firebase.database();
 var ref = database.ref();
 
-function loadFirebaseData(){
-
-    ref.child('matches').once('value', function(snapshot){
-        var scoutData = [];
-        var tableData = [];
-        snapshot.forEach(function(childSnapshot){
-            scoutData.push(getScoutData(childSnapshot));
-            tableData.push(getTableData(childSnapshot));
-        });
-        populateTable(tableData);
-        saveCSV(getScoutHeaders(), scoutData, 'scoutDownloadLink', 'scout.csv');
-    });
-
-}
-
-var imageTable, gearsPlacedList, commentsList;
+var imageTable, gearsPlacedList, climbList, commentsList;
 
 function searchTeams(){
   var number = document.getElementById('searchTeam').value;
@@ -39,8 +24,19 @@ function searchTeams(){
       var avg = data[0].reduce((x,y) => x+y)/data[0].length;
       gearsPlacedList.innerHTML = (data[0] + ' (avg: ' + avg.toFixed(2) + ')');
 
-      for(c in data[1]){
-        commentsList.append(newCommentElement(data[1][c]));
+      var climbtxt = '';
+      for(d in data[1]){
+          if(data[1][d] == 'y')climbtxt = climbtxt.concat('<span class="label label-success">Yes</span> ');
+          else if(data[1][d] == 'n')climbtxt = climbtxt.concat('<span class="label label-default">No</span> ');
+          else if(data[1][d] == 'f')climbtxt = climbtxt.concat('<span class="label label-danger">Failed</span> ');
+          else if(data[1][d] == 'c')climbtxt = climbtxt.concat('<span class="label label-warning">Cancelled (?)</span> ');
+          else climbtxt = climbtxt.concat(data[1][d] + ' ');
+          console.log(climbtxt);
+      }
+      climbList.innerHTML = climbtxt;
+
+      for(c in data[2]){
+        commentsList.append(newCommentElement(data[2][c]));
       }
   });
 
@@ -48,19 +44,23 @@ function searchTeams(){
 
 function getData(team, callback){
   var gearsPlaced = [];
+  var climbResults = [];
   var superComments = [];
 
   ref.child('matches').orderByChild('team').equalTo(team).once('value', function(snapshot){
       var data = snapshot.val();
       for(key in data) {
         var entry = data[key];
-        if(entry['T']) gearsPlaced.push(entry['T']['Tgp']);
+        if(entry['T']) {
+            gearsPlaced.push(entry['T']['Tgp']);
+            climbResults.push(entry['T']['Tcr']);
+        }
         if(entry['super']) superComments.push(entry['super']);
         if(entry['P'] && entry['P']['cmnt']) superComments.push(entry['P']['cmnt']);
 
       }
 
-      callback([gearsPlaced, superComments]);
+      callback([gearsPlaced, climbResults, superComments]);
 
   });
 }
@@ -68,6 +68,7 @@ function getData(team, callback){
 function clearUI(){
   imageTable.innerHTML = null;
   gearsPlacedList.innerHTML = null;
+  climbList.innerHTML = null;
   commentsList.innerHTML = null;
 }
 
@@ -105,6 +106,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
   imageTable = document.getElementById('images');
   gearsPlacedList = document.getElementById('gearsPlacedList');
+  climbList = document.getElementById('climbList');
   commentsList = document.getElementById('commentsList');
   document.getElementById('searchBtn').addEventListener('click', searchTeams);
 });
