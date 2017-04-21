@@ -56,7 +56,7 @@ function getData(team, callback){
         var entry = data[key];
         if(entry['T']) gearsPlaced.push(entry['T']['Tgp']);
         if(entry['super']) superComments.push(entry['super']);
-        if(entry['P']['cmnt']) superComments.push(entry['P']['cmnt']);
+        if(entry['P'] && entry['P']['cmnt']) superComments.push(entry['P']['cmnt']);
 
       }
 
