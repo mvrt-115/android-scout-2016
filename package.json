@@ -1,0 +1,22 @@
+{
+  "name": "android-scout",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mvrt-115/android-scout.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mvrt-115/android-scout/issues"
+  },
+  "homepage": "https://github.com/mvrt-115/android-scout#readme",
+  "dependencies": {
+    "firebase-tools": "^3.10.1"
+  }
+}
