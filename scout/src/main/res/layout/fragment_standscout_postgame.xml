@@ -38,10 +38,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:textSize="17sp"
-                    android:text="High Goal Accuracy"
+                    android:text="Speed"
                     android:layout_weight="1" />
 
-                <RatingBar android:id="@+id/postgame_highaccuracy"
+                <RatingBar android:id="@+id/postgame_speed"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:numStars="5"
@@ -60,10 +60,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:textSize="17sp"
-                    android:text="Gear Placement Accuracy"
+                    android:text="Cube Placement Accuracy"
                     android:layout_weight="1" />
 
-                <RatingBar android:id="@+id/postgame_gearaccuracy"
+                <RatingBar android:id="@+id/postgame_cubeaccuracy"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:numStars="5"
@@ -82,10 +82,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:textSize="17sp"
-                    android:text="Gear Cycle Time"
+                    android:text="Cube Cycle Time"
                     android:layout_weight="1" />
 
-                <RatingBar android:id="@+id/postgame_gearcycletime"
+                <RatingBar android:id="@+id/postgame_cubecycletime"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:numStars="5"
@@ -94,28 +94,6 @@
 
             </LinearLayout>
 
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:textSize="17sp"
-                    android:text="Pilot (HP)"
-                    android:layout_weight="1" />
-
-                <RatingBar android:id="@+id/postgame_pilot"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:numStars="5"
-                    android:stepSize="1"
-                    android:layout_weight="1" />
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -161,28 +139,6 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:textSize="17sp"
-                    android:text="Spinning Rotors (0-4)"
-                    android:layout_weight="1" />
-
-                <RatingBar android:id="@+id/postgame_rotors"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:numStars="4"
-                    android:stepSize="1"
-                    android:layout_weight="1" />
-
-            </LinearLayout>
-
             <CheckBox android:id="@+id/postgame_interfere"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -197,8 +153,8 @@
                 android:layout_width="fill_parent"
                 android:layout_margin="10dp"
                 android:layout_height="wrap_content"
-                android:text="Anything else we should know?"
-                android:textSize="18sp"
+                android:text="Anything else we should know (what powerups were used, did they help other robots climb, etc)?"
+                android:textSize="14sp"
                 android:gravity="center"/>
 
             <EditText android:id="@+id/postgame_comments"

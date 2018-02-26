@@ -36,6 +36,7 @@ public class StandScoutActivity extends AppCompatActivity {
     StandScoutAutonFragment standScoutAutonFragment;
     StandScoutTeleopFragment standScoutTeleopFragment;
     StandScoutPostgameFragment standScoutPostgameFragment;
+    MatchInfoFragment matchInfoFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +64,7 @@ public class StandScoutActivity extends AppCompatActivity {
     }
 
     public void loadFragments(){
-        MatchInfoFragment matchInfoFragment = new MatchInfoFragment();
+        matchInfoFragment = new MatchInfoFragment();
         standScoutAutonFragment = new StandScoutAutonFragment();
         standScoutTeleopFragment = new StandScoutTeleopFragment();
         standScoutPostgameFragment = new StandScoutPostgameFragment();
@@ -71,6 +72,7 @@ public class StandScoutActivity extends AppCompatActivity {
         Bundle b = new Bundle();
         b.putSerializable(Constants.INTENT_EXTRA_MATCHINFO, matchInfo);
         b.putInt(Constants.INTENT_EXTRA_SCOUTID, scoutId);
+        b.putInt(Constants.INTENT_EXTRA_BUTTONID, 0);
         matchInfoFragment.setArguments(b);
 
         FragmentPagerAdapter tabAdapter = new FragmentPagerAdapter(getFragmentManager());

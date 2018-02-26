@@ -1,7 +1,6 @@
 package com.mvrt.scout;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,13 +19,11 @@ import org.json.JSONObject;
  */
 public class StandScoutPostgameFragment extends DataCollectionFragment {
 
-    RatingBar highAccuracy;
-    RatingBar gearAccuracy;
-    RatingBar gearCycleTime;
-    RatingBar pilotRating;
+    RatingBar speed;
+    RatingBar cubeAccuracy;
+    RatingBar cubeCycleTime;
     RatingBar driverRating;
     RatingBar defenseRating;
-    RatingBar spinningRotors;
     CheckBox disabled;
     CheckBox interfere;
     EditText comments;
@@ -40,13 +37,11 @@ public class StandScoutPostgameFragment extends DataCollectionFragment {
 
     @Override
     public void onViewCreated(View v, Bundle savedInstanceState) {
-        highAccuracy = (RatingBar)v.findViewById(R.id.postgame_highaccuracy);
-        gearAccuracy = (RatingBar)v.findViewById(R.id.postgame_gearaccuracy);
-        gearCycleTime = (RatingBar)v.findViewById(R.id.postgame_gearcycletime);
-        pilotRating = (RatingBar)v.findViewById(R.id.postgame_pilot);
+        speed = (RatingBar)v.findViewById(R.id.postgame_speed);
+        cubeAccuracy = (RatingBar)v.findViewById(R.id.postgame_cubeaccuracy);
+        cubeCycleTime = (RatingBar)v.findViewById(R.id.postgame_cubecycletime);
         driverRating = (RatingBar)v.findViewById(R.id.postgame_driving);
         defenseRating = (RatingBar)v.findViewById(R.id.postgame_defense);
-        spinningRotors = (RatingBar)v.findViewById(R.id.postgame_rotors);
         interfere = (CheckBox)v.findViewById(R.id.postgame_interfere);
         disabled = (CheckBox) v.findViewById(R.id.postgame_disabled);
         comments = (EditText)v.findViewById(R.id.postgame_comments);
@@ -66,10 +61,9 @@ public class StandScoutPostgameFragment extends DataCollectionFragment {
 
     @Override
     public boolean validate() {
-        if (highAccuracy.getRating() == 0) { return false; }
-        else if (gearAccuracy.getRating() == 0) { return false; }
+        if (speed.getRating() == 0) { return false; }
+        else if (cubeAccuracy.getRating() == 0) { return false; }
         else if (driverRating.getRating() == 0) { return false; }
-        else if (pilotRating.getRating() == 0) { return false; }
         else if (defenseRating.getRating() == 0) { return false; }
         else { return true; }
     }
@@ -78,13 +72,11 @@ public class StandScoutPostgameFragment extends DataCollectionFragment {
     public JSONObject getData(){
         JSONObject o = new JSONObject();
         try{
-            o.put(Constants.JSON_POSTGAME_HIGHACCURACY, highAccuracy.getRating());
-            o.put(Constants.JSON_POSTGAME_GEARACCURACY, gearAccuracy.getRating());
-            o.put(Constants.JSON_POSTGAME_GEARCYCLETIME, gearCycleTime.getRating());
+            o.put(Constants.JSON_POSTGAME_SPEED, speed.getRating());
+            o.put(Constants.JSON_POSTGAME_CUBEACCURACY, cubeAccuracy.getRating());
+            o.put(Constants.JSON_POSTGAME_CUBECYCLETIME, cubeCycleTime.getRating());
             o.put(Constants.JSON_POSTGAME_DRIVING, driverRating.getRating());
             o.put(Constants.JSON_POSTGAME_DEFENSE, defenseRating.getRating());
-            o.put(Constants.JSON_POSTGAME_PILOT, pilotRating.getRating());
-            o.put(Constants.JSON_POSTGAME_ROTORS, spinningRotors.getRating());
             o.put(Constants.JSON_POSTGAME_DISABLED, disabled.isChecked());
             o.put(Constants.JSON_POSTGAME_INTERFERES, interfere.isChecked());
             o.put(Constants.JSON_POSTGAME_COMMENTS, comments.getText().toString());

@@ -1,5 +1,6 @@
 package com.mvrt.scout;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.design.widget.Snackbar;
@@ -34,21 +35,20 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     Timer climbTimer;
     TextView climbTimerTextView;
 
-    CheckBox touchpad;
-
-    Button getGear;
-    Button placeGear;
-    Button dropGear;
-    int gearsTaken = 0, gearsPlaced = 0, gearsDropped = 0;
-
-    Button highBoiler;
-    Button lowBoiler;
-    Button minusHigh;
-    Button minusLow;
-    Button hopper;
-    int highBalls = 0, lowBalls = 0, hopperCycles = 0;
-
+    Button parked;
+    Button oppSwitch;
+    Button oppSwitchMinus;
+    Button scaleBtn;
+    Button scaleBtnMinus;
+    Button vaultBtn;
+    Button vaultBtnMinus;
+    Button allianceSwitch;
+    Button allianceSwitchMinus;
     Button teleopFinish;
+
+    int opp_switch = 0, scale = 0, vault = 0, all_switch = 0;
+
+    boolean teleopParked = true;
 
 
     @Override
@@ -61,30 +61,48 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     public void onViewCreated(View v, Bundle savedInstanceState) {
         initClimbUI(v);
 
-        touchpad = (CheckBox)v.findViewById(R.id.ch_teleop_climb);
+        parked = (Button)v.findViewById(R.id.bt_teleop_parked);
+        parked.setOnClickListener(this);
 
-        getGear = (Button)v.findViewById(R.id.bt_teleop_getgear);
-        getGear.setOnClickListener(this);
-        placeGear = (Button)v.findViewById(R.id.bt_teleop_putgear);
-        placeGear.setOnClickListener(this);
-        dropGear = (Button)v.findViewById(R.id.bt_teleop_dropgear);
-        dropGear.setOnClickListener(this);
+        vaultBtn = (Button)v.findViewById(R.id.bt_teleop_vault);
+        vaultBtn.setOnClickListener(this);
 
-        highBoiler = (Button)v.findViewById(R.id.bt_teleop_high);
-        highBoiler.setOnClickListener(this);
-        minusHigh = (Button)v.findViewById(R.id.bt_teleop_high_minus);
-        minusHigh.setOnClickListener(this);
-        lowBoiler = (Button)v.findViewById(R.id.bt_teleop_low);
-        lowBoiler.setOnClickListener(this);
-        minusLow = (Button)v.findViewById(R.id.bt_teleop_low_minus);
-        minusLow.setOnClickListener(this);
-        hopper = (Button)v.findViewById(R.id.bt_teleop_hopper);
-        hopper.setOnClickListener(this);
+        vaultBtnMinus = (Button)v.findViewById(R.id.bt_teleop_vault_minus);
+        vaultBtnMinus.setOnClickListener(this);
+
+        oppSwitch = (Button)v.findViewById(R.id.bt_teleop_opp_switch);
+        oppSwitch.setOnClickListener(this);
+
+        oppSwitchMinus = (Button)v.findViewById(R.id.bt_teleop_opp_switch_minus);
+        oppSwitchMinus.setOnClickListener(this);
+
+        scaleBtn = (Button)v.findViewById(R.id.bt_teleop_scale);
+        scaleBtn.setOnClickListener(this);
+
+        scaleBtnMinus = (Button)v.findViewById(R.id.bt_teleop_scale_minus);
+        scaleBtnMinus.setOnClickListener(this);
+
+        allianceSwitch = (Button)v.findViewById(R.id.bt_teleop_alliance_switch);
+        allianceSwitch.setOnClickListener(this);
+
+        allianceSwitchMinus = (Button)v.findViewById(R.id.bt_teleop_alliance_switch_minus);
+        allianceSwitchMinus.setOnClickListener(this);
 
         teleopFinish = (Button)v.findViewById(R.id.bt_teleop_finish);
         teleopFinish.setOnClickListener(this);
 
         refreshUI();
+    }
+
+    public void parked() {
+        if (teleopParked) {
+            parked.setText("Parked");
+            teleopParked = false;
+        }
+        else {
+            parked.setText("Robot Parked?");
+            teleopParked = true;
+        }
     }
 
     @Override
@@ -114,7 +132,8 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
                     long timeElapsed = SystemClock.elapsedRealtime() - climbStartTime;
                     final double seconds = timeElapsed / 1000.0;
                     text = Double.toString(seconds) + " seconds";
-                } else text = "0.00 seconds";
+                }
+                else text = "0.00 seconds";
                 final String timerText = text;
                 if(getActivity() != null)getActivity().runOnUiThread(new Runnable() {
                     @Override
@@ -131,6 +150,7 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
         Log.d("MVRT", "Time elapsed: " + timeSec);
         switch(climbState){
             case Constants.CLIMB_NO:
+                climbStatus.setTextColor(Color.BLACK);
                 climbStatus.setText("Climb (timed, incl. align)");
                 climbStart.setVisibility(View.VISIBLE);
                 climbSuccess.setVisibility(View.GONE);
@@ -147,13 +167,15 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
                 break;
             case Constants.CLIMB_FAIL:
                 climbStatus.setText("Climb Failed in " + timeSec + " seconds");
+                climbStatus.setTextColor(Color.rgb(255,0,0));
                 climbStart.setVisibility(View.GONE);
-                climbSuccess.setVisibility(View.GONE);
                 climbFail.setVisibility(View.GONE);
+                climbSuccess.setVisibility(View.VISIBLE);
                 climbCancel.setVisibility(View.VISIBLE);
                 break;
             case Constants.CLIMB_SUCCESS:
                 climbStatus.setText("Climb Successful in " + timeSec + " seconds");
+                climbStatus.setTextColor(Color.rgb(40,180,120));
                 climbStart.setVisibility(View.GONE);
                 climbSuccess.setVisibility(View.GONE);
                 climbFail.setVisibility(View.VISIBLE);
@@ -170,13 +192,11 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     private void climbSuccess(){
         if(climbState == Constants.CLIMB_PROGRESS)climbEndTime = SystemClock.elapsedRealtime();
         climbState = Constants.CLIMB_SUCCESS;
-        touchpad.setChecked(true);
     }
 
     private void climbFail(){
         if(climbState == Constants.CLIMB_PROGRESS)climbEndTime = SystemClock.elapsedRealtime();
         climbState = Constants.CLIMB_FAIL;
-        touchpad.setChecked(false);
     }
 
     private void climbCancel(){
@@ -211,31 +231,40 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
             case R.id.teleop_climb_cancel:
                 climbCancel();
                 break;
-            case R.id.bt_teleop_putgear:
-                if(gearsPlaced < 12)gearsPlaced++;
-                else Snacker.snack("There are only 12 needed gears!", getActivity(), Snackbar.LENGTH_SHORT);
+            case R.id.bt_teleop_opp_switch:
+                opp_switch++;
                 break;
-            case R.id.bt_teleop_getgear:
-                gearsTaken++;
+            case R.id.bt_teleop_opp_switch_minus:
+                if(opp_switch>0) {
+                    opp_switch--;
+                }
                 break;
-            case R.id.bt_teleop_dropgear:
-                gearsDropped++;
+            case R.id.bt_teleop_scale:
+                scale++;
                 break;
-            case R.id.bt_teleop_high:
-                highBalls += 5;
+            case R.id.bt_teleop_scale_minus:
+                if(scale>0) {
+                    scale--;
+                }
                 break;
-            case R.id.bt_teleop_high_minus:
-                if(highBalls > 0) highBalls -= 5;
+            case R.id.bt_teleop_alliance_switch:
+                all_switch++;
                 break;
-            case R.id.bt_teleop_low:
-                lowBalls += 5;
+            case R.id.bt_teleop_alliance_switch_minus:
+                if(all_switch>0){
+                    all_switch--;
+                }
                 break;
-            case R.id.bt_teleop_low_minus:
-                if(lowBalls > 0) lowBalls -= 5;
+            case R.id.bt_teleop_vault:
+                vault++;
                 break;
-            case R.id.bt_teleop_hopper:
-                if(hopperCycles < 5)hopperCycles++;
-                else Snacker.snack("There are only 5 hoppers!", getActivity(), Snackbar.LENGTH_SHORT);
+            case R.id.bt_teleop_vault_minus:
+                if(vault>0){
+                    vault--;
+                }
+                break;
+            case R.id.bt_teleop_parked:
+                parked();
                 break;
             case R.id.bt_teleop_finish:
                 ((StandScoutActivity)getActivity()).nextTab();
@@ -244,13 +273,11 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     }
 
     public void refreshUI() {
-        placeGear.setText("Place" + ((gearsPlaced == 0)?"":" (" + gearsPlaced + ")"));
-        getGear.setText("Get" + ((gearsTaken == 0)?"":" (" + gearsTaken + ")"));
-        dropGear.setText("Drop" + ((gearsDropped == 0)?"":" (" + gearsDropped + ")"));
 
-        highBoiler.setText("High" + ((highBalls == 0)?"":" (" + highBalls + ")"));
-        lowBoiler.setText("Low" + ((lowBalls == 0)?"":" (" + lowBalls + ")"));
-        hopper.setText("Hopper" + ((hopperCycles == 0)?"":" (" + hopperCycles + ")"));
+        oppSwitch.setText("Opponent Switch" + ((opp_switch== 0)?"":" (" + opp_switch+ ")"));
+        scaleBtn.setText("Scale" + ((scale == 0)?"":" (" + scale + ")"));
+        allianceSwitch.setText("Switch" + ((all_switch== 0)?"":" (" + all_switch+ ")"));
+        vaultBtn.setText("Vault" + ((vault== 0)?"":" (" + vault+ ")"));
 
         refreshClimbUI();
     }
@@ -260,15 +287,11 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
         try {
             obj.put(Constants.JSON_TELEOP_CLIMBRESULT, climbState);
             obj.put(Constants.JSON_TELEOP_CLIMBTIME, climbEndTime - climbStartTime);
-            obj.put(Constants.JSON_TELEOP_TOUCHPADTRIGGERED, touchpad.isChecked());
-
-            obj.put(Constants.JSON_TELEOP_GEARSPLACED, gearsPlaced);
-            obj.put(Constants.JSON_TELEOP_GEARSTAKEN, gearsTaken);
-            obj.put(Constants.JSON_TELEOP_GEARSDROPPED, gearsDropped);
-
-            obj.put(Constants.JSON_TELEOP_HIGHBALLS, highBalls);
-            obj.put(Constants.JSON_TELEOP_LOWBALLS, lowBalls);
-            obj.put(Constants.JSON_TELEOP_HOPPERCYCLES, hopperCycles);
+            obj.put(Constants.JSON_TELEOP_PARKED, parked);
+            obj.put(Constants.JSON_TELEOP_OPPSWITCH, opp_switch);
+            obj.put(Constants.JSON_TELEOP_SCALE, scale);
+            obj.put(Constants.JSON_TELEOP_SWITCH, all_switch);
+            obj.put(Constants.JSON_TELEOP_VAULT, vault);
 
         }catch(Exception e){
             e.printStackTrace();

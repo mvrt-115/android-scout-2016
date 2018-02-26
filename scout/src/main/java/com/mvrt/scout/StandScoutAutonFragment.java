@@ -1,11 +1,14 @@
 package com.mvrt.scout;
 
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.RadioButton;
 
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.DataCollectionFragment;
@@ -16,24 +19,24 @@ import org.json.JSONObject;
 public class StandScoutAutonFragment extends DataCollectionFragment implements View.OnClickListener {
 
 
-    CheckBox startWithGear;
-    CheckBox startWithBalls;
-    CheckBox mobility;
-    CheckBox hopper;
-    CheckBox groundIntake;
+    CheckBox startWithCube;
+    RadioButton startLeft;
+    RadioButton startCenter;
+    RadioButton startRight;
 
-    Button highGoal;
-    Button lowGoal;
-    Button placeGear;
-    Button minusGear;
+
+    Button mobility;
+    Button placeSwitch;
+    Button placeScale;
     Button finishAuton;
 
-    Button minusHigh;
-    Button minusLow;
+    Button switchMinus;
+    Button scaleMinus;
 
-    int gearsPlaced = 0;
-    int highGoals = 0;
-    int lowGoals = 0;
+    int switchCubesPlaced = 0;
+    int scaleCubesPlaced = 0;
+
+    boolean autoMobility = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,45 +46,24 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
 
     @Override
     public void onViewCreated(View v, Bundle savedInstanceState) {
-        startWithBalls = (CheckBox)v.findViewById(R.id.ch_auton_balls);
-        startWithGear = (CheckBox)v.findViewById(R.id.ch_auton_gear);
-        mobility = (CheckBox)v.findViewById(R.id.ch_auton_mobility);
-        hopper = (CheckBox)v.findViewById(R.id.ch_auton_hopper);
-        groundIntake = (CheckBox)v.findViewById(R.id.ch_auton_groundintake);
+        startLeft = (RadioButton) v.findViewById(R.id.rb_auton_left);
+        startRight = (RadioButton)v.findViewById(R.id.rb_auton_right);
+        startCenter = (RadioButton)v.findViewById(R.id.rb_auton_center);
+        startWithCube = (CheckBox) v.findViewById(R.id.ch_auton_cube);
 
-        highGoal = (Button)v.findViewById(R.id.bt_auton_high);
-        highGoal.setOnClickListener(this);
-        lowGoal = (Button)v.findViewById(R.id.bt_auton_low);
-        lowGoal.setOnClickListener(this);
-
-        placeGear = (Button)v.findViewById(R.id.bt_auton_gear);
-        placeGear.setOnClickListener(this);
-        minusGear = (Button)v.findViewById(R.id.bt_auton_gear_minus);
-        minusGear.setOnClickListener(this);
-
-        minusHigh = (Button)v.findViewById(R.id.bt_auton_high_minus);
-        minusHigh.setOnClickListener(this);
-
-        minusLow = (Button)v.findViewById(R.id.bt_auton_low_minus);
-        minusLow.setOnClickListener(this);
+        mobility = (Button)v.findViewById(R.id.bt_auton_mobility);
+        mobility.setOnClickListener(this);
+        placeSwitch = (Button)v.findViewById(R.id.bt_auton_switch);
+        placeSwitch.setOnClickListener(this);
+        placeScale = (Button)v.findViewById(R.id.bt_auton_scale);
+        placeScale.setOnClickListener(this);
+        switchMinus = (Button)v.findViewById(R.id.bt_auton_switch_minus);
+        switchMinus.setOnClickListener(this);
+        scaleMinus = (Button)v.findViewById(R.id.bt_auton_scale_minus);
+        scaleMinus.setOnClickListener(this);
 
         finishAuton = (Button)v.findViewById(R.id.bt_auton_finish);
         finishAuton.setOnClickListener(this);
-    }
-
-    private void refreshGearUI(){
-        placeGear.setText("Place Gear (" + gearsPlaced + ")");
-    }
-
-    private void placeGear(){
-        if(gearsPlaced < 3) gearsPlaced++;
-        refreshGearUI();
-        startWithGear.setChecked(true);
-    }
-
-    private void removeGear(){
-        if(gearsPlaced > 0) gearsPlaced--;
-        refreshGearUI();
     }
 
     @Override
@@ -89,33 +71,70 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
         return "Auton";
     }
 
+    private void setMobility() {
+        if(!autoMobility) {
+            mobility.setText("Crossed");
+            autoMobility = true;
+        }
+        else{
+            mobility.setText("MOBILITY (CROSSES AUTOLINE)");
+            autoMobility = false;
+        }
+    }
+
+    private void placeSwitch() {
+        switchCubesPlaced++;
+        placeSwitch.setText("Placed Cube (" + switchCubesPlaced + ")");
+    }
+
+    private void placeScale() {
+        scaleCubesPlaced++;
+        placeScale.setText("Placed Cube (" + scaleCubesPlaced + ")");
+    }
+
+    private void minusSwitch() {
+        if(switchCubesPlaced>0) {
+            switchCubesPlaced--;
+            placeSwitch.setText("Placed Cube (" + switchCubesPlaced + ")");
+        }
+    }
+
+    private void minusScale() {
+        if(scaleCubesPlaced>0){
+            scaleCubesPlaced--;
+            placeScale.setText("Placed Cube (" + scaleCubesPlaced + ")");
+        }
+    }
+
+
+
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.bt_auton_gear:
-                placeGear();
+            case R.id.bt_auton_mobility:
+                setMobility();
+                Log.d("com.mvrt.scout", "MOBILITY (CROSSES AUTOLINE)");
                 break;
-            case R.id.bt_auton_gear_minus:
-                removeGear();
+            case R.id.bt_auton_switch:
+                placeSwitch();
+                Log.d("com.mvrt.scout", "PLACED SWITCH");
                 break;
-            case R.id.bt_auton_high:
-                highGoals+= 5;
-                highGoal.setText("High (" + highGoals + ")");
+            case R.id.bt_auton_scale:
+                placeScale();
+                Log.d("com.mvrt.scout", "PLACED SCALE");
                 break;
-            case R.id.bt_auton_low:
-                lowGoals+= 5;
-                lowGoal.setText("Low (" + lowGoals + ")");
+            case R.id.bt_auton_switch_minus:
+                minusSwitch();
+                Log.d("com.mvrt.scout", "DECREMENTED SWITCH");
+                break;
+            case R.id.bt_auton_scale_minus:
+                minusScale();
+                Log.d("com.mvrt.scout", "DECREMENTED SCALE");
                 break;
             case R.id.bt_auton_finish:
                 ((StandScoutActivity)getActivity()).nextTab();
+                Log.d("com.mvrt.scout", "AUTON FINISHED");
                 break;
-            case R.id.bt_auton_high_minus:
-                if(highGoals > 0) highGoals -= 5;
-                highGoal.setText("High (" + highGoals + ")");
-                break;
-            case R.id.bt_auton_low_minus:
-                if(lowGoals > 0) lowGoals -= 5;
-                lowGoal.setText("Low (" + lowGoals + ")");
         }
     }
 
@@ -123,14 +142,14 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
     public JSONObject getData(){
         JSONObject obj = new JSONObject();
         try {
-            obj.put(Constants.JSON_AUTON_GEARS, gearsPlaced);
-            obj.put(Constants.JSON_AUTON_HIGH, highGoals);
-            obj.put(Constants.JSON_AUTON_LOW, lowGoals);
-            obj.put(Constants.JSON_AUTON_MOBILITY, mobility.isChecked());
-            obj.put(Constants.JSON_AUTON_STARTBALLS, startWithBalls.isChecked());
-            obj.put(Constants.JSON_AUTON_STARTGEARS, startWithGear.isChecked());
-            obj.put(Constants.JSON_AUTON_HOPPER, hopper.isChecked());
-            obj.put(Constants.JSON_AUTON_GROUNDINTAKE, groundIntake.isChecked());
+            obj.put(Constants.JSON_AUTON_SWITCH, switchCubesPlaced);
+            obj.put(Constants.JSON_AUTON_SWITCH, switchCubesPlaced);
+            obj.put(Constants.JSON_AUTON_SCALE, scaleCubesPlaced);
+            obj.put(Constants.JSON_AUTON_STARTLEFT, startLeft.isChecked());
+            obj.put(Constants.JSON_AUTON_STARTCENTER, startCenter.isChecked());
+            obj.put(Constants.JSON_AUTON_STARTRIGHT, startRight.isChecked());
+            obj.put(Constants.JSON_AUTON_STARTCUBE, startWithCube.isChecked());
+            obj.put(Constants.JSON_AUTON_MOBILITY, mobility);
         }catch(Exception e){
             e.printStackTrace();
         }
