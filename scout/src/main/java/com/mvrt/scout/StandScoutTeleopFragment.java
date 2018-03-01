@@ -287,7 +287,7 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
         try {
             obj.put(Constants.JSON_TELEOP_CLIMBRESULT, climbState);
             obj.put(Constants.JSON_TELEOP_CLIMBTIME, climbEndTime - climbStartTime);
-            obj.put(Constants.JSON_TELEOP_PARKED, parked);
+            obj.put(Constants.JSON_TELEOP_PARKED, teleopParked);
             obj.put(Constants.JSON_TELEOP_OPPSWITCH, opp_switch);
             obj.put(Constants.JSON_TELEOP_SCALE, scale);
             obj.put(Constants.JSON_TELEOP_SWITCH, all_switch);
