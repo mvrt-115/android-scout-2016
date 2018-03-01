@@ -2,6 +2,7 @@ var database = firebase.database();
 var ref = database.ref();
 
 var imageTable, oppSwitcPlacedList, scalePlacedList, switchPlacedList, vaultPlacedList, climbList, parkedList, commentsList;
+var cubeGraph, cubeLine;
 
 function searchTeams(){
   var number = document.getElementById('searchTeam').value;
@@ -19,47 +20,142 @@ function searchTeams(){
     imageTable.append(newImageElement(snapshot.val()));
   });
 
-  getData(parseInt(number), function(data){
+  getData(parseInt(number), showTeamData);
 
-      var avgOpp = data[0].reduce((x,y) => x+y)/data[0].length;
-      var avgScale = data[1].reduce((x,y) => x+y)/data[1].length;
-      var avgSwitch = data[2].reduce((x,y) => x+y)/data[2].length;
-      var avgVault = data[3].reduce((x,y) => x+y)/data[3].length;      
+}
 
-      oppSwitchPlacedList.innerHTML = (data[0] + ' (avg: ' + avgOpp.toFixed(2) + ')');
-      scalePlacedList.innerHTML = (data[1] + ' (avg: ' + avgScale.toFixed(2) + ')');
-      switchPlacedList.innerHTML = (data[2] + ' (avg: ' + avgSwitch.toFixed(2) + ')');
-      vaultPlacedList.innerHTML = (data[3] + ' (avg: ' + avgVault.toFixed(2) + ')');
+function showTeamData(data) {
+    console.log(data);
 
+    var oppTrace = {
+        y: data[0],
+        text: data[7].map(function(match) {return 'Match #' + match}),
+        boxpoints: 'all',
+        name: 'Opponent Switch',
+        marker: {color: '#3F51B5'},
+        type: 'box'
+    };
 
+    var scaleTrace = {
+        y: data[1],
+        text: data[7].map(function(match) {return 'Match #' + match}),
+        boxpoints: 'all',
+        name: 'Scale',
+        marker: {color: '#f44336'},
+        type: 'box'
+    };
 
-      var climbtxt = '';
-      for(d in data[4]){
-          if(data[4][d] == 'y')climbtxt = climbtxt.concat('<span class="label label-success">Yes</span> ');
-          else if(data[4][d] == 'n')climbtxt = climbtxt.concat('<span class="label label-default">No</span> ');
-          else if(data[4][d] == 'f')climbtxt = climbtxt.concat('<span class="label label-danger">Failed</span> ');
-          else if(data[4][d] == 'c')climbtxt = climbtxt.concat('<span class="label label-warning">Cancelled (?)</span> ');
-          else climbtxt = climbtxt.concat(data[4][d] + ' ');
-          console.log(climbtxt);
-      }
-      climbList.innerHTML = climbtxt;
+    var switchTrace = {
+        y: data[2],
+        text: data[7].map(function(match) {return 'Match #' + match}),
+        boxpoints: 'all',
+        name: 'Switch',
+        marker: {color: '#673AB7'},
+        type: 'box'
+    };
 
-      var parktxt = '';
-      for(d in data[5]){
-          if(data[5][d] == 'y')parktxt = parktxt.concat('<span class="label label-success">Yes</span> ');
-          else if(data[5][d] == 'n')parktxt = parktxt.concat('<span class="label label-default">No</span> ');
-          else if(data[5][d] == 'f')parktxt = parktxt.concat('<span class="label label-danger">Failed</span> ');
-          else if(data[5][d] == 'c')parktxt = parktxt.concat('<span class="label label-warning">Cancelled (?)</span> ');
-          else parktxt = parktxt.concat(data[5][d] + ' ');
-          console.log(parktxt);
-      }
-      parkedList.innerHTML = parktxt;
+    var vaultTrace = {
+        y: data[3],
+        text: data[7].map(function(match) {return 'Match #' + match}),
+        boxpoints: 'all',
+        name: 'Vault',
+        marker: {color: '#FFC107'},
+        type: 'box'
+    };
 
-      for(c in data[6]){
-        commentsList.append(newCommentElement(data[6][c]));
-      }
-  });
+    var layout = {
+        autosize: true,
+        yaxis: {
+            title: 'Cube Scoring: Team #' + data[9],
+            zeroline: true,
+            showgrid: true,
+        },
+        boxmode: 'group'
+    };
 
+    Plotly.newPlot(cubeGraph, [oppTrace, scaleTrace, switchTrace, vaultTrace], layout);
+    cubeGraph.hidden = false;
+
+    var oppTrace = {
+        y: data[0],
+        x: data[7].map(function(match) {return 'Match #' + match}),
+        line: {shape: 'spline'},
+        name: 'Opponent Scale',
+        type: 'scatter',
+        marker: {color: '#3F51B5'}
+    };
+
+    var scaleTrace = {
+        y: data[1],
+        x: data[7].map(function(match) {return 'Match #' + match}),
+        line: {shape: 'spline'},
+        name: 'Scale',
+        type: 'scatter',
+        marker: {color: '#f44336'}
+    };
+
+    var switchTrace = {
+        y: data[2],
+        x: data[7].map(function(match) {return 'Match #' + match}),
+        line: {shape: 'spline'},
+        name: 'Switch',
+        type: 'scatter',
+        marker: {color: '#673AB7'}
+    };
+
+    var vaultTrace = {
+        y: data[3],
+        x: data[7].map(function(match) {return 'Match #' + match}),
+        line: {shape: 'spline'},
+        name: 'Vault',
+        type: 'scatter',
+        marker: {color: '#FFC107'}
+    };
+
+    var layout = {
+        autosize: true,
+        yaxis: {
+            title: 'Cube Scoring: Team #' + data[9],
+            width: 500,
+            zeroline: true,
+            showgrid: true,
+        },
+        boxmode: 'group'
+    };
+
+    Plotly.newPlot(cubeLine, [oppTrace, scaleTrace, switchTrace, vaultTrace], layout);
+    cubeLine.hidden = false;
+
+    var avgOpp = data[0].reduce((x,y) => x+y)/data[0].length;
+    var avgScale = data[1].reduce((x,y) => x+y)/data[1].length;
+    var avgSwitch = data[2].reduce((x,y) => x+y)/data[2].length;
+    var avgVault = data[3].reduce((x,y) => x+y)/data[3].length;
+
+    var climbtxt = '';
+    for(d in data[4]){
+        if(data[4][d] == 'y')climbtxt = climbtxt.concat('<span class="label label-success">Yes</span> ');
+        else if(data[4][d] == 'n')climbtxt = climbtxt.concat('<span class="label label-default">No</span> ');
+        else if(data[4][d] == 'f')climbtxt = climbtxt.concat('<span class="label label-danger">Failed</span> ');
+        else if(data[4][d] == 'c')climbtxt = climbtxt.concat('<span class="label label-warning">Cancelled (?)</span> ');
+        else climbtxt = climbtxt.concat(data[4][d] + ' ');
+        console.log(climbtxt);
+    }
+    climbList.innerHTML = climbtxt;
+
+    var parktxt = '';
+    for(d in data[5]){
+        if(data[5][d] == 'y')parktxt = parktxt.concat('<span class="label label-success">Yes</span> ');
+        else if(data[5][d] == 'n')parktxt = parktxt.concat('<span class="label label-default">No</span> ');
+        else if(data[5][d] == 'f')parktxt = parktxt.concat('<span class="label label-danger">Failed</span> ');
+        else if(data[5][d] == 'c')parktxt = parktxt.concat('<span class="label label-warning">Cancelled (?)</span> ');
+        else parktxt = parktxt.concat(data[5][d] + ' ');
+        console.log(parktxt);
+    }
+    parkedList.innerHTML = parktxt;
+
+    for(c in data[6]){
+      commentsList.append(newCommentElement(data[6][c]));
+    }
 }
 
 function getData(team, callback){
@@ -70,10 +166,12 @@ function getData(team, callback){
   var climbResults = [];
   var parkResults = [];
   var superComments = [];
-
+  var matches = [];
+  var alliances = [];
 
   ref.child('matches').orderByChild('team').equalTo(team).once('value', function(snapshot){
       var data = snapshot.val();
+      console.log(data);
       for(key in data) {
         var entry = data[key];
         if(entry['T']) {
@@ -87,16 +185,19 @@ function getData(team, callback){
         }
         if(entry['super']) superComments.push(entry['super']);
         if(entry['P'] && entry['P']['cmnt']) superComments.push(entry['P']['cmnt']);
-      }
-      callback([oppCubesPlaced, scaleCubesPlaced, switchCubesPlaced, vaultCubesPlaced, climbResults, parkResults, superComments]);
+        matches.push(entry['match']);
+        alliances.push(entry['alliance'])
+;      }
+      callback([oppCubesPlaced, scaleCubesPlaced, switchCubesPlaced, vaultCubesPlaced, climbResults, parkResults, superComments, matches, alliances, team]);
   });
 }
 
 function clearUI(){
   imageTable.innerHTML = null;
-  oppSwitchPlacedList.innerHTML = null;
   climbList.innerHTML = null;
   commentsList.innerHTML = null;
+  cubeGraph.hidden = false;
+  cubeLine.hidden = false;
 }
 
 function newImageElement(imageURL){
@@ -139,5 +240,8 @@ document.addEventListener('DOMContentLoaded', function(event) {
   climbList = document.getElementById('climbList');
   parkedList = document.getElementById('parkingList');
   commentsList = document.getElementById('commentsList');
+  cubeGraph = document.getElementById('cubegraph');
+  cubeLine = document.getElementById('cubeline');
   document.getElementById('searchBtn').addEventListener('click', searchTeams);
+
 });
