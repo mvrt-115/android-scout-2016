@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "467897465307",
+    "firebase_url": "https://mvrt-scout.firebaseio.com",
+    "project_id": "mvrt-scout",
+    "storage_bucket": "mvrt-scout.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:467897465307:android:863d01370886a14d",
+        "android_client_info": {
+          "package_name": "com.mvrt.superscout"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "467897465307-3uurp7n5f8k8necjd8bucb9t6150q425.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFxdZTzCP_DCCZE0Uuj-jRJYcHFVSZVRI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:467897465307:android:0bbc0eceba39e465",
+        "android_client_info": {
+          "package_name": "com.mvrt.scout"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "467897465307-3uurp7n5f8k8necjd8bucb9t6150q425.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFxdZTzCP_DCCZE0Uuj-jRJYcHFVSZVRI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

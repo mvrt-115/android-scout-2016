@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="accent">#FFC107</color>
+    <color name="accent_dark">#ffab00</color>
+    <color name="accent_default">#ffc400</color>
+    <color name="accent_light">#ffe57f</color>
+    <color name="alliance_blue">#283593</color>
+    <color name="alliance_red">#C62828</color>
+    <color name="blue_alliance">#3F51B5</color>
+    <color name="button_pressed_purp">#512DA8</color>
+    <color name="button_unpressed_purp">#673AB7</color>
+    <color name="navdrawer_bg">#F5F5F5</color>
+    <color name="primary">#673AB7</color>
+    <color name="primary_background">#d1c4e9</color>
+    <color name="primary_dark">#512da8</color>
+    <color name="primary_default">#673ab7</color>
+    <color name="primary_light">#9575cd</color>
+    <color name="purpletext_primary_light">#EDE7F6</color>
+    <color name="purpletext_secondary_light">#D1C4E9</color>
+    <color name="red_alliance">#EF5350</color>
+    <color name="secondary_background">#F5F5F5</color>
+    <color name="text_primary_dark">#424242</color>
+    <color name="text_primary_light">#f5f5f5</color>
+    <color name="text_secondary_dark">#757575</color>
+    <color name="text_secondary_light">#E0E0E0</color>
+    <color name="window_bg_darkgray">#424242</color>
+    <color name="window_bg_lightpurp">#EDE7F6</color>
+    <color name="window_bg_lightwhite">#FAFAFA</color>
+    <color name="window_bg_purp">#D1C4E9</color>
+    <color name="yellowtext_primary_light">#FFF8E1</color>
+    <color name="yellowtext_secondary_light">#FFECB3</color>
+    <string name="action_settings">Settings</string>
+    <string name="app_name">MVRTLib</string>
+    <string name="drawer_close">Close Drawer</string>
+    <string name="drawer_open">Open Drawer</string>
+    <style name="AppBase" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="colorPrimary">@color/primary_default</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent_default</item>
+        <!-- <item name="android:windowBackground">@color/primary_background</item> -->
+
+        <item name="android:textColor">@color/text_primary_dark</item>
+        <item name="android:textColorPrimary">@color/text_primary_dark</item>
+        <item name="android:textColorSecondary">@color/text_secondary_dark</item>
+
+        <item name="colorSwitchThumbNormal">@color/accent_default</item>
+
+    </style>
+    <style name="AppTheme" parent="AppBase"/>
+    <style name="MVRTButtonStyle" parent="@android:style/Widget.Button">
+        <item name="colorButtonNormal">@color/primary_default</item>
+        <item name="android:textColor">@color/text_primary_light</item>
+    </style>
+    <style name="MVRTSnackbarStyle" parent="Widget.Design.Snackbar">
+        <item name="android:textColor">@color/text_primary_light</item>
+    </style>
+    <style name="Tabs" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:textColorPrimary">@color/text_primary_light</item>
+        <item name="android:textColorSecondary">@color/text_secondary_light</item>
+    </style>
+    <style name="Toolbar" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:textColorPrimary">@color/text_primary_light</item>
+    </style>
+</resources>

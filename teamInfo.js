@@ -1,7 +1,7 @@
 var database = firebase.database();
 var ref = database.ref();
 
-var imageTable, gearsPlacedList, climbList, commentsList;
+var imageTable, oppSwitcPlacedList, scalePlacedList, switchPlacedList, vaultPlacedList, climbList, commentsList;
 
 function searchTeams(){
   var number = document.getElementById('searchTeam').value;
@@ -21,29 +21,41 @@ function searchTeams(){
 
   getData(parseInt(number), function(data){
 
-      var avg = data[0].reduce((x,y) => x+y)/data[0].length;
-      gearsPlacedList.innerHTML = (data[0] + ' (avg: ' + avg.toFixed(2) + ')');
+      var avgOpp = data[0].reduce((x,y) => x+y)/data[0].length;
+      var avgScale = data[1].reduce((x,y) => x+y)/data[1].length;
+      var avgSwitch = data[2].reduce((x,y) => x+y)/data[2].length;
+      var avgVault = data[3].reduce((x,y) => x+y)/data[3].length;      
+
+      oppSwitchPlacedList.innerHTML = (data[0] + ' (avg: ' + avgOpp.toFixed(2) + ')');
+      scalePlacedList.innerHTML = (data[1] + ' (avg: ' + avgScale.toFixed(2) + ')');
+      switchPlacedList.innerHTML = (data[2] + ' (avg: ' + avgSwitch.toFixed(2) + ')');
+      vaultPlacedList.innerHTML = (data[3] + ' (avg: ' + avgVault.toFixed(2) + ')');
+
+
 
       var climbtxt = '';
-      for(d in data[1]){
-          if(data[1][d] == 'y')climbtxt = climbtxt.concat('<span class="label label-success">Yes</span> ');
-          else if(data[1][d] == 'n')climbtxt = climbtxt.concat('<span class="label label-default">No</span> ');
-          else if(data[1][d] == 'f')climbtxt = climbtxt.concat('<span class="label label-danger">Failed</span> ');
-          else if(data[1][d] == 'c')climbtxt = climbtxt.concat('<span class="label label-warning">Cancelled (?)</span> ');
-          else climbtxt = climbtxt.concat(data[1][d] + ' ');
+      for(d in data[4]){
+          if(data[4][d] == 'y')climbtxt = climbtxt.concat('<span class="label label-success">Yes</span> ');
+          else if(data[4][d] == 'n')climbtxt = climbtxt.concat('<span class="label label-default">No</span> ');
+          else if(data[4][d] == 'f')climbtxt = climbtxt.concat('<span class="label label-danger">Failed</span> ');
+          else if(data[4][d] == 'c')climbtxt = climbtxt.concat('<span class="label label-warning">Cancelled (?)</span> ');
+          else climbtxt = climbtxt.concat(data[4][d] + ' ');
           console.log(climbtxt);
       }
       climbList.innerHTML = climbtxt;
 
-      for(c in data[2]){
-        commentsList.append(newCommentElement(data[2][c]));
+      for(c in data[5]){
+        commentsList.append(newCommentElement(data[5][c]));
       }
   });
 
 }
 
 function getData(team, callback){
-  var gearsPlaced = [];
+  var oppCubesPlaced = [];
+  var scaleCubesPlaced = [];
+  var switchCubesPlaced = [];
+  var vaultCubesPlaced = [];
   var climbResults = [];
   var superComments = [];
 
@@ -52,22 +64,25 @@ function getData(team, callback){
       for(key in data) {
         var entry = data[key];
         if(entry['T']) {
-            gearsPlaced.push(entry['T']['Tgp']);
+
+            oppCubesPlaced.push(entry['T']['Tos']);
+            scaleCubesPlaced.push(entry['T']['Tsc']);
+            switchCubesPlaced.push(entry['T']['Tsw']);
+            vaultCubesPlaced.push(entry['T']['Tsv']);
             climbResults.push(entry['T']['Tcr']);
         }
         if(entry['super']) superComments.push(entry['super']);
         if(entry['P'] && entry['P']['cmnt']) superComments.push(entry['P']['cmnt']);
-
       }
 
-      callback([gearsPlaced, climbResults, superComments]);
+      callback([oppCubesPlaced, scaleCubesPlaced, switchCubesPlaced, vaultCubesPlaced, climbResults, superComments]);
 
   });
 }
 
 function clearUI(){
   imageTable.innerHTML = null;
-  gearsPlacedList.innerHTML = null;
+  oppSwitchPlacedList.innerHTML = null;
   climbList.innerHTML = null;
   commentsList.innerHTML = null;
 }
@@ -105,7 +120,10 @@ document.addEventListener('DOMContentLoaded', function(event) {
   });
 
   imageTable = document.getElementById('images');
-  gearsPlacedList = document.getElementById('gearsPlacedList');
+  oppSwitchPlacedList = document.getElementById('oppSwitchPlacedList');
+  scalePlacedList = document.getElementById('scalePlacedList');
+  switchPlacedList = document.getElementById('switchPlacedList');
+  vaultPlacedList = document.getElementById('vaultPlacedList');
   climbList = document.getElementById('climbList');
   commentsList = document.getElementById('commentsList');
   document.getElementById('searchBtn').addEventListener('click', searchTeams);
