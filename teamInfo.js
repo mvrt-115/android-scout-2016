@@ -1,7 +1,7 @@
 var database = firebase.database();
 var ref = database.ref();
 
-var imageTable, oppSwitcPlacedList, scalePlacedList, switchPlacedList, vaultPlacedList, climbList, commentsList;
+var imageTable, oppSwitcPlacedList, scalePlacedList, switchPlacedList, vaultPlacedList, climbList, parkedList, commentsList;
 
 function searchTeams(){
   var number = document.getElementById('searchTeam').value;
@@ -44,8 +44,19 @@ function searchTeams(){
       }
       climbList.innerHTML = climbtxt;
 
-      for(c in data[5]){
-        commentsList.append(newCommentElement(data[5][c]));
+      var parktxt = '';
+      for(d in data[5]){
+          if(data[5][d] == 'y')parktxt = parktxt.concat('<span class="label label-success">Yes</span> ');
+          else if(data[5][d] == 'n')parktxt = parktxt.concat('<span class="label label-default">No</span> ');
+          else if(data[5][d] == 'f')parktxt = parktxt.concat('<span class="label label-danger">Failed</span> ');
+          else if(data[5][d] == 'c')parktxt = parktxt.concat('<span class="label label-warning">Cancelled (?)</span> ');
+          else parktxt = parktxt.concat(data[5][d] + ' ');
+          console.log(parktxt);
+      }
+      parkedList.innerHTML = parktxt;
+
+      for(c in data[6]){
+        commentsList.append(newCommentElement(data[6][c]));
       }
   });
 
@@ -57,7 +68,9 @@ function getData(team, callback){
   var switchCubesPlaced = [];
   var vaultCubesPlaced = [];
   var climbResults = [];
+  var parkResults = [];
   var superComments = [];
+
 
   ref.child('matches').orderByChild('team').equalTo(team).once('value', function(snapshot){
       var data = snapshot.val();
@@ -70,13 +83,12 @@ function getData(team, callback){
             switchCubesPlaced.push(entry['T']['Tsw']);
             vaultCubesPlaced.push(entry['T']['Tsv']);
             climbResults.push(entry['T']['Tcr']);
+            parkResults.push(entry['T']['Tpk']);
         }
         if(entry['super']) superComments.push(entry['super']);
         if(entry['P'] && entry['P']['cmnt']) superComments.push(entry['P']['cmnt']);
       }
-
-      callback([oppCubesPlaced, scaleCubesPlaced, switchCubesPlaced, vaultCubesPlaced, climbResults, superComments]);
-
+      callback([oppCubesPlaced, scaleCubesPlaced, switchCubesPlaced, vaultCubesPlaced, climbResults, parkResults, superComments]);
   });
 }
 
@@ -125,6 +137,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
   switchPlacedList = document.getElementById('switchPlacedList');
   vaultPlacedList = document.getElementById('vaultPlacedList');
   climbList = document.getElementById('climbList');
+  parkedList = document.getElementById('parkingList');
   commentsList = document.getElementById('commentsList');
   document.getElementById('searchBtn').addEventListener('click', searchTeams);
 });
