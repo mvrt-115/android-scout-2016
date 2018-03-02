@@ -135,10 +135,10 @@ function showTeamData(data) {
 
     var climbtxt = '';
     for(d in data[4]){
-        if(data[4][d] == 'y')climbtxt = climbtxt.concat('<span class="label label-success">Yes</span> ');
-        else if(data[4][d] == 'n')climbtxt = climbtxt.concat('<span class="label label-default">No</span> ');
-        else if(data[4][d] == 'f')climbtxt = climbtxt.concat('<span class="label label-danger">Failed</span> ');
-        else if(data[4][d] == 'c')climbtxt = climbtxt.concat('<span class="label label-warning">Cancelled (?)</span> ');
+        if(data[4][d] == 'y')climbtxt = climbtxt.concat('<span class="badge badge-success">Yes</span> ');
+        else if(data[4][d] == 'n')climbtxt = climbtxt.concat('<span class="badge badge-secondary">No</span> ');
+        else if(data[4][d] == 'f')climbtxt = climbtxt.concat('<span class="badge badge-danger">Failed</span> ');
+        else if(data[4][d] == 'c')climbtxt = climbtxt.concat('<span class="badge badge-warning">Cancelled (?)</span> ');
         else climbtxt = climbtxt.concat(data[4][d] + ' ');
         console.log(climbtxt);
     }
@@ -146,10 +146,10 @@ function showTeamData(data) {
 
     var parktxt = '';
     for(d in data[5]){
-        if(data[5][d] == 'y')parktxt = parktxt.concat('<span class="label label-success">Yes</span> ');
-        else if(data[5][d] == 'n')parktxt = parktxt.concat('<span class="label label-default">No</span> ');
-        else if(data[5][d] == 'f')parktxt = parktxt.concat('<span class="label label-danger">Failed</span> ');
-        else if(data[5][d] == 'c')parktxt = parktxt.concat('<span class="label label-warning">Cancelled (?)</span> ');
+        if(data[5][d] == 'y')parktxt = parktxt.concat('<span class="badge badge-success">Yes</span> ');
+        else if(data[5][d] == 'n')parktxt = parktxt.concat('<span class="badge badge-secondary">No</span> ');
+        else if(data[5][d] == 'f')parktxt = parktxt.concat('<span class="badge badge-danger">Failed</span> ');
+        else if(data[5][d] == 'c')parktxt = parktxt.concat('<span class="badge badge-warning">Cancelled (?)</span> ');
         else parktxt = parktxt.concat(data[5][d] + ' ');
         console.log(parktxt);
     }
