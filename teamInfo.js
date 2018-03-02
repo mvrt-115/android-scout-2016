@@ -25,6 +25,8 @@ function searchTeams(){
 }
 
 function showTeamData(data) {
+
+
     console.log(data);
 
     var oppTrace = {
@@ -172,7 +174,16 @@ function getData(team, callback){
   ref.child('matches').orderByChild('team').equalTo(team).once('value', function(snapshot){
       var data = snapshot.val();
       console.log(data);
-      for(key in data) {
+
+      arrayOfSortedObjects = Object.keys(data).sort(function(a,b) {
+          return data[a].match - (data[b].match);
+      });
+
+      console.log(arrayOfSortedObjects);
+
+      for(index in arrayOfSortedObjects) {
+        key = arrayOfSortedObjects[index];
+        console.log(key);
         var entry = data[key];
         if(entry['T']) {
 
