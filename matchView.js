@@ -92,6 +92,13 @@ function showTeamData(element, element2, data) {
         xaxis: {
             title: 'Match'
         },
+        margin: {
+          l: 0,
+          r: 0,
+          b: 100,
+          t: 100,
+          pad: 20
+        },
         boxmode: 'group'
     };
 
@@ -143,6 +150,13 @@ function showTeamData(element, element2, data) {
         },
         xaxis: {
             title: 'Match'
+        },
+        margin: {
+          l: 0,
+          r: 0,
+          b: 100,
+          t: 100,
+          pad: 20
         },
         boxmode: 'group'
     };

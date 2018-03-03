@@ -67,10 +67,17 @@ function showTeamData(data) {
 
     var layout = {
         autosize: true,
+        title: 'Cube Scoring: Team #' + data[9],
         yaxis: {
-            title: 'Cube Scoring: Team #' + data[9],
             zeroline: true,
             showgrid: true,
+        },
+        margin: {
+          l: 10,
+          r: 10,
+          b: 100,
+          t: 100,
+          pad: 20
         },
         boxmode: 'group'
     };
@@ -116,11 +123,18 @@ function showTeamData(data) {
 
     var layout = {
         autosize: true,
+        title: 'Cube Scoring: Team #' + data[9],
         yaxis: {
-            title: 'Cube Scoring: Team #' + data[9],
             width: 500,
             zeroline: true,
             showgrid: true,
+        },
+        margin: {
+          l: 10,
+          r: 10,
+          b: 100,
+          t: 100,
+          pad: 20
         },
         boxmode: 'group'
     };
@@ -146,8 +160,8 @@ function showTeamData(data) {
 
     var parktxt = '';
     for(d in data[5]){
-        if(data[5][d] == 'y')parktxt = parktxt.concat('<span class="badge badge-success">Yes</span> ');
-        else if(data[5][d] == 'n')parktxt = parktxt.concat('<span class="badge badge-secondary">No</span> ');
+        if(data[5][d] == 'y' || data[5][d] == true)parktxt = parktxt.concat('<span class="badge badge-success">Yes</span> ');
+        else if(data[5][d] == 'n' || data[5][d] == false)parktxt = parktxt.concat('<span class="badge badge-secondary">No</span> ');
         else if(data[5][d] == 'f')parktxt = parktxt.concat('<span class="badge badge-danger">Failed</span> ');
         else if(data[5][d] == 'c')parktxt = parktxt.concat('<span class="badge badge-warning">Cancelled (?)</span> ');
         else parktxt = parktxt.concat(data[5][d] + ' ');
