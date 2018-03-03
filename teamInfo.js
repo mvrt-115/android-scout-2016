@@ -73,16 +73,21 @@ function showTeamData(data) {
             showgrid: true,
         },
         margin: {
-          l: 10,
-          r: 10,
-          b: 100,
-          t: 100,
-          pad: 20
+            l: 30,
+            r: 0,
+            b: 100,
+            t: 150,
+            pad: 20
+        },
+        legend: {
+            "orientation": "h",
+            x: 0,
+            y: 1.2
         },
         boxmode: 'group'
     };
 
-    Plotly.newPlot(cubeGraph, [oppTrace, scaleTrace, switchTrace, vaultTrace], layout);
+    Plotly.newPlot(cubeGraph, [oppTrace, scaleTrace, switchTrace, vaultTrace], layout, {displayModeBar: false});
     cubeGraph.hidden = false;
 
     var oppTrace = {
@@ -93,7 +98,6 @@ function showTeamData(data) {
         type: 'scatter',
         marker: {color: '#3F51B5'}
     };
-
     var scaleTrace = {
         y: data[1],
         x: data[7].map(function(match) {return 'Match #' + match}),
@@ -102,7 +106,6 @@ function showTeamData(data) {
         type: 'scatter',
         marker: {color: '#f44336'}
     };
-
     var switchTrace = {
         y: data[2],
         x: data[7].map(function(match) {return 'Match #' + match}),
@@ -111,7 +114,6 @@ function showTeamData(data) {
         type: 'scatter',
         marker: {color: '#673AB7'}
     };
-
     var vaultTrace = {
         y: data[3],
         x: data[7].map(function(match) {return 'Match #' + match}),
@@ -125,21 +127,25 @@ function showTeamData(data) {
         autosize: true,
         title: 'Cube Scoring: Team #' + data[9],
         yaxis: {
-            width: 500,
             zeroline: true,
             showgrid: true,
         },
         margin: {
-          l: 10,
-          r: 10,
-          b: 100,
-          t: 100,
-          pad: 20
+            l: 30,
+            r: 0,
+            b: 100,
+            t: 150,
+            pad: 20
+        },
+        legend: {
+            orientation: "h",
+            x: 0,
+            y: 1.2
         },
         boxmode: 'group'
     };
 
-    Plotly.newPlot(cubeLine, [oppTrace, scaleTrace, switchTrace, vaultTrace], layout);
+    Plotly.newPlot(cubeLine, [oppTrace, scaleTrace, switchTrace, vaultTrace], layout, {displayModeBar: false});
     cubeLine.hidden = false;
 
     var avgOpp = data[0].reduce((x,y) => x+y)/data[0].length;

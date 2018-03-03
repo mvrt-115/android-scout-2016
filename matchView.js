@@ -41,7 +41,6 @@ function showMatchData(data) {
 function newElement(data) {
     var element = document.createElement('div');
     element.classList = 'col-xs-3 col-md-6 teamElement';
-    element.height = "300px";
     return element;
 }
 
@@ -88,16 +87,23 @@ function showTeamData(element, element2, data) {
         yaxis: {
             zeroline: true,
             showgrid: true,
+            autorange: true
         },
         xaxis: {
-            title: 'Match'
+            title: 'Match',
+            zeroline: true
         },
         margin: {
-          l: 0,
-          r: 0,
-          b: 100,
-          t: 100,
-          pad: 20
+            l: 30,
+            r: 0,
+            b: 100,
+            t: 150,
+            pad: 20
+        },
+        legend: {
+            orientation: "h",
+            x: 0,
+            y: 1.2
         },
         boxmode: 'group'
     };
@@ -144,19 +150,25 @@ function showTeamData(element, element2, data) {
         autosize: true,
         title: 'Cube Scoring: Team #' + data[9],
         yaxis: {
-            width: 500,
             zeroline: true,
             showgrid: true,
+            autorange: true
         },
         xaxis: {
-            title: 'Match'
+            title: 'Match',
+            zeroline: true
         },
         margin: {
-          l: 0,
-          r: 0,
-          b: 100,
-          t: 100,
-          pad: 20
+            l: 30,
+            r: 0,
+            b: 100,
+            t: 150,
+            pad: 20
+        },
+        legend: {
+            orientation: "h",
+            x: 0,
+            y: 1.2
         },
         boxmode: 'group'
     };
