@@ -108,7 +108,7 @@ function showTeamData(element, element2, data) {
         boxmode: 'group'
     };
 
-    Plotly.newPlot(element, [oppTrace, scaleTrace, switchTrace, vaultTrace], layout);
+    Plotly.newPlot(element, [oppTrace, scaleTrace, switchTrace, vaultTrace], layout, {displayModeBar: false, staticPlot: true});
 
     var oppTrace = {
         y: data[0],
@@ -173,7 +173,7 @@ function showTeamData(element, element2, data) {
         boxmode: 'group'
     };
 
-    Plotly.newPlot(element2, [oppTrace, scaleTrace, switchTrace, vaultTrace], layout);
+    Plotly.newPlot(element2, [oppTrace, scaleTrace, switchTrace, vaultTrace], layout, {displayModeBar: false, staticPlot: true});
 }
 
 function getData(team, boxElement, lineElement, callback){

@@ -87,7 +87,7 @@ function showTeamData(data) {
         boxmode: 'group'
     };
 
-    Plotly.newPlot(cubeGraph, [oppTrace, scaleTrace, switchTrace, vaultTrace], layout, {displayModeBar: false});
+    Plotly.newPlot(cubeGraph, [oppTrace, scaleTrace, switchTrace, vaultTrace], layout, {displayModeBar: false, staticPlot: true});
     cubeGraph.hidden = false;
 
     var oppTrace = {
@@ -145,7 +145,7 @@ function showTeamData(data) {
         boxmode: 'group'
     };
 
-    Plotly.newPlot(cubeLine, [oppTrace, scaleTrace, switchTrace, vaultTrace], layout, {displayModeBar: false});
+    Plotly.newPlot(cubeLine, [oppTrace, scaleTrace, switchTrace, vaultTrace], layout, {displayModeBar: false, staticPlot: true});
     cubeLine.hidden = false;
 
     var avgOpp = data[0].reduce((x,y) => x+y)/data[0].length;
