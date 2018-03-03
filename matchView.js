@@ -5,7 +5,7 @@ var tournId, matchId, blueCubes, redCubes;
 
 function searchMatch(){
     var tournKey = tournId.value + "_" + matchId.value;
-    console.log(tournKey);
+    console.log("Searching for match: " + tournKey);
 
     $.getJSON("https://www.thebluealliance.com/api/v3/match/" + tournKey + "/simple",
         {
@@ -20,8 +20,8 @@ function showMatchData(data) {
 
     redTeams = data.alliances.red.team_keys.map(function(key) { return parseInt(key.replace( /^\D+/g, '')) });
     blueTeams = data.alliances.blue.team_keys.map(function(key) { return parseInt(key.replace( /^\D+/g, '')) });
-    console.log(redTeams);
-    console.log(blueTeams);
+    console.log("Red teams: " + redTeams);
+    console.log("Blue teams: " + blueTeams);
 
     for(var i=0;i<3;i++) {
         var e1 = newElement(redTeams[i])
@@ -163,17 +163,13 @@ function getData(team, boxElement, lineElement, callback){
 
   ref.child('matches').orderByChild('team').equalTo(team).once('value', function(snapshot){
       var data = snapshot.val();
-      console.log(data);
 
       arrayOfSortedObjects = Object.keys(data).sort(function(a,b) {
           return data[a].match - (data[b].match);
       });
 
-      console.log(arrayOfSortedObjects);
-
       for(index in arrayOfSortedObjects) {
         key = arrayOfSortedObjects[index];
-        console.log(key);
         var entry = data[key];
         if(entry['T']) {
 
