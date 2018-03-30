@@ -230,6 +230,11 @@ function getData(team, callback){
   ref.child('matches').orderByChild('team').equalTo(team).once('value', function(snapshot){
       var data = snapshot.val();
 
+      if(data == undefined) {
+          callback([oppCubesPlaced, scaleCubesPlaced, switchCubesPlaced, vaultCubesPlaced, climbResults, parkResults, superComments, matches, alliances, team, start, autonScale, autonSwitch]);
+          return;
+      }
+
       arrayOfSortedObjects = Object.keys(data).sort(function(a,b) {
           return data[a].match - (data[b].match);
       });
