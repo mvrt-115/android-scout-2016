@@ -7,12 +7,23 @@ function searchMatch(){
     var tournKey = tournId.value + "_" + matchId.value;
     console.log("Searching for match: " + tournKey);
 
-    $.getJSON("https://www.thebluealliance.com/api/v3/match/" + tournKey + "/simple",
-        {
-            'X-TBA-Auth-Key': "yfXvcTqeqUJUpzvvMxRaAZPAM3uSfg8oc4dICKAObiMUMUFwvGDLn8WPD7nWQjIk"
-        }, function(data) {
-            showMatchData(data);
-    });
+    if(/^(\d{1,4}(.?)+){6}/.test(matchId.value)) {
+        teams = matchId.value.match(/\d+/g);
+        var data = { alliances: {
+            red: { team_keys: teams.slice(0,3) },
+            blue: { team_keys: teams.slice(3,6) }
+        }};
+        console.log('teams: ' + teams);
+        showMatchData(data);
+    } else {
+
+        $.getJSON("https://www.thebluealliance.com/api/v3/match/" + tournKey + "/simple",
+            {
+                'X-TBA-Auth-Key': "yfXvcTqeqUJUpzvvMxRaAZPAM3uSfg8oc4dICKAObiMUMUFwvGDLn8WPD7nWQjIk"
+            }, function(data) {
+                showMatchData(data);
+        });
+    }
 }
 
 Object.defineProperties(Array.prototype, {
