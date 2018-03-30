@@ -14,6 +14,8 @@
 <body>
 
   <script src="firebase.js"></script>
+  <script src="https://cdn.firebase.com/libs/firebaseui/2.7.0/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.7.0/firebaseui.css" />
   <script>
     // Initialize Firebase
     var config = {
@@ -23,6 +25,7 @@
       storageBucket: "mvrt-scout.appspot.com",
       messagingSenderId: "467897465307"
     };
+
     firebase.initializeApp(config);
   </script>
 
@@ -38,23 +41,33 @@
         </div>
 
         <div class="inner cover">
-          <img src="bullhead.png" style="padding: 30px" width="300" class="img-fluid" alt="Responsive image">
+          <img src="bullhead.png" style="padding: 30px" width="220" class="img-fluid" alt="Responsive image">
         </div>
 
-        <form class="form-inline">
-          <div class="form-group">
-            <label class="sr-only" for="email">Email address</label>
-            <input type="email" class="form-control" id="email" placeholder="Email">
-          </div>
-          <div class="form-group">
-            <label class="sr-only" for="pass">Password</label>
-            <input type="password" class="form-control" id="pass" placeholder="Password">
-          </div>
-          <button class="btn btn-default" id="signIn" type="button">Sign In</button>
-        </form>
+        <div id="firebaseui-auth-container"></div>
+        <div id="loader">Loading...</div>
+
+
+        <!-- <div class="container">
+            <div class="card bg-dark">
+                <div class="card-body">
+                <form>
+                  <div class="form-group">
+                    <label class="sr-only" for="email">Email address</label>
+                    <input type="email" class="form-control" id="email" placeholder="Email">
+                  </div>
+                  <div class="form-group">
+                    <label class="sr-only" for="pass">Password</label>
+                    <input type="password" class="form-control" id="pass" placeholder="Password">
+                  </div>
+                </form>
+                <button class="btn btn-light" id="signIn" type="button">Sign In</button>
+                </div>
+            </div>
+        </div> -->
 
         <div class="mastfoot">
-          <div class="inner">
+          <div class="inner foot">
             <p>Written for <a href="http://www.mvrt.com">MVRT</a></p>
           </div>
         </div>

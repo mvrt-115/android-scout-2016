@@ -3,16 +3,38 @@ var ref = database.ref();
 
 function loadFirebaseData(){
 
+    $('#progressbar').attr('aria-valuenow', 10).css('width', 10 + '%');
+    progress = 10;
+
     ref.child('matches').orderByChild('match').once('value', function(snapshot){
         var scoutData = [];
         var tableData = [];
+
         snapshot.forEach(function(childSnapshot){
-            scoutData.push(getScoutData(childSnapshot));
+            var sd = getScoutData(childSnapshot);
+            if(sd != null)scoutData.push(sd);
             tableData.push(getTableData(childSnapshot));
         });
+
         populateTable(tableData);
         saveCSV(getScoutHeaders(), scoutData, 'scoutDownloadLink', 'scout.csv');
+
+        progress = 100;
+        $('#progressbar').attr('aria-valuenow', progress).css('width', progress + '%');
+
+        setTimeout(function() {
+            $('#table').show();
+            $('#progress').hide();
+            $('#scoutDownloadLink').show();
+        }, 500);
     });
+
+    id = setInterval(function() {
+        progress += 30;
+        $('#progressbar').attr('aria-valuenow', progress).css('width', progress + '%');
+        if(progress > 60) clearInterval(id);
+        console.log('interval progress ' + progress);
+    }, 1500);
 
 
 }
@@ -28,24 +50,24 @@ function fixDB(){
   });
 }
 
-function getData(team){
-  var gearsPlaced = [];
-  var superComments = [];
-
-  ref.child('matches').orderByChild('team').equalTo(115).once('value', function(snapshot){
-      var data = snapshot.val();
-      for(key in data) {
-        var entry = data[key];
-        if(entry['T']) {
-          gearsPlaced.push(entry['T']['Tgp']);
-          if(entry['super']) superComments.push(entry['super']);
-          if(entry['P']['cmnt']) superComments.push(entry['P']['cmnt']);
-        }
-      }
-      console.log(gearsPlaced);
-      console.log(superComments);
-  });
-}
+// function getData(team){
+//   var gearsPlaced = [];
+//   var superComments = [];
+//
+//   ref.child('matches').orderByChild('team').equalTo(115).once('value', function(snapshot){
+//       var data = snapshot.val();
+//       for(key in data) {
+//         var entry = data[key];
+//         if(entry['T']) {
+//           gearsPlaced.push(entry['T']['Tgp']);
+//           if(entry['super']) superComments.push(entry['super']);
+//           if(entry['P']['cmnt']) superComments.push(entry['P']['cmnt']);
+//         }
+//       }
+//       console.log(gearsPlaced);
+//       console.log(superComments);
+//   });
+// }
 
 function getTableDataHeaders(){
   return ['Match', 'Team', 'Super Uploaded', 'Scout Data', 'Match Info', 'Scout ID'];
@@ -69,17 +91,24 @@ function getTableData(snapshot){
 }
 
 function getScoutHeaders(){
-    return ['Team','Tournament','Match','Alliance',
-    'Auton High', 'Auton Low', 'Mobility', 'Auton Start Gear',
-    'Auton Start Balls', 'Auton Gears', 'Auton Hopper', 'Auton Ground Intake',
-    'Climb Result', 'Climb Time', 'Touchpad Triggered', 'Gears Retrieved', 'Gears Placed', 'Gears Dropped',
-     'High Goal Fuel', 'Low Goal Fuel', 'Hoppers Triggered',
-    'Disabled', 'Interfere with others', 'High Accuracy Rating', 'Gear Accuracy Rating',
-     'Gear Cycle Time Rating', 'Pilot Rating', 'Driver Rating', 'Defense Rating', 'Rotors Spinning',
-     'Comments', 'Match Info', 'Scout ID'];
+    return ['team','tournament','match','alliance',
+
+    'auto_mobility', 'auton_scale', 'auton_switch',  'auton_cube',
+    'auton_center', 'auton_left', 'auton_right',
+
+    'teleop_oppsw', 'teleop_switch', 'teleop_scale', 'teleop_vault',
+    'teleop_climb', 'teleop_climbtime', 'teleop_park',
+
+    'rating_accuracy', 'rating_cycles', 'rating_defense',
+    'rating_driving', 'rating_speed',
+
+    'disabled', 'interfere', 'comment_scout', 'comment_super',
+
+    'match_id', 'scout_id' ];
 }
 
 function getScoutData(snapshot){
+
     var data = snapshot.val();
 
     var team = data.team;
@@ -88,7 +117,9 @@ function getScoutData(snapshot){
     var alliance = data.alliance;
 
     if(match == undefined){
-      match = data.minfo.match(/\d+(?=@)/g);
+      if(data.minfo)match = data.minfo.match(/\d+(?=@)/g);
+      else if(data.matchinfo)match = data.matchinfo.match(/\d+(?=@)/g);
+      else match = snapshot.key.match(/\d+(?=@)/g);
     }
 
     if(team == undefined){
@@ -98,50 +129,35 @@ function getScoutData(snapshot){
       else team = teams[data.sctid];
     }
 
-    var a = data['A'];
-    if(a == undefined)return [];
-    var autonHigh = a['Ah'];
-    var autonLow = a['Al'];
-    var autonMobility = a['Am'];
-    var autonStartGears = a['Asg'];
-    var autonStartBalls = a['Asb'];
-    var autonGears = a['Ag'];
-    var autonHopper = a['Ahp'];
-    var autonGroundIntake = a['Agi'];
+    var matchInfo = snapshot.key.replace(/,/g, ';');
+    if(data.minfo)matchInfo = data.minfo.replace(/,/g, ';');
+    else if(data.matchinfo)matchInfo = data.matchinfo.replace(/,/g, ';');
 
-    var t = data['T'];
-    var climbResult = t['Tcr'];
-    var climbTime = t['Tct'];
-    var touchpad = t['Tt'];
-
-    var gearsTaken = t['Tgt'];
-    var gearsPlaced = t['Tgp'];
-    var gearsDropped = t['Tgd'];
-
-    var highBalls = t['Th'];
-    var lowBalls = t['Tl'];
-    var hopperCycles = t['Thp'];
-
-    var p = data['P'];
-    var disabled = p['dsbld'];
-    var interferes = p['intr'];
-    var highAccuracy = p['Rha'];
-    var gearAccuracy = p['Rga'];
-    var gearCycleTime = p['Rgt'];
-    var pilotRating = p['Rp'];
-    var driverRating = p['Rdr'];
-    var defenseRating = p['Rdf'];
-    var rotors = p['Rr'];
-    var comments = p['cmnt'].replace(',', '');
-
-    var matchInfo = data.minfo.replace(/,/g, '|');
     var scoutID = data.sctid;
 
-    return [team, tournament, match, alliance,
-    autonHigh, autonLow, autonMobility, autonStartGears, autonStartBalls, autonGears, autonHopper, autonGroundIntake,
-    climbResult, climbTime, touchpad, gearsTaken, gearsPlaced, gearsDropped, highBalls, lowBalls, hopperCycles,
-    disabled, interferes, highAccuracy, gearAccuracy, gearCycleTime, pilotRating, driverRating, defenseRating, rotors,
-    comments, matchInfo, scoutID];
+    var A = data['A'];
+    if(A == undefined)return null;
+
+    var T = data['T'];
+    var P = data['P'];
+
+    return [ team, tournament, match, alliance,
+      // A.Amb,
+      '?',
+      A.Asc, A.Asw, A.Ascu,
+      A.Asce, A.Asl, A.Asr,
+
+      T.Tos, T.Tsw, T.Tsc, T.Tsv,
+      T.Tcr, T.Tct, T.Tpk,
+
+      P.Rca, P.Rct, P.Rdf,
+      P.Rdr, P.Rs,
+
+      P.dsbld, P.intr,
+      P.cmnt.replace(/,/g, ';'),
+      ((data.super)?data.super:'').replace(/,/g, ';'),
+
+      matchInfo, scoutID ];
 }
 
 function populateTable(data){
@@ -182,5 +198,9 @@ function getCSVString(csvHeaders, csvData){
     csvFile += csvContent.join('\n');
     return csvFile;
 }
+
+$('#table').hide();
+$('#progress').show();
+$('#scoutDownloadLink').hide();
 
 loadFirebaseData();
