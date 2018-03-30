@@ -1,7 +1,7 @@
 var database = firebase.database();
 var ref = database.ref();
 
-var tournId, matchId, blueCubes, redCubes;
+var tournId, matchId, blueCubes, redCubes, topview;
 
 function searchMatch(){
     var tournKey = tournId.value + "_" + matchId.value;
@@ -15,6 +15,124 @@ function searchMatch(){
     });
 }
 
+Object.defineProperties(Array.prototype, {
+    count: {
+        value: function(query) {
+            /*
+               Counts number of occurrences of query in array, an integer >= 0
+               Uses the javascript == notion of equality.
+            */
+            var count = 0;
+            for(let i=0; i<this.length; i++)
+                if (this[i]==query)
+                    count++;
+            return count;
+        }
+    }
+});
+
+function displayTopData(data, parent, colors) {
+
+    var allLabels = ['Yes', 'No', 'Failed'];
+    var allData = [];
+    var domains = [
+        { x: [0, 1], y: [0, 0.33] },
+        { x: [0, 1], y: [.34, .66] },
+        { x: [0, 1], y: [.67, 1] }
+    ]
+
+    for(let key in data) {
+        var teamData = data[key];
+        console.log(teamData);
+
+        allData.push({
+          values: [teamData[4].count('y'), teamData[4].count('n'), teamData[4].count('f')],
+          labels: allLabels,
+          type: 'pie',
+          name: 'Team ' + teamData[9],
+          hoverinfo: 'none',
+          marker: {
+            colors: [colors[0], '#F5F5F5', '#9E9E9E']
+          },
+          domain: domains[key],
+      });
+    }
+
+    var layout = {
+        title: 'Climbing'
+    };
+
+    var element = newElement(parent);
+    Plotly.newPlot(element, allData, layout, {displayModeBar: false, staticPlot: true});
+
+}
+
+function graphAllianceLine(data, parent, colors, title, index) {
+
+    traces = [];
+
+    for (let key in data) {
+        var teamData = data[key];
+
+        defaultScatter = {
+            y: teamData[index],
+            x: teamData[7],
+            // x: Array.apply(null, Array(teamData[0].length)).map(function (_, i) {return i;}),
+            line: {shape: 'spline'},
+            name: '#' + teamData[9],
+            type: 'scatter',
+            marker: {color: colors[key]}
+        };
+
+        traces.push(defaultScatter);
+    }
+
+    var layout = {
+        autosize: true,
+        yaxis: { zeroline: true, showgrid: true, autorange: true },
+        xaxis: { title: 'Match', zeroline: true },
+        margin: { l: 30, r: 20, b: 100, t: 150, pad: 20 },
+        legend: { orientation: "h", x: 0, y: 1.2 },
+        title: title,
+        boxmode: 'group'
+    };
+
+    element = newElement(parent);
+    Plotly.newPlot(element, traces, layout, {displayModeBar: false, staticPlot: true});
+}
+
+function graphAllianceBox(data, parent, colors, title, index) {
+
+    traces = [];
+
+    for (let key in data) {
+        var teamData = data[key];
+
+        defaultBox = {
+            y: teamData[index],
+            text: teamData[7],
+            boxpoints: 'all',
+            name: '#' + teamData[9],
+            type: 'box',
+            marker: {color: colors[key]}
+        };
+
+        traces.push(defaultBox);
+    }
+
+    var layout = {
+        autosize: true,
+        title: title,
+        yaxis: { zeroline: true, showgrid: true, autorange: true },
+        margin: { l: 30, r: 0, b: 100, t: 150, pad: 20 },
+        legend: { orientation: "h", x: 0, y: 1.2 },
+        boxmode: 'group'
+    };
+
+    element = newElement(parent);
+    Plotly.newPlot(element, traces, layout, {displayModeBar: false, staticPlot: true});
+}
+
 function showMatchData(data) {
     clearUI();
 
@@ -23,160 +141,79 @@ function showMatchData(data) {
     console.log("Red teams: " + redTeams);
     console.log("Blue teams: " + blueTeams);
 
-    for(var i=0;i<3;i++) {
-        var e1 = newElement(redTeams[i])
-        var e2 = newElement(redTeams[i])
-        redCubes.appendChild(e1);
-        redCubes.appendChild(e2);
-        getData(redTeams[i], e1, e2, showTeamData);
-        e1 = newElement(blueTeams[i])
-        e2 = newElement(blueTeams[i])
-        blueCubes.appendChild(e1);
-        blueCubes.appendChild(e2);
-        getData(blueTeams[i], e1, e2, showTeamData);
+    // red alliance:
+    var redData = [];
+    var blueData = [];
+    var redColors = ['#f44336', '#9C27B0', '#ef9a9a'];
+    var blueColors = ['#3F51B5', '#00BCD4', '#2196F3'];
+
+    for(let team of redTeams) {
+        getData(team, function(data){
+            redData.push(data);
+            if(redData.length != 3) return;
+            if(blueData.length != 3) return;
+
+            graphAllianceBox(redData, blueCubes, redColors, 'Red Scale Scoring', 1);
+            graphAllianceBox(blueData, blueCubes, blueColors, 'Blue Scale Scoring', 1);
+            graphAllianceBox(redData, blueCubes, redColors, 'Red Switch Scoring', 2);
+            graphAllianceBox(blueData, blueCubes, blueColors, 'Blue Switch Scoring', 2);
+            graphAllianceBox(redData, blueCubes, redColors, 'Red Vault Scoring', 3);
+            graphAllianceBox(blueData, blueCubes, blueColors, 'Blue Vault Scoring', 3);
+            graphAllianceBox(redData, blueCubes, redColors, 'Red Opp Scoring', 0);
+            graphAllianceBox(blueData, blueCubes, blueColors, 'Blue Opp Scoring', 0);
+
+            graphAllianceLine(redData, redCubes, redColors, 'Red Scale Scoring', 1);
+            graphAllianceLine(blueData, redCubes, blueColors, 'Red Scale Scoring', 1);
+            graphAllianceLine(redData, redCubes, redColors, 'Red Switch Scoring', 2);
+            graphAllianceLine(blueData, redCubes, blueColors, 'Blue Switch Scoring', 2);
+            graphAllianceLine(redData, redCubes, redColors, 'Red Vault Scoring', 3);
+            graphAllianceLine(blueData, redCubes, blueColors, 'Blue Vault Scoring', 3);
+            graphAllianceLine(redData, redCubes, redColors, 'Red Opp Scoring', 0);
+            graphAllianceLine(blueData, redCubes, blueColors, 'Blue Opp Scoring', 0);
+
+            displayTopData(redData, topview, redColors);
+            displayTopData(blueData, topview, blueColors);
+        });
     }
 
+    for(let team of blueTeams) {
+        getData(team, function(data){
+            blueData.push(data);
+            if(redData.length != 3) return;
+            if(blueData.length != 3) return;
+
+            graphAllianceBox(redData, blueCubes, redColors, 'Red Scale Scoring', 1);
+            graphAllianceBox(blueData, blueCubes, blueColors, 'Blue Scale Scoring', 1);
+            graphAllianceBox(redData, blueCubes, redColors, 'Red Switch Scoring', 2);
+            graphAllianceBox(blueData, blueCubes, blueColors, 'Blue Switch Scoring', 2);
+            graphAllianceBox(redData, blueCubes, redColors, 'Red Vault Scoring', 3);
+            graphAllianceBox(blueData, blueCubes, blueColors, 'Blue Vault Scoring', 3);
+            graphAllianceBox(redData, blueCubes, redColors, 'Red Opp Scoring', 0);
+            graphAllianceBox(blueData, blueCubes, blueColors, 'Blue Opp Scoring', 0);
+
+            graphAllianceLine(redData, redCubes, redColors, 'Red Scale Scoring', 1);
+            graphAllianceLine(blueData, redCubes, blueColors, 'Red Scale Scoring', 1);
+            graphAllianceLine(redData, redCubes, redColors, 'Red Switch Scoring', 2);
+            graphAllianceLine(blueData, redCubes, blueColors, 'Blue Switch Scoring', 2);
+            graphAllianceLine(redData, redCubes, redColors, 'Red Vault Scoring', 3);
+            graphAllianceLine(blueData, redCubes, blueColors, 'Blue Vault Scoring', 3);
+            graphAllianceLine(redData, redCubes, redColors, 'Red Opp Scoring', 0);
+            graphAllianceLine(blueData, redCubes, blueColors, 'Blue Opp Scoring', 0);
+
+            displayTopData(redData, document.getElementById('redtop'), redColors);
+            displayTopData(blueData, document.getElementById('bluetop'), blueColors);
+        });
+    }
 }
 
-function newElement(data) {
+function newElement(parent) {
     var element = document.createElement('div');
     element.classList = 'col-xs-3 col-md-6 teamElement';
+    parent.appendChild(element);
     return element;
 }
 
-function showTeamData(element, element2, data) {
-    var oppTrace = {
-        y: data[0],
-        text: data[7].map(function(match) {return 'Match #' + match}),
-        boxpoints: 'all',
-        name: 'Opponent Switch',
-        marker: {color: '#3F51B5'},
-        type: 'box'
-    };
-
-    var scaleTrace = {
-        y: data[1],
-        text: data[7].map(function(match) {return 'Match #' + match}),
-        boxpoints: 'all',
-        name: 'Scale',
-        marker: {color: '#f44336'},
-        type: 'box'
-    };
-
-    var switchTrace = {
-        y: data[2],
-        text: data[7].map(function(match) {return 'Match #' + match}),
-        boxpoints: 'all',
-        name: 'Switch',
-        marker: {color: '#673AB7'},
-        type: 'box'
-    };
-
-    var vaultTrace = {
-        y: data[3],
-        text: data[7].map(function(match) {return 'Match #' + match}),
-        boxpoints: 'all',
-        name: 'Vault',
-        marker: {color: '#FFC107'},
-        type: 'box'
-    };
-
-    var layout = {
-        autosize: true,
-        title: 'Cube Scoring: Team #' + data[9],
-        yaxis: {
-            zeroline: true,
-            showgrid: true,
-            autorange: true
-        },
-        xaxis: {
-            title: 'Match',
-            zeroline: true
-        },
-        margin: {
-            l: 30,
-            r: 0,
-            b: 100,
-            t: 150,
-            pad: 20
-        },
-        legend: {
-            orientation: "h",
-            x: 0,
-            y: 1.2
-        },
-        boxmode: 'group'
-    };
-
-    Plotly.newPlot(element, [oppTrace, scaleTrace, switchTrace, vaultTrace], layout, {displayModeBar: false, staticPlot: true});
-
-    var oppTrace = {
-        y: data[0],
-        x: data[7].map(function(match) {return 'Match #' + match}),
-        line: {shape: 'spline'},
-        name: 'Opponent Scale',
-        type: 'scatter',
-        marker: {color: '#3F51B5'}
-    };
-
-    var scaleTrace = {
-        y: data[1],
-        x: data[7].map(function(match) {return 'Match #' + match}),
-        line: {shape: 'spline'},
-        name: 'Scale',
-        type: 'scatter',
-        marker: {color: '#f44336'}
-    };
-
-    var switchTrace = {
-        y: data[2],
-        x: data[7].map(function(match) {return 'Match #' + match}),
-        line: {shape: 'spline'},
-        name: 'Switch',
-        type: 'scatter',
-        marker: {color: '#673AB7'}
-    };
-
-    var vaultTrace = {
-        y: data[3],
-        x: data[7].map(function(match) {return 'Match #' + match}),
-        line: {shape: 'spline'},
-        name: 'Vault',
-        type: 'scatter',
-        marker: {color: '#FFC107'}
-    };
-
-    var layout = {
-        autosize: true,
-        title: 'Cube Scoring: Team #' + data[9],
-        yaxis: {
-            zeroline: true,
-            showgrid: true,
-            autorange: true
-        },
-        xaxis: {
-            title: 'Match',
-            zeroline: true
-        },
-        margin: {
-            l: 30,
-            r: 0,
-            b: 100,
-            t: 150,
-            pad: 20
-        },
-        legend: {
-            orientation: "h",
-            x: 0,
-            y: 1.2
-        },
-        boxmode: 'group'
-    };
-
-    Plotly.newPlot(element2, [oppTrace, scaleTrace, switchTrace, vaultTrace], layout, {displayModeBar: false, staticPlot: true});
-}
-
-function getData(team, boxElement, lineElement, callback){
+function getData(team, callback){
   var oppCubesPlaced = [];
   var scaleCubesPlaced = [];
   var switchCubesPlaced = [];
@@ -186,6 +223,9 @@ function getData(team, boxElement, lineElement, callback){
   var superComments = [];
   var matches = [];
   var alliances = [];
+  var start = [];
+  var autonSwitch = [];
+  var autonScale = [];
 
   ref.child('matches').orderByChild('team').equalTo(team).once('value', function(snapshot){
       var data = snapshot.val();
@@ -198,45 +238,43 @@ function getData(team, boxElement, lineElement, callback){
         key = arrayOfSortedObjects[index];
         var entry = data[key];
         if(entry['T']) {
-
+            // if(entry['match'] > 90) continue;
             oppCubesPlaced.push(entry['T']['Tos']);
             scaleCubesPlaced.push(entry['T']['Tsc']);
             switchCubesPlaced.push(entry['T']['Tsw']);
             vaultCubesPlaced.push(entry['T']['Tsv']);
             climbResults.push(entry['T']['Tcr']);
             parkResults.push(entry['T']['Tpk']);
+
+            if(entry.A.Asce)start.push('c');
+            else if(entry.A.Asl)start.push('l');
+            else if(entry.A.Asr)start.push('r');
+            autonScale.push(entry.A.Asc);
+            autonSwitch.push(entry.A.Asw);
         }
         if(entry['super']) superComments.push(entry['super']);
         if(entry['P'] && entry['P']['cmnt']) superComments.push(entry['P']['cmnt']);
         matches.push(entry['match']);
         alliances.push(entry['alliance']);
       }
-      callback(boxElement, lineElement, [oppCubesPlaced, scaleCubesPlaced, switchCubesPlaced, vaultCubesPlaced, climbResults, parkResults, superComments, matches, alliances, team]);
+      callback([oppCubesPlaced, scaleCubesPlaced, switchCubesPlaced, vaultCubesPlaced, climbResults, parkResults, superComments, matches, alliances, team, start, autonScale, autonSwitch]);
   });
 }
 
 function clearUI(){
     $(blueCubes).empty();
     $(redCubes).empty();
+    $(topview).empty();
 }
 
-
 document.addEventListener('DOMContentLoaded', function(event) {
-    clearUI();
-
-  firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-      console.log('logged in');
-    } else {
-      console.log('logged out');
-      window.location.replace('login.html');
-    }
-  });
+  clearUI();
 
   tournId = document.getElementById("searchTourn");
   matchId = document.getElementById("searchMatch");
   blueCubes = document.getElementById("bluecubegraphs");
   redCubes = document.getElementById("redcubegraphs");
+  topview = document.getElementById('topview');
 
   document.getElementById('searchBtn').addEventListener('click', searchMatch);
 
@@ -244,6 +282,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
     //$('#datebox').val($(this).text());
     alert($(this).text());
     $(this).active = true;
-})
+});
 
 });

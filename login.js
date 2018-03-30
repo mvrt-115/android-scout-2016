@@ -14,14 +14,44 @@ var username, password, signin;
 // });
 // }
 
+function sign_out() {
+    firebase.auth().signOut();
+}
+
+document.getElementById('signoutlink').addEventListener('click', sign_out);
+
+function b64DecodeUnicode(str) {
+    // Going backwards: from bytestream, to percent-encoding, to original string.
+    return decodeURIComponent(atob(str).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+}
+
 document.addEventListener('DOMContentLoaded', function(event) {
 
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
-      console.log('logged in');
-      window.location.replace('index.html');
+        user.getIdToken().then((idToken) => {
+            const payload = JSON.parse(b64DecodeUnicode(idToken.split('.')[1]));
+            // Confirm the user is an Admin.
+            if (!!payload['mvrt']) {
+                console.log('logged in');
+                window.location.replace('index.html');
+            } else {
+                $('#sign_out').show();
+                $('#firebaseui-auth-container').hide();
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+            $('#sign_out').show();
+            $('#firebaseui-auth-container').hide();
+        });
+
     } else {
       console.log('logged out');
+      $('#sign_out').hide();
+      $('#firebaseui-auth-container').show();
     }
   });
 

@@ -66,22 +66,7 @@
 
   <script src="jquery-3.3.1.min.js"></script>
   <script src="bootstrap/js/bootstrap.min.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function(event) {
-
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-          console.log('logged in');
-          var name = document.getElementById('name');
-          if(name)name.innerText = " " + user.email;
-        } else {
-          console.log('logged out');
-          window.location.replace('login.html');
-        }
-      });
-
-    });
-  </script>
   <script type="text/javascript" src="csvdownload.js"></script>
+  <script src="auth.js"></script>
 </body>
 </html>
