@@ -124,7 +124,7 @@ function graphAllianceLine(data, parent, colors, title, index) {
         autosize: true,
         yaxis: { zeroline: true, showgrid: true, autorange: true },
         xaxis: { title: 'Match', zeroline: true },
-        margin: { l: 30, r: 20, b: 100, t: 150, pad: 20 },
+        margin: { l: 40, r: 20, b: 100, t: 150, pad: 20 },
         legend: { orientation: "h", x: 0, y: 1.2 },
         title: title,
         boxmode: 'group'
@@ -157,7 +157,7 @@ function graphAllianceBox(data, parent, colors, title, index) {
         autosize: true,
         title: title,
         yaxis: { zeroline: true, showgrid: true, autorange: true },
-        margin: { l: 30, r: 0, b: 100, t: 150, pad: 20 },
+        margin: { l: 40, r: 20, b: 100, t: 150, pad: 20 },
         legend: { orientation: "h", x: 0, y: 1.2 },
         boxmode: 'group'
     };
