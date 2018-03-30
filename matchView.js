@@ -175,6 +175,8 @@ function showMatchData(data) {
     blueTeams = data.alliances.blue.team_keys.map(function(key) { return parseInt(key.replace( /^\D+/g, '')) });
     console.log("Red teams: " + redTeams);
     console.log("Blue teams: " + blueTeams);
+    $('#redteams').text(redTeams.toString());
+    $('#blueteams').text(blueTeams.toString());
 
     // red alliance:
     var redData = [];
