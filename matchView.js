@@ -3,9 +3,16 @@ var ref = database.ref();
 
 var tournId, matchId, blueCubes, redCubes, topview;
 
+var progress = 0;
+
 function searchMatch(){
+    clearUI();
+
+    $('#progress').show();
+    progress = 50;
+    $('#progressbar').attr('aria-valuenow', progress).css('width', progress + '%');
+
     var tournKey = tournId.value + "_" + matchId.value;
-    console.log("Searching for match: " + tournKey);
 
     if(/^(\d{1,4}(.?)+){6}/.test(matchId.value)) {
         teams = matchId.value.match(/\d+/g);
@@ -13,10 +20,11 @@ function searchMatch(){
             red: { team_keys: teams.slice(0,3) },
             blue: { team_keys: teams.slice(3,6) }
         }};
-        console.log('teams: ' + teams);
+        console.log('Matchup for teams: ' + teams);
         showMatchData(data);
-    } else {
 
+    } else {
+        console.log("Searching for match: " + tournKey);
         $.getJSON("https://www.thebluealliance.com/api/v3/match/" + tournKey + "/simple",
             {
                 'X-TBA-Auth-Key': "yfXvcTqeqUJUpzvvMxRaAZPAM3uSfg8oc4dICKAObiMUMUFwvGDLn8WPD7nWQjIk"
@@ -24,6 +32,21 @@ function searchMatch(){
                 showMatchData(data);
         });
     }
+
+    setTimeout(function() {
+        if(progress == 50) {
+            $('#progressbar').addClass('bg-danger');
+            progress = 100;
+            $('#progressbar').attr('aria-valuenow', progress).css('width', progress + '%');
+        }
+    }, 3000);
+
+    setTimeout(function() {
+        if(progress == 100) {
+            $('#progress').hide();
+            clearUI();
+        }
+    }, 6000);
 }
 
 Object.defineProperties(Array.prototype, {
@@ -54,7 +77,6 @@ function displayTopData(data, parent, colors) {
 
     for(let key in data) {
         var teamData = data[key];
-        console.log(teamData);
 
         allData.push({
           values: [teamData[4].count('y'), teamData[4].count('n'), teamData[4].count('f')],
@@ -145,7 +167,9 @@ function graphAllianceBox(data, parent, colors, title, index) {
 }
 
 function showMatchData(data) {
-    clearUI();
+    progress = 80;
+    $('#progressbar').attr('aria-valuenow', progress).css('width', progress + '%');
+    console.log('show data');
 
     redTeams = data.alliances.red.team_keys.map(function(key) { return parseInt(key.replace( /^\D+/g, '')) });
     blueTeams = data.alliances.blue.team_keys.map(function(key) { return parseInt(key.replace( /^\D+/g, '')) });
@@ -155,8 +179,6 @@ function showMatchData(data) {
     // red alliance:
     var redData = [];
     var blueData = [];
-    var redColors = ['#f44336', '#9C27B0', '#ef9a9a'];
-    var blueColors = ['#3F51B5', '#00BCD4', '#2196F3'];
 
     for(let team of redTeams) {
         getData(team, function(data){
@@ -164,26 +186,9 @@ function showMatchData(data) {
             if(redData.length != 3) return;
             if(blueData.length != 3) return;
 
-            graphAllianceBox(redData, blueCubes, redColors, 'Red Scale Scoring', 1);
-            graphAllianceBox(blueData, blueCubes, blueColors, 'Blue Scale Scoring', 1);
-            graphAllianceBox(redData, blueCubes, redColors, 'Red Switch Scoring', 2);
-            graphAllianceBox(blueData, blueCubes, blueColors, 'Blue Switch Scoring', 2);
-            graphAllianceBox(redData, blueCubes, redColors, 'Red Vault Scoring', 3);
-            graphAllianceBox(blueData, blueCubes, blueColors, 'Blue Vault Scoring', 3);
-            graphAllianceBox(redData, blueCubes, redColors, 'Red Opp Scoring', 0);
-            graphAllianceBox(blueData, blueCubes, blueColors, 'Blue Opp Scoring', 0);
-
-            graphAllianceLine(redData, redCubes, redColors, 'Red Scale Scoring', 1);
-            graphAllianceLine(blueData, redCubes, blueColors, 'Red Scale Scoring', 1);
-            graphAllianceLine(redData, redCubes, redColors, 'Red Switch Scoring', 2);
-            graphAllianceLine(blueData, redCubes, blueColors, 'Blue Switch Scoring', 2);
-            graphAllianceLine(redData, redCubes, redColors, 'Red Vault Scoring', 3);
-            graphAllianceLine(blueData, redCubes, blueColors, 'Blue Vault Scoring', 3);
-            graphAllianceLine(redData, redCubes, redColors, 'Red Opp Scoring', 0);
-            graphAllianceLine(blueData, redCubes, blueColors, 'Blue Opp Scoring', 0);
-
-            displayTopData(redData, topview, redColors);
-            displayTopData(blueData, topview, blueColors);
+            $('#matchview').show();
+            graphData(redData, blueData);
+            $('#progress').hide();
         });
     }
 
@@ -193,28 +198,40 @@ function showMatchData(data) {
             if(redData.length != 3) return;
             if(blueData.length != 3) return;
 
-            graphAllianceBox(redData, blueCubes, redColors, 'Red Scale Scoring', 1);
-            graphAllianceBox(blueData, blueCubes, blueColors, 'Blue Scale Scoring', 1);
-            graphAllianceBox(redData, blueCubes, redColors, 'Red Switch Scoring', 2);
-            graphAllianceBox(blueData, blueCubes, blueColors, 'Blue Switch Scoring', 2);
-            graphAllianceBox(redData, blueCubes, redColors, 'Red Vault Scoring', 3);
-            graphAllianceBox(blueData, blueCubes, blueColors, 'Blue Vault Scoring', 3);
-            graphAllianceBox(redData, blueCubes, redColors, 'Red Opp Scoring', 0);
-            graphAllianceBox(blueData, blueCubes, blueColors, 'Blue Opp Scoring', 0);
-
-            graphAllianceLine(redData, redCubes, redColors, 'Red Scale Scoring', 1);
-            graphAllianceLine(blueData, redCubes, blueColors, 'Red Scale Scoring', 1);
-            graphAllianceLine(redData, redCubes, redColors, 'Red Switch Scoring', 2);
-            graphAllianceLine(blueData, redCubes, blueColors, 'Blue Switch Scoring', 2);
-            graphAllianceLine(redData, redCubes, redColors, 'Red Vault Scoring', 3);
-            graphAllianceLine(blueData, redCubes, blueColors, 'Blue Vault Scoring', 3);
-            graphAllianceLine(redData, redCubes, redColors, 'Red Opp Scoring', 0);
-            graphAllianceLine(blueData, redCubes, blueColors, 'Blue Opp Scoring', 0);
-
-            displayTopData(redData, document.getElementById('redtop'), redColors);
-            displayTopData(blueData, document.getElementById('bluetop'), blueColors);
+            $('#matchview').show();
+            graphData(redData, blueData);
+            $('#progress').hide();
         });
     }
+}
+
+function graphData(redData, blueData) {
+    var redColors = ['#f44336', '#9C27B0', '#ef9a9a'];
+    var blueColors = ['#3F51B5', '#00BCD4', '#2196F3'];
+
+    graphAllianceBox(redData, blueCubes, redColors, 'Red Scale Scoring', 1);
+    graphAllianceBox(blueData, blueCubes, blueColors, 'Blue Scale Scoring', 1);
+    graphAllianceBox(redData, blueCubes, redColors, 'Red Switch Scoring', 2);
+    graphAllianceBox(blueData, blueCubes, blueColors, 'Blue Switch Scoring', 2);
+    graphAllianceBox(redData, blueCubes, redColors, 'Red Vault Scoring', 3);
+    graphAllianceBox(blueData, blueCubes, blueColors, 'Blue Vault Scoring', 3);
+    graphAllianceBox(redData, blueCubes, redColors, 'Red Opp Scoring', 0);
+    graphAllianceBox(blueData, blueCubes, blueColors, 'Blue Opp Scoring', 0);
+
+    graphAllianceLine(redData, redCubes, redColors, 'Red Scale Scoring', 1);
+    graphAllianceLine(blueData, redCubes, blueColors, 'Red Scale Scoring', 1);
+    graphAllianceLine(redData, redCubes, redColors, 'Red Switch Scoring', 2);
+    graphAllianceLine(blueData, redCubes, blueColors, 'Blue Switch Scoring', 2);
+    graphAllianceLine(redData, redCubes, redColors, 'Red Vault Scoring', 3);
+    graphAllianceLine(blueData, redCubes, blueColors, 'Blue Vault Scoring', 3);
+    graphAllianceLine(redData, redCubes, redColors, 'Red Opp Scoring', 0);
+    graphAllianceLine(blueData, redCubes, blueColors, 'Blue Opp Scoring', 0);
+
+    displayTopData(redData, document.getElementById('topview'), redColors);
+    displayTopData(blueData, document.getElementById('topview'), blueColors);
+
+    progress = 0;
+    $('#progressbar').attr('aria-valuenow', progress).css('width', progress + '%');
 }
 
 function newElement(parent) {
@@ -281,6 +298,12 @@ function clearUI(){
     $(blueCubes).empty();
     $(redCubes).empty();
     $(topview).empty();
+
+    $('#progress').hide();
+    $('#matchview').hide();
+    $('#progressbar').attr('class', 'progress-bar progress-bar-striped progress-bar-animated');
+    progress = 0;
+    $('#progressbar').attr('aria-valuenow', progress).css('width', progress + '%');
 }
 
 document.addEventListener('DOMContentLoaded', function(event) {
@@ -294,10 +317,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
   document.getElementById('searchBtn').addEventListener('click', searchMatch);
 
-  $('#compID div a').on('click', function(){
-    //$('#datebox').val($(this).text());
-    alert($(this).text());
-    $(this).active = true;
 });
 
-});
+$('#progress').hide();
+$('#matchview').hide();
