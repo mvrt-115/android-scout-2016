@@ -1,3 +1,10 @@
+function b64DecodeUnicode(str) {
+    // Going backwards: from bytestream, to percent-encoding, to original string.
+    return decodeURIComponent(atob(str).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+}
+
 document.addEventListener('DOMContentLoaded', function(event) {
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
@@ -14,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
               }
           }).catch((error) => {
               console.log('logged out');
+              console.log(error);
               window.location.replace('login.html');
           });
 
