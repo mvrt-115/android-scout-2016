@@ -142,9 +142,7 @@ function getScoutData(snapshot){
     var P = data['P'];
 
     return [ team, tournament, match, alliance,
-      // A.Amb,
-      '?',
-      A.Asc, A.Asw, A.Ascu,
+      A.Amb, A.Asc, A.Asw, A.Ascu,
       A.Asce, A.Asl, A.Asr,
 
       T.Tos, T.Tsw, T.Tsc, T.Tsv,
