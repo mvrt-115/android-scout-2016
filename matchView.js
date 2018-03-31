@@ -73,7 +73,10 @@ function displayTopData(data, parent, colors) {
         { x: [0, 1], y: [0, 0.33] },
         { x: [0, 1], y: [.34, .66] },
         { x: [0, 1], y: [.67, 1] }
-    ]
+    ];
+
+    var mobilityLabels = ['Yes', 'No'];
+    var mobilityData = [];
 
     for(let key in data) {
         var teamData = data[key];
@@ -88,15 +91,29 @@ function displayTopData(data, parent, colors) {
             colors: [colors[0], '#F5F5F5', '#9E9E9E']
           },
           domain: domains[key],
-      });
+        });
+
+        mobilityData.push({
+          values: [teamData[13].count(true), teamData[13].count(false)],
+          labels: mobilityLabels,
+          type: 'pie',
+          name: 'Team ' + teamData[9],
+          hoverinfo: 'none',
+          marker: {
+            colors: [colors[0], '#F5F5F5']
+          },
+          domain: domains[key],
+        });
     }
 
-    var layout = {
-        title: 'Climbing'
-    };
+    var layout = { title: 'Climbing' };
+    var mlayout = { title: 'Mobility' };
 
     var element = newElement(parent);
     Plotly.newPlot(element, allData, layout, {displayModeBar: false, staticPlot: true});
+
+    var element = newElement(parent);
+    Plotly.newPlot(element, mobilityData, mlayout, {displayModeBar: false, staticPlot: true});
 
 }
 
@@ -221,7 +238,7 @@ function graphData(redData, blueData) {
     graphAllianceBox(blueData, blueCubes, blueColors, 'Blue Opp Scoring', 0);
 
     graphAllianceLine(redData, redCubes, redColors, 'Red Scale Scoring', 1);
-    graphAllianceLine(blueData, redCubes, blueColors, 'Red Scale Scoring', 1);
+    graphAllianceLine(blueData, redCubes, blueColors, 'Blue Scale Scoring', 1);
     graphAllianceLine(redData, redCubes, redColors, 'Red Switch Scoring', 2);
     graphAllianceLine(blueData, redCubes, blueColors, 'Blue Switch Scoring', 2);
     graphAllianceLine(redData, redCubes, redColors, 'Red Vault Scoring', 3);
@@ -256,6 +273,7 @@ function getData(team, callback){
   var start = [];
   var autonSwitch = [];
   var autonScale = [];
+  var mobility = [];
 
   ref.child('matches').orderByChild('team').equalTo(team).once('value', function(snapshot){
       var data = snapshot.val();
@@ -286,13 +304,14 @@ function getData(team, callback){
             else if(entry.A.Asr)start.push('r');
             autonScale.push(entry.A.Asc);
             autonSwitch.push(entry.A.Asw);
+            mobility.push(entry.A.Amb);
         }
         if(entry['super']) superComments.push(entry['super']);
         if(entry['P'] && entry['P']['cmnt']) superComments.push(entry['P']['cmnt']);
         matches.push(entry['match']);
         alliances.push(entry['alliance']);
       }
-      callback([oppCubesPlaced, scaleCubesPlaced, switchCubesPlaced, vaultCubesPlaced, climbResults, parkResults, superComments, matches, alliances, team, start, autonScale, autonSwitch]);
+      callback([oppCubesPlaced, scaleCubesPlaced, switchCubesPlaced, vaultCubesPlaced, climbResults, parkResults, superComments, matches, alliances, team, start, autonScale, autonSwitch, mobility]);
   });
 }
 
