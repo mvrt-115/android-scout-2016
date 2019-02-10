@@ -25,6 +25,7 @@
     };
     firebase.initializeApp(config);
   </script>
+  <script src="matchView.js"></script>
 
   <div class="jumbotron">
     <div class="container">
@@ -38,34 +39,33 @@
           <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
           <li class="nav-item"><a class="nav-link" href="dataTable.html">Data Entries</a></li>
           <li class="nav-item"><a class="nav-link" href="teamInfo.html">Team Info</a></li>
-          <li class="nav-item"><a class="nav-link" href="matchView.html">Match Preview</a></li>
-          <li class="nav-item"><a class="nav-link active" href="uploadImage.html">Robot Image Upload</a></li>
+          <li class="nav-item"><a class="nav-link active" href="matchView.html">Match Preview</a></li>
+          <li class="nav-item"><a class="nav-link" href="uploadImage.html">Robot Image Upload</a></li>
       </ul>
 
-
     <div class="card card-default">
       <div class="card-body">
 
-        <h2>Image Upload</h2>
+        <h2>Match Preview</h2>
 
-        <div class="form-group">
-            <label for="teamNumber">Team Number</label>
-            <input type="number" class="form-control" id="teamNumber" placeholder="Team Number">
+
+        <div class="input-group">
+          <input id="searchTourn" width="200px" type="text" class="form-control" placeholder="Tourn ID (2018utwv)" value="2018utwv">
+          <input id="searchMatch" type="text" class="form-control" placeholder="Match ID (qm1)">
+          <span class="input-group-btn">
+            <button class="btn btn-default" id="searchBtn" type="button">Search</button>
+          </span>
         </div>
 
-        <label id="dragFile" class="btn btn-lg btn-warning">Upload
-            <input type="file" style="display:none;" accept="image/*" onchange="handleFiles(this.files)">
-        </label>
+        </br>
 
-      </div>
-    </div>
+        <h3>Blue: </h3>
+        <div class="row" id="bluecubegraphs">
+        </div>
 
-    <div class="card card-default">
-      <div class="card-body">
-
-          <h3>Uploaded Teams: </h3>
-          <ul class="list-group" id="uploadedList">
-          </ul>
+        <h3>Red: </h3>
+        <div class="row" id="redcubegraphs">
+        </div>
 
       </div>
     </div>
@@ -73,8 +73,9 @@
   </div>
 
   <script src="jquery-3.3.1.min.js"></script>
+  <script src="bootstrap/js/popper.min.js"></script>
   <script src="bootstrap/js/bootstrap.min.js"></script>
-  <script src="uploadImage.js"></script>
+  <script src="plotly-latest.min.js"></script>
   <script src="auth.js"></script>
 </body>
 </html>

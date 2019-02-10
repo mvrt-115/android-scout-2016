@@ -13,7 +13,9 @@
 </head>
 <body>
 
-  <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase.js"></script>
+  <script src="firebase.js"></script>
+  <script src="https://cdn.firebase.com/libs/firebaseui/2.7.0/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.7.0/firebaseui.css" />
   <script>
     // Initialize Firebase
     var config = {
@@ -23,6 +25,7 @@
       storageBucket: "mvrt-scout.appspot.com",
       messagingSenderId: "467897465307"
     };
+
     firebase.initializeApp(config);
   </script>
 
@@ -38,23 +41,18 @@
         </div>
 
         <div class="inner cover">
-          <img src="bullhead.png" style="padding: 30px" width="300" class="img-fluid" alt="Responsive image">
+          <img src="bullhead.png" style="padding: 30px" width="220" class="img-fluid" alt="Responsive image">
         </div>
 
-        <form class="form-inline">
-          <div class="form-group">
-            <label class="sr-only" for="email">Email address</label>
-            <input type="email" class="form-control" id="email" placeholder="Email">
-          </div>
-          <div class="form-group">
-            <label class="sr-only" for="pass">Password</label>
-            <input type="password" class="form-control" id="pass" placeholder="Password">
-          </div>
-          <button class="btn btn-default" id="signIn" type="button">Sign In</button>
-        </form>
+        <div id="firebaseui-auth-container"></div>
+        <div id="loader">Loading...</div>
+        <div id="sign_out">
+            <p>Your account has not been verified yet - contact an admin, or use a different account!</p>
+            <a id="signoutlink" class="btn btn-secondary">sign out</a>
+        </div>
 
         <div class="mastfoot">
-          <div class="inner">
+          <div class="inner foot">
             <p>Written for <a href="http://www.mvrt.com">MVRT</a></p>
           </div>
         </div>
@@ -65,7 +63,7 @@
   </div>
 
   <script src="login.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="jquery-3.3.1.min.js"></script>
   <script src="bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>

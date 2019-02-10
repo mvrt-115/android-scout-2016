@@ -25,7 +25,6 @@
     };
     firebase.initializeApp(config);
   </script>
-  <script src="teamInfo.js"></script>
 
   <div class="jumbotron">
     <div class="container">
@@ -35,21 +34,23 @@
 
   <div class="container">
 
-
       <ul class="nav nav-pills">
           <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
           <li class="nav-item"><a class="nav-link" href="dataTable.html">Data Entries</a></li>
-          <li class="nav-item"><a class="nav-link active" href="teamInfo.html">Team Info</a></li>
-          <li class="nav-item"><a class="nav-link" href="matchView.html">Match Preview</a></li>
+          <li class="nav-item"><a class="nav-link" href="teamInfo.html">Team Info</a></li>
+          <li class="nav-item"><a class="nav-link active" href="matchView.html">Match Preview</a></li>
           <li class="nav-item"><a class="nav-link" href="uploadImage.html">Robot Image Upload</a></li>
       </ul>
 
     <div class="card card-default">
       <div class="card-body">
 
-        <h2>Team Info</h2>
-        <div class="input-group input-group-lg">
-          <input id="searchTeam" type="number" class="form-control" placeholder="Team Number (115)">
+        <h2>Match Preview</h2>
+        <p><i>You can also enter six team numbers instead of a match ID</i></p>
+
+        <div class="input-group">
+          <input id="searchTourn" width="200px" type="text" class="form-control" placeholder="Tourn ID (2018idbo)" value="2018idbo">
+          <input id="searchMatch" type="text" class="form-control" placeholder="Match ID (qm1)">
           <span class="input-group-btn">
             <button class="btn btn-default" id="searchBtn" type="button">Search</button>
           </span>
@@ -57,23 +58,22 @@
 
         </br>
 
-        <div class="row" id="images">
-            <!--<div class="col-xs-6 col-md-3"></div> -->
+        <div id="progress" class="progress">
+          <div id="progressbar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
         </div>
 
-        <div class="row" id="teamgraphs">
-            <!-- <div id="cubeline" class="col-xs-3 col-md-6" hidden=true></div> -->
+        <div id="matchview">
+            <h5>Teams: <span id="redteams" style="color: #e53935">Red</span> vs
+                <span id="blueteams" style="color: #3949AB">Blue</span></h5>
+
+            <div class="row" id="topview"></div>
+
+            <h3>Box: </h3>
+            <div class="row" id="bluecubegraphs"></div>
+
+            <h3>Scatter: </h3>
+            <div class="row" id="redcubegraphs"></div>
         </div>
-
-        <h3>Climbs: </h3>
-        <h4 id="climbList"></h4>
-
-        <h3>Parking: </h3>
-        <h4 id="parkingList"></h4>
-
-        <h3>Comments: </h3>
-        <ul class="list-group" id="commentsList">
-        </ul>
 
       </div>
     </div>
@@ -81,8 +81,10 @@
   </div>
 
   <script src="jquery-3.3.1.min.js"></script>
+  <script src="bootstrap/js/popper.min.js"></script>
   <script src="bootstrap/js/bootstrap.min.js"></script>
   <script src="plotly-latest.min.js"></script>
   <script src="auth.js"></script>
+  <script src="matchView.js"></script>
 </body>
 </html>

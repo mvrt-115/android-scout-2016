@@ -1,31 +1,47 @@
 var database = firebase.database();
 var ref = database.ref();
 
-var imageTable, oppSwitcPlacedList, scalePlacedList, switchPlacedList, vaultPlacedList, climbList, parkedList, commentsList;
+var tournId, matchId, blueCubes, redCubes;
 
-function searchTeams(){
-  var number = document.getElementById('searchTeam').value;
-  console.log('search team ' + number);
+function searchMatch(){
+    var tournKey = tournId.value + "_" + matchId.value;
+    console.log("Searching for match: " + tournKey);
 
-  clearUI();
+    $.getJSON("https://www.thebluealliance.com/api/v3/match/" + tournKey + "/simple",
+        {
+            'X-TBA-Auth-Key': "yfXvcTqeqUJUpzvvMxRaAZPAM3uSfg8oc4dICKAObiMUMUFwvGDLn8WPD7nWQjIk"
+        }, function(data) {
+            showMatchData(data);
+    });
+}
 
-  if(!number){
-    alert('Please enter a team number!');
-    return;
-  }
+function showMatchData(data) {
+    clearUI();
 
-  ref.child('teams/' + number).on('child_added', function(snapshot){
-    console.log(snapshot.val());
-    imageTable.append(newImageElement(snapshot.val()));
-  });
+    redTeams = data.alliances.red.team_keys.map(function(key) { return parseInt(key.replace( /^\D+/g, '')) });
+    blueTeams = data.alliances.blue.team_keys.map(function(key) { return parseInt(key.replace( /^\D+/g, '')) });
+    console.log("Red teams: " + redTeams);
+    console.log("Blue teams: " + blueTeams);
 
-  var e1 = newElement(number);
-  var e2 = newElement(number);
-  var parent = document.getElementById('teamgraphs');
-  parent.appendChild(e1);
-  parent.appendChild(e2);
-  getData(parseInt(number), showTeamData, e1, e2);
+    for(var i=0;i<3;i++) {
+        var e1 = newElement(redTeams[i])
+        var e2 = newElement(redTeams[i])
+        redCubes.appendChild(e1);
+        redCubes.appendChild(e2);
+        getData(redTeams[i], e1, e2, showTeamData);
+        e1 = newElement(blueTeams[i])
+        e2 = newElement(blueTeams[i])
+        blueCubes.appendChild(e1);
+        blueCubes.appendChild(e2);
+        getData(blueTeams[i], e1, e2, showTeamData);
+    }
 
+}
+
+function newElement(data) {
+    var element = document.createElement('div');
+    element.classList = 'col-xs-3 col-md-6 teamElement';
+    return element;
 }
 
 function showTeamData(element, element2, data) {
@@ -160,7 +176,7 @@ function showTeamData(element, element2, data) {
     Plotly.newPlot(element2, [oppTrace, scaleTrace, switchTrace, vaultTrace], layout, {displayModeBar: false, staticPlot: true});
 }
 
-function getData(team, callback, e1, e2){
+function getData(team, boxElement, lineElement, callback){
   var oppCubesPlaced = [];
   var scaleCubesPlaced = [];
   var switchCubesPlaced = [];
@@ -173,17 +189,13 @@ function getData(team, callback, e1, e2){
 
   ref.child('matches').orderByChild('team').equalTo(team).once('value', function(snapshot){
       var data = snapshot.val();
-      console.log(data);
 
       arrayOfSortedObjects = Object.keys(data).sort(function(a,b) {
           return data[a].match - (data[b].match);
       });
 
-      console.log(arrayOfSortedObjects);
-
       for(index in arrayOfSortedObjects) {
         key = arrayOfSortedObjects[index];
-        console.log(key);
         var entry = data[key];
         if(entry['T']) {
 
@@ -199,46 +211,19 @@ function getData(team, callback, e1, e2){
         matches.push(entry['match']);
         alliances.push(entry['alliance']);
       }
-
-      callback(e1, e2, [oppCubesPlaced, scaleCubesPlaced, switchCubesPlaced, vaultCubesPlaced, climbResults, parkResults, superComments, matches, alliances, team]);
+      callback(boxElement, lineElement, [oppCubesPlaced, scaleCubesPlaced, switchCubesPlaced, vaultCubesPlaced, climbResults, parkResults, superComments, matches, alliances, team]);
   });
 }
 
-function newElement(data) {
-    var element = document.createElement('div');
-    element.classList = 'col-xs-3 col-md-6 teamElement';
-    return element;
-}
-
 function clearUI(){
-  imageTable.innerHTML = null;
-  climbList.innerHTML = null;
-  commentsList.innerHTML = null;
+    $(blueCubes).empty();
+    $(redCubes).empty();
 }
 
-function newImageElement(imageURL){
-  var element = document.createElement('div');
-  element.classList = 'col-xs-6 col-md-3';
-  var a = document.createElement('a');
-  a.href = imageURL;
-  a.classList = 'thumbnail';
-  var img = document.createElement('img');
-  img.width = 400;
-  img.height = 400;
-  img.src = imageURL;
-  a.append(img);
-  element.append(a);
-  return element;
-}
-
-function newCommentElement(comment){
-  var element = document.createElement('li');
-  element.classList = 'list-group-item';
-  element.innerText = comment;
-  return element;
-}
 
 document.addEventListener('DOMContentLoaded', function(event) {
+    clearUI();
+
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
       console.log('logged in');
@@ -248,14 +233,17 @@ document.addEventListener('DOMContentLoaded', function(event) {
     }
   });
 
-  imageTable = document.getElementById('images');
-  oppSwitchPlacedList = document.getElementById('oppSwitchPlacedList');
-  scalePlacedList = document.getElementById('scalePlacedList');
-  switchPlacedList = document.getElementById('switchPlacedList');
-  vaultPlacedList = document.getElementById('vaultPlacedList');
-  climbList = document.getElementById('climbList');
-  parkedList = document.getElementById('parkingList');
-  commentsList = document.getElementById('commentsList');
-  document.getElementById('searchBtn').addEventListener('click', searchTeams);
+  tournId = document.getElementById("searchTourn");
+  matchId = document.getElementById("searchMatch");
+  blueCubes = document.getElementById("bluecubegraphs");
+  redCubes = document.getElementById("redcubegraphs");
+
+  document.getElementById('searchBtn').addEventListener('click', searchMatch);
+
+  $('#compID div a').on('click', function(){
+    //$('#datebox').val($(this).text());
+    alert($(this).text());
+    $(this).active = true;
+})
 
 });

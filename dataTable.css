@@ -9,3 +9,17 @@
 body {
   background: #EEEEEE;
 }
+
+.teamElement {
+    height: 600px;
+}
+
+/*MEDIA QUERY*/
+@media only screen and (max-width : 640px) {
+
+    .container {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+}
