@@ -149,7 +149,7 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
             obj.put(Constants.JSON_AUTON_STARTCENTER, startCenter.isChecked());
             obj.put(Constants.JSON_AUTON_STARTRIGHT, startRight.isChecked());
             obj.put(Constants.JSON_AUTON_STARTCUBE, startWithCube.isChecked());
-            obj.put(Constants.JSON_AUTON_MOBILITY, mobility);
+            obj.put(Constants.JSON_AUTON_MOBILITY, autoMobility);
         }catch(Exception e){
             e.printStackTrace();
         }

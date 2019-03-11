@@ -40,6 +40,15 @@
                 android:singleLine="true"/>
         </android.support.design.widget.TextInputLayout>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:theme="@style/MVRTButtonStyle"
+            android:id="@+id/load_teams"
+            android:elevation="4dp"
+            android:text="Load Teams"/>
+
         <android.support.design.widget.TextInputLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

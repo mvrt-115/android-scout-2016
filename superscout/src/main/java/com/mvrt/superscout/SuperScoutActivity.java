@@ -131,13 +131,15 @@ public class SuperScoutActivity extends AppCompatActivity implements ChildEventL
             getIntent().setAction(Intent.ACTION_DEFAULT);
             addNFCMatchData(getIntent());
         }
-        nfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFilters, null);
+        if(nfcAdapter != null)
+            nfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFilters, null);
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        nfcAdapter.disableForegroundDispatch(this);
+        if(nfcAdapter != null)
+          nfcAdapter.disableForegroundDispatch(this);
         super.onPause();
     }
 

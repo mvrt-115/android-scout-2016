@@ -20,7 +20,7 @@ public class Constants {
     public static final int REQUEST_QR_SCAN = 10;
 
     public static final String FBCONFIG_TOURN_KEY = "TOURNAMENT_KEY";
-    public static final String TOURNAMENT_KEY = "UTVW";
+    public static final String TOURNAMENT_KEY = "IDBO";
 
     public static final String PREFS_SCOUTID_KEY = "com.mvrt.scout.prefs.SCOUTID";
     public static final String PREFS_ALLIANCE_KEY = "com.mvrt.scout.prefs.ALLIANCE";
@@ -70,7 +70,7 @@ public class Constants {
     public static final String JSON_AUTON_MOBILITY = "Amb";
     public static final String JSON_AUTON_STARTCUBE = "Ascu";
     public static final String JSON_AUTON_STARTLEFT = "Asl";
-    public static final String JSON_AUTON_STARTCENTER = "Asc";
+    public static final String JSON_AUTON_STARTCENTER = "Asce";
     public static final String JSON_AUTON_STARTRIGHT = "Asr";
 
 }
