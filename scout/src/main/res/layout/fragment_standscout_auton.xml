@@ -24,17 +24,109 @@
                 android:layout_weight="1" />
 
 
-            <LinearLayout
+            <RadioGroup
+                android:id="@+id/starting_config"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <CheckBox
+                <RadioButton
+                    android:id="@+id/radio_hatch"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="Has Cube"
-                    android:id="@+id/ch_auton_cube"/>
+                    android:text="Has Hatch" />
+
+                <RadioButton
+                    android:id="@+id/radio_cargo"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Has Cargo" />
+                <RadioButton
+                    android:id="@+id/radio_no_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="None" />
+
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="15sp"
+                android:text="Starting Level"
+                android:layout_weight="1" />
+
+            <RadioGroup
+                android:id="@+id/starting_level"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_level1"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Level 1" />
+
+                <RadioButton
+                    android:id="@+id/radio_level2"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:text="Level 2" />
+
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="15sp"
+                android:text="Crossing"
+                android:layout_weight="1" />
+
+            <Button
+                android:id = "@+id/bt_sandstorm_hab_cross"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="25dp"
+                android:text="Crosses HAB Line"
+                android:layout_margin="5dp"
+                android:theme="@style/MVRTButtonStyle" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="15sp"
+                android:text="Rocket"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Cargo"
+                    android:textSize="13sp" />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Hatch"
+                    android:textSize="13dp"
+                    android:gravity="left" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -42,35 +134,103 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <RadioGroup
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    >
+                <Button android:id="@+id/bt_sandstorm_rocket_cargo_level1"
+                    android:layout_height = "wrap_content"
+                    android:layout_width = "0dp"
+                    android:layout_weight = "2"
+                    android:text = "Level 1 (0)"
+                    android:theme="@style/MVRTButtonStyle" />
 
-                    <RadioButton
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="Starts Left"
-                        android:id="@+id/rb_auton_left"/>
+                <Button android:id="@+id/bt_sandstorm_rocket_cargo_level1_minus"
+                    android:layout_height = "wrap_content"
+                    android:layout_width = "0dp"
+                    android:layout_weight = "1"
+                    android:text = "-1"
+                    android:theme="@style/MVRTButtonStyle" />
 
-                    <RadioButton
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="Starts Center"
-                        android:id="@+id/rb_auton_center"/>
+                <Button android:id="@+id/bt_sandstorm_rocket_hatch_level1"
+                    android:layout_height = "wrap_content"
+                    android:layout_width = "0dp"
+                    android:layout_weight = "2"
+                    android:text = "Level 1 (0)"
+                    android:theme="@style/MVRTButtonStyle" />
 
-                    <RadioButton
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="Starts Right"
-                        android:id="@+id/rb_auton_right"/>
-                </RadioGroup>
+                <Button android:id="@+id/bt_sandstorm_rocket_hatch_level1_minus"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="-1"
+                    android:theme="@style/MVRTButtonStyle" />
 
+            </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button android:id="@+id/bt_sandstorm_rocket_cargo_level2"
+                    android:layout_height = "wrap_content"
+                    android:layout_width = "0dp"
+                    android:layout_weight = "2"
+                    android:text = "Level 2 (0)"
+                    android:theme="@style/MVRTButtonStyle" />
+
+                <Button android:id="@+id/bt_sandstorm_rocket_cargo_level2_minus"
+                    android:layout_height = "wrap_content"
+                    android:layout_width = "0dp"
+                    android:layout_weight = "1"
+                    android:text = "-1"
+                    android:theme="@style/MVRTButtonStyle" />
+
+                <Button android:id="@+id/bt_sandstorm_rocket_hatch_level2"
+                    android:layout_height = "wrap_content"
+                    android:layout_width = "0dp"
+                    android:layout_weight = "2"
+                    android:text = "Level 2 (0)"
+                    android:theme="@style/MVRTButtonStyle" />
+
+                <Button android:id="@+id/bt_sandstorm_rocket_hatch_level2_minus"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="-1"
+                    android:theme="@style/MVRTButtonStyle" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button android:id="@+id/bt_sandstorm_rocket_cargo_level3"
+                    android:layout_height = "wrap_content"
+                    android:layout_width = "0dp"
+                    android:layout_weight = "2"
+                    android:text = "Level 3 (0)"
+                    android:theme="@style/MVRTButtonStyle" />
+
+                <Button android:id="@+id/bt_sandstorm_rocket_cargo_level3_minus"
+                    android:layout_height = "wrap_content"
+                    android:layout_width = "0dp"
+                    android:layout_weight = "1"
+                    android:text = "-1"
+                    android:theme="@style/MVRTButtonStyle" />
+
+                <Button android:id="@+id/bt_sandstorm_rocket_hatch_level3"
+                    android:layout_height = "wrap_content"
+                    android:layout_width = "0dp"
+                    android:layout_weight = "2"
+                    android:text = "Level 3 (0)"
+                    android:theme="@style/MVRTButtonStyle" />
+
+                <Button android:id="@+id/bt_sandstorm_rocket_hatch_level3_minus"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="-1"
+                    android:theme="@style/MVRTButtonStyle" />
 
             </LinearLayout>
 
@@ -79,48 +239,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textSize="15sp"
-                android:text="Auto Crossing"
+                android:text="Cargo Ship"
                 android:layout_weight="1" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal" >
 
-                <Button android:id="@+id/bt_auton_mobility"
+                <Button android:id="@+id/bt_sandstorm_cargoship_cargo"
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:padding="25dp"
-                    android:text="Mobility (Crosses Autoline)"
+                    android:text="Placed Cargo (0)"
                     android:layout_margin="5dp"
                     android:theme="@style/MVRTButtonStyle"/>
 
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="15sp"
-                android:text="Switch"
-                android:layout_weight="1" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button android:id="@+id/bt_auton_switch"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:padding="25dp"
-                    android:text="Placed Cube"
-                    android:layout_margin="5dp"
-                    android:theme="@style/MVRTButtonStyle"/>
-
-                <Button android:id="@+id/bt_auton_switch_minus"
+                <Button android:id="@+id/bt_sandstorm_cargoship_cargo_minus"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:padding="25dp"
@@ -130,29 +266,22 @@
 
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="15sp"
-                android:text="Scale"
-                android:layout_weight="1" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal" >
 
-                <Button android:id="@+id/bt_auton_scale"
+                <Button android:id="@+id/bt_sandstorm_cargoship_hatch"
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:padding="25dp"
-                    android:text="Placed Cube"
+                    android:text="Placed Hatch (0)"
                     android:layout_margin="5dp"
                     android:theme="@style/MVRTButtonStyle"/>
 
-                <Button android:id="@+id/bt_auton_scale_minus"
+                <Button android:id="@+id/bt_sandstorm_cargoship_hatch_minus"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:padding="25dp"
@@ -162,11 +291,11 @@
 
             </LinearLayout>
 
-            <Button android:id="@+id/bt_auton_finish"
+            <Button android:id="@+id/bt_sandstorm_finish"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:padding="25dp"
-                android:text="Finish Auton"
+                android:text="Finish Sandstorm"
                 android:layout_margin="10dp"
                 android:theme="@style/MVRTButtonStyle"/>
 

@@ -21,7 +21,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_margin="5dp"
         android:textSize="10pt"
         android:id="@+id/matchinfo_matchkey"
-        android:text="Q54 @ CASJ"/>
+        android:text="Q54 @ CASF"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -37,21 +37,14 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/matchinfo_key"
         android:text="q123@SAMP:b[115,254,1678]"/>
 
-    <LinearLayout
+    <Button
+        android:id="@+id/start_match"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button android:id="@+id/bt_info_start"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:padding="25dp"
-            android:text="Start Match"
-            android:layout_margin="115dp"
-            android:theme="@style/MVRTButtonStyle"/>
-    </LinearLayout>
+        android:layout_centerHorizontal="true"
+        android:padding = "25dp"
+        android:text="Start Match"
+        android:layout_margin="10dp"
+        android:theme="@style/MVRTButtonStyle" />
 
 </LinearLayout>
-
-

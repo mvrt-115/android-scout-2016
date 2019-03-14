@@ -39,6 +39,7 @@ public class SuperDataFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 startQR();
+
             }
         });
         finishButton.setOnClickListener(new View.OnClickListener() {

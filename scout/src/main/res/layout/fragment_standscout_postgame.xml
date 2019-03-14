@@ -38,10 +38,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:textSize="17sp"
-                    android:text="Speed"
+                    android:text="Cargo Placement Accuracy"
                     android:layout_weight="1" />
 
-                <RatingBar android:id="@+id/postgame_speed"
+                <RatingBar android:id="@+id/postgame_cargoaccuracy"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:numStars="5"
@@ -60,10 +60,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:textSize="17sp"
-                    android:text="Cube Placement Accuracy"
+                    android:text="Hatch Placement Accuracy"
                     android:layout_weight="1" />
 
-                <RatingBar android:id="@+id/postgame_cubeaccuracy"
+                <RatingBar android:id="@+id/postgame_hatchaccuracy"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:numStars="5"
@@ -82,10 +82,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:textSize="17sp"
-                    android:text="Cube Cycle Time"
+                    android:text="Cycle Time"
                     android:layout_weight="1" />
 
-                <RatingBar android:id="@+id/postgame_cubecycletime"
+                <RatingBar android:id="@+id/postgame_cycletime"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:numStars="5"
@@ -93,7 +93,6 @@
                     android:layout_weight="1" />
 
             </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -153,8 +152,8 @@
                 android:layout_width="fill_parent"
                 android:layout_margin="10dp"
                 android:layout_height="wrap_content"
-                android:text="Anything else we should know (what powerups were used, did they help other robots climb, etc)?"
-                android:textSize="14sp"
+                android:text="Anything else we should know?"
+                android:textSize="18sp"
                 android:gravity="center"/>
 
             <EditText android:id="@+id/postgame_comments"

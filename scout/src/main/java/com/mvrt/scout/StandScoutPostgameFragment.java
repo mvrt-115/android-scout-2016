@@ -1,6 +1,7 @@
 package com.mvrt.scout;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +20,9 @@ import org.json.JSONObject;
  */
 public class StandScoutPostgameFragment extends DataCollectionFragment {
 
-    RatingBar speed;
-    RatingBar cubeAccuracy;
-    RatingBar cubeCycleTime;
+    RatingBar cargoAccuracy;
+    RatingBar hatchAccuracy;
+    RatingBar cycleTime;
     RatingBar driverRating;
     RatingBar defenseRating;
     CheckBox disabled;
@@ -37,9 +38,9 @@ public class StandScoutPostgameFragment extends DataCollectionFragment {
 
     @Override
     public void onViewCreated(View v, Bundle savedInstanceState) {
-        speed = (RatingBar)v.findViewById(R.id.postgame_speed);
-        cubeAccuracy = (RatingBar)v.findViewById(R.id.postgame_cubeaccuracy);
-        cubeCycleTime = (RatingBar)v.findViewById(R.id.postgame_cubecycletime);
+        cargoAccuracy = (RatingBar)v.findViewById(R.id.postgame_cargoaccuracy);
+        hatchAccuracy = (RatingBar)v.findViewById(R.id.postgame_hatchaccuracy);
+        cycleTime = (RatingBar)v.findViewById(R.id.postgame_cycletime);
         driverRating = (RatingBar)v.findViewById(R.id.postgame_driving);
         defenseRating = (RatingBar)v.findViewById(R.id.postgame_defense);
         interfere = (CheckBox)v.findViewById(R.id.postgame_interfere);
@@ -61,8 +62,8 @@ public class StandScoutPostgameFragment extends DataCollectionFragment {
 
     @Override
     public boolean validate() {
-        if (speed.getRating() == 0) { return false; }
-        else if (cubeAccuracy.getRating() == 0) { return false; }
+        if (cargoAccuracy.getRating() == 0) { return false; }
+        else if (hatchAccuracy.getRating() == 0) { return false; }
         else if (driverRating.getRating() == 0) { return false; }
         else if (defenseRating.getRating() == 0) { return false; }
         else { return true; }
@@ -72,11 +73,13 @@ public class StandScoutPostgameFragment extends DataCollectionFragment {
     public JSONObject getData(){
         JSONObject o = new JSONObject();
         try{
-            o.put(Constants.JSON_POSTGAME_SPEED, speed.getRating());
-            o.put(Constants.JSON_POSTGAME_CUBEACCURACY, cubeAccuracy.getRating());
-            o.put(Constants.JSON_POSTGAME_CUBECYCLETIME, cubeCycleTime.getRating());
+            o.put(Constants.JSON_POSTGAME_CARGOACCURACY, cargoAccuracy.getRating());
+            o.put(Constants.JSON_POSTGAME_HATCHACCURACY, hatchAccuracy.getRating());
+            o.put(Constants.JSON_POSTGAME_CYCLETIME, cycleTime.getRating());
             o.put(Constants.JSON_POSTGAME_DRIVING, driverRating.getRating());
             o.put(Constants.JSON_POSTGAME_DEFENSE, defenseRating.getRating());
+            //o.put(Constants.JSON_POSTGAME_PILOT, pilotRating.getRating());
+            //o.put(Constants.JSON_POSTGAME_ROTORS, spinningRotors.getRating());
             o.put(Constants.JSON_POSTGAME_DISABLED, disabled.isChecked());
             o.put(Constants.JSON_POSTGAME_INTERFERES, interfere.isChecked());
             o.put(Constants.JSON_POSTGAME_COMMENTS, comments.getText().toString());

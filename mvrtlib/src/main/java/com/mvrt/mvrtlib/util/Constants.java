@@ -13,14 +13,13 @@ public class Constants {
     public static final String INTENT_EXTRA_MATCHINFO = "com.mvrt.scout.intent.MATCHINFO";
     public static final String INTENT_EXTRA_FILENAME = "com.mvrt.scout.intent.FILENAME";
     public static final String INTENT_EXTRA_SCOUTID = "com.mvrt.scout.intent.SCOUTID";
-    public static final String INTENT_EXTRA_BUTTONID = "com.mvrt.scout.intent.BUTTONID";
 
     public static final String INTENT_ACTION_SCOUT = "com.mvrt.scout.intent.SCOUT";
 
     public static final int REQUEST_QR_SCAN = 10;
 
     public static final String FBCONFIG_TOURN_KEY = "TOURNAMENT_KEY";
-    public static final String TOURNAMENT_KEY = "IDBO";
+    public static final String TOURNAMENT_KEY = "CASF";
 
     public static final String PREFS_SCOUTID_KEY = "com.mvrt.scout.prefs.SCOUTID";
     public static final String PREFS_ALLIANCE_KEY = "com.mvrt.scout.prefs.ALLIANCE";
@@ -40,37 +39,73 @@ public class Constants {
 
     public static final String JSON_POSTGAME_DISABLED = "dsbld";
     public static final String JSON_POSTGAME_INTERFERES = "intr";
-    public static final String JSON_POSTGAME_SPEED = "Rs";
-    public static final String JSON_POSTGAME_CUBEACCURACY = "Rca";
-    public static final String JSON_POSTGAME_CUBECYCLETIME = "Rct";
+    public static final String JSON_POSTGAME_CARGOACCURACY = "Rha";
+    public static final String JSON_POSTGAME_HATCHACCURACY = "Rga";
+    public static final String JSON_POSTGAME_CYCLETIME = "Rgt";
+    public static final String JSON_POSTGAME_PILOT = "Rp";
     public static final String JSON_POSTGAME_DRIVING = "Rdr";
     public static final String JSON_POSTGAME_DEFENSE = "Rdf";
-    public static final String JSON_POSTGAME_CLIMBS = "Rc";
-    public static final String JSON_POSTGAME_BOOST = "Rb";
-    public static final String JSON_POSTGAME_FORCE = "Rf";
-    public static final String JSON_POSTGAME_LEVITATE = "Rl";
-
+    public static final String JSON_POSTGAME_ROTORS = "Rr";
     public static final String JSON_POSTGAME_COMMENTS = "cmnt";
 
+    //old stuff
     public static final String JSON_TELEOP_CLIMBRESULT = "Tcr";
     public static final String JSON_TELEOP_CLIMBTIME = "Tct";
-    public static final String JSON_TELEOP_OPPSWITCH = "Tos";
-    public static final String JSON_TELEOP_SCALE = "Tsc";
-    public static final String JSON_TELEOP_SWITCH = "Tsw";
-    public static final String JSON_TELEOP_VAULT = "Tsv";
-    public static final String JSON_TELEOP_PARKED = "Tpk";
+    public static final String JSON_TELEOP_TOUCHPADTRIGGERED = "Tt";
+    public static final String JSON_TELEOP_GEARSTAKEN = "Tgt";
+    public static final String JSON_TELEOP_GEARSPLACED = "Tgp";
+    public static final String JSON_TELEOP_GEARSDROPPED = "Tgd";
+    public static final String JSON_TELEOP_HIGHBALLS = "Th";
+    public static final String JSON_TELEOP_LOWBALLS = "Tl";
+    public static final String JSON_TELEOP_HOPPERCYCLES = "Thp";
+
+    //added 2/13/2019
+    public static final String JSON_TELEOP_ROCKETCARGOLEVEL1 = "Trc1";
+    public static final String JSON_TELEOP_ROCKETCARGOLEVEL2 = "Trc2";
+    public static final String JSON_TELEOP_ROCKETCARGOLEVEL3 = "Trc3";
+    public static final String JSON_TELEOP_TOTALROCKETCARGO = "Ttrc";
+    public static final String JSON_TELEOP_ROCKETHATCHLEVEL1 = "Trh1";
+    public static final String JSON_TELEOP_ROCKETHATCHLEVEL2 = "Trh2";
+    public static final String JSON_TELEOP_ROCKETHATCHLEVEL3 = "Trh3";
+    public static final String JSON_TELEOP_TOTALROCKETHATCH = "Ttrh";
+    public static final String JSON_TELEOP_CARGOSHIPCARGO = "Tcsc";
+    public static final String JSON_TELEOP_CARGOSHIPHATCH = "Tcsh";
+    public static final String JSON_TELEOP_LEVEL1 = "Tl1";
+    public static final String JSON_TELEOP_LEVEL2 = "Tl2";
+    public static final String JSON_TELEOP_LEVEL3 = "Tl3";
 
     public static final String CLIMB_NO = "n";
     public static final String CLIMB_PROGRESS = "c";
+    public static final String CLIMB_CONFIRM = "cc";
     public static final String CLIMB_SUCCESS = "y";
     public static final String CLIMB_FAIL = "f";
 
-    public static final String JSON_AUTON_SCALE = "Asc";
-    public static final String JSON_AUTON_SWITCH = "Asw";
-    public static final String JSON_AUTON_MOBILITY = "Amb";
-    public static final String JSON_AUTON_STARTCUBE = "Ascu";
-    public static final String JSON_AUTON_STARTLEFT = "Asl";
-    public static final String JSON_AUTON_STARTCENTER = "Asce";
-    public static final String JSON_AUTON_STARTRIGHT = "Asr";
+    //added 2/13/2019
+    public static final String JSON_SANDSTORM_STARTHATCH = "Ssh";
+    public static final String JSON_SANDSTORM_STARTCARGO = "Ssc";
+    public static final String JSON_SANDSTORM_STARTNONE = "Ssn";
+    public static final String JSON_SANDSTORM_LEVEL1 = "Ssl1";
+    public static final String JSON_SANDSTORM_LEVEL2 = "Ssl2";
+    public static final String JSON_SANDSTORM_HAB = "Sshab";
+    public static final String JSON_SANDSTORM_ROCKETCARGO1 = "Ssrc1";
+    public static final String JSON_SANDSTORM_ROCKETCARGO2 = "Ssrc2";
+    public static final String JSON_SANDSTORM_ROCKETCARGO3 = "Ssrc3";
+    public static final String JSON_SANDSTORM_TOTALROCKETCARGO = "Sstrc";
+    public static final String JSON_SANDSTORM_ROCKETHATCH1 = "Ssrh1";
+    public static final String JSON_SANDSTORM_ROCKETHATCH2 = "Ssrh2";
+    public static final String JSON_SANDSTORM_ROCKETHATCH3 = "Ssrh3";
+    public static final String JSON_SANDSTORM_TOTALROCKETHATCH = "Sstrh";
+    public static final String JSON_SANDSTORM_CARGOSHIPCARGO = "Sscsc";
+    public static final String JSON_SANDSTORM_CARGOSHIPHATCH = "Sscsh";
+
+    //old stuff
+    public static final String JSON_AUTON_HIGH = "Ah";
+    public static final String JSON_AUTON_LOW = "Al";
+    public static final String JSON_AUTON_MOBILITY = "Am";
+    public static final String JSON_AUTON_STARTGEARS = "Asg";
+    public static final String JSON_AUTON_STARTBALLS = "Asb";
+    public static final String JSON_AUTON_GEARS = "Ag";
+    public static final String JSON_AUTON_HOPPER = "Ahp";
+    public static final String JSON_AUTON_GROUNDINTAKE = "Agi";
 
 }

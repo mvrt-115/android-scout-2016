@@ -61,9 +61,7 @@ public class MatchScoutingDataActivity extends AppCompatActivity{
             loadUI();
             loadFragments();
 
-        }
-
-        catch(Exception e){
+        }catch(Exception e){
             data = null;
             e.printStackTrace();
         }
@@ -97,7 +95,6 @@ public class MatchScoutingDataActivity extends AppCompatActivity{
         Bundle b = new Bundle();
         b.putSerializable(Constants.INTENT_EXTRA_MATCHINFO, info);
         b.putInt(Constants.INTENT_EXTRA_SCOUTID, scoutData.getInt(Constants.JSON_DATA_SCOUTID));
-        b.putInt(Constants.INTENT_EXTRA_BUTTONID, 1);
         infoFragment.setArguments(b);
         Log.d("MVRT", "Fragments Arguments Passed");
 
