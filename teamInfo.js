@@ -1,7 +1,8 @@
 var database = firebase.database();
 var ref = database.ref();
 
-var imageTable, oppSwitcPlacedList, scalePlacedList, switchPlacedList, vaultPlacedList, climbList, parkedList, commentsList;
+var imageTable, cargoHatchList, cargoCargoList, r1HatchList, r1CargoList, r2HatchList, r2CargoList, r3HatchList, r3CargoList, 
+    cargoHatchListS, cargoCargoListS, r1HatchListS, r1CargoListS, r2HatchListS, r2CargoListS, r3HatchListS, r3CargoListS, climbList2, climbList3, commentsList;
 
 function searchTeams(){
   var number = document.getElementById('searchTeam').value;
@@ -21,81 +22,139 @@ function searchTeams(){
 
   getData(parseInt(number), function(data){
 
-      var avgOpp = data[0].reduce((x,y) => x+y)/data[0].length;
-      var avgScale = data[1].reduce((x,y) => x+y)/data[1].length;
-      var avgSwitch = data[2].reduce((x,y) => x+y)/data[2].length;
-      var avgVault = data[3].reduce((x,y) => x+y)/data[3].length;      
+      var avg1 = data[0].reduce((x,y) => x+y, 0) / (data[0].length);
+      var avg2 = data[1].reduce((x,y) => x+y, 0) / (data[1].length);
+      var avg3 = data[2].reduce((x,y) => x+y, 0) / (data[2].length);
+      var avg4 = data[3].reduce((x,y) => x+y, 0) / (data[3].length);
+      var avg5 = data[4].reduce((x,y) => x+y, 0) / (data[4].length);
+      var avg6 = data[5].reduce((x,y) => x+y, 0) / (data[5].length); 
+      var avg7 = data[6].reduce((x,y) => x+y, 0) / (data[6].length);
+      var avg8 = data[7].reduce((x,y) => x+y, 0) / (data[7].length);
+      var avg9 = data[10].reduce((x,y) => x+y, 0) / (data[10].length);
+      var avg10 = data[11].reduce((x,y) => x+y, 0) / (data[11].length);
+      var avg11 = data[12].reduce((x,y) => x+y, 0) / (data[12].length);
+      var avg12 = data[13].reduce((x,y) => x+y, 0) / (data[13].length);
+      var avg13 = data[14].reduce((x,y) => x+y, 0) / (data[14].length);
+      var avg14 = data[15].reduce((x,y) => x+y, 0) / (data[15].length); 
+      var avg15 = data[16].reduce((x,y) => x+y, 0) / (data[16].length);
+      var avg16 = data[17].reduce((x,y) => x+y, 0) / (data[17].length);
 
-      oppSwitchPlacedList.innerHTML = (data[0] + ' (avg: ' + avgOpp.toFixed(2) + ')');
-      scalePlacedList.innerHTML = (data[1] + ' (avg: ' + avgScale.toFixed(2) + ')');
-      switchPlacedList.innerHTML = (data[2] + ' (avg: ' + avgSwitch.toFixed(2) + ')');
-      vaultPlacedList.innerHTML = (data[3] + ' (avg: ' + avgVault.toFixed(2) + ')');
+      cargoHatchList.innerHTML = data[0] + ' (avg: ' + avg1.toFixed(2) + ')';
+      cargoCargoList.innerHTML = data[1] + ' (avg: ' + avg2.toFixed(2) + ')';
+      r1HatchList.innerHTML = data[2] + ' (avg: ' + avg3.toFixed(2) + ')';
+      r1CargoList.innerHTML = data[3] + ' (avg: ' + avg4.toFixed(2) + ')';
+      r2HatchList.innerHTML = data[4] + ' (avg: ' + avg5.toFixed(2) + ')';
+      r2CargoList.innerHTML = data[5] + ' (avg: ' + avg6.toFixed(2) + ')';
+      r3HatchList.innerHTML = data[6] + ' (avg: ' + avg7.toFixed(2) + ')';
+      r3CargoList.innerHTML = data[7] + ' (avg: ' + avg8.toFixed(2) + ')';
+      cargoHatchListS.innerHTML = data[10] + ' (avg: ' + avg9.toFixed(2) + ')';
+      cargoCargoListS.innerHTML = data[11] + ' (avg: ' + avg10.toFixed(2) + ')';
+      r1HatchListS.innerHTML = data[12] + ' (avg: ' + avg11.toFixed(2) + ')';
+      r1CargoListS.innerHTML = data[13] + ' (avg: ' + avg12.toFixed(2) + ')';
+      r2HatchListS.innerHTML = data[14] + ' (avg: ' + avg13.toFixed(2) + ')';
+      r2CargoListS.innerHTML = data[15] + ' (avg: ' + avg14.toFixed(2) + ')';
+      r3HatchListS.innerHTML = data[16] + ' (avg: ' + avg15.toFixed(2) + ')';
+      r3CargoListS.innerHTML = data[17] + ' (avg: ' + avg16.toFixed(2) + ')';
 
 
-
-      var climbtxt = '';
-      for(d in data[4]){
-          if(data[4][d] == 'y')climbtxt = climbtxt.concat('<span class="label label-success">Yes</span> ');
-          else if(data[4][d] == 'n')climbtxt = climbtxt.concat('<span class="label label-default">No</span> ');
-          else if(data[4][d] == 'f')climbtxt = climbtxt.concat('<span class="label label-danger">Failed</span> ');
-          else if(data[4][d] == 'c')climbtxt = climbtxt.concat('<span class="label label-warning">Cancelled (?)</span> ');
-          else climbtxt = climbtxt.concat(data[4][d] + ' ');
-          console.log(climbtxt);
+      var climb2txt = '';
+      for(d in data[8]){
+          if(data[8][d] == 'y')climb2txt = climb2txt.concat('<span class="label label-success">Yes</span> ');
+          else if(data[8][d] == 'n')climb2txt = climb2txt.concat('<span class="label label-default">No</span> ');
+          else if(data[8][d] == 'f')climb2txt = climb2txt.concat('<span class="label label-danger">Failed</span> ');
+          else if(data[8][d] == 'c')climb2txt = climb2txt.concat('<span class="label label-warning">Cancelled (?)</span> ');
+          else climb2txt = climb2txt.concat(data[8][d] + ' ');
+          console.log(climb2txt);
       }
-      climbList.innerHTML = climbtxt;
+      climbList2.innerHTML = climb2txt;
 
-      var parktxt = '';
-      for(d in data[5]){
-          if(data[5][d] == 'y')parktxt = parktxt.concat('<span class="label label-success">Yes</span> ');
-          else if(data[5][d] == 'n')parktxt = parktxt.concat('<span class="label label-default">No</span> ');
-          else if(data[5][d] == 'f')parktxt = parktxt.concat('<span class="label label-danger">Failed</span> ');
-          else if(data[5][d] == 'c')parktxt = parktxt.concat('<span class="label label-warning">Cancelled (?)</span> ');
-          else parktxt = parktxt.concat(data[5][d] + ' ');
-          console.log(parktxt);
+      var climb3txt = '';
+      for(d in data[9]){
+          if(data[9][d] == 'y')climb3txt = climb3txt.concat('<span class="label label-success">Yes</span> ');
+          else if(data[9][d] == 'n')climb3txt = climb3txt.concat('<span class="label label-default">No</span> ');
+          else if(data[9][d] == 'f')climb3txt = climb3txt.concat('<span class="label label-danger">Failed</span> ');
+          else if(data[9][d] == 'c')climb3txt = climb3txt.concat('<span class="label label-warning">Cancelled (?)</span> ');
+          else climb3txt = climb3txt.concat(data[9][d] + ' ');
+          console.log(climb3txt);
       }
-      parkedList.innerHTML = parktxt;
+      climbList3.innerHTML = climb3txt;
 
-      for(c in data[6]){
-        commentsList.append(newCommentElement(data[6][c]));
+      for(c in data[18]){
+        commentsList.append(newCommentElement(data[18][c]));
       }
   });
 
 }
 
 function getData(team, callback){
-  var oppCubesPlaced = [];
-  var scaleCubesPlaced = [];
-  var switchCubesPlaced = [];
-  var vaultCubesPlaced = [];
-  var climbResults = [];
-  var parkResults = [];
+  var cargoHatch = [];
+  var cargoCargo = [];
+  var r1Hatch = [];
+  var r1Cargo = [];
+  var r2Hatch = [];
+  var r2Cargo = [];
+  var r3Hatch = [];
+  var r3Cargo = [];
+  var cargoHatchS = [];
+  var cargoCargoS = [];
+  var r1HatchS = [];
+  var r1CargoS = [];
+  var r2HatchS = [];
+  var r2CargoS = [];
+  var r3HatchS = [];
+  var r3CargoS = [];
+  var climb1 = [];
+  var climb2 = [];
   var superComments = [];
 
 
   ref.child('matches').orderByChild('team').equalTo(team).once('value', function(snapshot){
       var data = snapshot.val();
-      for(key in data) {
-        var entry = data[key];
-        if(entry['T']) {
 
-            oppCubesPlaced.push(entry['T']['Tos']);
-            scaleCubesPlaced.push(entry['T']['Tsc']);
-            switchCubesPlaced.push(entry['T']['Tsw']);
-            vaultCubesPlaced.push(entry['T']['Tsv']);
-            climbResults.push(entry['T']['Tcr']);
-            parkResults.push(entry['T']['Tpk']);
+      for(key in data) {
+
+        var entry = data[key];
+
+        if(entry['T']) {
+            cargoHatch.push(entry['T']['Tcsh'])
+            cargoCargo.push(entry['T']['Tcsc']);
+            r1Hatch.push(entry['T']['Trh1']);
+            r1Cargo.push(entry['T']['Trc1']);
+            r2Hatch.push(entry['T']['Trh2']);
+            r2Cargo.push(entry['T']['Trc2']);
+            r3Hatch.push(entry['T']['Trh3']);
+            r3Cargo.push(entry['T']['Trc3']);
+
+            climb1.push(entry['T']['Tl2']);
+            climb2.push(entry['T']['Tl3']);
+
         }
+        
+        if(entry['A']) {
+
+            cargoHatchS.push(entry['A']['Sscsh']);
+            cargoCargoS.push(entry['A']['Sscsc']);
+            r1HatchS.push(entry['A']['Ssrh1']);
+            r1CargoS.push(entry['A']['Ssrc1']);
+            r2HatchS.push(entry['A']['Ssrh2']);
+            r2CargoS.push(entry['A']['Ssrc2']);
+            r3HatchS.push(entry['A']['Ssrh3']);
+            r3CargoS.push(entry['A']['Ssrc3']);
+
+        }
+        
+
         if(entry['super']) superComments.push(entry['super']);
         if(entry['P'] && entry['P']['cmnt']) superComments.push(entry['P']['cmnt']);
       }
-      callback([oppCubesPlaced, scaleCubesPlaced, switchCubesPlaced, vaultCubesPlaced, climbResults, parkResults, superComments]);
+
+      callback([cargoHatch, cargoCargo, r1Hatch, r1Cargo, r2Hatch, r2Cargo, r3Hatch, r3Cargo, climb1, climb2, 
+                cargoHatchS, cargoCargoS, r1HatchS, r1CargoS, r2HatchS, r2CargoS, r3HatchS, r3CargoS, superComments]);
   });
 }
 
 function clearUI(){
   imageTable.innerHTML = null;
-  oppSwitchPlacedList.innerHTML = null;
-  climbList.innerHTML = null;
   commentsList.innerHTML = null;
 }
 
@@ -132,12 +191,28 @@ document.addEventListener('DOMContentLoaded', function(event) {
   });
 
   imageTable = document.getElementById('images');
-  oppSwitchPlacedList = document.getElementById('oppSwitchPlacedList');
-  scalePlacedList = document.getElementById('scalePlacedList');
-  switchPlacedList = document.getElementById('switchPlacedList');
-  vaultPlacedList = document.getElementById('vaultPlacedList');
-  climbList = document.getElementById('climbList');
-  parkedList = document.getElementById('parkingList');
+  cargoHatchList = document.getElementById('cargoHatchList');
+  cargoCargoList = document.getElementById('cargoCargoList');
+
+  r1HatchList = document.getElementById('r1HatchList');
+  r1CargoList = document.getElementById('r1CargoList');
+  r2HatchList = document.getElementById('r2HatchList');
+  r2CargoList = document.getElementById('r2CargoList');
+  r3HatchList = document.getElementById('r3HatchList');
+  r3CargoList = document.getElementById('r3CargoList');
+
+  cargoHatchListS = document.getElementById('cargoHatchListSandstorm');
+  cargoCargoListS = document.getElementById('cargoCargoListSandstorm');
+
+  r1HatchListS = document.getElementById('r1HatchListSandstorm');
+  r1CargoListS = document.getElementById('r1CargoListSandstorm');
+  r2HatchListS = document.getElementById('r2HatchListSandstorm');
+  r2CargoListS = document.getElementById('r2CargoListSandstorm');
+  r3HatchListS = document.getElementById('r3HatchListSandstorm');
+  r3CargoListS = document.getElementById('r3CargoListSandstorm');
+
+  climbList2 = document.getElementById('climbList2');
+  climbList3 = document.getElementById('climbList3');
   commentsList = document.getElementById('commentsList');
   document.getElementById('searchBtn').addEventListener('click', searchTeams);
 });
