@@ -1,5 +1,6 @@
 var database = firebase.database();
 var ref = database.ref();
+var matches = [];
 
 var imageTable, cargoHatchList, cargoCargoList, r1HatchList, r1CargoList, r2HatchList, r2CargoList, r3HatchList, r3CargoList, 
     cargoHatchListS, cargoCargoListS, r1HatchListS, r1CargoListS, r2HatchListS, r2CargoListS, r3HatchListS, r3CargoListS, climbList2, climbList3, commentsList;
@@ -82,6 +83,184 @@ function searchTeams(){
       for(c in data[18]){
         commentsList.append(newCommentElement(data[18][c]));
       }
+
+      var ct1 = document.getElementById("cargoGraph");
+      var graph1 = new Chart(ct1, {
+        type: 'line',
+        data: {
+          labels: matches,
+          datasets: [
+          { 
+              data: data[0],
+              label: "Hatches",
+              borderColor: "#3e95cd",
+              fill: false
+          },
+          { 
+              data: data[1],
+              label: "Cargo",
+              borderColor: "#3e95cd",
+              fill: false
+          }
+          ]
+        }
+      });
+
+      var ct2 = document.getElementById("l1Graph");
+      var graph2 = new Chart(ct2, {
+        type: 'line',
+        data: {
+          labels: matches,
+          datasets: [
+          { 
+              data: data[2],
+              label: "Hatches",
+              borderColor: "#3e95cd",
+              fill: false
+          },
+          { 
+              data: data[3],
+              label: "Cargo",
+              borderColor: "#3e95cd",
+              fill: false
+          }
+          ]
+        }
+      });
+
+      var ct3 = document.getElementById("l2Graph");
+      var graph3 = new Chart(ct3, {
+        type: 'line',
+        data: {
+          labels: matches,
+          datasets: [
+          { 
+              data: data[4],
+              label: "Hatches",
+              borderColor: "#3e95cd",
+              fill: false
+          },
+          { 
+              data: data[5],
+              label: "Cargo",
+              borderColor: "#3e95cd",
+              fill: false
+          }
+          ]
+        }
+      });
+
+      var ct4 = document.getElementById("l3Graph");
+      var graph4 = new Chart(ct4, {
+        type: 'line',
+        data: {
+          labels: matches,
+          datasets: [
+          { 
+              data: data[6],
+              label: "Hatches",
+              borderColor: "#3e95cd",
+              fill: false
+          },
+          { 
+              data: data[7],
+              label: "Cargo",
+              borderColor: "#3e95cd",
+              fill: false
+          }
+          ]
+        }
+      });
+
+
+      var ct5 = document.getElementById("cargoGraphS");
+      var graph5 = new Chart(ct5, {
+        type: 'line',
+        data: {
+          labels: matches,
+          datasets: [
+          { 
+              data: data[10],
+              label: "Hatches",
+              borderColor: "#3e95cd",
+              fill: false
+          },
+          { 
+              data: data[11],
+              label: "Cargo",
+              borderColor: "#3e95cd",
+              fill: false
+          }
+          ]
+        }
+      });
+
+      var ct6 = document.getElementById("l1GraphS");
+      var graph6 = new Chart(ct6, {
+        type: 'line',
+        data: {
+          labels: matches,
+          datasets: [
+          { 
+              data: data[12],
+              label: "Hatches",
+              borderColor: "#3e95cd",
+              fill: false
+          },
+          { 
+              data: data[13],
+              label: "Cargo",
+              borderColor: "#3e95cd",
+              fill: false
+          }
+          ]
+        }
+      });
+
+      var ct7 = document.getElementById("l2GraphS");
+      var graph7 = new Chart(ct7, {
+        type: 'line',
+        data: {
+          labels: matches,
+          datasets: [
+          { 
+              data: data[14],
+              label: "Hatches",
+              borderColor: "#3e95cd",
+              fill: false
+          },
+          { 
+              data: data[15],
+              label: "Cargo",
+              borderColor: "#3e95cd",
+              fill: false
+          }
+          ]
+        }
+      });
+
+      var ct8 = document.getElementById("l3GraphS");
+      var graph8 = new Chart(ct8, {
+        type: 'line',
+        data: {
+          labels: matches,
+          datasets: [
+          { 
+              data: data[16],
+              label: "Hatches",
+              borderColor: "#3e95cd",
+              fill: false
+          },
+          { 
+              data: data[17],
+              label: "Cargo",
+              borderColor: "#3e95cd",
+              fill: false
+          }
+          ]
+        }
+      });
+
   });
 
 }
@@ -178,6 +357,13 @@ function newCommentElement(comment){
   element.classList = 'list-group-item';
   element.innerText = comment;
   return element;
+}
+
+function generateMatchArray() {
+  matches = [];
+  for(i in cargoCargoList) {
+    matches.push(i+1);
+  }
 }
 
 document.addEventListener('DOMContentLoaded', function(event) {
