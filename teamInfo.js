@@ -101,7 +101,7 @@ function searchTeams(){
           { 
               data: data[1],
               label: "Cargo",
-              borderColor: "#3e95cd",
+              borderColor: "#9741f4",
               fill: false
           }
           ]
@@ -123,7 +123,7 @@ function searchTeams(){
           { 
               data: data[3],
               label: "Cargo",
-              borderColor: "#3e95cd",
+              borderColor: "#9741f4",
               fill: false
           }
           ]
@@ -145,7 +145,7 @@ function searchTeams(){
           { 
               data: data[5],
               label: "Cargo",
-              borderColor: "#3e95cd",
+              borderColor: "#9741f4",
               fill: false
           }
           ]
@@ -167,7 +167,7 @@ function searchTeams(){
           { 
               data: data[7],
               label: "Cargo",
-              borderColor: "#3e95cd",
+              borderColor: "#9741f4",
               fill: false
           }
           ]
@@ -190,7 +190,7 @@ function searchTeams(){
           { 
               data: data[11],
               label: "Cargo",
-              borderColor: "#3e95cd",
+              borderColor: "#9741f4",
               fill: false
           }
           ]
@@ -212,7 +212,7 @@ function searchTeams(){
           { 
               data: data[13],
               label: "Cargo",
-              borderColor: "#3e95cd",
+              borderColor: "#9741f4",
               fill: false
           }
           ]
@@ -234,7 +234,7 @@ function searchTeams(){
           { 
               data: data[15],
               label: "Cargo",
-              borderColor: "#3e95cd",
+              borderColor: "#9741f4",
               fill: false
           }
           ]
@@ -256,7 +256,7 @@ function searchTeams(){
           { 
               data: data[17],
               label: "Cargo",
-              borderColor: "#3e95cd",
+              borderColor: "#9741f4",
               fill: false
           }
           ]
@@ -272,31 +272,31 @@ function searchTeams(){
           { 
               data: data[0],
               label: "Cargo Hatches",
-              borderColor: "#3e95cd",
+              borderColor: "#7a42f4",
               fill: false
           },
           { 
               data: data[2],
               label: "Level 1 Hatches",
-              borderColor: "#3e95cd",
+              borderColor: "#f44198",
               fill: false
           },
           { 
               data: data[4],
               label: "Level 2 Hatches",
-              borderColor: "#3e95cd",
+              borderColor: "#f441f1",
               fill: false
           },
           { 
               data: data[6],
               label: "Level 3 Hatches",
-              borderColor: "#3e95cd",
+              borderColor: "#5841f4",
               fill: false
           },
           { 
               data: data[10],
               label: "Cargo Sandstorm Hatches",
-              borderColor: "#3e95cd",
+              borderColor: "#41cdf4",
               fill: false
           },
           { 
@@ -308,13 +308,13 @@ function searchTeams(){
           { 
               data: data[14],
               label: "Level 2 Sandstorm Hatches",
-              borderColor: "#3e95cd",
+              borderColor: "#41f458",
               fill: false
           },
           { 
               data: data[16],
               label: "Level 3 Sandstorm Hatches",
-              borderColor: "#3e95cd",
+              borderColor: "#f4d041",
               fill: false
           }
           ]
@@ -330,49 +330,49 @@ function searchTeams(){
           { 
               data: data[1],
               label: "Cargo Cargo",
-              borderColor: "#3e95cd",
+              borderColor: "#7a42f4",
               fill: false
           },
           { 
               data: data[3],
               label: "Level 1 Cargo",
-              borderColor: "#3e95cd",
+              borderColor: "#f44198",
               fill: false
           },
           { 
               data: data[5],
               label: "Level 2 Cargo",
-              borderColor: "#3e95cd",
+              borderColor: "#f441f1",
               fill: false
           },
           { 
               data: data[7],
               label: "Level 3 Cargo",
-              borderColor: "#3e95cd",
+              borderColor: "#5841f4",
               fill: false
           },
           { 
               data: data[11],
               label: "Cargo Sandstorm Cargo",
-              borderColor: "#3e95cd",
+              borderColor: "#41cdf4",
               fill: false
           },
           { 
               data: data[13],
               label: "Level 1 Sandstorm Cargo",
-              borderColor: "#3e95cd",
+              borderColor: "#3e95ef",
               fill: false
           },
           { 
               data: data[15],
               label: "Level 2 Sandstorm Cargo",
-              borderColor: "#3e95cd",
+              borderColor: "#41f458",
               fill: false
           },
           { 
               data: data[17],
               label: "Level 3 Sandstorm Cargo",
-              borderColor: "#3e95cd",
+              borderColor: "#f4d041",
               fill: false
           }
           ]
