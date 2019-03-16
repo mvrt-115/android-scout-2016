@@ -1,6 +1,6 @@
 var database = firebase.database();
 var ref = database.ref();
-var matches = [];
+var matches = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 var imageTable, cargoHatchList, cargoCargoList, r1HatchList, r1CargoList, r2HatchList, r2CargoList, r3HatchList, r3CargoList, 
     cargoHatchListS, cargoCargoListS, r1HatchListS, r1CargoListS, r2HatchListS, r2CargoListS, r3HatchListS, r3CargoListS, climbList2, climbList3, commentsList;
@@ -83,6 +83,8 @@ function searchTeams(){
       for(c in data[18]){
         commentsList.append(newCommentElement(data[18][c]));
       }
+
+      //generateMatchArray();
 
       var ct1 = document.getElementById("cargoGraph");
       var graph1 = new Chart(ct1, {
@@ -261,6 +263,121 @@ function searchTeams(){
         }
       });
 
+      var ct9 = document.getElementById("hatchesGraph");
+      var graph9 = new Chart(ct9, {
+        type: 'line',
+        data: {
+          labels: matches,
+          datasets: [
+          { 
+              data: data[0],
+              label: "Cargo Hatches",
+              borderColor: "#3e95cd",
+              fill: false
+          },
+          { 
+              data: data[2],
+              label: "Level 1 Hatches",
+              borderColor: "#3e95cd",
+              fill: false
+          },
+          { 
+              data: data[4],
+              label: "Level 2 Hatches",
+              borderColor: "#3e95cd",
+              fill: false
+          },
+          { 
+              data: data[6],
+              label: "Level 3 Hatches",
+              borderColor: "#3e95cd",
+              fill: false
+          },
+          { 
+              data: data[10],
+              label: "Cargo Sandstorm Hatches",
+              borderColor: "#3e95cd",
+              fill: false
+          },
+          { 
+              data: data[12],
+              label: "Level 1 Sandstorm Hatches",
+              borderColor: "#3e95cd",
+              fill: false
+          },
+          { 
+              data: data[14],
+              label: "Level 2 Sandstorm Hatches",
+              borderColor: "#3e95cd",
+              fill: false
+          },
+          { 
+              data: data[16],
+              label: "Level 3 Sandstorm Hatches",
+              borderColor: "#3e95cd",
+              fill: false
+          }
+          ]
+        }
+      });
+
+      var ct9 = document.getElementById("cargosGraph");
+      var graph9 = new Chart(ct9, {
+        type: 'line',
+        data: {
+          labels: matches,
+          datasets: [
+          { 
+              data: data[1],
+              label: "Cargo Cargo",
+              borderColor: "#3e95cd",
+              fill: false
+          },
+          { 
+              data: data[3],
+              label: "Level 1 Cargo",
+              borderColor: "#3e95cd",
+              fill: false
+          },
+          { 
+              data: data[5],
+              label: "Level 2 Cargo",
+              borderColor: "#3e95cd",
+              fill: false
+          },
+          { 
+              data: data[7],
+              label: "Level 3 Cargo",
+              borderColor: "#3e95cd",
+              fill: false
+          },
+          { 
+              data: data[11],
+              label: "Cargo Sandstorm Cargo",
+              borderColor: "#3e95cd",
+              fill: false
+          },
+          { 
+              data: data[13],
+              label: "Level 1 Sandstorm Cargo",
+              borderColor: "#3e95cd",
+              fill: false
+          },
+          { 
+              data: data[15],
+              label: "Level 2 Sandstorm Cargo",
+              borderColor: "#3e95cd",
+              fill: false
+          },
+          { 
+              data: data[17],
+              label: "Level 3 Sandstorm Cargo",
+              borderColor: "#3e95cd",
+              fill: false
+          }
+          ]
+        }
+      });
   });
 
 }
@@ -360,9 +477,11 @@ function newCommentElement(comment){
 }
 
 function generateMatchArray() {
+  var index = 0;
   matches = [];
-  for(i in cargoCargoList) {
-    matches.push(i+1);
+  for(i in cargoHatchList) {
+    index++;
+    matches.push(index);
   }
 }
 
