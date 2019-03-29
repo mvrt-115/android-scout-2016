@@ -102,9 +102,9 @@ function getScoutHeaders(){
     'teleop_rocket_hatch_1', 'teleop_rocket_hatch_2', 'teleop_rocket_hatch_3', 'teleop_total_rocket_hatch',
     'teleop_cargoship_cargo', 'teleop_cargoship_hatch', 'teleop_climb_1', 'teleop_climb_2', 'teleop_climb_3',
 
-    'rating_cargo_accuracy', 'rating_hatch_accuracy', 'rating_speed', 'rating_defense', 'rating_stability'
+    'rating_cargo_accuracy', 'rating_hatch_accuracy', 'rating_speed', 'rating_defense', 'rating_stability',
 
-    'disabled', 'interfere', 'defense', 'comment_scout', 'comment_super'
+    'disabled', 'interfere', 'defense', 'comment_scout', 'comment_super',
 
     'match_id', 'scout_id' ];
 }
@@ -152,7 +152,7 @@ function getScoutData(snapshot){
 
       P.Rha, P.Rga, P.Rgt, P.Rdf, P.Rrs,
 
-      P.dsbld, P.intr, P.dfnse
+      P.dsbld, P.intr, P.dfnse,
       P.cmnt.replace(/,/g, ';'),
       ((data.super)?data.super:'').replace(/,/g, ';'),
 
