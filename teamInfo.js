@@ -1,8 +1,8 @@
 var database = firebase.database();
 var ref = database.ref();
-var matches = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+var matches = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
 
-var imageTable, cargoHatchList, cargoCargoList, r1HatchList, r1CargoList, r2HatchList, r2CargoList, r3HatchList, r3CargoList, 
+var imageTable, hatchPreload, cargoPreload, cargoPreloadList, l1Start, l2Start, climb1, climb2, climb3, cargoHatchList, cargoCargoList, r1HatchList, r1CargoList, r2HatchList, r2CargoList, r3HatchList, r3CargoList, 
     cargoHatchListS, cargoCargoListS, r1HatchListS, r1CargoListS, r2HatchListS, r2CargoListS, r3HatchListS, r3CargoListS, climbList2, climbList3, commentsList;
 
 function searchTeams(){
@@ -22,6 +22,28 @@ function searchTeams(){
   });
 
   getData(parseInt(number), function(data){
+
+      hatchPreload = 0;
+      cargoPreload = 0;
+
+      for(d in data[19]) {
+        if(data[19][d] == true) hatchPreload++;
+      }
+
+      for(d in data[20]) {
+        if(data[20][d] == true) cargoPreload++;
+      }
+
+      l1Start = 0;
+      l2Start = 0;
+
+      for(d in data[21]) {
+        if(data[21][d] == true) l1Start++;
+      }
+
+      for(d in data[22]) {
+        if(data[22][d] == true) l2Start++;
+      }
 
       var avg1 = data[0].reduce((x,y) => x+y, 0) / (data[0].length);
       var avg2 = data[1].reduce((x,y) => x+y, 0) / (data[1].length);
@@ -57,10 +79,21 @@ function searchTeams(){
       r3HatchListS.innerHTML = data[16] + ' (avg: ' + avg15.toFixed(2) + ')';
       r3CargoListS.innerHTML = data[17] + ' (avg: ' + avg16.toFixed(2) + ')';
 
+      climb1 = 0;
+      for(d in data[23]){
+          climb1++;
+          if(data[23][d] == 'y'){ 
+          }
+      }
 
       var climb2txt = '';
+      climb2 = 0;
       for(d in data[8]){
-          if(data[8][d] == 'y')climb2txt = climb2txt.concat('<span class="label label-success">Yes</span> ');
+          climb2++;
+          if(data[8][d] == 'y'){
+            climb2txt = climb2txt.concat('<span class="label label-success">Yes</span> ');
+            
+          }
           else if(data[8][d] == 'n')climb2txt = climb2txt.concat('<span class="label label-default">No</span> ');
           else if(data[8][d] == 'f')climb2txt = climb2txt.concat('<span class="label label-danger">Failed</span> ');
           else if(data[8][d] == 'c')climb2txt = climb2txt.concat('<span class="label label-warning">Cancelled (?)</span> ');
@@ -70,8 +103,13 @@ function searchTeams(){
       climbList2.innerHTML = climb2txt;
 
       var climb3txt = '';
+      climb3 = 0;
       for(d in data[9]){
-          if(data[9][d] == 'y')climb3txt = climb3txt.concat('<span class="label label-success">Yes</span> ');
+          climb3++; 
+          if(data[9][d] == 'y') {
+            climb3txt = climb3txt.concat('<span class="label label-success">Yes</span> ');
+            
+          }
           else if(data[9][d] == 'n')climb3txt = climb3txt.concat('<span class="label label-default">No</span> ');
           else if(data[9][d] == 'f')climb3txt = climb3txt.concat('<span class="label label-danger">Failed</span> ');
           else if(data[9][d] == 'c')climb3txt = climb3txt.concat('<span class="label label-warning">Cancelled (?)</span> ');
@@ -84,305 +122,157 @@ function searchTeams(){
         commentsList.append(newCommentElement(data[18][c]));
       }
 
-      //generateMatchArray();
-
-      var ct1 = document.getElementById("cargoGraph");
+      var ct1 = document.getElementById("preloadGraph");
       var graph1 = new Chart(ct1, {
-        type: 'line',
+        type: 'pie',
         data: {
-          labels: matches,
+          labels: ["hatches", "cargo"],
           datasets: [
           { 
-              data: data[0],
-              label: "Hatches",
-              borderColor: "#3e95cd",
-              fill: false
-          },
-          { 
-              data: data[1],
-              label: "Cargo",
-              borderColor: "#9741f4",
-              fill: false
+              data: [hatchPreload, cargoPreload],
+              backgroundColor: [
+              "#7442f4",
+              "#f4dc41"
+              ],
+              borderColor: [
+              "#7442f4",
+              "#f4dc41"
+              ],
+              borderWidth: [1, 1, 1, 1, 1]
+          }]
+        },
+        options: {
+          title: {
+            display: true,
+            position: "top",
+            text: "Preload",
+            fontSize: 18,
+            fontColor: "#111"
           }
-          ]
         }
       });
 
-      var ct2 = document.getElementById("l1Graph");
+      var ct2 = document.getElementById("startingLevelGraph");
       var graph2 = new Chart(ct2, {
-        type: 'line',
+        type: 'pie',
         data: {
-          labels: matches,
+          labels: ["hab 1", "hab 2"],
           datasets: [
           { 
-              data: data[2],
-              label: "Hatches",
-              borderColor: "#3e95cd",
-              fill: false
-          },
-          { 
-              data: data[3],
-              label: "Cargo",
-              borderColor: "#9741f4",
-              fill: false
+              data: [l1Start, l2Start],
+              backgroundColor: [
+              "#7442f4",
+              "#f4dc41"
+              ],
+              borderColor: [
+              "#7442f4",
+              "#f4dc41"
+              ],
+              borderWidth: [1, 1, 1, 1, 1]
+          }]
+        },
+        options: {
+          title: {
+            display: true,
+            position: "top",
+            text: "Starting Position",
+            fontSize: 18,
+            fontColor: "#111"
           }
-          ]
         }
       });
 
-      var ct3 = document.getElementById("l2Graph");
+      var ct3 = document.getElementById("endGameGraph");
       var graph3 = new Chart(ct3, {
-        type: 'line',
+        type: 'pie',
         data: {
-          labels: matches,
+          labels: ["hab 1", "hab 2", "hab 3"],
           datasets: [
           { 
-              data: data[4],
-              label: "Hatches",
-              borderColor: "#3e95cd",
-              fill: false
-          },
-          { 
-              data: data[5],
-              label: "Cargo",
-              borderColor: "#9741f4",
-              fill: false
+              data: [climb1, climb2, climb3],
+              backgroundColor: [
+              "#7442f4",
+              "#f4dc41",
+              "#000000"
+              ],
+              borderColor: [
+              "#7442f4",
+              "#f4dc41",
+              "#000000"
+              ],
+              borderWidth: [1, 1, 1, 1, 1]
+          }]
+        },
+        options: {
+          title: {
+            display: true,
+            position: "top",
+            text: "Ending Position",
+            fontSize: 18,
+            fontColor: "#111"
           }
-          ]
         }
       });
 
-      var ct4 = document.getElementById("l3Graph");
+      var sandstormTotal = [];
+      for(d in data[24]) {
+        sandstormTotal.push(data[24][d]);
+        sandstormTotal[d] += data[25][d];
+        sandstormTotal[d] += data[10][d];
+        sandstormTotal[d] += data[11][d];
+      }
+
+      var ct4 = document.getElementById("sandstormGraph");
       var graph4 = new Chart(ct4, {
         type: 'line',
         data: {
           labels: matches,
           datasets: [
           { 
-              data: data[6],
-              label: "Hatches",
+              data: sandstormTotal,
+              label: "Sandstorm Score",
               borderColor: "#3e95cd",
-              fill: false
-          },
-          { 
-              data: data[7],
-              label: "Cargo",
-              borderColor: "#9741f4",
               fill: false
           }
           ]
         }
       });
 
+      var teleopTotal = [];
+      for(d in data[26]) {
+        teleopTotal.push(data[26][d]);
+        teleopTotal[d] += data[27][d];
+        teleopTotal[d] += data[0][d];
+        teleopTotal[d] += data[1][d];
+      }
 
-      var ct5 = document.getElementById("cargoGraphS");
+      var ct5 = document.getElementById("teleopGraph");
       var graph5 = new Chart(ct5, {
         type: 'line',
         data: {
           labels: matches,
           datasets: [
           { 
-              data: data[10],
-              label: "Hatches",
+              data: teleopTotal,
+              label: "Teleop Score",
               borderColor: "#3e95cd",
-              fill: false
-          },
-          { 
-              data: data[11],
-              label: "Cargo",
-              borderColor: "#9741f4",
               fill: false
           }
           ]
         }
       });
 
-      var ct6 = document.getElementById("l1GraphS");
-      var graph6 = new Chart(ct6, {
-        type: 'line',
-        data: {
-          labels: matches,
-          datasets: [
-          { 
-              data: data[12],
-              label: "Hatches",
-              borderColor: "#3e95cd",
-              fill: false
-          },
-          { 
-              data: data[13],
-              label: "Cargo",
-              borderColor: "#9741f4",
-              fill: false
-          }
-          ]
-        }
-      });
+      
 
-      var ct7 = document.getElementById("l2GraphS");
-      var graph7 = new Chart(ct7, {
-        type: 'line',
-        data: {
-          labels: matches,
-          datasets: [
-          { 
-              data: data[14],
-              label: "Hatches",
-              borderColor: "#3e95cd",
-              fill: false
-          },
-          { 
-              data: data[15],
-              label: "Cargo",
-              borderColor: "#9741f4",
-              fill: false
-          }
-          ]
-        }
-      });
-
-      var ct8 = document.getElementById("l3GraphS");
-      var graph8 = new Chart(ct8, {
-        type: 'line',
-        data: {
-          labels: matches,
-          datasets: [
-          { 
-              data: data[16],
-              label: "Hatches",
-              borderColor: "#3e95cd",
-              fill: false
-          },
-          { 
-              data: data[17],
-              label: "Cargo",
-              borderColor: "#9741f4",
-              fill: false
-          }
-          ]
-        }
-      });
-
-      var ct9 = document.getElementById("hatchesGraph");
-      var graph9 = new Chart(ct9, {
-        type: 'line',
-        data: {
-          labels: matches,
-          datasets: [
-          { 
-              data: data[0],
-              label: "Cargo Hatches",
-              borderColor: "#7a42f4",
-              fill: false
-          },
-          { 
-              data: data[2],
-              label: "Level 1 Hatches",
-              borderColor: "#f44198",
-              fill: false
-          },
-          { 
-              data: data[4],
-              label: "Level 2 Hatches",
-              borderColor: "#f441f1",
-              fill: false
-          },
-          { 
-              data: data[6],
-              label: "Level 3 Hatches",
-              borderColor: "#5841f4",
-              fill: false
-          },
-          { 
-              data: data[10],
-              label: "Cargo Sandstorm Hatches",
-              borderColor: "#41cdf4",
-              fill: false
-          },
-          { 
-              data: data[12],
-              label: "Level 1 Sandstorm Hatches",
-              borderColor: "#3e95cd",
-              fill: false
-          },
-          { 
-              data: data[14],
-              label: "Level 2 Sandstorm Hatches",
-              borderColor: "#41f458",
-              fill: false
-          },
-          { 
-              data: data[16],
-              label: "Level 3 Sandstorm Hatches",
-              borderColor: "#f4d041",
-              fill: false
-          }
-          ]
-        }
-      });
-
-      var ct9 = document.getElementById("cargosGraph");
-      var graph9 = new Chart(ct9, {
-        type: 'line',
-        data: {
-          labels: matches,
-          datasets: [
-          { 
-              data: data[1],
-              label: "Cargo Cargo",
-              borderColor: "#7a42f4",
-              fill: false
-          },
-          { 
-              data: data[3],
-              label: "Level 1 Cargo",
-              borderColor: "#f44198",
-              fill: false
-          },
-          { 
-              data: data[5],
-              label: "Level 2 Cargo",
-              borderColor: "#f441f1",
-              fill: false
-          },
-          { 
-              data: data[7],
-              label: "Level 3 Cargo",
-              borderColor: "#5841f4",
-              fill: false
-          },
-          { 
-              data: data[11],
-              label: "Cargo Sandstorm Cargo",
-              borderColor: "#41cdf4",
-              fill: false
-          },
-          { 
-              data: data[13],
-              label: "Level 1 Sandstorm Cargo",
-              borderColor: "#3e95ef",
-              fill: false
-          },
-          { 
-              data: data[15],
-              label: "Level 2 Sandstorm Cargo",
-              borderColor: "#41f458",
-              fill: false
-          },
-          { 
-              data: data[17],
-              label: "Level 3 Sandstorm Cargo",
-              borderColor: "#f4d041",
-              fill: false
-          }
-          ]
-        }
-      });
-  });
+    });
 
 }
 
 function getData(team, callback){
+  var hatchPreload = [];
+  var cargoPreload = [];
+  var l1Start = [];
+  var l2Start = [];
   var cargoHatch = [];
   var cargoCargo = [];
   var r1Hatch = [];
@@ -401,8 +291,13 @@ function getData(team, callback){
   var r3CargoS = [];
   var climb1 = [];
   var climb2 = [];
+  var climb3 = [];
   var superComments = [];
 
+  var totalRocketHatchS = [];
+  var totalRocketCargoS = [];
+  var totalRocketHatch = [];
+  var totalRocketCargo = [];
 
   ref.child('matches').orderByChild('team').equalTo(team).once('value', function(snapshot){
       var data = snapshot.val();
@@ -420,14 +315,19 @@ function getData(team, callback){
             r2Cargo.push(entry['T']['Trc2']);
             r3Hatch.push(entry['T']['Trh3']);
             r3Cargo.push(entry['T']['Trc3']);
+            climb1.push(entry['T']['Tl1']);
+            climb2.push(entry['T']['Tl2']);
+            climb3.push(entry['T']['Tl3']);
 
-            climb1.push(entry['T']['Tl2']);
-            climb2.push(entry['T']['Tl3']);
-
+            totalRocketHatch.push(entry['T']['Ttrh']);
+            totalRocketCargo.push(entry['T']['Ttrc']);
         }
         
         if(entry['A']) {
-
+            hatchPreload.push(entry['A']['Ssh']);
+            cargoPreload.push(entry['A']['Ssc']);
+            l1Start.push(entry['A']['Ssl1']);
+            l2Start.push(entry['A']['Ssl2']);
             cargoHatchS.push(entry['A']['Sscsh']);
             cargoCargoS.push(entry['A']['Sscsc']);
             r1HatchS.push(entry['A']['Ssrh1']);
@@ -437,15 +337,18 @@ function getData(team, callback){
             r3HatchS.push(entry['A']['Ssrh3']);
             r3CargoS.push(entry['A']['Ssrc3']);
 
+            totalRocketHatchS.push(entry['A']['Sstrh']);
+            totalRocketCargoS.push(entry['A']['Sstrc']);
         }
-        
 
-        if(entry['super']) superComments.push(entry['super']);
-        if(entry['P'] && entry['P']['cmnt']) superComments.push(entry['P']['cmnt']);
+        if(entry['super']) superComments.push(entry['super'] + " (SUPERSCOUT)");
+        if(entry['P'] && entry['P']['cmnt']) superComments.push(entry['P']['cmnt'] + " (SCOUT)");
       }
 
-      callback([cargoHatch, cargoCargo, r1Hatch, r1Cargo, r2Hatch, r2Cargo, r3Hatch, r3Cargo, climb1, climb2, 
-                cargoHatchS, cargoCargoS, r1HatchS, r1CargoS, r2HatchS, r2CargoS, r3HatchS, r3CargoS, superComments]);
+      callback([cargoHatch, cargoCargo, r1Hatch, r1Cargo, r2Hatch, r2Cargo, r3Hatch, r3Cargo, climb2, climb3, 
+                cargoHatchS, cargoCargoS, r1HatchS, r1CargoS, r2HatchS, r2CargoS, r3HatchS, r3CargoS, superComments, 
+                hatchPreload, cargoPreload, l1Start, l2Start, climb1, totalRocketCargoS, totalRocketHatchS, 
+                totalRocketCargo, totalRocketHatch]);
   });
 }
 

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="dataTable.css" rel="stylesheet">
+
+  <title>MVRT Scouting Web</title>
+</head>
+<body>
+
+  <script src="firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyCh7bLGBOIILTEjv1Cm_P4zmYBl7xL1JsQ",
+      authDomain: "mvrt-scout.firebaseapp.com",
+      databaseURL: "https://mvrt-scout.firebaseio.com",
+      storageBucket: "mvrt-scout.appspot.com",
+      messagingSenderId: "467897465307"
+    };
+    firebase.initializeApp(config);
+  </script>
+
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+  <script>
+
+  <div class="jumbotron">
+    <div class="container">
+        <h1 class="display-3">MVRT Scout</h1>
+    </div>
+  </div>
+
+  <div class="container">
+
+      <ul class="nav nav-pills">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="dataTable.html">Data Entries</a></li>
+          <li class="nav-item"><a class="nav-link" href="teamInfo.html">Team Info</a></li>
+          <li class="nav-item"><a class="nav-link active" href="matchView.html">Match Preview</a></li>
+          <li class="nav-item"><a class="nav-link" href="uploadImage.html">Robot Image Upload</a></li>
+      </ul>
+
+    <div class="card card-default">
+      <div class="card-body">
+
+        <h2>Match Preview</h2>
+        <p><i>You can also enter six team numbers instead of a match ID</i></p>
+
+        <div class="input-group">
+          <input id="searchTourn" width="200px" type="text" class="form-control" placeholder="Tourn ID (2018idbo)" value="2018idbo">
+          <input id="searchMatch" type="text" class="form-control" placeholder="Match ID (qm1)">
+          <span class="input-group-btn">
+            <button class="btn btn-default" id="searchBtn" type="button">Search</button>
+          </span>
+        </div>
+
+        </br>
+
+        <div id="progress" class="progress">
+          <div id="progressbar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+        </div>
+
+        <div id="matchview">
+            <h5>Teams: <span id="redteams" style="color: #e53935">Red</span> vs
+                <span id="blueteams" style="color: #3949AB">Blue</span></h5>
+
+            <div class="row" id="topview"></div>
+
+            <h3>Box: </h3>
+            <div class="row" id="bluecubegraphs"></div>
+
+            <h3>Scatter: </h3>
+            <div class="row" id="redcubegraphs"></div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script src="jquery-3.3.1.min.js"></script>
+  <script src="bootstrap/js/popper.min.js"></script>
+  <script src="bootstrap/js/bootstrap.min.js"></script>
+  <script src="plotly-latest.min.js"></script>
+  <script src="auth.js"></script>
+  <script src="matchView.js"></script>
+</body>
+</html>

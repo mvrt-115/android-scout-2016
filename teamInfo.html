@@ -12,7 +12,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 
   <title>MVRT Scouting Web</title>
+
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+      
 </head>
+
 <body>
 
   <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase.js"></script>
@@ -61,13 +65,25 @@
             <!--<div class="col-xs-6 col-md-3"></div> -->
         </div>
 
+        <canvas id="preloadGraph" width="1600" height="900"></canvas>
+
+        <canvas id="startingLevelGraph" width="1600" height="900"></canvas>
+
+        <canvas id="endGameGraph" width="1600" height="900"></canvas>
+
+        <canvas id="sandstormGraph" width="1600" height="900"></canvas>
+
+        <canvas id="teleopGraph" width="1600" height="900"></canvas>
+
+        <div id="scorePlots">
+
+        </div>  
+
         <h3>Cargo ship hatches: </h3>
         <h4 id="cargoHatchList"></h4>
         
         <h3>Cargo ship cargo: </h3>
         <h4 id="cargoCargoList"></h4>
-
-        <canvas id="cargoGraph" width="1600" height="900"></canvas>
 
         <h3>Rocket lvl 1 hatches: </h3>
         <h4 id="r1HatchList"></h4>
@@ -75,15 +91,11 @@
         <h3>Rocket lvl 1 cargo: </h3>
         <h4 id="r1CargoList"></h4>
 
-        <canvas id="l1Graph" width="1600" height="900"></canvas>
-
         <h3>Rocket lvl 2 hatches: </h3>
         <h4 id="r2HatchList"></h4>
 
         <h3>Rocket lvl 2 cargo: </h3>
         <h4 id="r2CargoList"></h4>
-
-        <canvas id="l2Graph" width="1600" height="900"></canvas>
 
         <h3>Rocket lvl 3 hatches: </h3>
         <h4 id="r3HatchList"></h4>
@@ -91,15 +103,11 @@
         <h3>Rocket lvl 3 cargo: </h3>
         <h4 id="r3CargoList"></h4>
 
-        <canvas id="l3Graph" width="1600" height="900"></canvas>
-
         <h3>Sandstorm cargo ship hatches: </h3>
         <h4 id="cargoHatchListSandstorm"></h4>
         
         <h3>Sandstorm cargo ship cargo: </h3>
         <h4 id="cargoCargoListSandstorm"></h4>
-
-        <canvas id="cargoGraphS" width="1600" height="900"></canvas>
 
         <h3>Sandstorm rocket lvl 1 hatches: </h3>
         <h4 id="r1HatchListSandstorm"></h4>
@@ -107,15 +115,11 @@
         <h3>Sandstorm rocket lvl 1 cargo: </h3>
         <h4 id="r1CargoListSandstorm"></h4>
 
-        <canvas id="l1GraphS" width="1600" height="900"></canvas>
-
         <h3>Sandstorm rocket lvl 2 hatches: </h3>
         <h4 id="r2HatchListSandstorm"></h4>
 
         <h3>Sandstorm rocket lvl 2 cargo: </h3>
         <h4 id="r2CargoListSandstorm"></h4>
-
-        <canvas id="l2GraphS" width="1600" height="900"></canvas>
   
         <h3>Sandstorm rocket lvl 3 hatches: </h3>
         <h4 id="r3HatchListSandstorm"></h4>
@@ -123,17 +127,11 @@
         <h3>Sandstorm rocket lvl 3 cargo: </h3>
         <h4 id="r3CargoListSandstorm"></h4>
 
-        <canvas id="l3GraphS" width="1600" height="900"></canvas>
-
         <h3>Lvl 2 Climbs: </h3>
         <h4 id="climbList2"></h4>
 
         <h3>Lvl 3 Climbs: </h3>
         <h4 id="climbList3"></h4>
-
-        <canvas id="hatchesGraph" width="1600" height="900"></canvas> 
-        <canvas id="cargosGraph" width="1600" height="900"></canvas>
-
 
         <h3>Comments: </h3>
         <ul class="list-group" id="commentsList">
