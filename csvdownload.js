@@ -39,16 +39,16 @@ function loadFirebaseData(){
 
 }
 
-function fixDB(){
-  ref.child('matches').once('value', function(snapshot){
-    snapshot.forEach(function(childSnapshot){
-        const oldMI = childSnapshot.val().matchinfo;
-        const newMI = oldMI.replace('AZFL', 'CASJ');
-        childSnapshot.ref.child('matchinfo').set(newMI);
-        childSnapshot.ref.child('minfo').set(newMI);
-    });
-  });
-}
+// function fixDB(){
+//   ref.child('matches').once('value', function(snapshot){
+//     snapshot.forEach(function(childSnapshot){
+//         const oldMI = childSnapshot.val().matchinfo;
+//         const newMI = oldMI.replace('AZFL', 'CASJ');
+//         childSnapshot.ref.child('matchinfo').set(newMI);
+//         childSnapshot.ref.child('minfo').set(newMI);
+//     });
+//   });
+// }
 
 // function getData(team){
 //   var gearsPlaced = [];
@@ -102,9 +102,9 @@ function getScoutHeaders(){
     'teleop_rocket_hatch_1', 'teleop_rocket_hatch_2', 'teleop_rocket_hatch_3', 'teleop_total_rocket_hatch',
     'teleop_cargoship_cargo', 'teleop_cargoship_hatch', 'teleop_climb_1', 'teleop_climb_2', 'teleop_climb_3',
 
-    'rating_cargo_accuracy', 'rating_hatch_accuracy', 'rating_cycles', 'rating_defense',
+    'rating_cargo_accuracy', 'rating_hatch_accuracy', 'rating_speed', 'rating_defense', 'rating_stability'
 
-    'disabled', 'interfere', 'comment_scout', 'comment_super',
+    'disabled', 'interfere', 'defense', 'comment_scout', 'comment_super'
 
     'match_id', 'scout_id' ];
 }
@@ -150,9 +150,9 @@ function getScoutData(snapshot){
       T.Trc1, T.Trc2, T.Trc3, T.Ttrc, T.Trh1, T.Trh2, T.Trh3, T.Ttrh, T.Tcsc, T.Tcsh, 
       T.Tl1, T.Tl2, T.Tl3,
 
-      P.Rha, P.Rga, P.Rgt, P.Rdf,
+      P.Rha, P.Rga, P.Rgt, P.Rdf, P.Rrs,
 
-      P.dsbld, P.intr,
+      P.dsbld, P.intr, P.dfnse
       P.cmnt.replace(/,/g, ';'),
       ((data.super)?data.super:'').replace(/,/g, ';'),
 

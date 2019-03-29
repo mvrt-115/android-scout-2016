@@ -262,8 +262,79 @@ function searchTeams(){
         }
       });
 
-      
+      var scorePlots = document.getElementById("scorePlots");
 
+      var hatchList = [data[0], data[2], data[4], data[6]];
+      var cargoList = [data[1], data[3], data[5], data[7]];
+      var cargoHatchTrace = {
+        y: hatchList[0],
+        x: hatchList[0].map(()=>"Hatches"),
+        name: "Cargo Ship Hatches",
+        type: 'box'
+      }
+      
+      var r1HatchTrace = {
+        y: hatchList[1],
+        x: hatchList[1].map(()=>"Hatches"),
+        name: "Rocket L1 Hatches",
+        type: 'box'
+      }
+
+      var r2HatchTrace = {
+        y: hatchList[2],
+        x: hatchList[2].map(()=>"Hatches"),
+        name: "Rocket L2 Hatches",
+        type: 'box'
+      }
+
+      var r3HatchTrace = {
+        y: hatchList[3],
+        x: hatchList[3].map(()=>"Hatches"),
+        name: "Rocket L3 Hatches",
+        type: 'box'
+      }
+
+      var cargoCargoTrace = {
+        y: cargoList[0],
+        x: cargoList[0].map(()=>"Cargo"),
+        name: "Cargo Ship Cargo",
+        type: 'box'
+      }
+      
+      var r1CargoTrace = {
+        y: cargoList[1],
+        x: cargoList[1].map(()=>"Cargo"),
+        name: "Rocket L1 Cargo",
+        type: 'box'
+      }
+
+      var r2CargoTrace = {
+        y: cargoList[2],
+        x: cargoList[2].map(()=>"Cargo"),
+        name: "Rocket L2 Cargo",
+        type: 'box'
+      }
+
+      var r3CargoTrace = {
+        y: cargoList[3],
+        x: cargoList[3].map(()=>"Cargo"),
+        name: "Rocket L3 Cargo",
+        type: 'box'
+      }
+
+      var layout = {
+        width: 1000,
+        height: 700,
+        showLegend: false,
+        yaxis: {
+          zeroline: false
+        },
+        boxmode: 'group'
+      };
+
+      var outData = [cargoHatchTrace, r1HatchTrace, r2HatchTrace, r3HatchTrace, cargoCargoTrace, r1CargoTrace, r2CargoTrace, r3CargoTrace];
+
+      Plotly.newPlot(scorePlots, outData, layout);
     });
 
 }

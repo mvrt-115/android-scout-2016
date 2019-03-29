@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -42,9 +42,9 @@
 
       <ul class="nav nav-pills">
           <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="dataTable.html">Data Entries</a></li>
-          <li class="nav-item"><a class="nav-link" href="teamInfo.html">Team Info</a></li>
+          <li class="nav-item"><a class="nav-link" href="dataTable.html">Data Entries</a></li> 
           <li class="nav-item"><a class="nav-link active" href="matchView.html">Match Preview</a></li>
+          <li class="nav-item"><a class="nav-link" href="teamInfo.html">Team Info</a></li>
           <li class="nav-item"><a class="nav-link" href="uploadImage.html">Robot Image Upload</a></li>
       </ul>
 
@@ -72,13 +72,20 @@
             <h5>Teams: <span id="redteams" style="color: #e53935">Red</span> vs
                 <span id="blueteams" style="color: #3949AB">Blue</span></h5>
 
-            <div class="row" id="topview"></div>
+            <canvas id="preloadGraphRed" width="1600" height="900"></canvas>
+            <canvas id="preloadGraphBlue" width="1600" height="900"></canvas>
 
-            <h3>Box: </h3>
-            <div class="row" id="bluecubegraphs"></div>
+            <canvas id="startingLevelGraphRed" width="1600" height="900"></canvas>
+            <canvas id="startingLevelGraphBlue" width="1600" height="900"></canvas>
 
-            <h3>Scatter: </h3>
-            <div class="row" id="redcubegraphs"></div>
+            <canvas id="endGameGraphRed" width="1600" height="900"></canvas>
+            <canvas id="endGameGraphBlue" width="1600" height="900"></canvas>
+
+            <canvas id="" width="1600" height="900"></canvas>
+
+        <div id="scorePlots">
+            
+        </div>  
         </div>
 
       </div>
@@ -93,4 +100,4 @@
   <script src="auth.js"></script>
   <script src="matchView.js"></script>
 </body>
-</html>
+</html> -->
