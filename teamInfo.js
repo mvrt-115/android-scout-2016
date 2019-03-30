@@ -81,23 +81,29 @@ function searchTeams(){
 
       climb1 = 0;
       for(d in data[23]){
-          climb1++;
-          if(data[23][d] == 'y'){ 
+          if(data[23][d] == true){ 
+              climb1++;
           }
       }
 
       var climb2txt = '';
       climb2 = 0;
       for(d in data[8]){
-          climb2++;
           if(data[8][d] == 'y'){
             climb2txt = climb2txt.concat('<span class="label label-success">Yes</span> ');
-            
+            climb2++;
           }
           else if(data[8][d] == 'n')climb2txt = climb2txt.concat('<span class="label label-default">No</span> ');
           else if(data[8][d] == 'f')climb2txt = climb2txt.concat('<span class="label label-danger">Failed</span> ');
           else if(data[8][d] == 'c')climb2txt = climb2txt.concat('<span class="label label-warning">Cancelled (?)</span> ');
-          else climb2txt = climb2txt.concat(data[8][d] + ' ');
+          else {
+            climb2txt = climb2txt.concat(data[8][d] + ' ');
+
+            if(data[8][d] == true) {
+              climb2++;
+            }
+          }
+
           console.log(climb2txt);
       }
       climbList2.innerHTML = climb2txt;
@@ -105,15 +111,21 @@ function searchTeams(){
       var climb3txt = '';
       climb3 = 0;
       for(d in data[9]){
-          climb3++; 
           if(data[9][d] == 'y') {
             climb3txt = climb3txt.concat('<span class="label label-success">Yes</span> ');
+            climb3++; 
             
           }
           else if(data[9][d] == 'n')climb3txt = climb3txt.concat('<span class="label label-default">No</span> ');
           else if(data[9][d] == 'f')climb3txt = climb3txt.concat('<span class="label label-danger">Failed</span> ');
           else if(data[9][d] == 'c')climb3txt = climb3txt.concat('<span class="label label-warning">Cancelled (?)</span> ');
-          else climb3txt = climb3txt.concat(data[9][d] + ' ');
+          else {
+            climb3txt = climb3txt.concat(data[9][d] + ' ');
+
+            if(data[9][d] == true) {
+              climb3++;
+            }
+          }
           console.log(climb3txt);
       }
       climbList3.innerHTML = climb3txt;
@@ -389,6 +401,9 @@ function getData(team, callback){
             climb1.push(entry['T']['Tl1']);
             climb2.push(entry['T']['Tl2']);
             climb3.push(entry['T']['Tl3']);
+
+            console.log('climb is');
+            console.log(entry['T']['Tl1']);
 
             totalRocketHatch.push(entry['T']['Ttrh']);
             totalRocketCargo.push(entry['T']['Ttrc']);
