@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 26
 
     packagingOptions {
         exclude 'META-INF/LICENSE'
@@ -12,7 +12,7 @@ android {
     defaultConfig {
         applicationId "com.mvrt.superscout"
         minSdkVersion 18
-        targetSdkVersion 27
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
     }
@@ -26,10 +26,10 @@ android {
 
 dependencies {
     //implementation 'com.google.firebase:firebase-core:16.0.1'
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.google.firebase:firebase-database:9.4.0'
-    compile 'com.google.firebase:firebase-config:9.4.0'
-    compile project(':mvrtlib')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.google.firebase:firebase-database:19.2.0'
+    implementation 'com.google.firebase:firebase-config:19.1.0'
+    implementation project(':mvrtlib')
 }
 
 apply plugin: 'com.google.gms.google-services'

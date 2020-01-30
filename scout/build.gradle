@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 26
+    buildToolsVersion '26.0.3'
 
     packagingOptions {
         exclude 'META-INF/LICENSE'
@@ -13,7 +13,7 @@ android {
     defaultConfig {
         applicationId "com.mvrt.scout"
         minSdkVersion 18
-        targetSdkVersion 27
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
     }
@@ -31,7 +31,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.5.3'
     }
 }
 allprojects {
@@ -43,10 +43,10 @@ allprojects {
 
 dependencies {
     //implementation 'com.google.firebase:firebase-core:16.0.1'
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':mvrtlib')
-    compile 'com.google.firebase:firebase-database:9.4.0'
-    compile 'com.google.firebase:firebase-config:9.4.0'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':mvrtlib')
+    implementation 'com.google.firebase:firebase-database:19.2.0'
+    implementation 'com.google.firebase:firebase-config:19.1.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
