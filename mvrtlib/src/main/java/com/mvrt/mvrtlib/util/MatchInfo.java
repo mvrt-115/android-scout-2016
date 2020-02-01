@@ -10,9 +10,6 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * @author Akhil Palla and Ishan Mitra
- */
 public class MatchInfo implements Serializable {
 
     int matchNo;

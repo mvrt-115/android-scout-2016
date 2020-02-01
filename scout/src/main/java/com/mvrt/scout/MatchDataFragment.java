@@ -2,30 +2,30 @@ package com.mvrt.scout;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.Fragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
+
+import android.app.Fragment;
+import androidx.appcompat.app.AlertDialog;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
-import com.google.zxing.WriterException;
-import com.mvrt.mvrtlib.util.Snacker;
 import com.zxing.Contents;
 import com.zxing.QRCodeEncoder;
 
 import org.json.JSONObject;
 
-/**
- * @author Bubby
- */
+
 public class MatchDataFragment extends Fragment implements View.OnClickListener{
 
     private boolean sentData = false;
@@ -33,7 +33,7 @@ public class MatchDataFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_matchdata, container, false);
+        return inflater.inflate(R.layout.fragment_match_data, container, false);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class MatchDataFragment extends Fragment implements View.OnClickListener{
                 if(sentData)
                     getActivity().finish();
                 else {
-                   verify();
+                    verify();
                 }
                 break;
             default:
@@ -101,12 +101,12 @@ public class MatchDataFragment extends Fragment implements View.OnClickListener{
         try {
             Bitmap bitmap = qrCodeEncoder.encodeAsBitmap();
             imageView.setImageBitmap(bitmap);
-        } catch (WriterException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static class VerificationDialog extends DialogFragment{
+    public static class VerificationDialog extends DialogFragment {
 
         String verification;
 
@@ -119,7 +119,7 @@ public class MatchDataFragment extends Fragment implements View.OnClickListener{
             LayoutInflater inflater = getActivity().getLayoutInflater();
 
             builder.setTitle("Verify Data Transfer");
-            builder.setView(inflater.inflate(R.layout.dialog_code_verification, null))
+            builder.setView(inflater.inflate(R.layout.fragment_confirm_sync_dialog, null))
                     .setNeutralButton("Verify", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             Dialog d = (Dialog)dialog;
@@ -127,7 +127,7 @@ public class MatchDataFragment extends Fragment implements View.OnClickListener{
                             if(verCode.getText().toString().equalsIgnoreCase(verification)){
                                 getActivity().finish();
                             }else{
-                                Snacker.snack("Incorrect Code", getActivity(), Snackbar.LENGTH_SHORT);
+                                Toast.makeText(getActivity().getApplicationContext(), "Incorrect Code", Toast.LENGTH_LONG).show();
                                 d.cancel();
                             }
                         }
@@ -140,7 +140,7 @@ public class MatchDataFragment extends Fragment implements View.OnClickListener{
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     getActivity().finish();
-                            }
+                }
             });
             return builder.create();
         }

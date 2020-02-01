@@ -1,1 +1,2 @@
-include ':superscout', ':scout', ':mvrtlib', ':pit'
+include ':app', ':pit', ':mvrtlib', ':scout', ':superscout'
+rootProject.name='android-scout'

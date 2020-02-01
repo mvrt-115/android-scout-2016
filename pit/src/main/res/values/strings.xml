@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Pit Scout</string>
+    <string name="app_name">pit</string>
     <string name="action_localdata">Local Data</string>
     <string name="menuitem_sync">Sync Data</string>
 </resources>

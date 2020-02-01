@@ -1,11 +1,12 @@
 package com.mvrt.pit;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import android.os.Bundle;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,12 +15,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.firebase.client.Firebase;
-
-import com.mvrt.mvrtlib.util.JSONUtils;
-import com.mvrt.mvrtlib.util.MatchInfo;
-import com.mvrt.mvrtlib.util.Snacker;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -66,11 +61,7 @@ public class PitScout extends AppCompatActivity implements View.OnClickListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Firebase.setAndroidContext(getApplication());
-
         setContentView(R.layout.activity_pit_scout);
-        initUI();
     }
 
     private void initUI () {
@@ -147,7 +138,7 @@ public class PitScout extends AppCompatActivity implements View.OnClickListener 
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_localdata) {
             Intent i = new Intent(this, LocalDataActivity.class);
@@ -220,6 +211,7 @@ public class PitScout extends AppCompatActivity implements View.OnClickListener 
                 Toast.LENGTH_SHORT);
         feed.show();
     }
+
     private void clearData() {
         team.setText("");
         team.setHint("Team Number");
@@ -236,7 +228,6 @@ public class PitScout extends AppCompatActivity implements View.OnClickListener 
         try {
             FileOutputStream fos = openFileOutput(filename, Context.MODE_PRIVATE);
             fos.write(data.toString().getBytes());
-            Snacker.snack("Written to file: " + filename, this, Snackbar.LENGTH_SHORT);
         } catch (Exception e) {
             e.printStackTrace();
         }

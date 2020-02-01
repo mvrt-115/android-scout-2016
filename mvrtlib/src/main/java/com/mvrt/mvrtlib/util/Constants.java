@@ -1,8 +1,5 @@
 package com.mvrt.mvrtlib.util;
 
-/**
- * @author Akhil Palla
- */
 public class Constants {
 
     public static final String INTENT_QR = "com.google.zxing.client.android.SCAN";

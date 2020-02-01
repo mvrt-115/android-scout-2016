@@ -1,20 +1,21 @@
 package com.mvrt.scout;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+
+import android.app.Fragment;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mvrt.mvrtlib.util.Constants;
-import com.mvrt.mvrtlib.util.Snacker;
 
 public class SettingsFragment extends Fragment implements View.OnClickListener {
 
@@ -67,7 +68,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         editor.putInt(Constants.PREFS_SCOUTID_KEY, scoutid);
         Log.d("MVRT", "Scout id is " + scoutid);
         editor.commit();
-        Snacker.snack("Settings saved", getActivity(), Snackbar.LENGTH_SHORT);
+        Toast.makeText(getActivity().getApplicationContext(), "Settings saved", Toast.LENGTH_LONG).show();
 
         int a = prefs.getInt(Constants.PREFS_SCOUTID_KEY, 5);
         Log.d("MVRT", "Scout ID is " + a);

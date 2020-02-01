@@ -1,36 +1,34 @@
 package com.mvrt.scout;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.FragmentPagerAdapter;
 import com.mvrt.mvrtlib.util.JSONUtils;
 import com.mvrt.mvrtlib.util.MatchInfo;
-import com.mvrt.mvrtlib.util.Snacker;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.FileOutputStream;
 
-
 public class StandScoutActivity extends AppCompatActivity {
 
     MatchInfo matchInfo;
     int scoutId;
-
+    // firebase
     DatabaseReference matchReference;
 
     StandScoutAutonFragment standScoutAutonFragment;
@@ -40,7 +38,7 @@ public class StandScoutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_match_scout);
+        setContentView(R.layout.activity_match_scouting_data);
         initFirebase();
         loadIntentData();
         loadUI();
@@ -109,11 +107,11 @@ public class StandScoutActivity extends AppCompatActivity {
 
         if(!standScoutAutonFragment.validate()){
             pager.setCurrentItem(1);
-            Snacker.snack("Robots can either reach or cross, not both", this, Snackbar.LENGTH_LONG);
+            Toast.makeText(getApplicationContext(), "Robots can either reach or cross, not both", Toast.LENGTH_LONG).show();
         }
         else if(!standScoutPostgameFragment.validate()){
             pager.setCurrentItem(4);
-            Snacker.snack("Please make sure you filled in all of the data", this, Snackbar.LENGTH_LONG);
+            Toast.makeText(getApplicationContext(), "Please make sure you filled in all of the data", Toast.LENGTH_LONG).show();
         }
         else {
             try {
@@ -148,7 +146,7 @@ public class StandScoutActivity extends AppCompatActivity {
         try {
             FileOutputStream fos = openFileOutput(filename, Context.MODE_PRIVATE);
             fos.write(data.toString().getBytes());
-            Snacker.snack("Written to file: " + filename, this, Snackbar.LENGTH_SHORT);
+            Toast.makeText(getApplicationContext(), "Written to file: " + filename, Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             e.printStackTrace();
         }

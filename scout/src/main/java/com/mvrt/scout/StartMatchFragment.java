@@ -1,11 +1,13 @@
 package com.mvrt.scout;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+
+import android.app.Fragment;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,13 +16,13 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.MatchInfo;
-import com.mvrt.mvrtlib.util.Snacker;
 
-public class StartMatchFragment extends Fragment implements View.OnClickListener{
+public class StartMatchFragment extends Fragment implements View.OnClickListener {
 
     EditText matchText;
     EditText teamText;
@@ -83,7 +85,7 @@ public class StartMatchFragment extends Fragment implements View.OnClickListener
 
     public void startScouting(MatchInfo match){
         if(match == null) {
-            Snacker.snack("Invalid match info", getActivity(), Snackbar.LENGTH_SHORT);
+            Toast.makeText(getActivity().getApplicationContext(), "Invalid match info", Toast.LENGTH_SHORT).show();
             return;
         }
         Intent i = new Intent(getActivity(), StandScoutActivity.class);
@@ -98,7 +100,7 @@ public class StartMatchFragment extends Fragment implements View.OnClickListener
             intent.putExtra(Constants.INTENT_QR_SCANMODE_KEY, Constants.INTENT_QR_SCANMODE); // "PRODUCT_MODE for bar codes
             startActivityForResult(intent, Constants.REQUEST_QR_SCAN);
         } catch (Exception e) {
-            Snackbar.make(getView(), "Error launching QR scanner", Snackbar.LENGTH_LONG);
+            Toast.makeText(getActivity().getApplicationContext(), "Error launching QR scanner", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -109,8 +111,9 @@ public class StartMatchFragment extends Fragment implements View.OnClickListener
             if(resultCode == Activity.RESULT_OK){
                 String result = data.getStringExtra(Constants.INTENT_QR_SCANRESULT_KEY);
                 startScouting(MatchInfo.parse(result));
-            } else Snacker.snack("Error getting QR data", getActivity(), Snackbar.LENGTH_LONG);
+            } else{
+                Toast.makeText(getActivity().getApplicationContext(), "Error getting QR data", Toast.LENGTH_SHORT).show();
+            }
         }
     }
-
 }

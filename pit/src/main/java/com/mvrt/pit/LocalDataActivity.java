@@ -1,11 +1,9 @@
 package com.mvrt.pit;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,13 +14,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.client.Firebase;
-import com.mvrt.mvrtlib.util.Constants;
-import com.mvrt.mvrtlib.util.JSONUtils;
-import com.mvrt.mvrtlib.util.MatchInfo;
-
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,16 +28,15 @@ import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import java.io.IOException;
 
+
 public class LocalDataActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, ItemSelectListener {
 
     RecyclerView fileListRecycler;
     LocalDataAdapter localDataAdapter;
     SwipeRefreshLayout swipeRefreshLayout;
 
-    Firebase firebase;
-
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initFirebase();
 
@@ -50,14 +47,13 @@ public class LocalDataActivity extends AppCompatActivity implements SwipeRefresh
         setSupportActionBar(t);
 
         fileListRecycler = (RecyclerView)findViewById(R.id.localdata_listrecycler);
-        initRecycler();
+        //initRecycler();
         swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.localdata_swiperefresh);
         swipeRefreshLayout.setOnRefreshListener(this);
     }
 
     private void initFirebase(){
-        Firebase.setAndroidContext(getApplication());
-        firebase = new Firebase("http://teamdata.firebaseio.com/pit");
+
     }
 
     private void initRecycler(){
@@ -99,17 +95,20 @@ public class LocalDataActivity extends AppCompatActivity implements SwipeRefresh
             Toast.makeText(this, "File Read JSONException", Toast.LENGTH_SHORT).show();
             Log.e("MVRT", "File Read JSONException");
         }
+
     }
 
-    private void uploadData(JSONObject scoutData, String filename){
+    private void uploadData(JSONObject scoutData, String filename) {
+        /*
         try{
-            firebase.push().setValue(JSONUtils.jsonToMap(scoutData));
+            //firebase.push().setValue(JSONUtils.jsonToMap(scoutData));
             deleteFile(filename);
             Log.d("MVRT", "Deleted file " + filename);
         }catch(JSONException e){
             Toast.makeText(this, "Upload JSONException", Toast.LENGTH_SHORT).show();
             Log.e("MVRT", "Upload JSONException");
         }
+        */
     }
 
     @Override
@@ -117,6 +116,7 @@ public class LocalDataActivity extends AppCompatActivity implements SwipeRefresh
         String[] filenames = getFilesDir().list(new JSONFilter());
         localDataAdapter.setFilenames(filenames);
         swipeRefreshLayout.setRefreshing(false);
+
     }
 
     @Override
@@ -142,7 +142,7 @@ public class LocalDataActivity extends AppCompatActivity implements SwipeRefresh
         }
     }
 
-    static class JSONFilter implements FilenameFilter{
+    static class JSONFilter implements FilenameFilter {
 
         @Override
         public boolean accept(File dir, String filename) {
@@ -152,7 +152,6 @@ public class LocalDataActivity extends AppCompatActivity implements SwipeRefresh
     }
 
     static class LocalDataAdapter extends RecyclerView.Adapter<LocalDataAdapter.ViewHolder>{
-
         String[] filenames;
         ItemSelectListener selectListener;
 
@@ -231,7 +230,6 @@ public class LocalDataActivity extends AppCompatActivity implements SwipeRefresh
     }
 
 }
-
 interface ItemSelectListener {
     void itemSelected(String filename);
 }

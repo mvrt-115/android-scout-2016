@@ -1,15 +1,16 @@
 package com.mvrt.scout;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.widget.Toolbar;
+
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
+import com.google.android.material.tabs.TabLayout;
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.FragmentPagerAdapter;
 import com.mvrt.mvrtlib.util.MatchInfo;
@@ -19,10 +20,6 @@ import org.json.JSONObject;
 
 import java.io.FileInputStream;
 
-/**
- * @author Bubby
- * End of match activity to send data to super.
- */
 public class MatchScoutingDataActivity extends AppCompatActivity{
 
     private NfcAdapter nfcAdapter;
@@ -35,7 +32,7 @@ public class MatchScoutingDataActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_match_data);
+        setContentView(R.layout.activity_match_scouting_data);
 
         String filename = getIntent().getStringExtra(Constants.INTENT_EXTRA_FILENAME);
         Log.d("MVRT", "filename: " + filename);
@@ -88,7 +85,7 @@ public class MatchScoutingDataActivity extends AppCompatActivity{
         setSupportActionBar(t);
     }
 
-    public void loadFragments() throws JSONException{
+    public void loadFragments() throws JSONException {
         dataFragment = new MatchDataFragment();
 
         MatchInfoFragment infoFragment = new MatchInfoFragment();

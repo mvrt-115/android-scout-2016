@@ -4,21 +4,20 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.android.material.snackbar.Snackbar;
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.MatchInfo;
-import com.mvrt.mvrtlib.util.Snacker;
 
-/**
- * @author Bubby and Akhil
- */
+
 public class StartMatchFragment extends Fragment implements View.OnClickListener {
 
     TextView settingsView;
@@ -82,7 +81,7 @@ public class StartMatchFragment extends Fragment implements View.OnClickListener
 
     public void startScouting(MatchInfo match){
         if(match == null) {
-            Snacker.snack("Invalid match info", getActivity(), Snackbar.LENGTH_SHORT);
+            Toast.makeText(getActivity().getApplicationContext(), "Invalid match info", Toast.LENGTH_SHORT).show();
             return;
         }
         Intent i = new Intent(getActivity(), SuperScoutActivity.class);

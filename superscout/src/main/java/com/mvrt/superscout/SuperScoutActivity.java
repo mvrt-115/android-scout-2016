@@ -1,5 +1,8 @@
 package com.mvrt.superscout;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -8,13 +11,11 @@ import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,9 +31,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-/**
- * @author Bubby and Akhil
- */
 public class SuperScoutActivity extends AppCompatActivity implements ChildEventListener {
 
     NfcAdapter nfcAdapter;
@@ -122,6 +120,7 @@ public class SuperScoutActivity extends AppCompatActivity implements ChildEventL
 
     @Override
     protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
         setIntent(intent);
     }
 
@@ -135,7 +134,6 @@ public class SuperScoutActivity extends AppCompatActivity implements ChildEventL
         super.onResume();
     }
 
-    @Override
     protected void onPause() {
         //nfcAdapter.disableForegroundDispatch(this);
         super.onPause();

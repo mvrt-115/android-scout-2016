@@ -1,22 +1,26 @@
 package com.mvrt.superscout;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+
+import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.mvrt.mvrtlib.util.Constants;
-import com.mvrt.mvrtlib.util.Snacker;
 
-public class SettingsFragment extends Fragment implements View.OnClickListener {
+public class SettingsFragment extends android.app.Fragment implements View.OnClickListener {
 
     Spinner alliance;
     SharedPreferences prefs;
@@ -78,7 +82,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt(Constants.PREFS_ALLIANCE_KEY, al);
         editor.commit();
-        Snacker.snack("Settings Saved", getActivity(), Snackbar.LENGTH_SHORT);
+        Toast.makeText(getActivity().getApplicationContext(), "Settings Saved", Toast.LENGTH_SHORT).show();
         loadSettings();
     }
 

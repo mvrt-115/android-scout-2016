@@ -4,9 +4,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+
 import android.os.Handler;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +13,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.mvrt.mvrtlib.util.Constants;
 
-/**
- * @author Bubby
- */
-public class SuperDataFragment extends Fragment{
+
+public class SuperDataFragment extends Fragment {
 
     TextView list;
     String queue = "";

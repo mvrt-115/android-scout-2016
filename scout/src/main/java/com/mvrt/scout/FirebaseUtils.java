@@ -2,9 +2,6 @@ package com.mvrt.scout;
 
 import com.google.firebase.database.FirebaseDatabase;
 
-/**
- * Created by akhil on 9/21/2016.
- */
 public class FirebaseUtils {
 
     private static FirebaseDatabase mDatabase;

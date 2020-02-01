@@ -1,29 +1,33 @@
 package com.mvrt.superscout;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import com.google.zxing.BarcodeFormat;
-import com.google.zxing.WriterException;
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.MatchInfo;
 import com.zxing.Contents;
 import com.zxing.QRCodeEncoder;
 
-public class SuperMatchInfoFragment extends Fragment{
+
+public class SuperMatchInfoFragment extends Fragment {
 
     MatchInfo matchInfo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_super_matchinfo, container, false);
+        return inflater.inflate(R.layout.fragment_super_match_info, container, false);
     }
 
     @Override
@@ -61,7 +65,7 @@ public class SuperMatchInfoFragment extends Fragment{
         try {
             Bitmap bitmap = qrCodeEncoder.encodeAsBitmap();
             imageView.setImageBitmap(bitmap);
-        } catch (WriterException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

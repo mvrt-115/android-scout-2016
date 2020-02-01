@@ -1,7 +1,10 @@
 package com.mvrt.superscout;
 
 import android.app.Fragment;
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +15,7 @@ import android.widget.TextView;
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.MatchInfo;
 
-/**
- * @author Bubby
- */
+
 public class SuperCommentsFragment extends Fragment {
 
     MatchInfo matchInfo;
