@@ -19,7 +19,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class StandScoutTeleopFragment extends DataCollectionFragment implements View.OnClickListener{
+public class StandScoutTeleopFragment extends DataCollectionFragment implements View.OnClickListener {
 
     Button climbStart;
     Button climbSuccess;
@@ -63,16 +63,9 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
 
     Button teleopFinish;
 
-    int rocketCargoLevel1Num = 0;
-    int rocketCargoLevel2Num = 0;
-    int rocketCargoLevel3Num = 0;
-
-    int rocketHatchLevel1Num = 0;
-    int rocketHatchLevel2Num = 0;
-    int rocketHatchLevel3Num = 0;
-
-    int cargoShipCargoNum = 0;
-    int cargoShipHatchNum = 0;
+    int innerNum = 0;
+    int outerNum = 0;
+    int bottomNum = 0;
 
 
     @Override

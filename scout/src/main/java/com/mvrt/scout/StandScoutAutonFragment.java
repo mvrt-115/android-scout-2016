@@ -78,12 +78,6 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
 
         finishAuton = (Button) v.findViewById(R.id.bt_auton_finish);
         finishAuton.setOnClickListener(this);
-
-        powerCellNum = 0;
-
-        innerNum = 0;
-        outerNum = 0;
-        bottomNum = 0;
     }
 
     private void refreshInitationLine() {
@@ -121,7 +115,6 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
             case R.id.bt_auton_power_cells:
                 powerCellNum++;
                 powerCell.setText("POWER CELLS (" + powerCellNum + ")");
@@ -165,18 +158,18 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
     public JSONObject getData() {
         JSONObject obj = new JSONObject();
         try {
-            obj.put(Constants.JSON_SANDSTORM_STARTHATCH, level1.isChecked());
-            obj.put(Constants.JSON_SANDSTORM_STARTCARGO, level2.isChecked());
-            obj.put(Constants.JSON_SANDSTORM_STARTNONE, level3.isChecked());
+            obj.put(Constants.JSON_AUTON_LEVEL1, level1.isChecked());
+            obj.put(Constants.JSON_AUTON_LEVEL2, level2.isChecked());
+            obj.put(Constants.JSON_AUTON_LEVEL3, level3.isChecked());
 
-            obj.put(Constants.JSON_SANDSTORM_ROCKETCARGO1, powerCellNum);
+            obj.put(Constants.JSON_AUTON_PRELOAD, powerCellNum);
 
-            obj.put(Constants.JSON_SANDSTORM_HAB, crossInitiationLine.getText().equals("Crossed"));
+            obj.put(Constants.JSON_AUTON_CROSSD_LINE, crossInitiationLine.getText().equals("Crossed"));
 
-            obj.put(Constants.JSON_SANDSTORM_ROCKETCARGO1, innerNum);
-            obj.put(Constants.JSON_SANDSTORM_ROCKETCARGO2, outerNum);
-            obj.put(Constants.JSON_SANDSTORM_ROCKETCARGO3, bottomNum);
-            obj.put(Constants.JSON_SANDSTORM_TOTALROCKETCARGO, innerNum + outerNum + bottomNum);
+            obj.put(Constants.JSON_AUTON_INNER, innerNum);
+            obj.put(Constants.JSON_AUTON_OUTER, outerNum);
+            obj.put(Constants.JSON_AUTON_BOTTOM, bottomNum);
+            obj.put(Constants.JSON_AUTON_TOTAL, innerNum + outerNum + bottomNum);
         } catch (Exception e) {
             e.printStackTrace();
         }
