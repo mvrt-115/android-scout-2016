@@ -18,151 +18,262 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Rating System"
+                android:text="Endgame"
                 android:textSize="20sp"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Climb (timed)"
+                    android:textSize="15sp"
+                    android:id="@+id/teleop_climb_status"/>
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="0:00"
+                    android:gravity="right"
+                    android:id="@+id/teleop_climb_timer"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button android:id="@+id/teleop_climb_start"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Start Climb"
+                    android:layout_margin="5dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:theme="@style/MVRTButtonStyle"/>
+
+                <Button android:id="@+id/teleop_climb_success"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    android:text="Success"
+                    android:layout_margin="5dp"
+                    android:theme="@style/MVRTButtonStyle"/>
+
+                <Button android:id="@+id/teleop_climb_confirm"
+                    android:layout_height = "wrap_content"
+                    android:layout_width = "0dp"
+                    android:layout_weight = "1"
+                    android:text = "Confirm Success?"
+                    android:visibility="gone"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:layout_margin="5dp"
+                    android:theme="@style/MVRTButtonStyle" />
+
+                <Button android:id="@+id/teleop_climb_fail"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Failed"
+                    android:visibility="gone"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:layout_margin="5dp"
+                    android:theme="@style/MVRTButtonStyle"/>
+
+                <Button android:id="@+id/teleop_climb_cancel"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Cancel"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:layout_margin="5dp"
+                    android:theme="@style/MVRTButtonStyle"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:text="Attempted hang"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <Button android:id="@+id/bt_teleop_rotation_control"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:padding="25dp"
+                    android:text="No attempt"
+                    android:layout_margin="5dp"
+                    android:theme="@style/MVRTButtonStyle"/>
+
+            </LinearLayout>
+
             <TextView
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/rating_description"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:text="Hang"
+                android:textSize="15sp" />
+
+            <RadioGroup
+                android:id="@+id/final_level"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_end_level1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Success" />
+
+                <RadioButton
+                    android:id="@+id/radio_end_level2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Failed" />
+
+            </RadioGroup>
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="horizontal" >
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:textSize="17sp"
-                    android:text="Cargo Placement Accuracy"
-                    android:layout_weight="1" />
-
-                <RatingBar android:id="@+id/postgame_cargoaccuracy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:numStars="5"
-                    android:stepSize="1"
-                    android:layout_weight="1" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:text="Attempted leveling"
+                    android:textSize="15sp" />
 
             </LinearLayout>
+
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="horizontal" >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:textSize="17sp"
-                    android:text="Hatch Placement Accuracy"
-                    android:layout_weight="1" />
-
-                <RatingBar android:id="@+id/postgame_hatchaccuracy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:numStars="5"
-                    android:stepSize="1"
-                    android:layout_weight="1" />
+                <Button android:id="@+id/bt_teleop_rotation_control"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:padding="25dp"
+                    android:text="No attempt"
+                    android:layout_margin="5dp"
+                    android:theme="@style/MVRTButtonStyle"/>
 
             </LinearLayout>
 
-            <LinearLayout
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:text="Leveling"
+                android:textSize="15sp" />
+
+            <RadioGroup
+                android:id="@+id/final_level"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_end_level1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Success" />
+
+                <RadioButton
+                    android:id="@+id/radio_end_level2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Failed" />
+
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:text="Solo climb or other robots climbing"
+                android:textSize="15sp" />
+
+            <RadioGroup
+                android:id="@+id/final_level"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_end_level1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Solo climb" />
+
+                <RadioButton
+                    android:id="@+id/radio_end_level2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="With others" />
+
+            </RadioGroup>
+
+            <CheckBox android:id="@+id/postgame_parked"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:text="Parked?" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:textSize="17sp"
-                    android:text="Cycle Time"
-                    android:layout_weight="1" />
-
-                <RatingBar android:id="@+id/postgame_cycletime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:numStars="5"
-                    android:stepSize="1"
-                    android:layout_weight="1" />
-
-            </LinearLayout>
-
-            <LinearLayout
+            <CheckBox
+                android:id="@+id/postgame_interfere"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:textSize="17sp"
-                    android:text="Driving"
-                    android:layout_weight="1" />
-
-                <RatingBar android:id="@+id/postgame_driving"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:numStars="5"
-                    android:stepSize="1"
-                    android:layout_weight="1" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:textSize="17sp"
-                    android:text="Defense"
-                    android:layout_weight="1" />
-
-                <RatingBar android:id="@+id/postgame_defense"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:numStars="5"
-                    android:stepSize="1"
-                    android:layout_weight="1" />
-
-            </LinearLayout>
-
-            <CheckBox android:id="@+id/postgame_interfere"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Interfered with other robots?" />
+                android:text="Stuck" />
 
             <CheckBox android:id="@+id/postgame_disabled"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Disabled?" />
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_margin="10dp"
-                android:layout_height="wrap_content"
-                android:text="Anything else we should know?"
-                android:textSize="18sp"
-                android:gravity="center"/>
-
-            <EditText android:id="@+id/postgame_comments"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="Additional Comments"
-                android:background="@color/purpletext_primary_light"
-                android:padding="5dp"
-                android:inputType="textMultiLine"/>
 
             <Button
                 android:id="@+id/postgame_finish"
