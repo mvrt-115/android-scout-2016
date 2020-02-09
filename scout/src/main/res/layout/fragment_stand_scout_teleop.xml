@@ -181,14 +181,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
-                <Button android:id="@+id/bt_teleop_trench"
-                    android:layout_height="wrap_content"
+                <Button
+                    android:id="@+id/bt_teleop_trench"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:padding="25dp"
-                    android:text="Went Under Trench"
-                    android:layout_margin="5dp"
-                    android:theme="@style/MVRTButtonStyle"/>
+                    android:text="NO"
+                    android:theme="@style/MVRTButtonStyle" />
 
             </LinearLayout>
 

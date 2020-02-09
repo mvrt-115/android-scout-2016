@@ -249,7 +249,13 @@ public class StandScoutPostgameFragment extends DataCollectionFragment implement
             case R.id.bt_teleop_finish:
                 ((StandScoutActivity)getActivity()).stopScouting();
         }
+        refreshUI();
     }
+
+    public void refreshUI() {
+        refreshClimbUI();
+    }
+
 
     private void refreshHangAttempt() {
         if (!hangAttempt.getText().equals("Attempted"))

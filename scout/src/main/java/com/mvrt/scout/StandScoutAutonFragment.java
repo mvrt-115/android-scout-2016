@@ -126,6 +126,7 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
             case R.id.bt_auton_initiation_line:
                 refreshInitationLine();
                 break;
+
             case R.id.bt_auton_inner:
                 innerNum++;
                 inner.setText("INNER (" + innerNum + ")");
