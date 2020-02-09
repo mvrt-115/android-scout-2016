@@ -16,49 +16,31 @@ import org.json.JSONObject;
 public class StandScoutAutonFragment extends DataCollectionFragment implements View.OnClickListener {
 
 
-    RadioButton startWithHatch;
-    RadioButton startWithCargo;
-    RadioButton noneLoaded;
+    RadioButton level1;
+    RadioButton level2;
+    RadioButton level3;
 
-    RadioButton startLevel1;
-    RadioButton startLevel2;
+    Button powerCell;
 
-    Button crossHABLine;
+    Button minusPowerCell;
 
-    Button rocketCargoLevel1;
-    Button rocketCargoLevel2;
-    Button rocketCargoLevel3;
+    Button crossInitiationLine;
 
-    Button minusRocketCargoLevel1;
-    Button minusRocketCargoLevel2;
-    Button minusRocketCargoLevel3;
+    Button inner;
+    Button outer;
+    Button bottom;
 
-    Button rocketHatchLevel1;
-    Button rocketHatchLevel2;
-    Button rocketHatchLevel3;
+    Button minusInner;
+    Button minusOuter;
+    Button minusBottom;
 
-    Button minusRocketHatchLevel1;
-    Button minusRocketHatchLevel2;
-    Button minusRocketHatchLevel3;
+    Button finishAuton;
 
-    Button cargoShipCargo;
-    Button minusCargoShipCargo;
+    int powerCellNum;
 
-    Button cargoShipHatch;
-    Button minusCargoShipHatch;
-
-    Button finishSandstorm;
-
-    int rocketCargoLevel1Num = 0;
-    int rocketCargoLevel2Num = 0;
-    int rocketCargoLevel3Num = 0;
-
-    int rocketHatchLevel1Num = 0;
-    int rocketHatchLevel2Num = 0;
-    int rocketHatchLevel3Num = 0;
-
-    int cargoShipCargoNum = 0;
-    int cargoShipHatchNum = 0;
+    int innerNum = 0;
+    int outerNum = 0;
+    int bottomNum = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,103 +50,67 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
 
     @Override
     public void onViewCreated(View v, Bundle savedInstanceState) {
-        startWithHatch = (RadioButton) v.findViewById(R.id.radio_hatch);
-        startWithCargo = (RadioButton) v.findViewById(R.id.radio_cargo);
-        noneLoaded = (RadioButton) v.findViewById(R.id.radio_no_content);
+        level1 = (RadioButton) v.findViewById(R.id.radio_teleop_level1);
+        level2 = (RadioButton) v.findViewById(R.id.radio_teleop_level2);
+        level3 = (RadioButton) v.findViewById(R.id.radio_teleop_level3);
 
-        startLevel1 = (RadioButton) v.findViewById(R.id.radio_level1);
-        startLevel2 = (RadioButton) v.findViewById(R.id.radio_level2);
+        powerCell = (Button) v.findViewById(R.id.bt_auton_power_cells);
+        powerCell.setOnClickListener(this);
+        minusPowerCell = (Button) v.findViewById(R.id.bt_auton_power_cells_minus);
+        minusPowerCell.setOnClickListener(this);
 
-        crossHABLine = (Button) v.findViewById(R.id.bt_auton_initiation_line);
-        crossHABLine.setOnClickListener(this);
+        crossInitiationLine = (Button) v.findViewById(R.id.bt_auton_initiation_line);
+        crossInitiationLine.setOnClickListener(this);
 
-        rocketCargoLevel1 = (Button) v.findViewById(R.id.bt_auton_power_cells);
-        rocketCargoLevel1.setOnClickListener(this);
-        rocketCargoLevel2 = (Button) v.findViewById(R.id.bt_sandstorm_rocket_cargo_level2);
-        rocketCargoLevel2.setOnClickListener(this);
-        rocketCargoLevel3 = (Button) v.findViewById(R.id.bt_sandstorm_rocket_cargo_level3);
-        rocketCargoLevel3.setOnClickListener(this);
+        inner = (Button) v.findViewById(R.id.bt_auton_inner);
+        inner.setOnClickListener(this);
+        outer = (Button) v.findViewById(R.id.bt_auton_outer);
+        outer.setOnClickListener(this);
+        bottom = (Button) v.findViewById(R.id.bt_auton_bottom);
+        bottom.setOnClickListener(this);
 
-        minusRocketCargoLevel1 = (Button) v.findViewById(R.id.bt_auton_power_cells_minus);
-        minusRocketCargoLevel1.setOnClickListener(this);
-        minusRocketCargoLevel2 = (Button) v.findViewById(R.id.bt_sandstorm_rocket_cargo_level2_minus);
-        minusRocketCargoLevel2.setOnClickListener(this);
-        minusRocketCargoLevel3 = (Button) v.findViewById(R.id.bt_sandstorm_rocket_cargo_level3_minus);
-        minusRocketCargoLevel3.setOnClickListener(this);
+        minusInner = (Button) v.findViewById(R.id.bt_auton_inner_minus);
+        minusInner.setOnClickListener(this);
+        minusOuter = (Button) v.findViewById(R.id.bt_auton_outer_minus);
+        minusOuter.setOnClickListener(this);
+        minusBottom = (Button) v.findViewById(R.id.bt_auton_bottom_minus);
+        minusBottom.setOnClickListener(this);
 
-        rocketHatchLevel1 = (Button) v.findViewById(R.id.bt_sandstorm_rocket_hatch_level1);
-        rocketHatchLevel1.setOnClickListener(this);
-        rocketHatchLevel2 = (Button) v.findViewById(R.id.bt_sandstorm_rocket_hatch_level2);
-        rocketHatchLevel2.setOnClickListener(this);
-        rocketHatchLevel3 = (Button) v.findViewById(R.id.bt_sandstorm_rocket_hatch_level3);
-        rocketHatchLevel3.setOnClickListener(this);
+        finishAuton = (Button) v.findViewById(R.id.bt_auton_finish);
+        finishAuton.setOnClickListener(this);
 
-        minusRocketHatchLevel1 = (Button) v.findViewById(R.id.bt_sandstorm_rocket_hatch_level1_minus);
-        minusRocketHatchLevel1.setOnClickListener(this);
-        minusRocketHatchLevel2 = (Button) v.findViewById(R.id.bt_sandstorm_rocket_hatch_level2_minus);
-        minusRocketHatchLevel2.setOnClickListener(this);
-        minusRocketHatchLevel3 = (Button) v.findViewById(R.id.bt_sandstorm_rocket_hatch_level3_minus);
-        minusRocketHatchLevel3.setOnClickListener(this);
+        powerCellNum = 0;
 
-        cargoShipCargo = (Button) v.findViewById(R.id.bt_sandstorm_cargoship_cargo);
-        cargoShipCargo.setOnClickListener(this);
-        minusCargoShipCargo = (Button) v.findViewById(R.id.bt_sandstorm_cargoship_cargo_minus);
-        minusCargoShipCargo.setOnClickListener(this);
-
-        cargoShipHatch = (Button) v.findViewById(R.id.bt_sandstorm_cargoship_hatch);
-        cargoShipHatch.setOnClickListener(this);
-        minusCargoShipHatch = (Button) v.findViewById(R.id.bt_sandstorm_cargoship_hatch_minus);
-        minusCargoShipHatch.setOnClickListener(this);
-
-        finishSandstorm = (Button) v.findViewById(R.id.bt_auton_finish);
-        finishSandstorm.setOnClickListener(this);
+        innerNum = 0;
+        outerNum = 0;
+        bottomNum = 0;
     }
 
-    private void refreshHABCrossUI() {
-        if (!crossHABLine.getText().equals("Crossed"))
-            crossHABLine.setText("Crossed");
+    private void refreshInitationLine() {
+        if (!crossInitiationLine.getText().equals("Crossed"))
+            crossInitiationLine.setText("Crossed");
         else
-            crossHABLine.setText("Crosses HAB Line");
+            crossInitiationLine.setText("Crosses Initiation Line");
     }
 
-    private void refreshRocketCargo1UI() {
-        if (rocketCargoLevel1Num > 0) rocketCargoLevel1Num--;
-        rocketCargoLevel1.setText("Level 1 (" + rocketCargoLevel1Num + ")");
+    private void refreshPowerCell() {
+        if (powerCellNum > 0) powerCellNum--;
+        powerCell.setText("POWER CELL (" + powerCellNum + ")");
     }
 
-    private void refreshRocketCargo2UI() {
-        if (rocketCargoLevel2Num > 0) rocketCargoLevel2Num--;
-        rocketCargoLevel2.setText("Level 2 (" + rocketCargoLevel2Num + ")");
+    private void refreshInner() {
+        if (innerNum > 0) innerNum--;
+        inner.setText("INNER (" + innerNum + ")");
     }
 
-    private void refreshRocketCargo3UI() {
-        if (rocketCargoLevel3Num > 0) rocketCargoLevel3Num--;
-        rocketCargoLevel3.setText("Level 3 (" + rocketCargoLevel3Num + ")");
+    private void refreshOuter() {
+        if (outerNum > 0) outerNum--;
+        outer.setText("OUTER (" + outerNum + ")");
     }
 
-    private void refreshRocketHatch1UI() {
-        if (rocketHatchLevel1Num > 0) rocketHatchLevel1Num--;
-        rocketHatchLevel1.setText("Level 1 (" + rocketHatchLevel1Num + ")");
-    }
-
-    private void refreshRocketHatch2UI() {
-        if (rocketHatchLevel2Num > 0) rocketHatchLevel2Num--;
-        rocketHatchLevel2.setText("Level 2 (" + rocketHatchLevel2Num + ")");
-    }
-
-    private void refreshRocketHatch3UI() {
-        if (rocketHatchLevel3Num > 0) rocketHatchLevel3Num--;
-        rocketHatchLevel3.setText("Level 3 (" + rocketHatchLevel3Num + ")");
-    }
-
-    private void refreshCargoShipCargoUI() {
-        if (cargoShipCargoNum > 0) cargoShipCargoNum--;
-        cargoShipCargo.setText("Placed Cargo (" + cargoShipCargoNum + ")");
-    }
-
-    private void refreshCargoShipHatchUI() {
-        if (cargoShipHatchNum > 0) cargoShipHatchNum--;
-        cargoShipHatch.setText("Placed Hatch (" + cargoShipHatchNum + ")");
+    private void refreshBottom() {
+        if (bottomNum > 0) bottomNum--;
+        bottom.setText("BOTTOM (" + bottomNum + ")");
     }
 
     @Override
@@ -175,65 +121,40 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.bt_auton_initiation_line:
-                refreshHABCrossUI();
-                break;
+
             case R.id.bt_auton_power_cells:
-                rocketCargoLevel1Num++;
-                rocketCargoLevel1.setText("Level 1 (" + rocketCargoLevel1Num + ")");
-                break;
-            case R.id.bt_sandstorm_rocket_cargo_level2:
-                rocketCargoLevel2Num++;
-                rocketCargoLevel2.setText("Level 2 (" + rocketCargoLevel2Num + ")");
-                break;
-            case R.id.bt_sandstorm_rocket_cargo_level3:
-                rocketCargoLevel3Num++;
-                rocketCargoLevel3.setText("Level 3 (" + rocketCargoLevel3Num + ")");
+                powerCellNum++;
+                powerCell.setText("POWER CELLS (" + powerCellNum + ")");
                 break;
             case R.id.bt_auton_power_cells_minus:
-                refreshRocketCargo1UI();
+                refreshPowerCell();
                 break;
-            case R.id.bt_sandstorm_rocket_cargo_level2_minus:
-                refreshRocketCargo2UI();
+
+            case R.id.bt_auton_initiation_line:
+                refreshInitationLine();
                 break;
-            case R.id.bt_sandstorm_rocket_cargo_level3_minus:
-                refreshRocketCargo3UI();
+            case R.id.bt_auton_inner:
+                innerNum++;
+                inner.setText("INNER (" + innerNum + ")");
                 break;
-            case R.id.bt_sandstorm_rocket_hatch_level1:
-                rocketHatchLevel1Num++;
-                rocketHatchLevel1.setText("Level 1 (" + rocketHatchLevel1Num + ")");
+            case R.id.bt_auton_outer:
+                outerNum++;
+                outer.setText("INNER (" + outerNum + ")");
                 break;
-            case R.id.bt_sandstorm_rocket_hatch_level2:
-                rocketHatchLevel2Num++;
-                rocketHatchLevel2.setText("Level 2 (" + rocketHatchLevel2Num + ")");
+            case R.id.bt_auton_bottom:
+                bottomNum++;
+                bottom.setText("BOTTOM (" + bottomNum + ")");
                 break;
-            case R.id.bt_sandstorm_rocket_hatch_level3:
-                rocketHatchLevel3Num++;
-                rocketHatchLevel3.setText("Level 3 (" + rocketHatchLevel3Num + ")");
+            case R.id.bt_auton_inner_minus:
+                refreshInner();
                 break;
-            case R.id.bt_sandstorm_rocket_hatch_level1_minus:
-                refreshRocketHatch1UI();
+            case R.id.bt_auton_outer_minus:
+                refreshOuter();
                 break;
-            case R.id.bt_sandstorm_rocket_hatch_level2_minus:
-                refreshRocketHatch2UI();
+            case R.id.bt_auton_bottom_minus:
+                refreshBottom();
                 break;
-            case R.id.bt_sandstorm_rocket_hatch_level3_minus:
-                refreshRocketHatch3UI();
-                break;
-            case R.id.bt_sandstorm_cargoship_cargo:
-                cargoShipCargoNum++;
-                cargoShipCargo.setText("Placed Cargo (" + cargoShipCargoNum + ")");
-                break;
-            case R.id.bt_sandstorm_cargoship_cargo_minus:
-                refreshCargoShipCargoUI();
-                break;
-            case R.id.bt_sandstorm_cargoship_hatch:
-                cargoShipHatchNum++;
-                cargoShipHatch.setText("Placed Hatch (" + cargoShipHatchNum + ")");
-                break;
-            case R.id.bt_sandstorm_cargoship_hatch_minus:
-                refreshCargoShipHatchUI();
-                break;
+
             case R.id.bt_auton_finish:
                 ((StandScoutActivity) getActivity()).nextTab();
                 break;
@@ -244,28 +165,18 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
     public JSONObject getData() {
         JSONObject obj = new JSONObject();
         try {
-            obj.put(Constants.JSON_SANDSTORM_STARTHATCH, startWithHatch.isChecked());
-            obj.put(Constants.JSON_SANDSTORM_STARTCARGO, startWithCargo.isChecked());
-            obj.put(Constants.JSON_SANDSTORM_STARTNONE, noneLoaded.isChecked());
-            obj.put(Constants.JSON_SANDSTORM_LEVEL1, startLevel1.isChecked());
-            obj.put(Constants.JSON_SANDSTORM_LEVEL2, startLevel2.isChecked());
-            obj.put(Constants.JSON_SANDSTORM_HAB, crossHABLine.getText().equals("Crossed"));
-            obj.put(Constants.JSON_SANDSTORM_ROCKETCARGO1, rocketCargoLevel1Num);
-            obj.put(Constants.JSON_SANDSTORM_ROCKETCARGO2, rocketCargoLevel2Num);
-            obj.put(Constants.JSON_SANDSTORM_ROCKETCARGO3, rocketCargoLevel3Num);
-            obj.put(Constants.JSON_SANDSTORM_TOTALROCKETCARGO, rocketCargoLevel1Num + rocketCargoLevel2Num + rocketCargoLevel3Num);
-            obj.put(Constants.JSON_SANDSTORM_ROCKETHATCH1, rocketHatchLevel1Num);
-            obj.put(Constants.JSON_SANDSTORM_ROCKETHATCH2, rocketHatchLevel2Num);
-            obj.put(Constants.JSON_SANDSTORM_ROCKETHATCH3, rocketHatchLevel3Num);
-            obj.put(Constants.JSON_SANDSTORM_TOTALROCKETHATCH, rocketHatchLevel1Num + rocketHatchLevel2Num + rocketHatchLevel3Num);
-            obj.put(Constants.JSON_SANDSTORM_CARGOSHIPCARGO, cargoShipCargoNum);
-            obj.put(Constants.JSON_SANDSTORM_CARGOSHIPHATCH, cargoShipHatchNum);
-            //obj.put(Constants.JSON_AUTON_GEARS, gearsPlaced);
-            //obj.put(Constants.JSON_AUTON_HIGH, highGoals);
-            //obj.put(Constants.JSON_AUTON_LOW, lowGoals);
-            //obj.put(Constants.JSON_AUTON_MOBILITY, mobility.isChecked());
-            //obj.put(Constants.JSON_AUTON_HOPPER, hopper.isChecked());
-            //obj.put(Constants.JSON_AUTON_GROUNDINTAKE, groundIntake.isChecked());
+            obj.put(Constants.JSON_SANDSTORM_STARTHATCH, level1.isChecked());
+            obj.put(Constants.JSON_SANDSTORM_STARTCARGO, level2.isChecked());
+            obj.put(Constants.JSON_SANDSTORM_STARTNONE, level3.isChecked());
+
+            obj.put(Constants.JSON_SANDSTORM_ROCKETCARGO1, powerCellNum);
+
+            obj.put(Constants.JSON_SANDSTORM_HAB, crossInitiationLine.getText().equals("Crossed"));
+
+            obj.put(Constants.JSON_SANDSTORM_ROCKETCARGO1, innerNum);
+            obj.put(Constants.JSON_SANDSTORM_ROCKETCARGO2, outerNum);
+            obj.put(Constants.JSON_SANDSTORM_ROCKETCARGO3, bottomNum);
+            obj.put(Constants.JSON_SANDSTORM_TOTALROCKETCARGO, innerNum + outerNum + bottomNum);
         } catch (Exception e) {
             e.printStackTrace();
         }

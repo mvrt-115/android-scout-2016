@@ -17,14 +17,9 @@ import org.json.JSONObject;
 
 public class StandScoutPostgameFragment extends DataCollectionFragment {
 
-    RatingBar cargoAccuracy;
-    RatingBar hatchAccuracy;
-    RatingBar cycleTime;
-    RatingBar driverRating;
-    RatingBar defenseRating;
+    CheckBox parked;
+    CheckBox stuck;
     CheckBox disabled;
-    CheckBox interfere;
-    EditText comments;
     Button finish;
 
     @Override
@@ -35,14 +30,12 @@ public class StandScoutPostgameFragment extends DataCollectionFragment {
 
     @Override
     public void onViewCreated(View v, Bundle savedInstanceState) {
-        cargoAccuracy = (RatingBar)v.findViewById(R.id.postgame_cargoaccuracy);
-        hatchAccuracy = (RatingBar)v.findViewById(R.id.postgame_hatchaccuracy);
-        cycleTime = (RatingBar)v.findViewById(R.id.postgame_cycletime);
-        driverRating = (RatingBar)v.findViewById(R.id.postgame_driving);
-        defenseRating = (RatingBar)v.findViewById(R.id.postgame_defense);
-        interfere = (CheckBox)v.findViewById(R.id.cb_endgame_stuck);
+
+
+
+        parked = (CheckBox)v.findViewById(R.id.cb_endgame_parked);
+        stuck = (CheckBox)v.findViewById(R.id.cb_endgame_stuck);
         disabled = (CheckBox) v.findViewById(R.id.cb_endgame_disabled);
-        comments = (EditText)v.findViewById(R.id.postgame_comments);
         finish = (Button)v.findViewById(R.id.bt_postgame_finish);
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,11 +52,7 @@ public class StandScoutPostgameFragment extends DataCollectionFragment {
 
     @Override
     public boolean validate() {
-        if (cargoAccuracy.getRating() == 0) { return false; }
-        else if (hatchAccuracy.getRating() == 0) { return false; }
-        else if (driverRating.getRating() == 0) { return false; }
-        else if (defenseRating.getRating() == 0) { return false; }
-        else { return true; }
+        return true;
     }
 
     @Override
