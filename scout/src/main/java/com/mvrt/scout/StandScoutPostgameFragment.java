@@ -1,10 +1,6 @@
 package com.mvrt.scout;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,10 +40,10 @@ public class StandScoutPostgameFragment extends DataCollectionFragment {
         cycleTime = (RatingBar)v.findViewById(R.id.postgame_cycletime);
         driverRating = (RatingBar)v.findViewById(R.id.postgame_driving);
         defenseRating = (RatingBar)v.findViewById(R.id.postgame_defense);
-        interfere = (CheckBox)v.findViewById(R.id.postgame_interfere);
-        disabled = (CheckBox) v.findViewById(R.id.postgame_disabled);
+        interfere = (CheckBox)v.findViewById(R.id.cb_endgame_stuck);
+        disabled = (CheckBox) v.findViewById(R.id.cb_endgame_disabled);
         comments = (EditText)v.findViewById(R.id.postgame_comments);
-        finish = (Button)v.findViewById(R.id.postgame_finish);
+        finish = (Button)v.findViewById(R.id.bt_postgame_finish);
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

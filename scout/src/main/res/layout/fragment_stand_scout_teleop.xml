@@ -36,14 +36,14 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/bt_auton_inner"
+                    android:id="@+id/bt_teleop_inner"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Inner (0)"
                     android:theme="@style/MVRTButtonStyle" />
 
-                <Button android:id="@+id/bt_auton_inner_minus"
+                <Button android:id="@+id/bt_teleop_inner_minus"
                     android:layout_height = "wrap_content"
                     android:layout_width = "0dp"
                     android:layout_weight = "1"
@@ -58,14 +58,14 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/bt_auton_outer"
+                    android:id="@+id/bt_teleop_outer"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Outer (0)"
                     android:theme="@style/MVRTButtonStyle" />
 
-                <Button android:id="@+id/bt_auton_outer_minus"
+                <Button android:id="@+id/bt_teleop_outer_minus"
                     android:layout_height = "wrap_content"
                     android:layout_width = "0dp"
                     android:layout_weight = "1"
@@ -80,14 +80,14 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/bt_auton_bottom"
+                    android:id="@+id/bt_teleop_bottom"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Bottom (0)"
                     android:theme="@style/MVRTButtonStyle" />
 
-                <Button android:id="@+id/bt_auton_bottom_minus"
+                <Button android:id="@+id/bt_teleop_bottom_minus"
                     android:layout_height = "wrap_content"
                     android:layout_width = "0dp"
                     android:layout_weight = "1"
@@ -208,14 +208,14 @@
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/radio_end_level1"
+                    android:id="@+id/radio_teleop_defense_yes"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Yes" />
 
                 <RadioButton
-                    android:id="@+id/radio_end_level2"
+                    android:id="@+id/radio_teleop_defense_no"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

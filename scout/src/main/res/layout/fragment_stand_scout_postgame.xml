@@ -126,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
-                <Button android:id="@+id/bt_teleop_rotation_control"
+                <Button android:id="@+id/bt_endgame_hang_attempt"
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -152,14 +152,14 @@
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/radio_end_level1"
+                    android:id="@+id/radio_endgame_hang_success"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Success" />
 
                 <RadioButton
-                    android:id="@+id/radio_end_level2"
+                    android:id="@+id/radio_endgame_hang_failed"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -188,7 +188,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
-                <Button android:id="@+id/bt_teleop_rotation_control"
+                <Button android:id="@+id/bt_endgame_leveling_attempt"
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -208,20 +208,20 @@
                 android:textSize="15sp" />
 
             <RadioGroup
-                android:id="@+id/final_level"
+                android:id="@+id/radio_group_level"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/radio_end_level1"
+                    android:id="@+id/radio_endgame_level_success"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Success" />
 
                 <RadioButton
-                    android:id="@+id/radio_end_level2"
+                    android:id="@+id/radio_endgame_level_failed"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -238,20 +238,20 @@
                 android:textSize="15sp" />
 
             <RadioGroup
-                android:id="@+id/final_level"
+                android:id="@+id/radio_group_climb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/radio_end_level1"
+                    android:id="@+id/radio_endgame_solo_climb"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Solo climb" />
 
                 <RadioButton
-                    android:id="@+id/radio_end_level2"
+                    android:id="@+id/radio_endgame_multi_climb"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -259,24 +259,24 @@
 
             </RadioGroup>
 
-            <CheckBox android:id="@+id/postgame_parked"
+            <CheckBox android:id="@+id/cb_endgame_parked"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Parked?" />
 
             <CheckBox
-                android:id="@+id/postgame_interfere"
+                android:id="@+id/cb_endgame_stuck"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Stuck" />
+                android:text="Stuck?" />
 
-            <CheckBox android:id="@+id/postgame_disabled"
+            <CheckBox android:id="@+id/cb_endgame_disabled"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Disabled?" />
 
             <Button
-                android:id="@+id/postgame_finish"
+                android:id="@+id/bt_postgame_finish"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"

@@ -118,13 +118,13 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
         teleopMinusCargoShipCargo = (Button)v.findViewById(R.id.bt_teleop_cargoship_cargo_minus);
         teleopMinusCargoShipCargo.setOnClickListener(this);
 
-        teleopCargoShipHatch = (Button)v.findViewById(R.id.bt_teleop_rotation_control);
+        teleopCargoShipHatch = (Button)v.findViewById(R.id.bt_endgame_leveling_attempt);
         teleopCargoShipHatch.setOnClickListener(this);
         teleopMinusCargoShipHatch = (Button)v.findViewById(R.id.bt_teleop_cargoship_hatch_minus);
         teleopMinusCargoShipHatch.setOnClickListener(this);
 
-        endLevel1 = (RadioButton)v.findViewById(R.id.radio_end_level1);
-        endLevel2 = (RadioButton)v.findViewById(R.id.radio_end_level2);
+        endLevel1 = (RadioButton)v.findViewById(R.id.radio_teleop_defense_yes);
+        endLevel2 = (RadioButton)v.findViewById(R.id.radio_teleop_defense_no);
         endLevel3 = (RadioButton)v.findViewById(R.id.radio_end_level3);
         endNone = (RadioButton)v.findViewById(R.id.radio_end_none);
 
@@ -370,7 +370,7 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
             case R.id.bt_teleop_cargoship_cargo_minus:
                 refreshCargoShipCargoUI();
                 break;
-            case R.id.bt_teleop_rotation_control:
+            case R.id.bt_endgame_leveling_attempt:
                 cargoShipHatchNum++;
                 teleopCargoShipHatch.setText("Placed Hatch (" + cargoShipHatchNum + ")");
                 break;
