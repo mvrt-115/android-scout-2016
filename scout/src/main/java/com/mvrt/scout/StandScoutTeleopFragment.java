@@ -118,7 +118,7 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
         teleopMinusCargoShipCargo = (Button)v.findViewById(R.id.bt_teleop_cargoship_cargo_minus);
         teleopMinusCargoShipCargo.setOnClickListener(this);
 
-        teleopCargoShipHatch = (Button)v.findViewById(R.id.bt_teleop_cargoship_hatch);
+        teleopCargoShipHatch = (Button)v.findViewById(R.id.bt_teleop_rotation_control);
         teleopCargoShipHatch.setOnClickListener(this);
         teleopMinusCargoShipHatch = (Button)v.findViewById(R.id.bt_teleop_cargoship_hatch_minus);
         teleopMinusCargoShipHatch.setOnClickListener(this);
@@ -370,7 +370,7 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
             case R.id.bt_teleop_cargoship_cargo_minus:
                 refreshCargoShipCargoUI();
                 break;
-            case R.id.bt_teleop_cargoship_hatch:
+            case R.id.bt_teleop_rotation_control:
                 cargoShipHatchNum++;
                 teleopCargoShipHatch.setText("Placed Hatch (" + cargoShipHatchNum + ")");
                 break;

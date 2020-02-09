@@ -19,63 +19,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textSize="15sp"
-                android:text="Rocket"
-                android:layout_weight="1" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="Cargo"
-                    android:textSize="13sp" />
-
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="Hatch"
-                    android:textSize="13dp"
-                    android:gravity="left" />
-
-            </LinearLayout>
+                android:layout_weight="1"
+                android:text="Shooting"
+                android:textSize="15sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <Button android:id="@+id/bt_teleop_rocket_cargo_level1"
-                    android:layout_height = "wrap_content"
-                    android:layout_width = "0dp"
-                    android:layout_weight = "2"
-                    android:text = "Level 1 (0)"
+                <Button
+                    android:id="@+id/bt_sandstorm_rocket_cargo_level1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Inner (0)"
                     android:theme="@style/MVRTButtonStyle" />
 
-                <Button android:id="@+id/bt_teleop_rocket_cargo_level1_minus"
+                <Button android:id="@+id/bt_sandstorm_rocket_cargo_level1_minus"
                     android:layout_height = "wrap_content"
                     android:layout_width = "0dp"
                     android:layout_weight = "1"
                     android:text = "-1"
-                    android:theme="@style/MVRTButtonStyle" />
-
-                <Button android:id="@+id/bt_teleop_rocket_hatch_level1"
-                    android:layout_height = "wrap_content"
-                    android:layout_width = "0dp"
-                    android:layout_weight = "2"
-                    android:text = "Level 1 (0)"
-                    android:theme="@style/MVRTButtonStyle" />
-
-                <Button android:id="@+id/bt_teleop_rocket_hatch_level1_minus"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:text="-1"
                     android:theme="@style/MVRTButtonStyle" />
 
             </LinearLayout>
@@ -85,32 +50,19 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <Button android:id="@+id/bt_teleop_rocket_cargo_level2"
-                    android:layout_height = "wrap_content"
-                    android:layout_width = "0dp"
-                    android:layout_weight = "2"
-                    android:text = "Level 2 (0)"
+                <Button
+                    android:id="@+id/bt_sandstorm_rocket_cargo_level2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Outer (0)"
                     android:theme="@style/MVRTButtonStyle" />
 
-                <Button android:id="@+id/bt_teleop_rocket_cargo_level2_minus"
+                <Button android:id="@+id/bt_sandstorm_rocket_cargo_level2_minus"
                     android:layout_height = "wrap_content"
                     android:layout_width = "0dp"
                     android:layout_weight = "1"
                     android:text = "-1"
-                    android:theme="@style/MVRTButtonStyle" />
-
-                <Button android:id="@+id/bt_teleop_rocket_hatch_level2"
-                    android:layout_height = "wrap_content"
-                    android:layout_width = "0dp"
-                    android:layout_weight = "2"
-                    android:text = "Level 2 (0)"
-                    android:theme="@style/MVRTButtonStyle" />
-
-                <Button android:id="@+id/bt_teleop_rocket_hatch_level2_minus"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:text="-1"
                     android:theme="@style/MVRTButtonStyle" />
 
             </LinearLayout>
@@ -120,65 +72,35 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <Button android:id="@+id/bt_teleop_rocket_cargo_level3"
-                    android:layout_height = "wrap_content"
-                    android:layout_width = "0dp"
-                    android:layout_weight = "2"
-                    android:text = "Level 3 (0)"
+                <Button
+                    android:id="@+id/bt_sandstorm_rocket_cargo_level3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Bottom (0)"
                     android:theme="@style/MVRTButtonStyle" />
 
-                <Button android:id="@+id/bt_teleop_rocket_cargo_level3_minus"
+                <Button android:id="@+id/bt_sandstorm_rocket_cargo_level3_minus"
                     android:layout_height = "wrap_content"
                     android:layout_width = "0dp"
                     android:layout_weight = "1"
                     android:text = "-1"
                     android:theme="@style/MVRTButtonStyle" />
 
-                <Button android:id="@+id/bt_teleop_rocket_hatch_level3"
-                    android:layout_height = "wrap_content"
-                    android:layout_width = "0dp"
-                    android:layout_weight = "2"
-                    android:text = "Level 3 (0)"
-                    android:theme="@style/MVRTButtonStyle" />
-
-                <Button android:id="@+id/bt_teleop_rocket_hatch_level3_minus"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:text="-1"
-                    android:theme="@style/MVRTButtonStyle" />
-
             </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="15sp"
-                android:text="Cargo Ship"
-                android:layout_weight="1" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
-                <Button android:id="@+id/bt_teleop_cargoship_cargo"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:padding="25dp"
-                    android:text="Placed Cargo (0)"
-                    android:layout_margin="5dp"
-                    android:theme="@style/MVRTButtonStyle"/>
-
-                <Button android:id="@+id/bt_teleop_cargoship_cargo_minus"
-                    android:layout_height="wrap_content"
+                <TextView
                     android:layout_width="wrap_content"
-                    android:padding="25dp"
-                    android:text="-1"
-                    android:layout_margin="5dp"
-                    android:theme="@style/MVRTButtonStyle"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:text="Rotation Control"
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
@@ -188,118 +110,89 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
-                <Button android:id="@+id/bt_teleop_cargoship_hatch"
+                <Button android:id="@+id/bt_teleop_position_control"
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:padding="25dp"
-                    android:text="Placed Hatch (0)"
+                    android:text="Rotation Control Disabled"
                     android:layout_margin="5dp"
                     android:theme="@style/MVRTButtonStyle"/>
 
-                <Button android:id="@+id/bt_teleop_cargoship_hatch_minus"
-                    android:layout_height="wrap_content"
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:text="Position Control"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <Button android:id="@+id/bt_teleop_position_control"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:padding="25dp"
-                    android:text="-1"
+                    android:text="Position Control Disabled"
                     android:layout_margin="5dp"
                     android:theme="@style/MVRTButtonStyle"/>
-
-            </LinearLayout>
-
-            <!--CLIMB-->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="Climb (timed)"
-                    android:textSize="15sp"
-                    android:id="@+id/teleop_climb_status"/>
-
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="0:00"
-                    android:gravity="right"
-                    android:id="@+id/teleop_climb_timer"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal" >
 
-                <Button android:id="@+id/teleop_climb_start"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:text="Can go under trench"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <Button android:id="@+id/bt_teleop_position_control"
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:text="Start Climb"
-                    android:layout_margin="5dp"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
-                    android:theme="@style/MVRTButtonStyle"/>
-
-                <Button android:id="@+id/teleop_climb_success"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
-                    android:layout_weight="1"
-                    android:visibility="gone"
-                    android:text="Success"
-                    android:layout_margin="5dp"
-                    android:theme="@style/MVRTButtonStyle"/>
-
-                <Button android:id="@+id/teleop_climb_confirm"
-                    android:layout_height = "wrap_content"
-                    android:layout_width = "0dp"
-                    android:layout_weight = "1"
-                    android:text = "Confirm Success?"
-                    android:visibility="gone"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
-                    android:layout_margin="5dp"
-                    android:theme="@style/MVRTButtonStyle" />
-
-                <Button android:id="@+id/teleop_climb_fail"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:text="Failed"
-                    android:visibility="gone"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
-                    android:layout_margin="5dp"
-                    android:theme="@style/MVRTButtonStyle"/>
-
-                <Button android:id="@+id/teleop_climb_cancel"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:text="Cancel"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
+                    android:padding="25dp"
+                    android:text="Went Under Trench"
                     android:layout_margin="5dp"
                     android:theme="@style/MVRTButtonStyle"/>
 
             </LinearLayout>
 
             <TextView
+                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textSize="15sp"
-                android:text="Level Climbed"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:text="Defense"
+                android:textSize="15sp" />
 
             <RadioGroup
                 android:id="@+id/final_level"
@@ -310,27 +203,16 @@
                 <RadioButton
                     android:id="@+id/radio_end_level1"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="Level 1" />
+                    android:layout_weight="1"
+                    android:text="Yes" />
+
                 <RadioButton
                     android:id="@+id/radio_end_level2"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="Level 2" />
-                <RadioButton
-                    android:id="@+id/radio_end_level3"
-                    android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="Level 3" />
-                <RadioButton
-                    android:id="@+id/radio_end_none"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="None" />
+                    android:text="No" />
 
             </RadioGroup>
 
