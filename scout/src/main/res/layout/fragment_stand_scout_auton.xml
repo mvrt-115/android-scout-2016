@@ -67,15 +67,15 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/bt_sandstorm_rocket_cargo_level1"
+                    android:id="@+id/bt_auton_power_cells"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="Balls (0)"
+                    android:text="Power Cells (0)"
                     android:theme="@style/MVRTButtonStyle" />
 
                 <Button
-                    android:id="@+id/bt_sandstorm_rocket_cargo_level1_minus"
+                    android:id="@+id/bt_auton_power_cells_minus"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
@@ -93,7 +93,7 @@
                 android:layout_weight="1" />
 
             <Button
-                android:id="@+id/bt_sandstorm_hab_cross"
+                android:id="@+id/bt_auton_initiation_line"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -115,14 +115,14 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/bt_sandstorm_rocket_cargo_level1"
+                    android:id="@+id/bt_auton_inner"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Inner (0)"
                     android:theme="@style/MVRTButtonStyle" />
 
-                <Button android:id="@+id/bt_sandstorm_rocket_cargo_level1_minus"
+                <Button android:id="@+id/bt_auton_inner_minus"
                     android:layout_height = "wrap_content"
                     android:layout_width = "0dp"
                     android:layout_weight = "1"
@@ -137,14 +137,14 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/bt_sandstorm_rocket_cargo_level2"
+                    android:id="@+id/bt_auton_outer"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Outer (0)"
                     android:theme="@style/MVRTButtonStyle" />
 
-                <Button android:id="@+id/bt_sandstorm_rocket_cargo_level2_minus"
+                <Button android:id="@+id/bt_auton_outer_minus"
                     android:layout_height = "wrap_content"
                     android:layout_width = "0dp"
                     android:layout_weight = "1"
@@ -159,14 +159,14 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/bt_sandstorm_rocket_cargo_level3"
+                    android:id="@+id/bt_auton_bottom"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Bottom (0)"
                     android:theme="@style/MVRTButtonStyle" />
 
-                <Button android:id="@+id/bt_sandstorm_rocket_cargo_level3_minus"
+                <Button android:id="@+id/bt_auton_bottom_minus"
                     android:layout_height = "wrap_content"
                     android:layout_width = "0dp"
                     android:layout_weight = "1"
@@ -177,7 +177,7 @@
 
 
             <Button
-                android:id="@+id/bt_sandstorm_finish"
+                android:id="@+id/bt_auton_finish"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"

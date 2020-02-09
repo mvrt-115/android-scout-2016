@@ -29,14 +29,14 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/bt_sandstorm_rocket_cargo_level1"
+                    android:id="@+id/bt_auton_power_cells"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Inner (0)"
                     android:theme="@style/MVRTButtonStyle" />
 
-                <Button android:id="@+id/bt_sandstorm_rocket_cargo_level1_minus"
+                <Button android:id="@+id/bt_auton_power_cells_minus"
                     android:layout_height = "wrap_content"
                     android:layout_width = "0dp"
                     android:layout_weight = "1"

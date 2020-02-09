@@ -1,10 +1,6 @@
 package com.mvrt.scout;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,17 +75,17 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
         startLevel1 = (RadioButton) v.findViewById(R.id.radio_level1);
         startLevel2 = (RadioButton) v.findViewById(R.id.radio_level2);
 
-        crossHABLine = (Button) v.findViewById(R.id.bt_sandstorm_hab_cross);
+        crossHABLine = (Button) v.findViewById(R.id.bt_auton_initiation_line);
         crossHABLine.setOnClickListener(this);
 
-        rocketCargoLevel1 = (Button) v.findViewById(R.id.bt_sandstorm_rocket_cargo_level1);
+        rocketCargoLevel1 = (Button) v.findViewById(R.id.bt_auton_power_cells);
         rocketCargoLevel1.setOnClickListener(this);
         rocketCargoLevel2 = (Button) v.findViewById(R.id.bt_sandstorm_rocket_cargo_level2);
         rocketCargoLevel2.setOnClickListener(this);
         rocketCargoLevel3 = (Button) v.findViewById(R.id.bt_sandstorm_rocket_cargo_level3);
         rocketCargoLevel3.setOnClickListener(this);
 
-        minusRocketCargoLevel1 = (Button) v.findViewById(R.id.bt_sandstorm_rocket_cargo_level1_minus);
+        minusRocketCargoLevel1 = (Button) v.findViewById(R.id.bt_auton_power_cells_minus);
         minusRocketCargoLevel1.setOnClickListener(this);
         minusRocketCargoLevel2 = (Button) v.findViewById(R.id.bt_sandstorm_rocket_cargo_level2_minus);
         minusRocketCargoLevel2.setOnClickListener(this);
@@ -120,7 +116,7 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
         minusCargoShipHatch = (Button) v.findViewById(R.id.bt_sandstorm_cargoship_hatch_minus);
         minusCargoShipHatch.setOnClickListener(this);
 
-        finishSandstorm = (Button) v.findViewById(R.id.bt_sandstorm_finish);
+        finishSandstorm = (Button) v.findViewById(R.id.bt_auton_finish);
         finishSandstorm.setOnClickListener(this);
     }
 
@@ -179,10 +175,10 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.bt_sandstorm_hab_cross:
+            case R.id.bt_auton_initiation_line:
                 refreshHABCrossUI();
                 break;
-            case R.id.bt_sandstorm_rocket_cargo_level1:
+            case R.id.bt_auton_power_cells:
                 rocketCargoLevel1Num++;
                 rocketCargoLevel1.setText("Level 1 (" + rocketCargoLevel1Num + ")");
                 break;
@@ -194,7 +190,7 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
                 rocketCargoLevel3Num++;
                 rocketCargoLevel3.setText("Level 3 (" + rocketCargoLevel3Num + ")");
                 break;
-            case R.id.bt_sandstorm_rocket_cargo_level1_minus:
+            case R.id.bt_auton_power_cells_minus:
                 refreshRocketCargo1UI();
                 break;
             case R.id.bt_sandstorm_rocket_cargo_level2_minus:
@@ -238,7 +234,7 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
             case R.id.bt_sandstorm_cargoship_hatch_minus:
                 refreshCargoShipHatchUI();
                 break;
-            case R.id.bt_sandstorm_finish:
+            case R.id.bt_auton_finish:
                 ((StandScoutActivity) getActivity()).nextTab();
                 break;
         }
