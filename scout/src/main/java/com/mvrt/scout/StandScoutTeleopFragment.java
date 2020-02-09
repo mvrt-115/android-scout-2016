@@ -35,6 +35,9 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
 
     Button finishTeleop;
 
+    RadioButton defenseYes;
+    RadioButton defenseNo;
+
     int innerNum = 0;
     int outerNum = 0;
     int bottomNum = 0;
@@ -71,6 +74,9 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
 
         trech = (Button) v.findViewById(R.id.bt_teleop_trench);
         trech.setOnClickListener(this);
+
+        defenseYes = (RadioButton) v.findViewById(R.id.radio_teleop_defense_yes);
+        defenseNo = (RadioButton) v.findViewById(R.id.radio_teleop_defense_no);
 
         finishTeleop = (Button) v.findViewById(R.id.bt_teleop_finish);
         finishTeleop.setOnClickListener(this);
@@ -167,12 +173,12 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
             obj.put(Constants.JSON_TELEOP_BOTTOM, bottomNum);
             obj.put(Constants.JSON_TELEOP_TOTAL, innerNum + outerNum + bottomNum);
 
-            obj.put(Constants.JSON_TELEOP_ROTATION, positionControl.getText().equals("ROTATION CONTROL ENABLED"));
-            obj.put(Constants.JSON_TELEOP_POSITION, crossInitiationLine.getText().equals("POSITION CONTROL ENABLED"));
-            obj.put(Constants.JSON_TELEOP_TRENCH, crossInitiationLine.getText().equals("YES"));
+            obj.put(Constants.JSON_TELEOP_ROTATION, rotationControl.getText().equals("ROTATION CONTROL ENABLED"));
+            obj.put(Constants.JSON_TELEOP_POSITION, positionControl.getText().equals("POSITION CONTROL ENABLED"));
+            obj.put(Constants.JSON_TELEOP_TRENCH, trech.getText().equals("YES"));
 
-            obj.put(Constants.JSON_TELEOP_DEFENSE_YES, endLevel1.isChecked());
-            obj.put(Constants.JSON_TELEOP_DEFENSE_NO, endLevel2.isChecked());
+            obj.put(Constants.JSON_TELEOP_DEFENSE_YES, defenseYes.isChecked());
+            obj.put(Constants.JSON_TELEOP_DEFENSE_NO, defenseNo.isChecked());
 
 
         }catch(Exception e){

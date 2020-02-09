@@ -50,9 +50,9 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
 
     @Override
     public void onViewCreated(View v, Bundle savedInstanceState) {
-        level1 = (RadioButton) v.findViewById(R.id.radio_teleop_level1);
-        level2 = (RadioButton) v.findViewById(R.id.radio_teleop_level2);
-        level3 = (RadioButton) v.findViewById(R.id.radio_teleop_level3);
+        level1 = (RadioButton) v.findViewById(R.id.radio_auton_level1);
+        level2 = (RadioButton) v.findViewById(R.id.radio_auton_level2);
+        level3 = (RadioButton) v.findViewById(R.id.radio_auton_level3);
 
         powerCell = (Button) v.findViewById(R.id.bt_auton_power_cells);
         powerCell.setOnClickListener(this);

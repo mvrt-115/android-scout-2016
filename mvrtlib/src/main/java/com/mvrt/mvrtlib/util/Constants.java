@@ -105,4 +105,41 @@ public class Constants {
     public static final String JSON_AUTON_HOPPER = "Ahp";
     public static final String JSON_AUTON_GROUNDINTAKE = "Agi";
 
+
+    // added 2/8/20
+    // auton
+    public static final String JSON_AUTON_LEVEL1 = "Ah";
+    public static final String JSON_AUTON_LEVEL2 = "Al";
+    public static final String JSON_AUTON_LEVEL3 = "Am";
+    public static final String JSON_AUTON_PRELOAD = "Asg";
+    public static final String JSON_AUTON_CROSSD_LINE = "Asb";
+    public static final String JSON_AUTON_INNER = "Ag";
+    public static final String JSON_AUTON_OUTER = "Ahp";
+    public static final String JSON_AUTON_BOTTOM = "Agi";
+    public static final String JSON_AUTON_TOTAL = "Agi";
+
+    // teleop
+    public static final String JSON_TELEOP_INNER = "Ah";
+    public static final String JSON_TELEOP_OUTER = "Al";
+    public static final String JSON_TELEOP_BOTTOM = "Am";
+    public static final String JSON_TELEOP_TOTAL = "Asg";
+    public static final String JSON_TELEOP_ROTATION = "Asb";
+    public static final String JSON_TELEOP_POSITION = "Ag";
+    public static final String JSON_TELEOP_TRENCH = "Ahp";
+    public static final String JSON_TELEOP_DEFENSE_YES = "Agi";
+    public static final String JSON_TELEOP_DEFENSE_NO = "Agi";
+
+    // endgame
+    public static final String JSON_ENDGAME_CLIMBRESULT = "Ah";
+    public static final String JSON_ENDGAME_CLIMBTIME = "Al";
+    public static final String JSON_ENDGAME_HANG_ATTEMPTED = "Am";
+    public static final String JSON_ENDGAME_HANG_SUCCESS = "Asg";
+    public static final String JSON_ENDGAME_HANG_FAILED = "Asb";
+    public static final String JSON_ENDGAME_LEVEL_ATTEMPTED = "Ag";
+    public static final String JSON_ENDGAME_LEVEL_SUCCESS = "Ahp";
+    public static final String JSON_ENDGAME_LEVEL_FAILED = "Agi";
+    public static final String JSON_ENDGAME_PARKED = "Agi";
+    public static final String JSON_ENDGAME_STUCK = "Agi";
+    public static final String JSON_ENDGAME_DISABLED = "Agi";
+
 }

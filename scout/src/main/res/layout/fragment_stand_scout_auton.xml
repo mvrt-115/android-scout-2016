@@ -37,21 +37,21 @@
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/radio_teleop_level1"
+                    android:id="@+id/radio_auton_level1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Level 1" />
 
                 <RadioButton
-                    android:id="@+id/radio_teleop_level2"
+                    android:id="@+id/radio_auton_level2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Level 2" />
 
                 <RadioButton
-                    android:id="@+id/radio_teleop_level3"
+                    android:id="@+id/radio_auton_level3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
