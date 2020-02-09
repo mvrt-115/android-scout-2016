@@ -164,14 +164,15 @@
                 android:padding="5dp"
                 android:inputType="textMultiLine"/>
 
-            <Button android:id="@+id/postgame_finish"
-                android:layout_gravity="bottom|right"
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/postgame_finish"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
                 android:layout_margin="5dp"
                 android:padding="5dp"
                 android:text="Finish"
-                android:theme="@style/MVRTButtonStyle"/>
+                android:theme="@style/MVRTButtonStyle" />
 
         </LinearLayout>
     </ScrollView>
