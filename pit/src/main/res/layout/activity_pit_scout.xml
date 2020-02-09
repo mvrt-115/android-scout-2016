@@ -29,15 +29,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-
-                <EditText android:id="@+id/team"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:inputType="number"
-                    android:hint="Team Number"/>
-
-                <!-- Defenses -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -47,61 +38,130 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Defense Capability"/>
+                        android:text="General Info"/>
 
-                    <!-- Class A -->
-                    <CheckBox android:id="@+id/low_bar"
-                        android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/team"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Low Bar"/>
+                        android:hint="Team Number"
+                        android:inputType="number" />
 
-                    <!-- Class B -->
-                    <CheckBox android:id="@+id/rock_wall"
-                        android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/weight"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Rock Wall"/>
+                        android:hint="Weight"
+                        android:inputType="number" />
 
-                    <CheckBox android:id="@+id/rough_terrain"
-                        android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/max_height"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Rough Terrain"/>
+                        android:hint="Max Height"
+                        android:inputType="number" />
 
-                    <!-- Class C -->
-                    <CheckBox android:id="@+id/drawbridge"
-                        android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/drivetrain"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Drawbridge"/>
+                        android:hint="Drivetrain" />
 
-                    <CheckBox android:id="@+id/sallyport"
-                        android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/speed"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Sally Port"/>
+                        android:hint="Speed"
+                        android:inputType="number" />
 
-                    <!-- Class D -->
-                    <CheckBox android:id="@+id/portcullis"
-                        android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/driver_experience"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Portcullis"/>
+                        android:hint="Driver Experience" />
 
-                    <CheckBox android:id="@+id/cheval"
-                        android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/programming_language"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Cheval De Friese"/>
+                        android:hint="Programming language" />
 
-                    <!-- Class E -->
-                    <CheckBox android:id="@+id/ramparts"
-                        android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/cycles_per_match"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Ramparts"/>
+                        android:hint="Average Cycles Per Match"
+                        android:inputType="number" />
 
-                    <CheckBox android:id="@+id/moat"
-                        android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/auto_paths"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Moat"/>
+                        android:hint="Auto Paths" />
+
+                    <EditText
+                        android:id="@+id/teleop_paths"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="General teleop cycling paths" />
+
 
                 </LinearLayout>
 
-                <!-- Climbing -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Climber info"/>
+
+                    <CheckBox android:id="@+id/hang"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hang"/>
+
+                    <CheckBox android:id="@+id/level"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Level"/>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Shooter info"/>
+
+                    <CheckBox android:id="@+id/bottom_port_shooter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bottom Shooter"/>
+
+                    <CheckBox android:id="@+id/inner_port_shooter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Inner Port Shooter"/>
+
+                    <CheckBox android:id="@+id/outer_port_shooter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Outer Port Shooter"/>
+
+                </LinearLayout>
+
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -111,50 +171,21 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Climbing"/>
+                        android:text="Rotation and Position"/>
 
-                    <CheckBox android:id="@+id/climb"
+                    <CheckBox android:id="@+id/rotation_control"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Can Climb"/>
+                        android:text="Rotation Control"/>
 
-                    <CheckBox android:id="@+id/challenge"
+                    <CheckBox android:id="@+id/position_control"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Can Challenge"/>
+                        android:text="Position Control"/>
 
                 </LinearLayout>
 
-                <!-- Ball Manipulation -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="20dp"
-                    android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ball Manipulation"/>
-
-                    <CheckBox android:id="@+id/intake"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Intake"/>
-
-                    <CheckBox android:id="@+id/high_goal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="High Goal"/>
-
-                    <CheckBox android:id="@+id/low_goal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Low Goal"/>
-
-                </LinearLayout>
-
-                <!-- Drive Manipulation -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -166,89 +197,20 @@
                         android:layout_height="wrap_content"
                         android:text="Drivetrain"/>
 
-                    <EditText android:id="@+id/numMotors"
+                    <EditText android:id="@+id/intake"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="Ground or Loading Station"/>
+                        android:hint="Intake"/>
+
+                    <EditText android:id="@+id/storage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:hint="Drivetrain Motors"/>
-
-                    <EditText android:id="@+id/numWheels"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:hint="Number of Wheels"/>
-
-                    <EditText android:id="@+id/wheelType"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="Type of Wheels"/>
+                        android:hint="Storage Capacity"/>
 
                 </LinearLayout>
 
-                <!-- Auton Strategy -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="20dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Auton Strategy"/>
-
-                    <CheckBox android:id="@+id/auton_reach"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Reach Auton"/>
-
-                    <CheckBox android:id="@+id/auton_break"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Break Auton"/>
-
-                    <CheckBox android:id="@+id/auton_high_goal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="High Auton Goal"/>
-
-                    <CheckBox android:id="@+id/auton_low_goal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Low Auton Goal"/>
-
-                </LinearLayout>
-
-                <!-- Drive Practice -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="20dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Strategy Information"/>
-
-                    <EditText android:id="@+id/driverExperience"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:hint="Number of Previous Regionals"/>
-
-                    <EditText android:id="@+id/weight"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:hint="Weight"/>
-
-                    <EditText android:id="@+id/strategy"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="Describe the Strategy"/>
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

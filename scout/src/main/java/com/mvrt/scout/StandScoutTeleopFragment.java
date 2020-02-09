@@ -187,6 +187,7 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
         return obj;
     }
 
+
     @Override
     public boolean validate () { return true;}
 
