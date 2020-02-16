@@ -108,38 +108,38 @@ public class Constants {
 
     // added 2/8/20
     // auton
-    public static final String JSON_AUTON_LEVEL1 = "Ah";
-    public static final String JSON_AUTON_LEVEL2 = "Al";
-    public static final String JSON_AUTON_LEVEL3 = "Am";
-    public static final String JSON_AUTON_PRELOAD = "Asg";
-    public static final String JSON_AUTON_CROSSD_LINE = "Asb";
-    public static final String JSON_AUTON_INNER = "Ag";
-    public static final String JSON_AUTON_OUTER = "Ahp";
-    public static final String JSON_AUTON_BOTTOM = "Agi";
-    public static final String JSON_AUTON_TOTAL = "Agi";
+    public static final String JSON_AUTON_LEVEL1 = "JSON_AUTON_LEVEL1";
+    public static final String JSON_AUTON_LEVEL2 = "JSON_AUTON_LEVEL2";
+    public static final String JSON_AUTON_LEVEL3 = "JSON_AUTON_LEVEL3";
+    public static final String JSON_AUTON_PRELOAD = "JSON_AUTON_PRELOAD";
+    public static final String JSON_AUTON_CROSSD_LINE = "JSON_AUTON_CROSSD_LINE";
+    public static final String JSON_AUTON_INNER = "JSON_AUTON_INNER";
+    public static final String JSON_AUTON_OUTER = "JSON_AUTON_OUTER";
+    public static final String JSON_AUTON_BOTTOM = "JSON_AUTON_BOTTOM";
+    public static final String JSON_AUTON_TOTAL = "JSON_AUTON_TOTAL";
 
     // teleop
-    public static final String JSON_TELEOP_INNER = "Ah";
-    public static final String JSON_TELEOP_OUTER = "Al";
-    public static final String JSON_TELEOP_BOTTOM = "Am";
-    public static final String JSON_TELEOP_TOTAL = "Asg";
-    public static final String JSON_TELEOP_ROTATION = "Asb";
-    public static final String JSON_TELEOP_POSITION = "Ag";
-    public static final String JSON_TELEOP_TRENCH = "Ahp";
-    public static final String JSON_TELEOP_DEFENSE_YES = "Agi";
-    public static final String JSON_TELEOP_DEFENSE_NO = "Agi";
+    public static final String JSON_TELEOP_INNER = "JSON_TELEOP_INNER";
+    public static final String JSON_TELEOP_OUTER = "JSON_TELEOP_OUTER";
+    public static final String JSON_TELEOP_BOTTOM = "JSON_TELEOP_BOTTOM";
+    public static final String JSON_TELEOP_TOTAL = "JSON_TELEOP_TOTAL";
+    public static final String JSON_TELEOP_ROTATION = "JSON_TELEOP_ROTATION";
+    public static final String JSON_TELEOP_POSITION = "JSON_TELEOP_POSITION";
+    public static final String JSON_TELEOP_TRENCH = "JSON_TELEOP_TRENCH";
+    public static final String JSON_TELEOP_DEFENSE_YES = "JSON_TELEOP_DEFENSE_YES";
+    public static final String JSON_TELEOP_DEFENSE_NO = "JSON_TELEOP_DEFENSE_NO";
 
     // endgame
-    public static final String JSON_ENDGAME_CLIMBRESULT = "Ah";
-    public static final String JSON_ENDGAME_CLIMBTIME = "Al";
-    public static final String JSON_ENDGAME_HANG_ATTEMPTED = "Am";
-    public static final String JSON_ENDGAME_HANG_SUCCESS = "Asg";
-    public static final String JSON_ENDGAME_HANG_FAILED = "Asb";
-    public static final String JSON_ENDGAME_LEVEL_ATTEMPTED = "Ag";
-    public static final String JSON_ENDGAME_LEVEL_SUCCESS = "Ahp";
-    public static final String JSON_ENDGAME_LEVEL_FAILED = "Agi";
-    public static final String JSON_ENDGAME_PARKED = "Agi";
-    public static final String JSON_ENDGAME_STUCK = "Agi";
-    public static final String JSON_ENDGAME_DISABLED = "Agi";
+    public static final String JSON_ENDGAME_CLIMBRESULT = "JSON_ENDGAME_CLIMBRESULT";
+    public static final String JSON_ENDGAME_CLIMBTIME = "JSON_ENDGAME_CLIMBTIME";
+    public static final String JSON_ENDGAME_HANG_ATTEMPTED = "JSON_ENDGAME_HANG_ATTEMPTED";
+    public static final String JSON_ENDGAME_HANG_SUCCESS = "JSON_ENDGAME_HANG_SUCCESS";
+    public static final String JSON_ENDGAME_HANG_FAILED = "JSON_ENDGAME_HANG_FAILED";
+    public static final String JSON_ENDGAME_LEVEL_ATTEMPTED = "JSON_ENDGAME_LEVEL_ATTEMPTED";
+    public static final String JSON_ENDGAME_LEVEL_SUCCESS = "JSON_ENDGAME_LEVEL_SUCCESS";
+    public static final String JSON_ENDGAME_LEVEL_FAILED = "JSON_ENDGAME_LEVEL_FAILED";
+    public static final String JSON_ENDGAME_PARKED = "JSON_ENDGAME_PARKED";
+    public static final String JSON_ENDGAME_STUCK = "JSON_ENDGAME_STUCK";
+    public static final String JSON_ENDGAME_DISABLED = "JSON_ENDGAME_DISABLED";
 
 }
