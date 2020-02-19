@@ -105,6 +105,18 @@
                         android:layout_height="wrap_content"
                         android:hint="General teleop cycling paths" />
 
+                    <EditText
+                        android:id="@+id/climber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Climber" />
+
+                    <EditText
+                        android:id="@+id/centerOfGravity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Center Of Gravity" />
+
 
                 </LinearLayout>
 
@@ -203,11 +215,11 @@
                         android:hint="Ground or Loading Station"/>
                         android:hint="Intake"/>
 
-                    <EditText android:id="@+id/storage"
+                    <EditText android:id="@+id/hopper_capacity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:hint="Storage Capacity"/>
+                        android:hint="Hopper Capacity"/>
 
                 </LinearLayout>
 

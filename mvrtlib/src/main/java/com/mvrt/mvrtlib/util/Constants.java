@@ -142,4 +142,8 @@ public class Constants {
     public static final String JSON_ENDGAME_STUCK = "JSON_ENDGAME_STUCK";
     public static final String JSON_ENDGAME_DISABLED = "JSON_ENDGAME_DISABLED";
 
+    public static final String PitUrl = "http://mvrtscouting-env-1.zpsnzbaqbu.us-east-2.elasticbeanstalk.com/robot/post?teamNum=";
+    public static final String ScoutUrl = "";
+    public static final String SuperscoutUrl = "";
+
 }
