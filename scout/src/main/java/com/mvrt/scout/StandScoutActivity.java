@@ -43,7 +43,7 @@ public class StandScoutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_match_scouting_data);
+        setContentView(R.layout.activity_stand_scout);
         loadIntentData();
         loadUI();
         loadFragments();
@@ -122,6 +122,8 @@ public class StandScoutActivity extends AppCompatActivity {
                 obj = standScoutTeleopFragment.getData(obj);
                 obj = standScoutPostgameFragment.getData(obj);
                 obj.put("comments", "");
+                obj.put(Constants.JSON_DATA_MATCHINFO, matchInfo.toString());
+                obj.put(Constants.JSON_DATA_SCOUTID, scoutId);
 
                 uploadData(matchInfo, scoutId, obj);
 
@@ -164,7 +166,7 @@ public class StandScoutActivity extends AppCompatActivity {
                 public void run(){
                     try {
                         Log.e("JSON", json.toString());
-                        URL url = new URL(Constants.PitUrl+info.getTeam(id));
+                        URL url = new URL(Constants.ScoutUrl);
                         String data = json.toString();
                         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                         conn.setRequestMethod("POST");

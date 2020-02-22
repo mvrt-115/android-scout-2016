@@ -126,25 +126,25 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.bt_auton_inner:
+            case R.id.bt_teleop_inner:
                 innerNum++;
                 inner.setText("INNER (" + innerNum + ")");
                 break;
-            case R.id.bt_auton_outer:
+            case R.id.bt_teleop_outer:
                 outerNum++;
                 outer.setText("INNER (" + outerNum + ")");
                 break;
-            case R.id.bt_auton_bottom:
+            case R.id.bt_teleop_bottom:
                 bottomNum++;
                 bottom.setText("BOTTOM (" + bottomNum + ")");
                 break;
-            case R.id.bt_auton_inner_minus:
+            case R.id.bt_teleop_inner_minus:
                 refreshInner();
                 break;
-            case R.id.bt_auton_outer_minus:
+            case R.id.bt_teleop_outer_minus:
                 refreshOuter();
                 break;
-            case R.id.bt_auton_bottom_minus:
+            case R.id.bt_teleop_bottom_minus:
                 refreshBottom();
                 break;
 

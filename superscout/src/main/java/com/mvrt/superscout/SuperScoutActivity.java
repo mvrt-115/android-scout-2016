@@ -180,11 +180,16 @@ public class SuperScoutActivity extends AppCompatActivity implements ChildEventL
         }
          */
         try {
-            scoutData.get(0).put("a", superCommentsFragment.getTeam1());
-            scoutData.get(1).put("a", superCommentsFragment.getTeam2());
-            scoutData.get(2).put("a", superCommentsFragment.getTeam3());
-
-            for(int id = 0; id < 3; id++){
+            if(scoutData.size()>0){
+                scoutData.get(0).put("comments", superCommentsFragment.getTeam1());
+            }
+            if(scoutData.size()>1){
+                scoutData.get(1).put("comments", superCommentsFragment.getTeam2());
+            }
+            if(scoutData.size()>2){
+                scoutData.get(2).put("comments", superCommentsFragment.getTeam3());
+            }
+            for(int id = 0; id < scoutData.size(); id++){
                 final JSONObject obj = scoutData.get(id);
                 new Thread(){
                     public void run(){

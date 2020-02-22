@@ -63,7 +63,7 @@ public class MatchScoutingDataActivity extends AppCompatActivity{
             e.printStackTrace();
         }
 
-        initNFC();
+        //initNFC();
     }
 
     public JSONObject getData(){

@@ -246,7 +246,7 @@ public class StandScoutPostgameFragment extends DataCollectionFragment implement
             case R.id.bt_endgame_leveling_attempt:
                 refreshLevelAttempt();
                 break;
-            case R.id.bt_teleop_finish:
+            case R.id.bt_postgame_finish:
                 ((StandScoutActivity)getActivity()).stopScouting();
         }
         refreshUI();
