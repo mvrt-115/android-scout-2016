@@ -156,21 +156,17 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
     }
 
 
-    public JSONObject getData() {
-        JSONObject obj = new JSONObject();
+    public JSONObject getData(JSONObject obj) {
         try {
-            obj.put(Constants.JSON_AUTON_LEVEL1, level1.isChecked());
-            obj.put(Constants.JSON_AUTON_LEVEL2, level2.isChecked());
-            obj.put(Constants.JSON_AUTON_LEVEL3, level3.isChecked());
+            obj.put("startLocations", level1.isChecked()+","+level2.isChecked()+","+level3.isChecked() );
 
-            obj.put(Constants.JSON_AUTON_PRELOAD, powerCellNum);
+            obj.put("initLineCrosses", crossInitiationLine.getText().equals("Crossed"));
 
-            obj.put(Constants.JSON_AUTON_CROSSD_LINE, crossInitiationLine.getText().equals("Crossed"));
+            obj.put("preloads", powerCellNum);
 
-            obj.put(Constants.JSON_AUTON_INNER, innerNum);
-            obj.put(Constants.JSON_AUTON_OUTER, outerNum);
-            obj.put(Constants.JSON_AUTON_BOTTOM, bottomNum);
-            obj.put(Constants.JSON_AUTON_TOTAL, innerNum + outerNum + bottomNum);
+            obj.put("autonUpper", innerNum+outerNum);
+
+            obj.put("autonBottom", bottomNum);
         } catch (Exception e) {
             e.printStackTrace();
         }

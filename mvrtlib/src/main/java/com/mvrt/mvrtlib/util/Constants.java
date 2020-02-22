@@ -107,20 +107,7 @@ public class Constants {
 
 
     // added 2/8/20
-    // auton
-    public static final String JSON_AUTON_LEVEL1 = "JSON_AUTON_LEVEL1";
-    public static final String JSON_AUTON_LEVEL2 = "JSON_AUTON_LEVEL2";
-    public static final String JSON_AUTON_LEVEL3 = "JSON_AUTON_LEVEL3";
-    public static final String JSON_AUTON_PRELOAD = "JSON_AUTON_PRELOAD";
-    public static final String JSON_AUTON_CROSSD_LINE = "JSON_AUTON_CROSSD_LINE";
-    public static final String JSON_AUTON_INNER = "JSON_AUTON_INNER";
-    public static final String JSON_AUTON_OUTER = "JSON_AUTON_OUTER";
-    public static final String JSON_AUTON_BOTTOM = "JSON_AUTON_BOTTOM";
-    public static final String JSON_AUTON_TOTAL = "JSON_AUTON_TOTAL";
 
-    // teleop
-    public static final String JSON_TELEOP_INNER = "JSON_TELEOP_INNER";
-    public static final String JSON_TELEOP_OUTER = "JSON_TELEOP_OUTER";
     public static final String JSON_TELEOP_BOTTOM = "JSON_TELEOP_BOTTOM";
     public static final String JSON_TELEOP_TOTAL = "JSON_TELEOP_TOTAL";
     public static final String JSON_TELEOP_ROTATION = "JSON_TELEOP_ROTATION";

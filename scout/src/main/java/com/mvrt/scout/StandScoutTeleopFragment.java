@@ -165,22 +165,17 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
         }
     }
 
-    public JSONObject getData(){
-        JSONObject obj = new JSONObject();
+    public JSONObject getData(JSONObject obj){
         try {
-            obj.put(Constants.JSON_TELEOP_INNER, innerNum);
-            obj.put(Constants.JSON_TELEOP_OUTER, outerNum);
-            obj.put(Constants.JSON_TELEOP_BOTTOM, bottomNum);
-            obj.put(Constants.JSON_TELEOP_TOTAL, innerNum + outerNum + bottomNum);
+            obj.put("teleopUpper", innerNum+outerNum);
+            obj.put("teleopBottom", bottomNum);
 
-            obj.put(Constants.JSON_TELEOP_ROTATION, rotationControl.getText().equals("ROTATION CONTROL ENABLED"));
-            obj.put(Constants.JSON_TELEOP_POSITION, positionControl.getText().equals("POSITION CONTROL ENABLED"));
-            obj.put(Constants.JSON_TELEOP_TRENCH, trech.getText().equals("YES"));
+            obj.put("trench", trech.getText().equals("YES"));
 
-            obj.put(Constants.JSON_TELEOP_DEFENSE_YES, defenseYes.isChecked());
-            obj.put(Constants.JSON_TELEOP_DEFENSE_NO, defenseNo.isChecked());
+            obj.put("defense", defenseYes.isChecked());
 
-
+            obj.put("rotation", rotationControl.getText().equals("ROTATION CONTROL ENABLED"));
+            obj.put("position", positionControl.getText().equals("POSITION CONTROL ENABLED"));
         }catch(Exception e){
             e.printStackTrace();
         }

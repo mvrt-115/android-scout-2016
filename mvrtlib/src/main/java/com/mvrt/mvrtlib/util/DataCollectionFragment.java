@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 public abstract class DataCollectionFragment extends Fragment {
 
-    public abstract JSONObject getData();
+    public abstract JSONObject getData(JSONObject obj);
     public abstract boolean validate();
     public abstract String getTitle();
 

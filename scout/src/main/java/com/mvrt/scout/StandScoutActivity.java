@@ -115,11 +115,13 @@ public class StandScoutActivity extends AppCompatActivity {
         }
         else {
             try {
-                obj.put(Constants.JSON_DATA_AUTON, standScoutAutonFragment.getData());
-                obj.put(Constants.JSON_DATA_TELEOP, standScoutTeleopFragment.getData());
-                obj.put(Constants.JSON_DATA_POSTGAME, standScoutPostgameFragment.getData());
-                obj.put(Constants.JSON_DATA_MATCHINFO, matchInfo.toString());
-                obj.put(Constants.JSON_DATA_SCOUTID, scoutId);
+
+                obj.put("matchNum", matchInfo.getMatchNo());
+                obj.put("teamNum", matchInfo.getTeam(scoutId));
+                obj = standScoutAutonFragment.getData(obj);
+                obj = standScoutTeleopFragment.getData(obj);
+                obj = standScoutPostgameFragment.getData(obj);
+                obj.put("comments", "");
 
                 uploadData(matchInfo, scoutId, obj);
 

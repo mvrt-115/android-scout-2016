@@ -272,25 +272,23 @@ public class StandScoutPostgameFragment extends DataCollectionFragment implement
     }
 
     @Override
-    public JSONObject getData(){
-        JSONObject o = new JSONObject();
+    public JSONObject getData(JSONObject o){
         try {
-            o.put(Constants.JSON_ENDGAME_CLIMBRESULT, climbState);
-            o.put(Constants.JSON_ENDGAME_CLIMBTIME, climbEndTime - climbStartTime);
+            o.put("stuck", stuck.isChecked());
+            o.put("disabled", disabled.isChecked());
+            o.put("climbTime", (double)(climbEndTime - climbStartTime));
 
-            o.put(Constants.JSON_ENDGAME_HANG_ATTEMPTED, hangAttempt.getText().equals("Attempted"));
+            o.put("levelFail", levelFailed.isChecked());
+            o.put("hangFail", hangFailed.isChecked());
 
-            o.put(Constants.JSON_ENDGAME_HANG_SUCCESS, hangSuccess.isChecked());
-            o.put(Constants.JSON_ENDGAME_HANG_FAILED, hangFailed.getText().toString());
+            o.put("attemptHang", hangAttempt.getText().equals("Attempted"));
+            o.put("attemptLevel", levelAttempt.getText().equals("Attempted"));
 
-            o.put(Constants.JSON_ENDGAME_LEVEL_ATTEMPTED, levelAttempt.getText().equals("Attempted"));
+            o.put("buddy", multiClimb.isChecked());
 
-            o.put(Constants.JSON_ENDGAME_LEVEL_SUCCESS, levelSuccess.isChecked());
-            o.put(Constants.JSON_ENDGAME_LEVEL_FAILED, levelFailed.getText().toString());
+            o.put("park", parked.isChecked());
 
-            o.put(Constants.JSON_ENDGAME_PARKED, parked.isChecked());
-            o.put(Constants.JSON_ENDGAME_STUCK, stuck.getText().toString());
-            o.put(Constants.JSON_ENDGAME_DISABLED, disabled.getText().toString());
+
         } catch(Exception e){
             e.printStackTrace();
         }

@@ -50,8 +50,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar = (Toolbar)findViewById(R.id.mainactivity_toolbar);
         setSupportActionBar(toolbar);
         setupNavDrawer();
-
-        initFirebase();
         initNFC();
     }
 
@@ -111,20 +109,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ndef.addDataType("text/mvrt");
         } catch (IntentFilter.MalformedMimeTypeException e) { e.printStackTrace(); }
         intentFilters = new IntentFilter[]{ndef};
-    }
-
-    private void initFirebase() {
-        /*
-        final FirebaseRemoteConfig mRemoteConfig = FirebaseRemoteConfig.getInstance();
-
-        mRemoteConfig.setDefaults(R.xml.remote_config_defaults);
-        mRemoteConfig.fetch().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                mRemoteConfig.activateFetched();
-            }
-        });
-         */
     }
 
     @Override
