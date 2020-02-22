@@ -154,60 +154,6 @@ public class SuperScoutActivity extends AppCompatActivity implements ChildEventL
             superDataFragment.addData(i.getTeams()[scoutId], (verifCode == null)?"N/A":verifCode);
             Log.d("MVRT", "data: " + object.toString());
 
-            final JSONObject obj = object;
-            final int teamNo = matchInfo.getTeam(scoutId);
-            new Thread(){
-                public void run(){
-                    try {
-                        Log.e("JSON", obj.toString());
-                        URL url = new URL(Constants.SuperscoutUrl+teamNo);
-                        String data = obj.toString();
-                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                        conn.setRequestMethod("POST");
-                        conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
-                        conn.setRequestProperty("Accept", "application/json");
-                        conn.setFixedLengthStreamingMode(data.getBytes().length);
-
-                        conn.setDoOutput(true);
-                        conn.setDoInput(true);
-                        conn.connect();
-
-                        OutputStream os = new BufferedOutputStream(conn.getOutputStream());
-                        os.write(data.getBytes());
-                        os.flush();
-                        os.close();
-
-                        InputStream ip = conn.getInputStream();
-                        BufferedReader br1 = new BufferedReader(new InputStreamReader(ip));
-
-                        // Print the response code
-                        // and response message from server.
-                        System.out.println("Response Code:" + conn.getResponseCode());
-                        System.out.println("Response Message:" + conn.getResponseMessage());
-
-                        Log.e("response", "Response Code:" + conn.getResponseCode());
-                        Log.e("response", "Response Message:" + conn.getResponseMessage());
-
-                        // to print the 1st header field.
-                        System.out.println("Header field 1:" + conn.getHeaderField(1));
-
-                        // print the response
-                        StringBuilder response = new StringBuilder();
-                        String responseSingle = null;
-                        while ((responseSingle = br1.readLine()) != null)
-                        {
-                            response.append(responseSingle);
-                        }
-
-                        Log.e("response", response.toString());
-                        ip.close();
-                        conn.disconnect();
-                    } catch(Exception e) {
-                        Log.e("response", e.toString());
-                    }
-                }
-            }.start();
-
         }catch(JSONException e) {
             e.printStackTrace();
         }
@@ -223,6 +169,7 @@ public class SuperScoutActivity extends AppCompatActivity implements ChildEventL
         matchDataRef.child(matchInfo.toDbKey(2)).child("super")
                 .setValue(superCommentsFragment.getTeam3());
 
+
         for(int id = 0; id < 3; id++){
             DatabaseReference r = matchDataRef.child(matchInfo.toDbKey(id));
             r.child("team").setValue(matchInfo.getTeams()[id]);
@@ -231,8 +178,71 @@ public class SuperScoutActivity extends AppCompatActivity implements ChildEventL
             r.child("tournament").setValue(matchInfo.getTournament());
             r.child("matchinfo").setValue(matchInfo.toString());
         }
-
          */
+        try {
+            scoutData.get(0).put("a", superCommentsFragment.getTeam1());
+            scoutData.get(1).put("a", superCommentsFragment.getTeam2());
+            scoutData.get(2).put("a", superCommentsFragment.getTeam3());
+
+            for(int id = 0; id < 3; id++){
+                final JSONObject obj = scoutData.get(id);
+                new Thread(){
+                    public void run(){
+                        try {
+                            Log.e("JSON", obj.toString());
+                            URL url = new URL(Constants.SuperscoutUrl);
+                            String data = obj.toString();
+                            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                            conn.setRequestMethod("POST");
+                            conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                            conn.setRequestProperty("Accept", "application/json");
+                            conn.setFixedLengthStreamingMode(data.getBytes().length);
+
+                            conn.setDoOutput(true);
+                            conn.setDoInput(true);
+                            conn.connect();
+
+                            OutputStream os = new BufferedOutputStream(conn.getOutputStream());
+                            os.write(data.getBytes());
+                            os.flush();
+                            os.close();
+
+                            InputStream ip = conn.getInputStream();
+                            BufferedReader br1 = new BufferedReader(new InputStreamReader(ip));
+
+                            // Print the response code
+                            // and response message from server.
+                            System.out.println("Response Code:" + conn.getResponseCode());
+                            System.out.println("Response Message:" + conn.getResponseMessage());
+
+                            Log.e("response", "Response Code:" + conn.getResponseCode());
+                            Log.e("response", "Response Message:" + conn.getResponseMessage());
+
+                            // to print the 1st header field.
+                            System.out.println("Header field 1:" + conn.getHeaderField(1));
+
+                            // print the response
+                            StringBuilder response = new StringBuilder();
+                            String responseSingle = null;
+                            while ((responseSingle = br1.readLine()) != null)
+                            {
+                                response.append(responseSingle);
+                            }
+
+                            Log.e("response", response.toString());
+                            ip.close();
+                            conn.disconnect();
+                        } catch(Exception e) {
+                            Log.e("response", e.toString());
+                        }
+                    }
+                }.start();
+            }
+
+        } catch(JSONException e) {
+
+        }
+
     }
 
     public void finishScouting(){

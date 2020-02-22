@@ -22,7 +22,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DatabaseReference;
 import com.mvrt.mvrtlib.util.Constants;
 import com.mvrt.mvrtlib.util.JSONUtils;
 import com.mvrt.mvrtlib.util.MatchInfo;
@@ -30,11 +29,18 @@ import com.mvrt.mvrtlib.util.MatchInfo;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class LocalDataFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ItemSelectListener, ConfirmSyncListener {
 
@@ -42,19 +48,10 @@ public class LocalDataFragment extends Fragment implements SwipeRefreshLayout.On
     LocalDataAdapter localDataAdapter;
     SwipeRefreshLayout swipeRefreshLayout;
 
-    DatabaseReference matchReference;
-
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        initFirebase();
-    }
-
-    private void initFirebase(){
-        /*
-        matchReference = FirebaseUtils.getDatabase().getReference("matches");
-         */
     }
 
     @Override
@@ -122,10 +119,61 @@ public class LocalDataFragment extends Fragment implements SwipeRefreshLayout.On
 
     private void uploadData(MatchInfo info, int scoutId, JSONObject scoutData, String filename){
         try{
-            matchReference.child(info.toDbKey(scoutId)).updateChildren(JSONUtils.jsonToMap(scoutData));
+            final JSONObject obj = scoutData;
+            new Thread(){
+                public void run(){
+                    try {
+                        Log.e("JSON", obj.toString());
+                        URL url = new URL(Constants.ScoutUrl);
+                        String data = obj.toString();
+                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                        conn.setRequestMethod("POST");
+                        conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                        conn.setRequestProperty("Accept", "application/json");
+                        conn.setFixedLengthStreamingMode(data.getBytes().length);
+
+                        conn.setDoOutput(true);
+                        conn.setDoInput(true);
+                        conn.connect();
+
+                        OutputStream os = new BufferedOutputStream(conn.getOutputStream());
+                        os.write(data.getBytes());
+                        os.flush();
+                        os.close();
+
+                        InputStream ip = conn.getInputStream();
+                        BufferedReader br1 = new BufferedReader(new InputStreamReader(ip));
+
+                        // Print the response code
+                        // and response message from server.
+                        System.out.println("Response Code:" + conn.getResponseCode());
+                        System.out.println("Response Message:" + conn.getResponseMessage());
+
+                        Log.e("response", "Response Code:" + conn.getResponseCode());
+                        Log.e("response", "Response Message:" + conn.getResponseMessage());
+
+                        // to print the 1st header field.
+                        System.out.println("Header field 1:" + conn.getHeaderField(1));
+
+                        // print the response
+                        StringBuilder response = new StringBuilder();
+                        String responseSingle = null;
+                        while ((responseSingle = br1.readLine()) != null)
+                        {
+                            response.append(responseSingle);
+                        }
+
+                        Log.e("response", response.toString());
+                        ip.close();
+                        conn.disconnect();
+                    } catch(Exception e) {
+                        Log.e("response", e.toString());
+                    }
+                }
+            }.start();
             getActivity().deleteFile(filename);
             Log.d("MVRT", "Deleted file " + filename);
-        }catch(JSONException e){
+        }catch(Exception e){
             Toast.makeText(getActivity(), "Upload JSONException", Toast.LENGTH_SHORT).show();
             Log.e("MVRT", "Upload JSONException");
         }
