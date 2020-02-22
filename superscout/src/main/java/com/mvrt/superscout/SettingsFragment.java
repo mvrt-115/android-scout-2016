@@ -25,8 +25,6 @@ public class SettingsFragment extends android.app.Fragment implements View.OnCli
     Spinner alliance;
     SharedPreferences prefs;
 
-    FirebaseRemoteConfig mRemoteConfig;
-
     private static final int POS_ALLIANCE_BLUE = 1;
     private static final int POS_ALLIANCE_RED = 0;
 
@@ -37,9 +35,6 @@ public class SettingsFragment extends android.app.Fragment implements View.OnCli
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
-
-        mRemoteConfig = FirebaseRemoteConfig.getInstance();
-
         prefs = getActivity().getSharedPreferences(Constants.SHARED_PREFS_NAME_SUPER, Activity.MODE_PRIVATE);
 
         alliance = (Spinner)view.findViewById(R.id.settings_alliance);

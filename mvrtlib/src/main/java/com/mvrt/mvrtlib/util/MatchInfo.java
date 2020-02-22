@@ -86,6 +86,10 @@ public class MatchInfo implements Serializable {
         return str;
     }
 
+    public int getTeam(int id){
+        return teams[id];
+    }
+
     public String userFriendlyString(){
         return "Teams " + Arrays.toString(teams) + " - " + alliance +  " (" + matchNo +  "@" + tournament + ")";
         // Teams [115,254,1678] - b (q12@SVR)

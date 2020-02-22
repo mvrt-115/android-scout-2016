@@ -29,6 +29,13 @@ import com.mvrt.mvrtlib.util.MatchInfo;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class SuperScoutActivity extends AppCompatActivity implements ChildEventListener {
@@ -44,25 +51,15 @@ public class SuperScoutActivity extends AppCompatActivity implements ChildEventL
     SuperMatchInfoFragment superMatchInfoFragment;
     SuperDataFragment superDataFragment;
 
-    DatabaseReference matchDataRef;
-    Query fbQuery;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_super_scout);
 
         loadIntentData();
-        initFirebase();
         loadUI();
         loadFragments();
         initNFC();
-    }
-
-    private void initFirebase(){
-        matchDataRef = FirebaseUtils.getDatabase().getReference("matches");
-        fbQuery = matchDataRef.orderByChild(Constants.JSON_DATA_MATCHINFO).equalTo(matchInfo.toString());
-        fbQuery.addChildEventListener(this);
     }
 
     public void loadIntentData(){
@@ -157,15 +154,70 @@ public class SuperScoutActivity extends AppCompatActivity implements ChildEventL
             superDataFragment.addData(i.getTeams()[scoutId], (verifCode == null)?"N/A":verifCode);
             Log.d("MVRT", "data: " + object.toString());
 
-            matchDataRef.child(i.toDbKey(scoutId)).updateChildren(JSONUtils.jsonToMap(object));
+            final JSONObject obj = object;
+            final int teamNo = matchInfo.getTeam(scoutId);
+            new Thread(){
+                public void run(){
+                    try {
+                        Log.e("JSON", obj.toString());
+                        URL url = new URL(Constants.SuperscoutUrl+teamNo);
+                        String data = obj.toString();
+                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                        conn.setRequestMethod("POST");
+                        conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                        conn.setRequestProperty("Accept", "application/json");
+                        conn.setFixedLengthStreamingMode(data.getBytes().length);
+
+                        conn.setDoOutput(true);
+                        conn.setDoInput(true);
+                        conn.connect();
+
+                        OutputStream os = new BufferedOutputStream(conn.getOutputStream());
+                        os.write(data.getBytes());
+                        os.flush();
+                        os.close();
+
+                        InputStream ip = conn.getInputStream();
+                        BufferedReader br1 = new BufferedReader(new InputStreamReader(ip));
+
+                        // Print the response code
+                        // and response message from server.
+                        System.out.println("Response Code:" + conn.getResponseCode());
+                        System.out.println("Response Message:" + conn.getResponseMessage());
+
+                        Log.e("response", "Response Code:" + conn.getResponseCode());
+                        Log.e("response", "Response Message:" + conn.getResponseMessage());
+
+                        // to print the 1st header field.
+                        System.out.println("Header field 1:" + conn.getHeaderField(1));
+
+                        // print the response
+                        StringBuilder response = new StringBuilder();
+                        String responseSingle = null;
+                        while ((responseSingle = br1.readLine()) != null)
+                        {
+                            response.append(responseSingle);
+                        }
+
+                        Log.e("response", response.toString());
+                        ip.close();
+                        conn.disconnect();
+                    } catch(Exception e) {
+                        Log.e("response", e.toString());
+                    }
+                }
+            }.start();
+
         }catch(JSONException e) {
             e.printStackTrace();
         }
     }
 
     public void sendSuperData(){
+        /*
         matchDataRef.child(matchInfo.toDbKey(0)).child("super")
                 .setValue(superCommentsFragment.getTeam1());
+
         matchDataRef.child(matchInfo.toDbKey(1)).child("super")
                 .setValue(superCommentsFragment.getTeam2());
         matchDataRef.child(matchInfo.toDbKey(2)).child("super")
@@ -179,11 +231,12 @@ public class SuperScoutActivity extends AppCompatActivity implements ChildEventL
             r.child("tournament").setValue(matchInfo.getTournament());
             r.child("matchinfo").setValue(matchInfo.toString());
         }
+
+         */
     }
 
     public void finishScouting(){
         sendSuperData();
-        if(fbQuery != null) fbQuery.removeEventListener(this);
         finish();
     }
 
