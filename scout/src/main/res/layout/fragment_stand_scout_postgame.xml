@@ -259,22 +259,6 @@
 
             </RadioGroup>
 
-            <CheckBox android:id="@+id/cb_endgame_parked"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Parked?" />
-
-            <CheckBox
-                android:id="@+id/cb_endgame_stuck"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Stuck?" />
-
-            <CheckBox android:id="@+id/cb_endgame_disabled"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Disabled?" />
-
             <Button
                 android:id="@+id/bt_postgame_finish"
                 android:layout_width="match_parent"

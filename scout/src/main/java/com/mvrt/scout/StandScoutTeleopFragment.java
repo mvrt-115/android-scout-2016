@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -24,10 +25,12 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     Button inner;
     Button outer;
     Button bottom;
+    Button cycles;
 
     Button minusInner;
     Button minusOuter;
     Button minusBottom;
+    Button minusCycles;
 
     Button rotationControl;
     Button positionControl;
@@ -38,9 +41,13 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     RadioButton defenseYes;
     RadioButton defenseNo;
 
+    CheckBox disabled;
+    CheckBox stuck;
+
     int innerNum = 0;
     int outerNum = 0;
     int bottomNum = 0;
+    int cyclesNum = 0;
 
 
     @Override
@@ -58,6 +65,8 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
         outer.setOnClickListener(this);
         bottom = (Button) v.findViewById(R.id.bt_teleop_bottom);
         bottom.setOnClickListener(this);
+        cycles = (Button) v.findViewById(R.id.bt_teleop_cycles);
+        cycles.setOnClickListener(this);
 
         minusInner = (Button) v.findViewById(R.id.bt_teleop_inner_minus);
         minusInner.setOnClickListener(this);
@@ -65,6 +74,8 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
         minusOuter.setOnClickListener(this);
         minusBottom = (Button) v.findViewById(R.id.bt_teleop_bottom_minus);
         minusBottom.setOnClickListener(this);
+        minusCycles = (Button) v.findViewById(R.id.bt_teleop_cycles_minus);
+        minusCycles.setOnClickListener(this);
 
         rotationControl = (Button) v.findViewById(R.id.bt_teleop_rotation_control);
         rotationControl.setOnClickListener(this);
@@ -77,6 +88,9 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
 
         defenseYes = (RadioButton) v.findViewById(R.id.radio_teleop_defense_yes);
         defenseNo = (RadioButton) v.findViewById(R.id.radio_teleop_defense_no);
+
+        disabled = (CheckBox) v.findViewById(R.id.cb_teleop_disabled);
+        stuck = (CheckBox) v.findViewById(R.id.cb_teleop_stuck);
 
         finishTeleop = (Button) v.findViewById(R.id.bt_teleop_finish);
         finishTeleop.setOnClickListener(this);
@@ -95,6 +109,11 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     private void refreshBottom() {
         if (bottomNum > 0) bottomNum--;
         bottom.setText("BOTTOM (" + bottomNum + ")");
+    }
+
+    private void refreshCycles() {
+        if (cyclesNum > 0) cyclesNum--;
+        cycles.setText("CYCLES (" + cyclesNum + ")");
     }
 
     private void refreshRotationControl() {
@@ -132,12 +151,15 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
                 break;
             case R.id.bt_teleop_outer:
                 outerNum++;
-                outer.setText("INNER (" + outerNum + ")");
+                outer.setText("OUTER (" + outerNum + ")");
                 break;
             case R.id.bt_teleop_bottom:
                 bottomNum++;
                 bottom.setText("BOTTOM (" + bottomNum + ")");
                 break;
+            case R.id.bt_teleop_cycles:
+                cyclesNum++;
+                cycles.setText("CYCLES (" + cyclesNum + ")");
             case R.id.bt_teleop_inner_minus:
                 refreshInner();
                 break;
@@ -147,7 +169,9 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
             case R.id.bt_teleop_bottom_minus:
                 refreshBottom();
                 break;
-
+            case R.id.bt_teleop_cycles_minus:
+                refreshCycles();
+                break;
             case R.id.bt_teleop_rotation_control:
                 refreshRotationControl();
                 break;
@@ -176,6 +200,11 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
 
             obj.put("rotation", rotationControl.getText().equals("ROTATION CONTROL ENABLED"));
             obj.put("position", positionControl.getText().equals("POSITION CONTROL ENABLED"));
+
+            obj.put("stuck", stuck.isChecked());
+            obj.put("disabled", disabled.isChecked());
+            obj.put("cycles", cyclesNum);
+
         }catch(Exception e){
             e.printStackTrace();
         }

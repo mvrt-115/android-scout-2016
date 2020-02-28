@@ -50,10 +50,6 @@ public class StandScoutPostgameFragment extends DataCollectionFragment implement
     RadioButton soloClimb;
     RadioButton multiClimb;
 
-
-    CheckBox parked;
-    CheckBox stuck;
-    CheckBox disabled;
     Button finish;
 
     @Override
@@ -81,9 +77,6 @@ public class StandScoutPostgameFragment extends DataCollectionFragment implement
         soloClimb = (RadioButton) v.findViewById(R.id.radio_endgame_solo_climb);
         multiClimb = (RadioButton) v.findViewById(R.id.radio_endgame_multi_climb);
 
-        parked = (CheckBox)v.findViewById(R.id.cb_endgame_parked);
-        stuck = (CheckBox)v.findViewById(R.id.cb_endgame_stuck);
-        disabled = (CheckBox) v.findViewById(R.id.cb_endgame_disabled);
         finish = (Button)v.findViewById(R.id.bt_postgame_finish);
         finish.setOnClickListener(this);
     }
@@ -108,6 +101,7 @@ public class StandScoutPostgameFragment extends DataCollectionFragment implement
         climbConfirm.setOnClickListener(this);
         climbStatus = (TextView)v.findViewById(R.id.teleop_climb_status);
         climbTimerTextView = (TextView)v.findViewById(R.id.teleop_climb_timer);
+        climbTimer = new Timer();
         climbTimer = new Timer();
         climbTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -274,8 +268,6 @@ public class StandScoutPostgameFragment extends DataCollectionFragment implement
     @Override
     public JSONObject getData(JSONObject o){
         try {
-            o.put("stuck", stuck.isChecked());
-            o.put("disabled", disabled.isChecked());
             o.put("climbTime", (double)(climbEndTime - climbStartTime));
 
             o.put("levelFail", levelFailed.isChecked());
@@ -285,10 +277,6 @@ public class StandScoutPostgameFragment extends DataCollectionFragment implement
             o.put("attemptLevel", levelAttempt.getText().equals("Attempted"));
 
             o.put("buddy", multiClimb.isChecked());
-
-            o.put("park", parked.isChecked());
-
-
         } catch(Exception e){
             e.printStackTrace();
         }

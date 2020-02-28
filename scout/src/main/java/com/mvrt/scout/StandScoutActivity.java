@@ -213,6 +213,10 @@ public class StandScoutActivity extends AppCompatActivity {
                     }
                 }
             }.start();
+            Toast feed = Toast.makeText(getApplicationContext(),
+                    "Sent Data. Close app and re-open.",
+                    Toast.LENGTH_SHORT);
+            feed.show();
         }catch(Exception e){
             Toast.makeText(this, "Upload Exception", Toast.LENGTH_SHORT).show();
             Log.e("MVRT", e.toString());

@@ -84,7 +84,7 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
         if (!crossInitiationLine.getText().equals("Crossed"))
             crossInitiationLine.setText("Crossed");
         else
-            crossInitiationLine.setText("Crosses Initiation Line");
+            crossInitiationLine.setText("Does not Cross Initiation Line");
     }
 
     private void refreshPowerCell() {
@@ -133,7 +133,7 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
                 break;
             case R.id.bt_auton_outer:
                 outerNum++;
-                outer.setText("INNER (" + outerNum + ")");
+                outer.setText("OUTER (" + outerNum + ")");
                 break;
             case R.id.bt_auton_bottom:
                 bottomNum++;

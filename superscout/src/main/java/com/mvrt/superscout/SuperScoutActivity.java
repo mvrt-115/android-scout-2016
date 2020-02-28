@@ -243,7 +243,10 @@ public class SuperScoutActivity extends AppCompatActivity implements ChildEventL
                     }
                 }.start();
             }
-
+            Toast feed = Toast.makeText(getApplicationContext(),
+                    "Sent Data. ",
+                    Toast.LENGTH_SHORT);
+            feed.show();
         } catch(JSONException e) {
 
         }

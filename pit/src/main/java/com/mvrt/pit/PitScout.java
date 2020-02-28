@@ -142,101 +142,111 @@ public class PitScout extends AppCompatActivity implements View.OnClickListener 
     }
 
     private void pushData(){
-        final int teamNo = Integer.parseInt(team.getText().toString());
-
-        final JSONObject obj = new JSONObject();
-        try{
-            obj.put("teamNum", Integer.parseInt(team.getText().toString()));
-            obj.put("drivetrain", drivetrain.getText().toString());
-            obj.put("weight", Integer.parseInt(weight.getText().toString()));
-            obj.put("height", Integer.parseInt(maxHeight.getText().toString()));
-
-            obj.put("climber", climber.getText().toString());
-            obj.put("centerOfGravity", centerOfGravity.getText().toString());
-
-            obj.put("canHang", hang.isChecked());
-            obj.put("canLevel", level.isChecked());
-            obj.put("speed", Integer.parseInt(speed.getText().toString()));
-            obj.put("innerShoot", inner_port_shooter.isChecked());
-            obj.put("outerShoot", outer_port_shooter.isChecked());
-            obj.put("bottomShoot", bottom_port_shooter.isChecked());
-            obj.put("canRotation", rotation_control.isChecked());
-            obj.put("canPosition", position_control.isChecked());
-            obj.put("hopperCapacity", hopperCapacity.getText().toString());
-            obj.put("auton", autoPaths.getText().toString());
-            obj.put("avgCycles", Integer.parseInt(cyclesPerMatch.getText().toString()));
-            obj.put("intake", intake.getText().toString());
-            obj.put("language", programming_language.getText().toString());
-            obj.put("generalPaths", teleopPaths.getText().toString());
-            obj.put("driveteamExp", driver_experience.getText().toString());
-
-        } catch(Exception e){
-            Log.e("MVRT", "JSON Error");
-
-        }
         try {
-            writeToFile(obj, teamNo);
 
-        } catch (JSONException e) {
-            Log.e("MVRT", "JSON Error");
+            final int teamNo = Integer.parseInt(team.getText().toString());
+
+            final JSONObject obj = new JSONObject();
+            try{
+                obj.put("teamNum", Integer.parseInt(team.getText().toString()));
+                obj.put("drivetrain", drivetrain.getText().toString());
+                obj.put("weight", Integer.parseInt(weight.getText().toString()));
+                obj.put("height", Integer.parseInt(maxHeight.getText().toString()));
+
+                obj.put("climber", climber.getText().toString());
+                obj.put("centerOfGravity", centerOfGravity.getText().toString());
+
+                obj.put("canHang", hang.isChecked());
+                obj.put("canLevel", level.isChecked());
+                obj.put("speed", Integer.parseInt(speed.getText().toString()));
+                obj.put("innerShoot", inner_port_shooter.isChecked());
+                obj.put("outerShoot", outer_port_shooter.isChecked());
+                obj.put("bottomShoot", bottom_port_shooter.isChecked());
+                obj.put("canRotation", rotation_control.isChecked());
+                obj.put("canPosition", position_control.isChecked());
+                obj.put("hopperCapacity", hopperCapacity.getText().toString());
+                obj.put("auton", autoPaths.getText().toString());
+                obj.put("avgCycles", Integer.parseInt(cyclesPerMatch.getText().toString()));
+                obj.put("intake", intake.getText().toString());
+                obj.put("language", programming_language.getText().toString());
+                obj.put("generalPaths", teleopPaths.getText().toString());
+                obj.put("driveteamExp", driver_experience.getText().toString());
+
+            } catch(Exception e){
+                Log.e("MVRT", "JSON Error");
+
+            }
+            try {
+                writeToFile(obj, teamNo);
+
+            } catch (JSONException e) {
+                Log.e("MVRT", "JSON Error");
+            }
+
+            new Thread(){
+                public void run(){
+                    try {
+                        Log.e("JSON", obj.toString());
+                        URL url = new URL(Constants.PitUrl);
+                        String data = obj.toString();
+                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                        conn.setRequestMethod("POST");
+                        conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                        conn.setRequestProperty("Accept", "application/json");
+                        conn.setFixedLengthStreamingMode(data.getBytes().length);
+
+                        conn.setDoOutput(true);
+                        conn.setDoInput(true);
+                        conn.connect();
+
+                        OutputStream os = new BufferedOutputStream(conn.getOutputStream());
+                        os.write(data.getBytes());
+                        os.flush();
+                        os.close();
+
+                        InputStream ip = conn.getInputStream();
+                        BufferedReader br1 = new BufferedReader(new InputStreamReader(ip));
+
+                        // Print the response code
+                        // and response message from server.
+                        System.out.println("Response Code:" + conn.getResponseCode());
+                        System.out.println("Response Message:" + conn.getResponseMessage());
+
+                        Log.e("response", "Response Code:" + conn.getResponseCode());
+                        Log.e("response", "Response Message:" + conn.getResponseMessage());
+
+                        // to print the 1st header field.
+                        System.out.println("Header field 1:" + conn.getHeaderField(1));
+
+                        // print the response
+                        StringBuilder response = new StringBuilder();
+                        String responseSingle = null;
+                        while ((responseSingle = br1.readLine()) != null)
+                        {
+                            response.append(responseSingle);
+                        }
+
+                        Log.e("response", response.toString());
+                        ip.close();
+                        conn.disconnect();
+                    } catch(Exception e) {
+                        Log.e("response", e.toString());
+                    }
+                }
+            }.start();
+
+            Toast feed = Toast.makeText(getApplicationContext(),
+                    "Sent Data. Close app and re-open.",
+                    Toast.LENGTH_SHORT);
+            feed.show();
+
+        } catch(NumberFormatException e){
+            Toast feed = Toast.makeText(getApplicationContext(),
+                    "Invalid response",
+                    Toast.LENGTH_SHORT);
+            feed.show();
         }
 
-        new Thread(){
-            public void run(){
-                try {
-                    Log.e("JSON", obj.toString());
-                    URL url = new URL(Constants.PitUrl+teamNo);
-                    String data = obj.toString();
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setRequestMethod("POST");
-                    conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
-                    conn.setRequestProperty("Accept", "application/json");
-                    conn.setFixedLengthStreamingMode(data.getBytes().length);
-
-                    conn.setDoOutput(true);
-                    conn.setDoInput(true);
-                    conn.connect();
-
-                    OutputStream os = new BufferedOutputStream(conn.getOutputStream());
-                    os.write(data.getBytes());
-                    os.flush();
-                    os.close();
-
-                    InputStream ip = conn.getInputStream();
-                    BufferedReader br1 = new BufferedReader(new InputStreamReader(ip));
-
-                    // Print the response code
-                    // and response message from server.
-                    System.out.println("Response Code:" + conn.getResponseCode());
-                    System.out.println("Response Message:" + conn.getResponseMessage());
-
-                    Log.e("response", "Response Code:" + conn.getResponseCode());
-                    Log.e("response", "Response Message:" + conn.getResponseMessage());
-
-                    // to print the 1st header field.
-                    System.out.println("Header field 1:" + conn.getHeaderField(1));
-
-                    // print the response
-                    StringBuilder response = new StringBuilder();
-                    String responseSingle = null;
-                    while ((responseSingle = br1.readLine()) != null)
-                    {
-                        response.append(responseSingle);
-                    }
-
-                    Log.e("response", response.toString());
-                    ip.close();
-                    conn.disconnect();
-                } catch(Exception e) {
-                    Log.e("response", e.toString());
-                }
-            }
-        }.start();
-
-        Toast feed = Toast.makeText(getApplicationContext(),
-                "Sent Data. Close app and re-open.",
-                Toast.LENGTH_SHORT);
-        feed.show();
     }
 
     private void clearData() {

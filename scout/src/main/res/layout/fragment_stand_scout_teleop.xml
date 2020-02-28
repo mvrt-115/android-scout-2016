@@ -106,6 +106,42 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
+                    android:text="Cycles"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/bt_teleop_cycles"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Cycles (0)"
+                    android:theme="@style/MVRTButtonStyle" />
+
+                <Button android:id="@+id/bt_teleop_cycles_minus"
+                    android:layout_height = "wrap_content"
+                    android:layout_width = "0dp"
+                    android:layout_weight = "1"
+                    android:text = "-1"
+                    android:theme="@style/MVRTButtonStyle" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
                     android:text="Rotation Control"
                     android:textSize="15sp" />
 
@@ -223,6 +259,25 @@
                     android:text="No" />
 
             </RadioGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:text="Other info"
+                android:textSize="15sp" />
+
+            <CheckBox
+                android:id="@+id/cb_teleop_stuck"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Stuck?" />
+
+            <CheckBox android:id="@+id/cb_teleop_disabled"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Disabled?" />
 
             <Button android:id="@+id/bt_teleop_finish"
                 android:layout_height="wrap_content"
