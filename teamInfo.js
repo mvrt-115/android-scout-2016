@@ -2,7 +2,7 @@ var database = firebase.database();
 var ref = database.ref();
 var matchUrl = 'http://mvrtScouting-env-1.zpsnzbaqbu.us-east-2.elasticbeanstalk.com/analytics/team/';
 
-var = avgAutonCells, avgAutonCellsMissed, avgTeleopCells, avgTeleopCellsMissed, avgAccuracy, stdDevCells, avgCycles, 
+var avgAutonCells, avgAutonCellsMissed, avgTeleopCells, avgTeleopCellsMissed, avgAccuracy, stdDevCells, avgCycles, 
 stdDevCycles, avgClimbs, totalDefenseMatches, totalInner, totalOuter, totalBottom, totalMissed, comments;
 
 function searchTeams(){

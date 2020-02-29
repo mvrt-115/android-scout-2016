@@ -2,7 +2,7 @@ var database = firebase.database();
 var ref = database.ref();
 var matchUrl = 'http://mvrtScouting-env-1.zpsnzbaqbu.us-east-2.elasticbeanstalk.com/robot/team/';
 
-var = drivetrain, weight, height, climber,centerOfGravity, canHang, speed, innerShoot, outerShoot, bottomShoot, canRotation, canPosition, hopperCapacity, auton, generalPaths, driveteamExp;
+var drivetrain, weight, height, climber,centerOfGravity, canHang, speed, innerShoot, outerShoot, bottomShoot, canRotation, canPosition, hopperCapacity, auton, generalPaths, driveteamExp;
 
 function searchTeams(){
   var number = document.getElementById('searchTeam').value;
