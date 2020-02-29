@@ -270,8 +270,9 @@ public class StandScoutPostgameFragment extends DataCollectionFragment implement
         try {
             o.put("climbTime", (double)(climbEndTime - climbStartTime));
 
-            o.put("levelFail", levelFailed.isChecked());
             o.put("hangFail", hangFailed.isChecked());
+            o.put("levelFail", levelFailed.isChecked());
+
 
             o.put("attemptHang", hangAttempt.getText().equals("Attempted"));
             o.put("attemptLevel", levelAttempt.getText().equals("Attempted"));

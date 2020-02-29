@@ -32,11 +32,9 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     Button minusBottom;
     Button minusCycles;
 
-    Button innerMissed;
     Button outerMissed;
     Button bottomMissed;
 
-    Button minusMissedInner;
     Button minusMissedOuter;
     Button minusMissedBottom;
 
@@ -56,7 +54,6 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     int outerNum = 0;
     int bottomNum = 0;
 
-    int innerMissedNum = 0;
     int outerMissedNum = 0;
     int bottomMissedNum = 0;
 
@@ -90,15 +87,11 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
         minusCycles = (Button) v.findViewById(R.id.bt_teleop_cycles_minus);
         minusCycles.setOnClickListener(this);
 
-        innerMissed = (Button) v.findViewById(R.id.bt_teleop_missed_inner);
-        innerMissed.setOnClickListener(this);
         outerMissed = (Button) v.findViewById(R.id.bt_teleop_missed_outer);
         outerMissed.setOnClickListener(this);
         bottomMissed = (Button) v.findViewById(R.id.bt_teleop_missed_bottom);
         bottomMissed.setOnClickListener(this);
 
-        minusMissedInner = (Button) v.findViewById(R.id.bt_teleop_missed_inner_minus);
-        minusMissedInner.setOnClickListener(this);
         minusMissedOuter = (Button) v.findViewById(R.id.bt_teleop_missed_outer_minus);
         minusMissedOuter.setOnClickListener(this);
         minusMissedBottom = (Button) v.findViewById(R.id.bt_teleop_missed_bottom_minus);
@@ -136,11 +129,6 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     private void refreshBottom() {
         if (bottomNum > 0) bottomNum--;
         bottom.setText("BOTTOM (" + bottomNum + ")");
-    }
-
-    private void refreshInnerMissed() {
-        if (innerMissedNum > 0) innerMissedNum--;
-        innerMissed.setText("MISSED INNER (" + innerMissedNum + ")");
     }
 
     private void refreshOuterMissed() {
@@ -211,10 +199,6 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
             case R.id.bt_teleop_bottom_minus:
                 refreshBottom();
                 break;
-            case R.id.bt_teleop_missed_inner:
-                innerMissedNum++;
-                innerMissed.setText("MISSED INNER (" + innerMissedNum + ")");
-                break;
             case R.id.bt_teleop_missed_outer:
                 outerMissedNum++;
                 outerMissed.setText("MISSED OUTER (" + outerMissedNum + ")");
@@ -222,9 +206,6 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
             case R.id.bt_teleop_missed_bottom:
                 bottomMissedNum++;
                 bottomMissed.setText("MISSED BOTTOM (" + bottomMissedNum + ")");
-                break;
-            case R.id.bt_teleop_missed_inner_minus:
-                refreshInnerMissed();
                 break;
             case R.id.bt_teleop_missed_outer_minus:
                 refreshOuterMissed();
@@ -256,8 +237,11 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
 
     public JSONObject getData(JSONObject obj){
         try {
-            obj.put("teleopUpper", innerNum+outerNum);
-            obj.put("teleopUpperMissed", innerMissedNum+outerMissedNum);
+            obj.put("teleopUpper", outerNum);
+            obj.put("teleopInner", innerNum);
+            obj.put("teleopUpperMissed", outerMissedNum);
+
+
             obj.put("teleopBottom", bottomNum);
             obj.put("teleopBottomMissed", bottomMissedNum);
 

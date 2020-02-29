@@ -18,7 +18,7 @@ public class MatchInfoFragment extends Fragment implements View.OnClickListener{
 
     MatchInfo matchInfo;
 
-    Button startMatch;
+    //Button startMatch;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,17 +47,22 @@ public class MatchInfoFragment extends Fragment implements View.OnClickListener{
         TextView key = (TextView)v.findViewById(R.id.matchinfo_key);
         key.setText(matchInfo.toString());
 
+        /*
         startMatch = (Button)v.findViewById(R.id.start_match);
         startMatch.setOnClickListener(this);
+         */
     }
 
     public void onClick(View v)
     {
+        /*
         switch(v.getId())
         {
             case R.id.start_match:
                 ((StandScoutActivity)getActivity()).nextTab();
                 break;
+            break;
         }
+         */
     }
 }

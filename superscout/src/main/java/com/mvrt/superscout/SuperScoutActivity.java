@@ -248,7 +248,9 @@ public class SuperScoutActivity extends AppCompatActivity implements ChildEventL
                 }.start();
             }
         } catch(JSONException e) {
-
+            Toast feed = Toast.makeText(getApplicationContext(),
+                    "Error sending Data. ",
+                    Toast.LENGTH_SHORT);
         }
 
     }

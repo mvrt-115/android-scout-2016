@@ -37,14 +37,5 @@
         android:id="@+id/matchinfo_key"
         android:text="q123@SAMP:b[115,254,1678]"/>
 
-    <Button
-        android:id="@+id/start_match"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:padding = "25dp"
-        android:text="Start Match"
-        android:layout_margin="10dp"
-        android:theme="@style/MVRTButtonStyle" />
 
 </LinearLayout>
