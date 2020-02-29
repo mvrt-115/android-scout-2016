@@ -31,9 +31,7 @@ function searchTeams(){
       avgTeleopCellsMissed.innerHTML = data.avgTeleopCellsMissed;
       avgInner.innerHTML = data.avgInner;
       avgUpper.innerHTML = data.avgUpper;
-      stdDevCells.innerHTML = data.stdDevCells;
       avgCycles.innerHTML = data.avgCycles;
-      stdDevCycles.innerHTML = data.stdDevCycles;
       avgClimbs.innerHTML = data.avgClimbs;
       totalDefenseMatches.innerHTML = data.totalDefenseMatches;
       comments.innerHTML = data.comments;
@@ -62,8 +60,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
   avgClimbs = document.getElementById('avgClimbs');
   avgCycles = document.getElementById('avgCycles')
   comments = document.getElementById('comments');
-  stdDevCycles = document.getElementById('stdDevCycles');
-  stdDevCells = document.getElementById('stdDevCells');
   avgInner = document.getElementById('avgInner');
   avgUpper = document.getElementById('avgUpper');
 
