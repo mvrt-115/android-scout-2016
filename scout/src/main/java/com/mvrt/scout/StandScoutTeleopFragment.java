@@ -32,6 +32,14 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     Button minusBottom;
     Button minusCycles;
 
+    Button innerMissed;
+    Button outerMissed;
+    Button bottomMissed;
+
+    Button minusMissedInner;
+    Button minusMissedOuter;
+    Button minusMissedBottom;
+
     Button rotationControl;
     Button positionControl;
     Button trech;
@@ -47,6 +55,11 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     int innerNum = 0;
     int outerNum = 0;
     int bottomNum = 0;
+
+    int innerMissedNum = 0;
+    int outerMissedNum = 0;
+    int bottomMissedNum = 0;
+
     int cyclesNum = 0;
 
 
@@ -76,6 +89,20 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
         minusBottom.setOnClickListener(this);
         minusCycles = (Button) v.findViewById(R.id.bt_teleop_cycles_minus);
         minusCycles.setOnClickListener(this);
+
+        innerMissed = (Button) v.findViewById(R.id.bt_teleop_missed_inner);
+        innerMissed.setOnClickListener(this);
+        outerMissed = (Button) v.findViewById(R.id.bt_teleop_missed_outer);
+        outerMissed.setOnClickListener(this);
+        bottomMissed = (Button) v.findViewById(R.id.bt_teleop_missed_bottom);
+        bottomMissed.setOnClickListener(this);
+
+        minusMissedInner = (Button) v.findViewById(R.id.bt_teleop_missed_inner_minus);
+        minusMissedInner.setOnClickListener(this);
+        minusMissedOuter = (Button) v.findViewById(R.id.bt_teleop_missed_outer_minus);
+        minusMissedOuter.setOnClickListener(this);
+        minusMissedBottom = (Button) v.findViewById(R.id.bt_teleop_missed_bottom_minus);
+        minusMissedBottom.setOnClickListener(this);
 
         rotationControl = (Button) v.findViewById(R.id.bt_teleop_rotation_control);
         rotationControl.setOnClickListener(this);
@@ -109,6 +136,21 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
     private void refreshBottom() {
         if (bottomNum > 0) bottomNum--;
         bottom.setText("BOTTOM (" + bottomNum + ")");
+    }
+
+    private void refreshInnerMissed() {
+        if (innerMissedNum > 0) innerMissedNum--;
+        innerMissed.setText("MISSED INNER (" + innerMissedNum + ")");
+    }
+
+    private void refreshOuterMissed() {
+        if (outerMissedNum > 0) outerMissedNum--;
+        outerMissed.setText("MISSED OUTER (" + outerMissedNum + ")");
+    }
+
+    private void refreshBottomMissed() {
+        if (bottomMissedNum > 0) bottomMissedNum--;
+        bottomMissed.setText("MISSED BOTTOM (" + bottomMissedNum + ")");
     }
 
     private void refreshCycles() {
@@ -169,17 +211,36 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
             case R.id.bt_teleop_bottom_minus:
                 refreshBottom();
                 break;
+            case R.id.bt_teleop_missed_inner:
+                innerMissedNum++;
+                innerMissed.setText("MISSED INNER (" + innerMissedNum + ")");
+                break;
+            case R.id.bt_teleop_missed_outer:
+                outerMissedNum++;
+                outerMissed.setText("MISSED OUTER (" + outerMissedNum + ")");
+                break;
+            case R.id.bt_teleop_missed_bottom:
+                bottomMissedNum++;
+                bottomMissed.setText("MISSED BOTTOM (" + bottomMissedNum + ")");
+                break;
+            case R.id.bt_teleop_missed_inner_minus:
+                refreshInnerMissed();
+                break;
+            case R.id.bt_teleop_missed_outer_minus:
+                refreshOuterMissed();
+                break;
+            case R.id.bt_teleop_missed_bottom_minus:
+                refreshBottomMissed();
+                break;
             case R.id.bt_teleop_cycles_minus:
                 refreshCycles();
                 break;
             case R.id.bt_teleop_rotation_control:
                 refreshRotationControl();
                 break;
-
             case R.id.bt_teleop_position_control:
                 refreshPositionControl();
                 break;
-
             case R.id.bt_teleop_trench:
                 refreshTrench();
                 break;
@@ -187,12 +248,18 @@ public class StandScoutTeleopFragment extends DataCollectionFragment implements 
             case R.id.bt_teleop_finish:
                 ((StandScoutActivity)getActivity()).nextTab();
         }
+
+        int innerMissedNum = 0;
+        int outerMissedNum = 0;
+        int bottomMissedNum = 0;
     }
 
     public JSONObject getData(JSONObject obj){
         try {
             obj.put("teleopUpper", innerNum+outerNum);
+            obj.put("teleopUpperMissed", innerMissedNum+outerMissedNum);
             obj.put("teleopBottom", bottomNum);
+            obj.put("teleopBottomMissed", bottomMissedNum);
 
             obj.put("trench", trech.getText().equals("YES"));
 

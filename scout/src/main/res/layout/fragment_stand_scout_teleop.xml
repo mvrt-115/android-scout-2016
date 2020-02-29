@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:text="Shooting"
+                android:text="Successful Shots"
                 android:textSize="15sp" />
 
             <LinearLayout
@@ -95,6 +95,90 @@
                     android:theme="@style/MVRTButtonStyle" />
 
             </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:text="Missed Shots"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/bt_teleop_missed_inner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="MISSED Inner (0)"
+                    android:theme="@style/MVRTButtonStyle" />
+
+                <Button android:id="@+id/bt_teleop_missed_inner_minus"
+                    android:layout_height = "wrap_content"
+                    android:layout_width = "0dp"
+                    android:layout_weight = "1"
+                    android:text = "-1"
+                    android:theme="@style/MVRTButtonStyle" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/bt_teleop_missed_outer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="MISSED OUTER (0)"
+                    android:theme="@style/MVRTButtonStyle" />
+
+                <Button android:id="@+id/bt_teleop_missed_outer_minus"
+                    android:layout_height = "wrap_content"
+                    android:layout_width = "0dp"
+                    android:layout_weight = "1"
+                    android:text = "-1"
+                    android:theme="@style/MVRTButtonStyle" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/bt_teleop_missed_bottom"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="MISSED Bottom (0)"
+                    android:theme="@style/MVRTButtonStyle" />
+
+                <Button android:id="@+id/bt_teleop_missed_bottom_minus"
+                    android:layout_height = "wrap_content"
+                    android:layout_width = "0dp"
+                    android:layout_weight = "1"
+                    android:text = "-1"
+                    android:theme="@style/MVRTButtonStyle" />
+
+            </LinearLayout>
+
+
+
+
+
+
+
+
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"

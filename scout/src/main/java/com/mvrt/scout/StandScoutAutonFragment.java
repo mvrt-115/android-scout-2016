@@ -34,6 +34,14 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
     Button minusOuter;
     Button minusBottom;
 
+    Button innerMissed;
+    Button outerMissed;
+    Button bottomMissed;
+
+    Button minusMissedInner;
+    Button minusMissedOuter;
+    Button minusMissedBottom;
+
     Button finishAuton;
 
     int powerCellNum;
@@ -41,6 +49,10 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
     int innerNum = 0;
     int outerNum = 0;
     int bottomNum = 0;
+
+    int innerMissedNum = 0;
+    int outerMissedNum = 0;
+    int bottomMissedNum = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,6 +88,20 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
         minusBottom = (Button) v.findViewById(R.id.bt_auton_bottom_minus);
         minusBottom.setOnClickListener(this);
 
+        innerMissed = (Button) v.findViewById(R.id.bt_auton_missed_inner);
+        innerMissed.setOnClickListener(this);
+        outerMissed = (Button) v.findViewById(R.id.bt_auton_missed_outer);
+        outerMissed.setOnClickListener(this);
+        bottomMissed = (Button) v.findViewById(R.id.bt_auton_missed_bottom);
+        bottomMissed.setOnClickListener(this);
+
+        minusMissedInner = (Button) v.findViewById(R.id.bt_auton_missed_inner_minus);
+        minusMissedInner.setOnClickListener(this);
+        minusMissedOuter = (Button) v.findViewById(R.id.bt_auton_missed_outer_minus);
+        minusMissedOuter.setOnClickListener(this);
+        minusMissedBottom = (Button) v.findViewById(R.id.bt_auton_missed_bottom_minus);
+        minusMissedBottom.setOnClickListener(this);
+
         finishAuton = (Button) v.findViewById(R.id.bt_auton_finish);
         finishAuton.setOnClickListener(this);
     }
@@ -105,6 +131,21 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
     private void refreshBottom() {
         if (bottomNum > 0) bottomNum--;
         bottom.setText("BOTTOM (" + bottomNum + ")");
+    }
+
+    private void refreshInnerMissed() {
+        if (innerMissedNum > 0) innerMissedNum--;
+        innerMissed.setText("MISSED INNER (" + innerMissedNum + ")");
+    }
+
+    private void refreshOuterMissed() {
+        if (outerMissedNum > 0) outerMissedNum--;
+        outerMissed.setText("MISSED OUTER (" + outerMissedNum + ")");
+    }
+
+    private void refreshBottomMissed() {
+        if (bottomMissedNum > 0) bottomMissedNum--;
+        bottomMissed.setText("MISSED BOTTOM (" + bottomMissedNum + ")");
     }
 
     @Override
@@ -148,7 +189,27 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
             case R.id.bt_auton_bottom_minus:
                 refreshBottom();
                 break;
-
+            case R.id.bt_auton_missed_inner:
+                innerMissedNum++;
+                innerMissed.setText("MISSED INNER (" + innerMissedNum + ")");
+                break;
+            case R.id.bt_auton_missed_outer:
+                outerMissedNum++;
+                outerMissed.setText("MISSED OUTER (" + outerMissedNum + ")");
+                break;
+            case R.id.bt_auton_missed_bottom:
+                bottomMissedNum++;
+                bottomMissed.setText("MISSED BOTTOM (" + bottomMissedNum + ")");
+                break;
+            case R.id.bt_auton_missed_inner_minus:
+                refreshInnerMissed();
+                break;
+            case R.id.bt_auton_missed_outer_minus:
+                refreshOuterMissed();
+                break;
+            case R.id.bt_auton_missed_bottom_minus:
+                refreshBottomMissed();
+                break;
             case R.id.bt_auton_finish:
                 ((StandScoutActivity) getActivity()).nextTab();
                 break;
@@ -165,8 +226,10 @@ public class StandScoutAutonFragment extends DataCollectionFragment implements V
             obj.put("preloads", powerCellNum);
 
             obj.put("autonUpper", innerNum+outerNum);
+            obj.put("autonUpperMissed", innerMissedNum+outerMissedNum);
 
             obj.put("autonBottom", bottomNum);
+            obj.put("autonBottomMissed", bottomMissedNum);
         } catch (Exception e) {
             e.printStackTrace();
         }

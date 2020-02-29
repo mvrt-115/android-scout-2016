@@ -208,17 +208,18 @@ public class StandScoutActivity extends AppCompatActivity {
                         Log.e("response", response.toString());
                         ip.close();
                         conn.disconnect();
+
+                        Toast feed = Toast.makeText(getApplicationContext(),
+                                "Sent Data.",
+                                Toast.LENGTH_SHORT);
+                        feed.show();
                     } catch(Exception e) {
                         Log.e("response", e.toString());
                     }
                 }
             }.start();
-            Toast feed = Toast.makeText(getApplicationContext(),
-                    "Sent Data. Close app and re-open.",
-                    Toast.LENGTH_SHORT);
-            feed.show();
         }catch(Exception e){
-            Toast.makeText(this, "Upload Exception", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Upload Exception. Data not sent", Toast.LENGTH_SHORT).show();
             Log.e("MVRT", e.toString());
         }
     }
