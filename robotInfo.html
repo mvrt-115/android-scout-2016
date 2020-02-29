@@ -31,7 +31,7 @@
     };
     firebase.initializeApp(config);
   </script>
-  <script src="teamInfo.js"></script>
+  <script src="robotInfo.js"></script>
 
   <div class="jumbotron">
     <div class="container">
@@ -43,16 +43,17 @@
 
     <ul class="nav nav-pills">
       <li role="presentation"><a href="index.html">Home</a></li>
-      <li role="presentation" class="active"><a href="teamInfo.html">Robot Performance Info</a></li>
-      <li role="presentation"><a href="robotInfo.html">Robot Specifications Info</a></li>
+      <li role="presentation"><a href="teamInfo.html">Robot Performance Info</a>
+      <li role="presentation" class="active"><a href="robotInfo.html">Robot Specifications Info</a></li>
+     </li>
     </ul>
 
     <div class="panel panel-default">
       <div class="panel-body">
 
-        <h2>Robot Performance Info</h2>
+        <h2>Robot Specifications Info</h2>
         <div class="input-group input-group-lg">
-          <input id="searchTeam" type="number" class="form-control" placeholder="Team Number (115)">
+          <input id="searchTeam" type="number" class="form-control" placeholder="Robot Number (115)">
           <span class="input-group-btn">
             <button class="btn btn-default" id="searchBtn" type="button">Search</button>
           </span>
@@ -60,50 +61,57 @@
 
         </br>
 
-        <h3>avgAutonCells: </h3>
-        <h4 id="avgAutonCells"></h4>
+        <h3>drivetrain: </h3>
+        <h4 id="drivetrain"></h4>
         
-        <h3>avgAutonCellsMissed: </h3>
-        <h4 id="avgAutonCellsMissed"></h4>
+        <h3>weight: </h3>
+        <h4 id="weight"></h4>
 
-        <h3>avgTeleopCells: </h3>
-        <h4 id="avgTeleopCells"></h4>
+        <h3>height: </h3>
+        <h4 id="height"></h4>
 
-        <h3>avgTeleopCellsMissed: </h3>
-        <h4 id="avgTeleopCellsMissed"></h4>
+        <h3>climber: </h3>
+        <h4 id="climber"></h4>
 
-        <h3>avgAccuracy: </h3>
-        <h4 id="avgAccuracy"></h4>
+        <h5>auton: </h5>
+        <h6 id="auton"></h6>
 
-        <h5>stdDevCells: </h5>
-        <h6 id="stdDevCells"></h6>
+         <h5>generalPaths: </h5>
+        <h6 id="generalPaths"></h6>
 
-        <h3>avgCycles: </h3>
-        <h4 id="avgCycles"></h4>
 
-        <h5>stdDevCycles: </h5>
-        <h6 id="stdDevCycles"></h6>
+        <h3>canHang: </h3>
+        <h4 id="canHang"></h4>
+
+        <h3>canLevel: </h3>
+        <h4 id="canLevel"></h4>
         
-        <h3>avgClimbs: </h3>
-        <h4 id="avgClimbs"></h4>
+        <h3>speed: </h3>
+        <h4 id="speed"></h4>
 
-        <h5>totalDefenseMatches: </h5>
-        <h6 id="totalDefenseMatches"></h6>
+        <h5>innerShoot: </h5>
+        <h6 id="innerShoot"></h6>
 
-        <h5>totalInner: </h5>
-        <h6 id="totalInner"></h6>
+        <h5>outerShoot: </h5>
+        <h6 id="outerShoot"></h6>
 
-        <h5>totalOuter: </h5>
-        <h6 id="totalOuter"></h6>
+        <h5>bottomShoot: </h5>
+        <h6 id="bottomShoot"></h6>
 
-        <h5>totalBottom: </h5>
-        <h6 id="totalBottom"></h6>
+        <h5>canRotation: </h5>
+        <h6 id="canRotation"></h6>
 
-        <h5>totalMissed: </h5>
-        <h6 id="totalBottomTeleopCells"></h6>
+        <h5>canPosition: </h5>
+        <h6 id="canPosition"></h6>
 
-        <h5>comments: </h5>
-        <h6 id="comments"></h6>
+        <h5>hopperCapacity: </h5>
+        <h6 id="hopperCapacity"></h6>
+
+        <h5>centerOfGravity: </h5>
+        <h6 id="centerOfGravity"></h6>
+
+        <h5>driveteamExp: </h5>
+        <h6 id="driveteamExp"></h6>
 
       </div>
     </div>
