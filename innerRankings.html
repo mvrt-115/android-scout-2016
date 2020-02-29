@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="dataTable.css" rel="stylesheet">
+
+  <title>MVRT Scouting Web</title>
+      
+</head>
+
+<body>
+
+  <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyCh7bLGBOIILTEjv1Cm_P4zmYBl7xL1JsQ",
+      authDomain: "mvrt-scout.firebaseapp.com",
+      databaseURL: "https://mvrt-scout.firebaseio.com",
+      storageBucket: "mvrt-scout.appspot.com",
+      messagingSenderId: "467897465307"
+    };
+    firebase.initializeApp(config);
+  </script>
+  <script src="innerRankings.js"></script>
+
+  <div class="jumbotron">
+    <div class="container">
+        <h1 class="display-3">MVRT Scout</h1>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <ul class="nav nav-pills">
+      <li role="presentation"><a href="index.html">Home</a></li>
+      <li role="presentation"><a href="teamInfo.html">Robot Performance Info</a></li>
+      <li role="presentation"><a href="robotInfo.html">Robot Specifications Info</a></li>
+      <li role="presentation" class="active"><a href="innerRankings.html">Inner Port Rankings</a></li>
+    </ul>
+
+    <div class="panel panel-default">
+      <div class="panel-body">
+
+        <h2>Inner Port Rankings</h2>
+
+        </br>
+
+        <h2>innerRankings: </h2>
+        <h4 id="innerRankings"></h4>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

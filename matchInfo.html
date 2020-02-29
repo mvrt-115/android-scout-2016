@@ -31,7 +31,7 @@
     };
     firebase.initializeApp(config);
   </script>
-  <script src="teamInfo.js"></script>
+  <script src="matchInfo.js"></script>
 
   <div class="jumbotron">
     <div class="container">
@@ -43,9 +43,9 @@
 
     <ul class="nav nav-pills">
       <li role="presentation"><a href="index.html">Home</a></li>
-      <li role="presentation" class="active"><a href="teamInfo.html">Robot Performance Info</a></li>
+      <li role="presentation"><a href="teamInfo.html">Robot Performance Info</a></li>
       <li role="presentation"><a href="robotInfo.html">Robot Specifications Info</a></li>
-      <li role="presentation"><a href="matchInfo.html">Match Info</a></li>
+      <li role="presentation" class="active"><a href="matchInfo.html">Match Info</a></li>
       <li role="presentation"><a href="innerRankings.html">Inner Port Rankings</a></li>
 
     </ul>
@@ -53,9 +53,10 @@
     <div class="panel panel-default">
       <div class="panel-body">
 
-        <h2>Robot Performance Info</h2>
+        <h2>Match Info</h2>
         <div class="input-group input-group-lg">
           <input id="searchTeam" type="number" class="form-control" placeholder="Team Number (115)">
+          <input id="searchMatch" type="number" class="form-control" placeholder="Match Number (1)">
           <span class="input-group-btn">
             <button class="btn btn-default" id="searchBtn" type="button">Search</button>
           </span>
@@ -63,35 +64,50 @@
 
         </br>
 
-        <h3>avgAutonCells: </h3>
-        <h4 id="avgAutonCells"></h4>
+         <h3>startLocations: </h3>
+        <h4 id="startLocations"></h4>
+
+        <h3>cycles: </h3>
+        <h4 id="cycles"></h4>
         
-        <h3>avgAutonCellsMissed: </h3>
-        <h4 id="avgAutonCellsMissed"></h4>
+        <h3>initLineCrosses: </h3>
+        <h4 id="initLineCrosses"></h4>
 
-        <h3>avgTeleopCells: </h3>
-        <h4 id="avgTeleopCells"></h4>
+        <h3>preloads: </h3>
+        <h4 id="preloads"></h4>
 
-        <h3>avgTeleopCellsMissed: </h3>
-        <h4 id="avgTeleopCellsMissed"></h4>
+        <h3>autonUpper: </h3>
+        <h4 id="autonUpper"></h4>
 
-        <h3>avgCycles: </h3>
-        <h4 id="avgCycles"></h4>
+        <h3>autonInner: </h3>
+        <h4 id="autonInner"></h4>
         
-        <h3>avgClimbs: </h3>
-        <h4 id="avgClimbs"></h4>
+        <h3>autonUpperMissed: </h3>
+        <h4 id="autonUpperMissed"></h4>
 
-        <h5>totalDefenseMatches: </h5>
-        <h6 id="totalDefenseMatches"></h6>
+        <h3>autonBottom: </h3>
+        <h4 id="autonBottom"></h4>
 
-        <h5>avgInner: </h5>
-        <h6 id="avgInner"></h6>
+        <h3>teleopOuter: </h3>
+        <h4 id="teleopUpper"></h4>
 
-        <h5>avgOuter: </h5>
-        <h6 id="avgUpper"></h6>
+        <h3>teleopInner: </h3>
+        <h4 id="teleopInner"></h4>
 
-        <h5>comments: </h5>
-        <h6 id="comments"></h6>
+        <h3>teleopUpperMissed: </h3>
+        <h4 id="teleopUpperMissed"></h4>
+
+        <h3>teleopBottom: </h3>
+        <h4 id="teleopBottom"></h4>
+
+        <h5>defense: </h5>
+        <h6 id="defense"></h6>
+
+        <h5>disabled: </h5>
+        <h6 id="disabled"></h6>
+
+        <h5>climb: </h5>
+        <h6 id="hangFail"></h6>
 
       </div>
     </div>
