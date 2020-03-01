@@ -3,7 +3,7 @@ var ref = database.ref();
 var matchUrl = 'http://mvrtScouting-env-1.zpsnzbaqbu.us-east-2.elasticbeanstalk.com/analytics/team/';
 
 var avgAutonCells, avgAutonCellsMissed, avgTeleopCells, avgTeleopCellsMissed, avgAccuracy, stdDevCells, avgCycles, 
-stdDevCycles, avgClimbs, totalDefenseMatches, avgInner, avgOuter, avgBottom, comments;
+stdDevCycles, avgClimbs, totalDefenseMatches, avgInner, avgOuter, avgBottom, cells, cycles, comments;
 
 function searchTeams(){
   var number = document.getElementById('searchTeam').value;
@@ -34,6 +34,8 @@ function searchTeams(){
       avgCycles.innerHTML = data.avgCycles;
       avgClimbs.innerHTML = data.avgClimbs;
       totalDefenseMatches.innerHTML = data.totalDefenseMatches;
+      cells.innerHTML - data.cells;
+      cycles.innerHTML = data.cycles;
       comments.innerHTML = data.comments;
     })
     .catch(err => {
@@ -62,6 +64,8 @@ document.addEventListener('DOMContentLoaded', function(event) {
   comments = document.getElementById('comments');
   avgInner = document.getElementById('avgInner');
   avgUpper = document.getElementById('avgUpper');
+  cells = document.getElementById('cells');
+  cycles = document.getElementById('cycles');
 
 
 
