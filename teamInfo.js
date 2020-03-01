@@ -34,7 +34,7 @@ function searchTeams(){
       avgCycles.innerHTML = data.avgCycles;
       avgClimbs.innerHTML = data.avgClimbs;
       totalDefenseMatches.innerHTML = data.totalDefenseMatches;
-      cells.innerHTML - data.cells;
+      cells.innerHTML = data.cells;
       cycles.innerHTML = data.cycles;
       comments.innerHTML = data.comments;
     })
@@ -66,8 +66,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
   avgUpper = document.getElementById('avgUpper');
   cells = document.getElementById('cells');
   cycles = document.getElementById('cycles');
-
-
 
   document.getElementById('searchBtn').addEventListener('click', searchTeams);
 });
